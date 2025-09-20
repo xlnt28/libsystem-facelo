@@ -1,0 +1,59 @@
+Public Class frmlogin
+
+
+    Private Sub frmlogin_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
+    End Sub
+
+
+
+    Private Sub cmdclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdclose.Click
+        If MsgBox("This action will terminate the user from using the system? Would you like to proceed?", MsgBoxStyle.YesNo, "closing...") = MsgBoxResult.Yes Then
+
+            Dim counter As Integer
+
+            For counter = 90 To 10 Step -20
+                Me.Opacity = counter / 100
+                Me.Refresh()
+                Threading.Thread.Sleep(5)
+            Next counter
+
+            Me.Close()
+        Else
+            Me.Focus()
+        End If
+    End Sub
+
+
+    Private Sub cmdlogin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmdlogin.Click
+        opendbuser()
+        tbluser = New OleDb.OleDbDataAdapter("SELECT * FROM tbluser WHERE [User Name] like '" & txtun.Text & "' and [Password] like '" & txtpw.Text & "'", db)
+        dbds = New DataSet()
+        tbluser.Fill(dbds, "tbluser")
+        trec = dbds.Tables("tbluser").Rows.Count
+
+        If trec > 0 Then
+            xname = txtun.Text
+            xpost = dbds.Tables("tbluser").Rows(0).Item("Position")
+            xpriv = dbds.Tables("tbluser").Rows(0).Item("Privilege")
+            Me.Visible = False
+
+
+            txtun.Clear()
+            txtpw.Clear()
+            frmmain.Show()
+        Else
+            MsgBox("The Password of you have entered does not correspond with your User Name...TRY AGAIN!")
+
+            xtry = xtry + 1
+
+            If xtry = 3 Then
+                Me.Close()
+            End If
+
+            txtun.Clear()
+            txtpw.Clear()
+            txtun.Focus()
+        End If
+    End Sub
+End Class

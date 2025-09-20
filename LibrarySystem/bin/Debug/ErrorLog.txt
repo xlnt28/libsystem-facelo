@@ -1,0 +1,104 @@
+{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}{DateTime.Now}: {message}{vbCrLf}Error: {ex.Message}{vbCrLf}Stack Trace: {ex.StackTrace}{vbCrLf}{vbCrLf}8/16/2025 12:04:36 PM: Failed to load book data
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.LoadBookData() in D:\Java Personal Projects\vb.net-library-system\LibrarySystem\BookInventory.vb:line 79
+
+8/16/2025 4:16:52 PM: Failed to initialize form
+Error: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+Stack Trace:    at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Windows.Forms.DataGridViewColumnCollection.get_Item(Int32 index)
+   at LibrarySystem.BookInventory.BookInventory_Load(Object sender, EventArgs e) in D:\Java Personal Projects\vb.net-library-system\LibrarySystem\BookInventory.vb:line 19
+
+8/16/2025 4:17:16 PM: Failed to initialize form
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.BookInventory_Load(Object sender, EventArgs e) in D:\Java Personal Projects\vb.net-library-system\LibrarySystem\BookInventory.vb:line 19
+
+8/16/2025 4:20:04 PM: Failed to initialize form
+Error: Index was out of range. Must be non-negative and less than the size of the collection.
+Parameter name: index
+Stack Trace:    at System.Collections.ArrayList.get_Item(Int32 index)
+   at System.Windows.Forms.DataGridViewColumnCollection.get_Item(Int32 index)
+   at LibrarySystem.BookInventory.BookInventory_Load(Object sender, EventArgs e) in D:\Java Personal Projects\vb.net-library-system\LibrarySystem\BookInventory.vb:line 19
+
+8/17/2025 3:18:59 PM: Failed to load book data
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.FormatDataGridViewColumns() in D:\Java Personal Projects\vb.net-library-system\LibrarySystem\BookInventory.vb:line 786
+   at LibrarySystem.BookInventory.LoadBookData() in D:\Java Personal Projects\vb.net-library-system\LibrarySystem\BookInventory.vb:line 89
+
+8/17/2025 3:19:21 PM: Failed to load book data
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.FormatDataGridViewColumns() in D:\Java Personal Projects\vb.net-library-system\LibrarySystem\BookInventory.vb:line 786
+   at LibrarySystem.BookInventory.LoadBookData() in D:\Java Personal Projects\vb.net-library-system\LibrarySystem\BookInventory.vb:line 89
+
+8/17/2025 3:23:08 PM: Failed to load book data
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.LoadBookData() in D:\Java Personal Projects\vb.net-library-system\LibrarySystem\BookInventory.vb:line 94
+
+8/17/2025 3:24:54 PM: Failed to save book
+Error: Column 'BookID' does not belong to table books.
+Stack Trace:    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at LibrarySystem.BookInventory.SaveNewBook() in D:\Java Personal Projects\vb.net-library-system\LibrarySystem\BookInventory.vb:line 387
+   at LibrarySystem.BookInventory.menuSave_Click(Object sender, EventArgs e) in D:\Java Personal Projects\vb.net-library-system\LibrarySystem\BookInventory.vb:line 322
+
+8/17/2025 10:34:09 PM: Failed to load book data
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.LoadBookData() in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 85
+
+8/17/2025 10:47:27 PM: Failed to load book data
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.LoadBookData() in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 85
+
+8/18/2025 10:25:53 AM: Failed to display record
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.DisplayCurrentRecord() in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 227
+
+8/18/2025 10:26:12 AM: Failed to display record
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.DisplayCurrentRecord() in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 227
+
+8/18/2025 10:26:15 AM: Failed to display record
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.DisplayCurrentRecord() in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 227
+
+8/18/2025 11:29:19 PM: Failed to display record
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.DisplayCurrentRecord() in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 220
+
+8/18/2025 11:30:19 PM: Failed to display record
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.DisplayCurrentRecord() in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 220
+
+8/18/2025 11:43:06 PM: Failed to display record
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.DisplayCurrentRecord() in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 220
+
+8/19/2025 1:11:57 PM: Failed to display record
+Error: Column 'Quantity' does not belong to table books.
+Stack Trace:    at System.Data.DataRow.GetDataColumn(String columnName)
+   at System.Data.DataRow.get_Item(String columnName)
+   at LibrarySystem.BookInventory.UpdateFieldsFromRow(DataRow row) in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 273
+   at LibrarySystem.BookInventory.DisplayCurrentRecord() in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 227
+
+8/25/2025 10:37:14 AM: Failed to initialize form
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.BookInventory_Load(Object sender, EventArgs e) in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 39
+
+8/26/2025 12:14:27 PM: Failed to initialize form
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.BookInventory.BookInventory_Load(Object sender, EventArgs e) in C:\Users\dexte\Downloads\vb.net-library-system\LibrarySystem\BookInventory.vb:line 23
+
+8/29/2025 8:27:04 PM: Failed to borrow book
+Error: Could not find output table 'borrowings'.
+Stack Trace:    at System.Data.OleDb.OleDbCommand.ExecuteCommandTextErrorHandling(OleDbHResult hr)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommandTextForSingleResult(tagDBPARAMS dbParams, Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommandText(Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteCommand(CommandBehavior behavior, Object& executeResult)
+   at System.Data.OleDb.OleDbCommand.ExecuteReaderInternal(CommandBehavior behavior, String method)
+   at System.Data.OleDb.OleDbCommand.ExecuteNonQuery()
+   at LibrarySystem.Borrow.menuBorrow_Click(Object sender, EventArgs e) in C:\AKOSIDEXTER\vb.net-library-system\LibrarySystem\Borrow.vb:line 284
+
+8/30/2025 9:53:08 PM: Failed to load book data
+Error: Object reference not set to an instance of an object.
+Stack Trace:    at LibrarySystem.Borrow.LoadBookData() in C:\AKOSIDEXTER\vb.net-library-system\LibrarySystem\Borrow.vb:line 70
+

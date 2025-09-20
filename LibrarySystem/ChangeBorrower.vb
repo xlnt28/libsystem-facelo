@@ -1,0 +1,71 @@
+﻿Imports System.Data.OleDb
+
+Public Class ChangeBorrower
+    Private Sub ChangeBorrower_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        CenterToScreen()
+        Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
+        Me.WindowState = FormWindowState.Maximized
+
+        LoadUsers()
+    End Sub
+
+    Private Sub LoadUsers()
+        Try
+            OpenDB()
+            SQLQueryFortbluser()
+
+            borrowdgv.DataSource = dbds.Tables("tbluser")
+            borrowdgv.Columns("User Name").HeaderText = "User Name"
+        Catch ex As Exception
+            MsgBox("Failed to load users: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub borrowdgv_CellDoubleClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles borrowdgv.CellDoubleClick
+        If e.RowIndex >= 0 Then
+            Dim selectedRow = borrowdgv.Rows(e.RowIndex)
+            Dim userName As String = selectedRow.Cells("User Name").Value.ToString()
+
+            Dim borrowForm As Borrow = CType(Application.OpenForms("Borrow"), Borrow)
+            borrowForm.txtName.Text = userName
+            Me.Close()
+        End If
+    End Sub
+
+
+    Private Sub SearchUserToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchUserToolStripMenuItem.Click
+        Dim searchTerm As String = InputBox("Enter user name to search:", "Search User")
+        If Not String.IsNullOrEmpty(searchTerm) Then
+            SearchUser(searchTerm)
+        End If
+    End Sub
+
+    Private Sub SearchUser(ByVal searchTerm As String)
+        Try
+            OpenDB()
+            Dim sql As String = "SELECT [User ID],[User Name],[Position],[Privileges] FROM tbluser WHERE [User Name] LIKE ? ORDER BY [User Name]"
+            cmd = New OleDbCommand(sql, con)
+            cmd.Parameters.AddWithValue("?", "%" & searchTerm & "%")
+
+            Dim da As New OleDbDataAdapter(cmd)
+            Dim dt As New DataTable()
+            da.Fill(dt)
+
+            borrowdgv.DataSource = dt
+        Catch ex As Exception
+            MsgBox("Search failed: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
+        LoadUsers()
+    End Sub
+
+    Private Sub GoBackToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles GoBackToolStripMenuItem.Click
+        Me.Close()
+    End Sub
+
+    Private Sub borrowdgv_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles borrowdgv.CellContentClick
+
+    End Sub
+End Class

@@ -1,0 +1,116 @@
+Public Class frmmain
+    Private Sub frmtransaction_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        lblduty.Text = xname
+
+
+        If xpriv = "User" Then
+            mnufile.Enabled = True
+            mnusettings.Enabled = False
+            mnutrans.Enabled = True
+        End If
+
+        If xpriv = "User" Then
+            mnufile.Enabled = True
+            mnusettings.Enabled = False
+            mnutrans.Enabled = True
+        End If
+
+
+        If xpriv = "Administrator" Then
+            mnufile.Enabled = True
+            mnusettings.Enabled = True
+            mnutrans.Enabled = True
+
+        End If
+
+        If xpost = "Administrator" And xpriv = "Administrator" Then
+            mnufile.Enabled = True
+            mnusettings.Enabled = True
+            mnutrans.Enabled = False
+        End If
+
+
+    End Sub
+
+   
+
+
+
+    Private Sub mnuclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuclose.Click
+        If MsgBox("This action will terminate the user from using the system? Would you like to proceed?", MsgBoxStyle.YesNo, "closing...") = MsgBoxResult.Yes Then
+
+            Dim counter As Integer
+
+            For counter = 90 To 10 Step -20
+                Me.Opacity = counter / 100
+                Me.Refresh()
+                Threading.Thread.Sleep(5)
+            Next counter
+
+            Me.Close()
+        Else
+            Me.Focus()
+        End If
+    End Sub
+
+    Private Sub mnuuser_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuuser.Click
+        frmuser.Show()
+        mnu.Enabled = False
+
+    End Sub
+
+    Private Sub mnurooms_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnurooms.Click
+        frmroom.Show()
+        mnu.Enabled = False
+    End Sub
+
+
+    Private Sub mnulogout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnulogout.Click
+
+
+        Dim counter As Integer
+
+        For counter = 90 To 10 Step -20
+            Me.Opacity = counter / 100
+            Me.Refresh()
+            Threading.Thread.Sleep(5)
+        Next counter
+        Me.Close()
+        frmlogin.Show()
+    End Sub
+
+
+
+    Private Sub mnuinquiry_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuinquiry.Click
+        sw = True
+        frminquiry.Show()
+        frminquiry.Label13.Visible = False
+        frminquiry.lblbalance.Visible = False
+        frminquiry.gbguest.Visible = False
+        frminquiry.gbothers.Visible = False
+        frminquiry.dgtrans.Visible = False
+        Me.mnu.Enabled = False
+
+    End Sub
+
+
+    Private Sub mnubooking_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnubooking.Click
+        sw = True
+        frminquiry.Show()
+        mnu.Enabled = False
+
+    End Sub
+
+    Private Sub mnucheckin_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnucheckin.Click
+        sw = False
+        frminquiry.Show()
+        Me.mnu.Enabled = False
+        frminquiry.gbd8.Visible = False
+        frminquiry.gbguest.Visible = False
+        frminquiry.gbothers.Visible = False
+        frminquiry.gbpayments.Visible = False
+        frminquiry.gbroom.Visible = False
+        frminquiry.dgtrans.Visible = True
+
+    End Sub
+End Class

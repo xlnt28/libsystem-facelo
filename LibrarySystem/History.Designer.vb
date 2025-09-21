@@ -25,10 +25,12 @@ Partial Class History
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
-        Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuCheckTransaction = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.borrowdgv = New System.Windows.Forms.DataGridView()
-        Me.menuCancelRequest = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.borrowdgv, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -36,12 +38,37 @@ Partial Class History
         'MenuStrip1
         '
         Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GoBackToolStripMenuItem, Me.menuCheckTransaction, Me.menuCancelRequest})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem, Me.GoBackToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(1370, 33)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'MenuToolStripMenuItem
+        '
+        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuCheckTransaction, Me.SearchToolStripMenuItem, Me.ViewAllToolStripMenuItem})
+        Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
+        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
+        Me.MenuToolStripMenuItem.Text = "Menu"
+        '
+        'menuCheckTransaction
+        '
+        Me.menuCheckTransaction.Name = "menuCheckTransaction"
+        Me.menuCheckTransaction.Size = New System.Drawing.Size(236, 30)
+        Me.menuCheckTransaction.Text = "Check Transaction"
+        '
+        'SearchToolStripMenuItem
+        '
+        Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(236, 30)
+        Me.SearchToolStripMenuItem.Text = "Search"
+        '
+        'ViewAllToolStripMenuItem
+        '
+        Me.ViewAllToolStripMenuItem.Name = "ViewAllToolStripMenuItem"
+        Me.ViewAllToolStripMenuItem.Size = New System.Drawing.Size(236, 30)
+        Me.ViewAllToolStripMenuItem.Text = "View All "
         '
         'GoBackToolStripMenuItem
         '
@@ -49,12 +76,6 @@ Partial Class History
         Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.G), System.Windows.Forms.Keys)
         Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
         Me.GoBackToolStripMenuItem.Text = "Go back"
-        '
-        'menuCheckTransaction
-        '
-        Me.menuCheckTransaction.Name = "menuCheckTransaction"
-        Me.menuCheckTransaction.Size = New System.Drawing.Size(176, 29)
-        Me.menuCheckTransaction.Text = "Check Transaction"
         '
         'borrowdgv
         '
@@ -93,12 +114,6 @@ Partial Class History
         Me.borrowdgv.Size = New System.Drawing.Size(1370, 716)
         Me.borrowdgv.TabIndex = 11
         '
-        'menuCancelRequest
-        '
-        Me.menuCancelRequest.Name = "menuCancelRequest"
-        Me.menuCancelRequest.Size = New System.Drawing.Size(152, 29)
-        Me.menuCancelRequest.Text = "Cancel Request"
-        '
         'History
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -121,6 +136,8 @@ Partial Class History
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents GoBackToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents borrowdgv As System.Windows.Forms.DataGridView
+    Friend WithEvents MenuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuCheckTransaction As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuCancelRequest As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SearchToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ViewAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

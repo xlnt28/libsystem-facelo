@@ -91,13 +91,13 @@ Partial Class ChangeBorrower
         'SearchUserToolStripMenuItem
         '
         Me.SearchUserToolStripMenuItem.Name = "SearchUserToolStripMenuItem"
-        Me.SearchUserToolStripMenuItem.Size = New System.Drawing.Size(179, 30)
-        Me.SearchUserToolStripMenuItem.Text = "SearchUser"
+        Me.SearchUserToolStripMenuItem.Size = New System.Drawing.Size(184, 30)
+        Me.SearchUserToolStripMenuItem.Text = "Search User"
         '
         'RefreshToolStripMenuItem
         '
         Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(179, 30)
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(184, 30)
         Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
         'GoBackToolStripMenuItem

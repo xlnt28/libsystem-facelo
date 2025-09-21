@@ -68,7 +68,6 @@ C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySys
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\LibrarySystem.exe
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\LibrarySystem.pdb
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\LibrarySystem.xml
-C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.adminHistory.resources
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.AdminReturn.resources
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.BookInventory.resources
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.BorrowPendingRequest.resources

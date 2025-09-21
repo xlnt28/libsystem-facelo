@@ -3,6 +3,8 @@ Imports System.Drawing
 Imports System.Linq
 
 Public Class AdminReturn
+    Private showOnlyReturnRequests As Boolean = False
+
 
     Private Sub AdminReturn_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         CenterToScreen()
@@ -30,15 +32,32 @@ Public Class AdminReturn
         End Try
     End Sub
 
-    Public Sub SQLQueryForAllReturnedAndLost()
+    Public Sub SQLQueryForAllReturnedAndLost(Optional ByVal onlyReturnRequests As Boolean = False, Optional ByVal searchName As String = "")
         Try
-            Dim sql As String = "SELECT [Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], " & _
-                                "[Borrower Privileges], [Copies], [Current Returned], [Borrow Date], " & _
-                                "[Due Date], [Return Date], [Status] " & _
-                                "FROM borrowings " & _
-                                "WHERE [Status] = 'Borrowed' OR [Status] = 'Lost' " & _
-                                "ORDER BY [Borrow ID] DESC"
+            Dim sql As String
+
+            If onlyReturnRequests Then
+                sql = "SELECT [Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], " &
+                      "[Borrower Privileges], [Copies], [Current Returned], [Borrow Date], " &
+                      "[Due Date], [Return Date], [Status], [Has Requested Return] " &
+                      "FROM borrowings " &
+                       "WHERE ([Status] = 'Borrowed' AND [Has Requested Return] = 'Yes')"
+            Else
+                sql = "SELECT [Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], " &
+                      "[Borrower Privileges], [Copies], [Current Returned], [Borrow Date], " &
+                      "[Due Date], [Return Date], [Status], [Has Requested Return] " &
+                      "FROM borrowings " &
+                      "WHERE ([Status] = 'Borrowed')"
+            End If
+
+            If Not String.IsNullOrEmpty(searchName) Then
+                sql &= " AND [Borrower Name] LIKE ?"
+            End If
+
+            sql &= " ORDER BY [Borrow ID] DESC"
+
             daBorrowHistory = New OleDbDataAdapter(sql, con)
+
             If admindbds Is Nothing Then
                 admindbds = New DataSet()
             Else
@@ -46,11 +65,20 @@ Public Class AdminReturn
                     admindbds.Tables("borrowings").Clear()
                 End If
             End If
+
+            If Not String.IsNullOrEmpty(searchName) Then
+                daBorrowHistory.SelectCommand.Parameters.AddWithValue("?", "%" & searchName.Trim() & "%")
+            End If
+
             daBorrowHistory.Fill(admindbds, "borrowings")
+
         Catch ex As Exception
             MsgBox("Error retrieving borrowings data: " & ex.Message, MsgBoxStyle.Critical, "Query Error")
         End Try
     End Sub
+
+
+
 
     Private Sub ApproveReturnToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ApproveReturnToolStripMenuItem.Click
         If dgv.SelectedRows.Count = 0 Then
@@ -230,7 +258,7 @@ Public Class AdminReturn
         End Try
     End Sub
 
-    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles RefreshToolStripMenuItem.Click
+    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         LoadAllReturnedAndLostItems()
     End Sub
 
@@ -272,4 +300,50 @@ Public Class AdminReturn
             Return prefix & "00001"
         End Try
     End Function
+
+    Private Sub ShowReturnRequestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ShowReturnRequestToolStripMenuItem.Click
+        showOnlyReturnRequests = Not showOnlyReturnRequests
+
+        If showOnlyReturnRequests Then
+            ShowReturnRequestToolStripMenuItem.Text = "Show All Borrowed Books"
+        Else
+            ShowReturnRequestToolStripMenuItem.Text = "Show Return Requests Only"
+        End If
+
+        SQLQueryForAllReturnedAndLost(showOnlyReturnRequests)
+
+        If admindbds IsNot Nothing AndAlso admindbds.Tables.Contains("borrowings") Then
+            dgv.DataSource = admindbds.Tables("borrowings")
+            dgv.ClearSelection()
+        End If
+    End Sub
+
+    Private Sub SearchUserToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchUserToolStripMenuItem.Click
+        Dim inputName As String = InputBox("Enter Borrower Name to search:", "Search Borrower")
+        If String.IsNullOrEmpty(inputName) Then Return
+
+        Try
+            SQLQueryForAllReturnedAndLost(showOnlyReturnRequests, inputName)
+
+            If admindbds IsNot Nothing AndAlso admindbds.Tables.Contains("borrowings") AndAlso admindbds.Tables("borrowings").Rows.Count > 0 Then
+                dgv.DataSource = admindbds.Tables("borrowings")
+                dgv.ClearSelection()
+            Else
+                MsgBox("No records found for '" & inputName & "'.", MsgBoxStyle.Information, "No Results")
+            End If
+        Catch ex As Exception
+            MsgBox("Error searching for user: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
+
+
+    Private Sub RefreshToolStripMenuItem_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
+        Try
+            LoadAllReturnedAndLostItems()
+            MsgBox("Data refreshed successfully.", MsgBoxStyle.Information, "Refreshed")
+        Catch ex As Exception
+            MsgBox("Error refreshing data: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
+
 End Class

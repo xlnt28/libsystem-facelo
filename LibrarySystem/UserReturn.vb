@@ -34,10 +34,10 @@ Public Class UserReturn
 
     Public Sub SQLQueryForReturningAndLost()
         Try
-            Dim sql As String = "SELECT [Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Return Date], [Status] " & _
+            Dim sql As String = "SELECT [Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Status], [Has Requested Return]" & _
                                 "FROM borrowings " & _
                                 "WHERE [Borrower Name] = ? " & _
-                                "AND ([Status] = 'Completed' OR [Status] = 'Lost') " & _
+                                "AND ([Status] = 'Borrowed') " & _
                                 "ORDER BY [Borrow ID] DESC"
 
             daUserReturn = New OleDbDataAdapter(sql, con)
@@ -61,7 +61,7 @@ Public Class UserReturn
         Me.Close()
     End Sub
 
-    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles RefreshToolStripMenuItem.Click
+    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         LoadReturnedAndLostItems()
     End Sub
 
@@ -69,7 +69,58 @@ Public Class UserReturn
         CloseDB()
     End Sub
 
-    Private Sub dg_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dg.CellContentClick
+    Private Sub RequestReturnToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RequestReturnToolStripMenuItem.Click
+        If dg.SelectedRows.Count = 0 Then
+            MsgBox("Please select a record first.", MsgBoxStyle.Exclamation, "No Selection")
+            Exit Sub
+        End If
+
+        Dim borrowID As String = dg.SelectedRows(0).Cells("Borrow ID").Value.ToString()
+
+        Try
+            OpenDB()
+            Dim sql As String = "UPDATE borrowings SET [Has Requested Return] = 'Yes' WHERE [Borrow ID] = ?"
+            Using cmd As New OleDbCommand(sql, con)
+                cmd.Parameters.AddWithValue("?", borrowID)
+                cmd.ExecuteNonQuery()
+            End Using
+
+            MsgBox("Return request has been submitted successfully.", MsgBoxStyle.Information, "Success")
+
+            LoadReturnedAndLostItems()
+
+        Catch ex As Exception
+            MsgBox("Error requesting return: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
+
+    Private Sub dg_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs)
 
     End Sub
+
+    Private Sub CancelReturnRequestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CancelReturnRequestToolStripMenuItem.Click
+        If dg.SelectedRows.Count = 0 Then
+            MsgBox("Please select a record first.", MsgBoxStyle.Exclamation, "No Selection")
+            Exit Sub
+        End If
+
+        Dim borrowID As String = dg.SelectedRows(0).Cells("Borrow ID").Value.ToString()
+
+        Try
+            OpenDB()
+            Dim sql As String = "UPDATE borrowings SET [Has Requested Return] = 'No' WHERE [Borrow ID] = ?"
+            Using cmd As New OleDbCommand(sql, con)
+                cmd.Parameters.AddWithValue("?", borrowID)
+                cmd.ExecuteNonQuery()
+            End Using
+
+            MsgBox("Return request has been canceled successfully.", MsgBoxStyle.Information, "Success")
+
+            LoadReturnedAndLostItems()
+
+        Catch ex As Exception
+            MsgBox("Error canceling return request: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
+
 End Class

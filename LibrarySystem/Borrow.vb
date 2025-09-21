@@ -315,7 +315,7 @@ Public Class Borrow
                 Dim status As String = If(xpriv = "Admin", "Borrowed", "Requested")
 
 
-                cmd = New OleDbCommand("INSERT INTO borrowings([Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Return Date], [Status]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+                cmd = New OleDbCommand("INSERT INTO borrowings([Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Return Date], [Status], [Has Requested Return]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)", con)
                 cmd.Parameters.AddWithValue("?", borrowID)
                 cmd.Parameters.AddWithValue("?", bookIDList)
                 cmd.Parameters.AddWithValue("?", txtName.Text)
@@ -326,6 +326,7 @@ Public Class Borrow
                 cmd.Parameters.AddWithValue("?", dtpDueDate.Value)
                 cmd.Parameters.AddWithValue("?", DBNull.Value)
                 cmd.Parameters.AddWithValue("?", status)
+                cmd.Parameters.AddWithValue("?", "No")
                 cmd.ExecuteNonQuery()
 
                 If xpriv = "Admin" Then

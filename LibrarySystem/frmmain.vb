@@ -157,13 +157,8 @@ Private Sub LoadStatistics()
     End Sub
 
     Private Sub TransactionHistoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TransactionHistoryToolStripMenuItem.Click
-        If xpriv = "User" Then
-            Me.Hide()
-            History.Show()
-        Else
-            Me.Hide()
-            adminHistory.Show()
-        End If
+        Me.Hide()
+        History.Show()
     End Sub
 
     Private Sub BorrowPendingRequestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BorrowPendingRequestToolStripMenuItem.Click

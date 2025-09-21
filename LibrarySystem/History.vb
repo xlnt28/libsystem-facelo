@@ -21,15 +21,24 @@ Public Class History
         Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
         Me.WindowState = FormWindowState.Maximized
 
-        ' Enable/disable menus depending on user role
         ViewAllToolStripMenuItem.Enabled = IsAdmin
         SearchToolStripMenuItem.Enabled = IsAdmin AndAlso ShowAllUsers
         menuCheckTransaction.Enabled = True
     End Sub
 
     Private Sub History_Activated(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Activated
+        ShowAllUsers = False
+
+        ViewAllToolStripMenuItem.Enabled = IsAdmin
+        SearchToolStripMenuItem.Enabled = False
+        menuCheckTransaction.Enabled = True
+
+        ViewAllToolStripMenuItem.Text = "View All Users"
+
         LoadBorrowData()
     End Sub
+
+
 
     Private Sub LoadBorrowData(Optional ByVal searchName As String = "")
         Try
@@ -64,14 +73,12 @@ Public Class History
             Dim sql As String = "SELECT [Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], " &
                                 "[Copies], [Current Returned], [Borrow Date], [Due Date], [Return Date], [Status] FROM borrowings WHERE 1=1 "
 
-            ' Filtering logic
             If IsAdmin AndAlso ShowAllUsers AndAlso Not String.IsNullOrEmpty(searchName) Then
                 sql &= " AND [Borrower Name] LIKE ? "
             ElseIf Not IsAdmin OrElse (IsAdmin AndAlso Not ShowAllUsers) Then
                 sql &= " AND [Borrower Name] = ? "
             End If
 
-            ' Status filter
             If wasOnBorrowOrReturn Then
                 sql &= " AND [Status] IN ('Requested', 'Borrowed') "
             Else
@@ -82,14 +89,12 @@ Public Class History
 
             daBorrowHistory = New OleDbDataAdapter(sql, con)
 
-            ' Set parameters
             If IsAdmin AndAlso ShowAllUsers AndAlso Not String.IsNullOrEmpty(searchName) Then
                 daBorrowHistory.SelectCommand.Parameters.AddWithValue("?", "%" & searchName.Trim() & "%")
             Else
                 daBorrowHistory.SelectCommand.Parameters.AddWithValue("?", XName.Trim())
             End If
 
-            ' Clear dataset before filling
             If dbdsBorrowHistory Is Nothing Then
                 dbdsBorrowHistory = New DataSet()
             Else
@@ -182,8 +187,8 @@ Public Class History
         ViewAllToolStripMenuItem.Text = If(ShowAllUsers, "View Only Your Transactions", "View All Users")
         SearchToolStripMenuItem.Enabled = IsAdmin AndAlso ShowAllUsers
 
-        ' Always reload data when toggling view
         LoadBorrowData()
     End Sub
+
 
 End Class

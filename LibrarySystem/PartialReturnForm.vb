@@ -6,10 +6,8 @@ Public Class PartialReturnForm
     Public Property TotalCopies() As Integer()
     Public Property CurrentReturned() As Integer()
     Public Property BorrowID As String
-    Public Property Mode As String = "Normal"
 
     Private numericControls As New List(Of NumericUpDown)()
-    Private amountControls As New List(Of TextBox)()
     Private bookTitles As New List(Of String)()
     Private bookPanels As New List(Of Panel)()
     Private penaltyLabels As New List(Of Label)()
@@ -20,7 +18,6 @@ Public Class PartialReturnForm
     Private totalPenalty As Decimal = 0
     Private totalQuantity As Integer = 0
     Private totalPenaltyLabel As Label
-    Private modeLabel As Label
     Private ReadOnly Property ReturnDate As DateTime
         Get
             Return DateTime.Today
@@ -79,31 +76,6 @@ Public Class PartialReturnForm
         Return results
     End Function
 
-    Public Function GetReturnAmounts() As Decimal()
-        Dim results(BookIDs.Length - 1) As Decimal
-        For i As Integer = 0 To BookIDs.Length - 1
-            If i < amountControls.Count Then
-                Dim amountText As String = amountControls(i).Text
-                If String.IsNullOrEmpty(amountText) Then
-                    results(i) = 0
-                Else
-                    Decimal.TryParse(amountText, results(i))
-                End If
-            Else
-                results(i) = 0
-            End If
-        Next
-        Return results
-    End Function
-
-    Public Function GetBookStatuses() As String()
-        Dim results(BookIDs.Length - 1) As String
-        For i As Integer = 0 To BookIDs.Length - 1
-            results(i) = Mode
-        Next
-        Return results
-    End Function
-
     Public Function GetTotalPenalty() As Decimal
         Return totalPenalty
     End Function
@@ -113,9 +85,9 @@ Public Class PartialReturnForm
         Me.Font = New Font("Segoe UI", 9)
         Me.FormBorderStyle = FormBorderStyle.FixedDialog
         Me.StartPosition = FormStartPosition.CenterParent
-        Me.Text = "Partial Return - " & Mode & " Mode"
+        Me.Text = "Partial Return"
         Me.Padding = New Padding(20)
-        Me.MinimumSize = New Size(850, 400)
+        Me.MinimumSize = New Size(700, 400)
 
         If BorrowDate = Nothing Then
             BorrowDate = DateTime.Today
@@ -127,8 +99,6 @@ Public Class PartialReturnForm
         daysLate = Math.Max(0, (ReturnDate - DueDate).Days)
 
         GetBookTitles()
-
-
 
         Dim buttonPanel As New Panel With {.Dock = DockStyle.Bottom, .Height = 70, .BackColor = Color.White}
         Me.Controls.Add(buttonPanel)
@@ -148,28 +118,24 @@ Public Class PartialReturnForm
         totalPenaltyLabel = New Label With {.Text = "Total Penalty: ₱0.00", .Font = New Font("Segoe UI", 10, FontStyle.Bold), .ForeColor = Color.Red, .AutoSize = True, .Location = New Point(20, 25)}
         buttonPanel.Controls.Add(totalPenaltyLabel)
 
-        modeLabel = New Label With {.Text = "Mode: " & Mode, .Font = New Font("Segoe UI", 10, FontStyle.Bold), .ForeColor = If(Mode = "Normal", Color.Green, If(Mode = "Damaged", Color.Orange, Color.Red)), .AutoSize = True, .Location = New Point(200, 25)}
-        buttonPanel.Controls.Add(modeLabel)
-
         Dim headerLabel As New Label With {.Text = "Select Copies to Return - Due Date: " & DueDate.ToString("yyyy-MM-dd"), .Font = New Font("Segoe UI", 12, FontStyle.Bold), .ForeColor = Color.FromArgb(45, 45, 45), .AutoSize = True, .Location = New Point(0, 10)}
         mainPanel.Controls.Add(headerLabel)
 
         Dim infoLabel As New Label With {.Text = "Borrow Date: " & BorrowDate.ToString("yyyy-MM-dd") & " | Return Date: " & ReturnDate.ToString("yyyy-MM-dd") & " | Days Late: " & daysLate.ToString(), .Font = New Font("Segoe UI", 9), .ForeColor = If(daysLate > 0, Color.Red, Color.FromArgb(100, 100, 100)), .AutoSize = True, .Location = New Point(0, headerLabel.Bottom + 5)}
         mainPanel.Controls.Add(infoLabel)
 
-        Dim booksContainer As New Panel With {.Location = New Point(0, infoLabel.Bottom + 20), .Size = New Size(820, 0), .BackColor = Color.White, .AutoSize = True}
+        Dim booksContainer As New Panel With {.Location = New Point(0, infoLabel.Bottom + 20), .Size = New Size(650, 0), .BackColor = Color.White, .AutoSize = True}
         mainPanel.Controls.Add(booksContainer)
 
         CreateTableHeaders(booksContainer)
 
         Dim yPos As Integer = 30
         numericControls.Clear()
-        amountControls.Clear()
         bookPanels.Clear()
         penaltyLabels.Clear()
 
         For i As Integer = 0 To BookIDs.Length - 1
-            Dim bookPanel As New Panel With {.BackColor = If(i Mod 2 = 0, Color.FromArgb(250, 250, 250), Color.FromArgb(240, 245, 250)), .Size = New Size(800, 70), .Location = New Point(0, yPos)}
+            Dim bookPanel As New Panel With {.BackColor = If(i Mod 2 = 0, Color.FromArgb(250, 250, 250), Color.FromArgb(240, 245, 250)), .Size = New Size(630, 70), .Location = New Point(0, yPos)}
             booksContainer.Controls.Add(bookPanel)
             bookPanels.Add(bookPanel)
 
@@ -189,16 +155,7 @@ Public Class PartialReturnForm
             bookPanel.Controls.Add(numUpDown)
             numericControls.Add(numUpDown)
 
-            Dim amountTextBox As New TextBox With {.Size = New Size(80, 25), .Location = New Point(480, 30), .Text = "0", .Tag = i}
-            AddHandler amountTextBox.TextChanged, AddressOf AmountTextBox_TextChanged
-            If Mode = "Normal" Then
-                amountTextBox.Enabled = False
-                amountTextBox.BackColor = Color.FromArgb(240, 240, 240)
-            End If
-            bookPanel.Controls.Add(amountTextBox)
-            amountControls.Add(amountTextBox)
-
-            Dim penaltyLabel As New Label With {.Text = "Penalty: ₱0.00", .Font = New Font("Segoe UI", 9), .ForeColor = If(daysLate > 0, Color.Red, Color.FromArgb(100, 100, 100)), .AutoSize = True, .Location = New Point(570, 25)}
+            Dim penaltyLabel As New Label With {.Text = "Penalty: ₱0.00", .Font = New Font("Segoe UI", 9), .ForeColor = If(daysLate > 0, Color.Red, Color.FromArgb(100, 100, 100)), .AutoSize = True, .Location = New Point(480, 25)}
             bookPanel.Controls.Add(penaltyLabel)
             penaltyLabels.Add(penaltyLabel)
 
@@ -215,15 +172,7 @@ Public Class PartialReturnForm
         totalQuantity = 0
         For i As Integer = 0 To numericControls.Count - 1
             Dim qty As Integer = CInt(numericControls(i).Value)
-            Dim amount As Decimal = 0
-            If i < amountControls.Count Then
-                Decimal.TryParse(amountControls(i).Text, amount)
-            End If
-
             Dim penalty As Decimal = daysLate * 10 * qty
-            If Mode = "Lost" OrElse Mode = "Damaged" Then
-                penalty += amount * qty
-            End If
 
             penaltyLabels(i).Text = "Penalty: ₱" & penalty.ToString("N2")
             totalPenalty += penalty
@@ -232,10 +181,6 @@ Public Class PartialReturnForm
         If totalPenaltyLabel IsNot Nothing Then
             totalPenaltyLabel.Text = "Total Penalty: ₱" & totalPenalty.ToString("N2")
         End If
-    End Sub
-
-    Private Sub AmountTextBox_TextChanged(ByVal sender As Object, ByVal e As EventArgs)
-        NumericUpDown_ValueChanged(Nothing, EventArgs.Empty)
     End Sub
 
     Private Sub btnOK_Click(ByVal sender As Object, ByVal e As EventArgs)
@@ -256,11 +201,9 @@ Public Class PartialReturnForm
         container.Controls.Add(copiesHeader)
         Dim returnHeader As New Label With {.Text = "Return Qty", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(400, 5), .AutoSize = True}
         container.Controls.Add(returnHeader)
-        Dim amountHeader As New Label With {.Text = "Amount", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(480, 5), .AutoSize = True}
-        container.Controls.Add(amountHeader)
-        Dim penaltyHeader As New Label With {.Text = "Penalty", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(570, 5), .AutoSize = True}
+        Dim penaltyHeader As New Label With {.Text = "Penalty", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(480, 5), .AutoSize = True}
         container.Controls.Add(penaltyHeader)
-        Dim separator As New Label With {.BorderStyle = BorderStyle.Fixed3D, .Height = 2, .Width = 800, .Location = New Point(0, 25)}
+        Dim separator As New Label With {.BorderStyle = BorderStyle.Fixed3D, .Height = 2, .Width = 630, .Location = New Point(0, 25)}
         container.Controls.Add(separator)
     End Sub
 

@@ -116,7 +116,7 @@ Public Class AdminReturn
             prf.TotalCopies = totalCopiesInt
             prf.CurrentReturned = currentReturnedInt
             If prf.ShowDialog() = DialogResult.OK Then
-                ProcessReturnQuantities(borrowID, bookIDs, totalCopiesInt, currentReturnedInt, prf.GetReturnQuantities(), prf.GetReturnAmounts(), prf.GetBookStatuses(), prf.GetTotalPenalty())
+                ProcessReturnQuantities(borrowID, bookIDs, totalCopiesInt, currentReturnedInt, prf.GetReturnQuantities(), prf.GetTotalPenalty())
             End If
         End Using
     End Sub
@@ -132,7 +132,7 @@ Public Class AdminReturn
         Return True
     End Function
 
-    Private Sub ProcessReturnQuantities(ByVal borrowID As String, ByVal bookIDs() As String, ByVal totalCopies() As Integer, ByVal currentReturned() As Integer, ByVal copiesToReturn() As Integer, ByVal amounts() As Decimal, ByVal bookStatuses() As String, ByVal totalPenalty As Decimal)
+    Private Sub ProcessReturnQuantities(ByVal borrowID As String, ByVal bookIDs() As String, ByVal totalCopies() As Integer, ByVal currentReturned() As Integer, ByVal copiesToReturn() As Integer, ByVal totalPenalty As Decimal)
         Dim totalReturnCount As Integer = 0
         For i As Integer = 0 To copiesToReturn.Length - 1
             totalReturnCount += copiesToReturn(i)
@@ -179,7 +179,7 @@ Public Class AdminReturn
                 End If
             Next
             If totalPenalty > 0 Then
-                InsertPenaltyRecord(borrowID, bookIDs, copiesToReturn, amounts, bookStatuses, totalPenalty)
+                InsertPenaltyRecord(borrowID, bookIDs, copiesToReturn, totalPenalty)
             End If
             MsgBox("Return approved successfully.", MsgBoxStyle.Information, "Success")
             LoadAllReturnedAndLostItems()
@@ -188,40 +188,45 @@ Public Class AdminReturn
         End Try
     End Sub
 
-    Private Sub InsertPenaltyRecord(ByVal borrowID As String, ByVal bookIDs() As String, ByVal copiesToReturn() As Integer, ByVal amounts() As Decimal, ByVal bookStatuses() As String, ByVal totalPenalty As Decimal)
+    Private Sub InsertPenaltyRecord(ByVal borrowID As String, ByVal bookIDs() As String, ByVal copiesToReturn() As Integer, ByVal totalPenalty As Decimal)
         Try
+            Dim penaltyID As String = GenerateNextPenaltyID()
             Dim dueDate As DateTime = DateTime.Now
             Dim returnDate As DateTime = DateTime.Now
             Dim daysLate As Integer = 0
-            cmd = New OleDbCommand("SELECT [Due Date], [Return Date] FROM borrowings WHERE [Borrow ID] = ?", con)
-            cmd.Parameters.AddWithValue("?", borrowID)
-            Using reader As OleDbDataReader = cmd.ExecuteReader()
-                If reader.Read() Then
-                    If Not IsDBNull(reader("Due Date")) Then dueDate = reader("Due Date")
-                    If Not IsDBNull(reader("Return Date")) Then returnDate = reader("Return Date")
-                End If
+
+            Using selectCmd As New OleDbCommand("SELECT [Due Date], [Return Date] FROM borrowings WHERE [Borrow ID] = ?", con)
+                selectCmd.Parameters.AddWithValue("?", borrowID)
+
+                Using reader As OleDbDataReader = selectCmd.ExecuteReader()
+                    If reader.Read() Then
+                        If Not IsDBNull(reader("Due Date")) Then dueDate = Convert.ToDateTime(reader("Due Date"))
+                        If Not IsDBNull(reader("Return Date")) Then returnDate = Convert.ToDateTime(reader("Return Date"))
+                    End If
+                End Using
             End Using
+
             daysLate = Math.Max(0, (returnDate - dueDate).Days)
 
             Dim bookIDListStr As String = String.Join(",", bookIDs)
             Dim totalQuantityStr As String = String.Join(",", copiesToReturn)
-            Dim amountsStr As String = String.Join(",", amounts)
-            Dim bookStatusesStr As String = String.Join(",", bookStatuses)
 
-            cmd = New OleDbCommand("INSERT INTO Penalties ([Borrow ID], [Book ID List], [Total Quantity], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date], [Amounts], [Book Status]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
-            cmd.Parameters.AddWithValue("?", borrowID)
-            cmd.Parameters.AddWithValue("?", bookIDListStr)
-            cmd.Parameters.AddWithValue("?", totalQuantityStr)
-            cmd.Parameters.AddWithValue("?", daysLate)
-            cmd.Parameters.AddWithValue("?", totalPenalty)
-            cmd.Parameters.AddWithValue("?", "Unpaid")
-            cmd.Parameters.AddWithValue("?", dueDate)
-            cmd.Parameters.AddWithValue("?", returnDate)
-            cmd.Parameters.AddWithValue("?", amountsStr)
-            cmd.Parameters.AddWithValue("?", bookStatusesStr)
-            cmd.ExecuteNonQuery()
+            Using insertCmd As New OleDbCommand("INSERT INTO Penalties ([PenaltyID], [Borrow ID], [Book ID List], [Total Quantity], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+                insertCmd.Parameters.AddWithValue("?", penaltyID)
+                insertCmd.Parameters.AddWithValue("?", borrowID)
+                insertCmd.Parameters.AddWithValue("?", bookIDListStr)
+                insertCmd.Parameters.AddWithValue("?", totalQuantityStr)
+                insertCmd.Parameters.Add(New OleDbParameter("?", OleDbType.Integer) With {.Value = daysLate})
+                insertCmd.Parameters.Add(New OleDbParameter("?", OleDbType.Decimal) With {.Value = totalPenalty})
+                insertCmd.Parameters.AddWithValue("?", "Unpaid")
+                insertCmd.Parameters.Add(New OleDbParameter("?", OleDbType.Date) With {.Value = dueDate})
+                insertCmd.Parameters.Add(New OleDbParameter("?", OleDbType.Date) With {.Value = returnDate})
+
+                insertCmd.ExecuteNonQuery()
+            End Using
+
         Catch ex As Exception
-            MsgBox("Error creating penalty record: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            MsgBox("Error creating penalty record: " & ex.Message & Environment.NewLine & "Stack Trace: " & ex.StackTrace, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
 
@@ -233,4 +238,38 @@ Public Class AdminReturn
         frmmain.Show()
         Me.Close()
     End Sub
+
+    Private Function GenerateNextPenaltyID() As String
+        Dim maxNumber As Integer = 0
+        Dim prefix As String = "PI-"
+
+        Try
+            If con.State <> ConnectionState.Open Then
+                OpenDB()
+            End If
+
+            cmd = New OleDbCommand("SELECT MAX([PenaltyID]) FROM Penalties WHERE [PenaltyID] LIKE '" & prefix & "%'", con)
+            Dim result As Object = cmd.ExecuteScalar()
+
+            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                Dim lastID As String = result.ToString()
+                If lastID.StartsWith(prefix) Then
+                    Dim numberPart As String = lastID.Substring(prefix.Length)
+                    If Integer.TryParse(numberPart, maxNumber) Then
+                        maxNumber += 1
+                    Else
+                        maxNumber = 1
+                    End If
+                Else
+                    maxNumber = 1
+                End If
+            Else
+                maxNumber = 1
+            End If
+
+            Return prefix & maxNumber.ToString("D5")
+        Catch ex As Exception
+            Return prefix & "00001"
+        End Try
+    End Function
 End Class

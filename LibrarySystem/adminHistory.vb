@@ -45,6 +45,7 @@ Public Class adminHistory
                                                 "[Borrower Position], " & _
                                                 "[Borrower Privileges], " & _
                                                 "[Copies], " & _
+                                                "[Current Returned], " & _
                                                 "[Borrow Date], " & _
                                                 "[Due Date], " & _
                                                 "[Return Date], " & _

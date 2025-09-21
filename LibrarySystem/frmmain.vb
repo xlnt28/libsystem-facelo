@@ -179,4 +179,10 @@ Private Sub LoadStatistics()
     Private Sub lblBooksReturned_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblBooksReturned.Click
 
     End Sub
+
+    Private Sub PenaltyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PenaltyToolStripMenuItem.Click
+        Dim penalty As New PenaltyForm
+        penalty.Show()
+        Me.Hide()
+    End Sub
 End Class

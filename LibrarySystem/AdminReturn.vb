@@ -5,7 +5,6 @@ Imports System.Linq
 Public Class AdminReturn
     Private showOnlyReturnRequests As Boolean = False
 
-
     Private Sub AdminReturn_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         CenterToScreen()
         Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
@@ -218,11 +217,22 @@ Public Class AdminReturn
 
     Private Sub InsertPenaltyRecord(ByVal borrowID As String, ByVal bookIDs() As String, ByVal copiesToReturn() As Integer, ByVal totalPenalty As Decimal)
         Try
+            ' Get Borrower Name from borrowings table
+            Dim borrowerName As String = ""
+            Using cmdName As New OleDbCommand("SELECT [Borrower Name] FROM borrowings WHERE [Borrow ID] = ?", con)
+                cmdName.Parameters.AddWithValue("?", borrowID)
+                Dim result = cmdName.ExecuteScalar()
+                If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                    borrowerName = result.ToString()
+                End If
+            End Using
+
             Dim penaltyID As String = GenerateNextPenaltyID()
             Dim dueDate As DateTime = DateTime.Now
             Dim returnDate As DateTime = DateTime.Now
             Dim daysLate As Integer = 0
 
+            ' Get actual due date and return date
             Using selectCmd As New OleDbCommand("SELECT [Due Date], [Return Date] FROM borrowings WHERE [Borrow ID] = ?", con)
                 selectCmd.Parameters.AddWithValue("?", borrowID)
 
@@ -239,9 +249,10 @@ Public Class AdminReturn
             Dim bookIDListStr As String = String.Join(",", bookIDs)
             Dim totalQuantityStr As String = String.Join(",", copiesToReturn)
 
-            Using insertCmd As New OleDbCommand("INSERT INTO Penalties ([PenaltyID], [Borrow ID], [Book ID List], [Total Quantity], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+            Using insertCmd As New OleDbCommand("INSERT INTO Penalties ([PenaltyID], [Borrow ID], [User Name], [Book ID List], [Total Quantity], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
                 insertCmd.Parameters.AddWithValue("?", penaltyID)
                 insertCmd.Parameters.AddWithValue("?", borrowID)
+                insertCmd.Parameters.AddWithValue("?", borrowerName)
                 insertCmd.Parameters.AddWithValue("?", bookIDListStr)
                 insertCmd.Parameters.AddWithValue("?", totalQuantityStr)
                 insertCmd.Parameters.Add(New OleDbParameter("?", OleDbType.Integer) With {.Value = daysLate})
@@ -257,6 +268,7 @@ Public Class AdminReturn
             MsgBox("Error creating penalty record: " & ex.Message & Environment.NewLine & "Stack Trace: " & ex.StackTrace, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
+
 
     Private Sub RefreshToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs)
         LoadAllReturnedAndLostItems()
@@ -346,4 +358,7 @@ Public Class AdminReturn
         End Try
     End Sub
 
+    Private Sub dgv_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgv.CellContentClick
+
+    End Sub
 End Class

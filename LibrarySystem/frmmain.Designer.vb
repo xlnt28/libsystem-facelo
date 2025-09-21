@@ -50,6 +50,7 @@ Partial Class frmmain
         Me.lblCurrentBorrowings = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel7 = New System.Windows.Forms.Panel()
+        Me.btnReports = New System.Windows.Forms.Button()
         Me.lblCurrentRequestedBook = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Panel8 = New System.Windows.Forms.Panel()
@@ -59,7 +60,6 @@ Partial Class frmmain
         Me.lblBooksReturned = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
-        Me.btnReports = New System.Windows.Forms.Button()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
@@ -337,6 +337,19 @@ Partial Class frmmain
         Me.Panel7.Size = New System.Drawing.Size(331, 193)
         Me.Panel7.TabIndex = 9
         '
+        'btnReports
+        '
+        Me.btnReports.BackColor = System.Drawing.Color.PeachPuff
+        Me.btnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.btnReports.Font = New System.Drawing.Font("Verdana", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReports.ForeColor = System.Drawing.Color.Black
+        Me.btnReports.Location = New System.Drawing.Point(-1, -1)
+        Me.btnReports.Name = "btnReports"
+        Me.btnReports.Size = New System.Drawing.Size(331, 193)
+        Me.btnReports.TabIndex = 10
+        Me.btnReports.Text = "Reports"
+        Me.btnReports.UseVisualStyleBackColor = False
+        '
         'lblCurrentRequestedBook
         '
         Me.lblCurrentRequestedBook.Font = New System.Drawing.Font("Segoe UI", 72.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -427,19 +440,6 @@ Partial Class frmmain
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(0, 13)
         Me.Label4.TabIndex = 1
-        '
-        'btnReports
-        '
-        Me.btnReports.BackColor = System.Drawing.Color.PeachPuff
-        Me.btnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnReports.Font = New System.Drawing.Font("Verdana", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReports.ForeColor = System.Drawing.Color.Black
-        Me.btnReports.Location = New System.Drawing.Point(-1, -1)
-        Me.btnReports.Name = "btnReports"
-        Me.btnReports.Size = New System.Drawing.Size(331, 193)
-        Me.btnReports.TabIndex = 10
-        Me.btnReports.Text = "Reports"
-        Me.btnReports.UseVisualStyleBackColor = False
         '
         'frmmain
         '

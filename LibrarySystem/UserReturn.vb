@@ -2,8 +2,6 @@
 
 Public Class UserReturn
 
-
-
     Private Sub UserReturn_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         CenterToScreen()
         Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
@@ -29,8 +27,6 @@ Public Class UserReturn
             MsgBox("Error loading items: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
-
-
 
     Public Sub SQLQueryForReturningAndLost()
         Try

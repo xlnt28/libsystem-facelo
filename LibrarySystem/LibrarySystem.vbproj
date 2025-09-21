@@ -153,6 +153,12 @@
     <Compile Include="PartialReturnForm.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PenaltyForm.Designer.vb">
+      <DependentUpon>PenaltyForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PenaltyForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="TransactionChecker.Designer.vb">
       <DependentUpon>TransactionChecker.vb</DependentUpon>
     </Compile>
@@ -203,6 +209,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PartialReturnForm.resx">
       <DependentUpon>PartialReturnForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PenaltyForm.resx">
+      <DependentUpon>PenaltyForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransactionChecker.resx">
       <DependentUpon>TransactionChecker.vb</DependentUpon>

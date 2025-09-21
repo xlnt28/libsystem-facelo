@@ -205,4 +205,7 @@ Public Class PenaltyForm
         End If
     End Sub
 
+    Private Sub dgvPenalty_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles dgvPenalty.CellContentClick
+
+    End Sub
 End Class

@@ -61,3 +61,7 @@ D:\Java Personal Projects\vb.net-library-system\LibrarySystem\obj\x86\Debug\Libr
 D:\Java Personal Projects\vb.net-library-system\LibrarySystem\obj\x86\Debug\LibrarySystem.UserReturn.resources
 D:\Java Personal Projects\vb.net-library-system\LibrarySystem\obj\x86\Debug\LibrarySystem.AdminReturn.resources
 D:\Java Personal Projects\vb.net-library-system\LibrarySystem\obj\x86\Debug\LibrarySystem.PartialReturnForm.resources
+C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\LibrarySystem.exe.config
+C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.exe
+C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.xml
+C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.pdb

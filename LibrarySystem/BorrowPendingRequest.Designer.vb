@@ -64,21 +64,26 @@ Partial Class BorrowPendingRequest
         '
         Me.ApproveToolStripMenuItem.Image = CType(resources.GetObject("ApproveToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ApproveToolStripMenuItem.Name = "ApproveToolStripMenuItem"
-        Me.ApproveToolStripMenuItem.Size = New System.Drawing.Size(187, 30)
+        Me.ApproveToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+                    Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
+        Me.ApproveToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
         Me.ApproveToolStripMenuItem.Text = "Approve"
         '
         'RejectToolStripMenuItem
         '
         Me.RejectToolStripMenuItem.Image = CType(resources.GetObject("RejectToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RejectToolStripMenuItem.Name = "RejectToolStripMenuItem"
-        Me.RejectToolStripMenuItem.Size = New System.Drawing.Size(187, 30)
+        Me.RejectToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
+        Me.RejectToolStripMenuItem.Size = New System.Drawing.Size(273, 30)
         Me.RejectToolStripMenuItem.Text = "Decline"
         '
         'ViewDetailsToolStripMenuItem
         '
         Me.ViewDetailsToolStripMenuItem.Image = CType(resources.GetObject("ViewDetailsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ViewDetailsToolStripMenuItem.Name = "ViewDetailsToolStripMenuItem"
-        Me.ViewDetailsToolStripMenuItem.Size = New System.Drawing.Size(187, 30)
+        Me.ViewDetailsToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+                    Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
+        Me.ViewDetailsToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
         Me.ViewDetailsToolStripMenuItem.Text = "View Details"
         '
         'dg

@@ -30,9 +30,9 @@ Partial Class History
         Me.menuCheckTransaction = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CancelBorrowRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.borrowdgv = New System.Windows.Forms.DataGridView()
-        Me.CancelBorrowRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.borrowdgv, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -79,10 +79,17 @@ Partial Class History
         Me.ViewAllToolStripMenuItem.Size = New System.Drawing.Size(337, 30)
         Me.ViewAllToolStripMenuItem.Text = "View All "
         '
+        'CancelBorrowRequestToolStripMenuItem
+        '
+        Me.CancelBorrowRequestToolStripMenuItem.Name = "CancelBorrowRequestToolStripMenuItem"
+        Me.CancelBorrowRequestToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
+        Me.CancelBorrowRequestToolStripMenuItem.Size = New System.Drawing.Size(337, 30)
+        Me.CancelBorrowRequestToolStripMenuItem.Text = "Cancel Borrow Request"
+        '
         'GoBackToolStripMenuItem
         '
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
-        Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.G), System.Windows.Forms.Keys)
+        Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
         Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
         Me.GoBackToolStripMenuItem.Text = "Go back"
         '
@@ -122,13 +129,6 @@ Partial Class History
         Me.borrowdgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.borrowdgv.Size = New System.Drawing.Size(1370, 716)
         Me.borrowdgv.TabIndex = 11
-        '
-        'CancelBorrowRequestToolStripMenuItem
-        '
-        Me.CancelBorrowRequestToolStripMenuItem.Name = "CancelBorrowRequestToolStripMenuItem"
-        Me.CancelBorrowRequestToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.CancelBorrowRequestToolStripMenuItem.Size = New System.Drawing.Size(337, 30)
-        Me.CancelBorrowRequestToolStripMenuItem.Text = "Cancel Borrow Request"
         '
         'History
         '

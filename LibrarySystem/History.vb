@@ -33,11 +33,16 @@ Public Class History
         SearchToolStripMenuItem.Enabled = False
         menuCheckTransaction.Enabled = True
 
+        If IsAdmin Then
+            CancelBorrowRequestToolStripMenuItem.Visible = False
+        Else
+            CancelBorrowRequestToolStripMenuItem.Visible = True
+        End If
+
         ViewAllToolStripMenuItem.Text = "View All Users"
 
         LoadBorrowData()
     End Sub
-
 
 
     Private Sub LoadBorrowData(Optional ByVal searchName As String = "")
@@ -188,6 +193,58 @@ Public Class History
         SearchToolStripMenuItem.Enabled = IsAdmin AndAlso ShowAllUsers
 
         LoadBorrowData()
+    End Sub
+
+
+    Private Sub CancelBorrowRequestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CancelBorrowRequestToolStripMenuItem.Click
+        If IsAdmin Then
+            MsgBox("Admins cannot cancel requests.", MsgBoxStyle.Exclamation, "Action Not Allowed")
+            Exit Sub
+        End If
+
+        If borrowdgv.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = borrowdgv.SelectedRows(0)
+            Dim borrowID As String = selectedRow.Cells("Borrow ID").Value.ToString()
+            Dim status As String = selectedRow.Cells("Status").Value.ToString()
+
+            If status = "Requested" Then
+                Dim confirm = MsgBox("Are you sure you want to cancel this request?", MsgBoxStyle.YesNo + MsgBoxStyle.Question, "Confirm Cancel")
+                If confirm = MsgBoxResult.Yes Then
+                    Try
+                        If con.State <> ConnectionState.Open Then OpenDB()
+                        Dim sql As String = "UPDATE borrowings SET [Status] = 'Cancelled' WHERE [Borrow ID] = ?"
+                        Using cmd As New OleDbCommand(sql, con)
+                            cmd.Parameters.AddWithValue("?", borrowID)
+                            cmd.ExecuteNonQuery()
+                        End Using
+
+                        MsgBox("Request cancelled successfully.", MsgBoxStyle.Information, "Cancelled")
+                        LoadBorrowData()
+                    Catch ex As Exception
+                        MsgBox("Failed to cancel request. " & ex.Message, MsgBoxStyle.Critical, "Error")
+                    End Try
+                End If
+            Else
+                MsgBox("This transaction cannot be cancelled because it is already " & status & ".", MsgBoxStyle.Exclamation, "Not Allowed")
+            End If
+        Else
+            MsgBox("Please select a request to cancel.", MsgBoxStyle.Exclamation, "Select Request")
+        End If
+    End Sub
+
+    Private Sub borrowdgv_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles borrowdgv.SelectionChanged
+        If borrowdgv.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = borrowdgv.SelectedRows(0)
+            Dim status As String = selectedRow.Cells("Status").Value.ToString()
+
+            If Not IsAdmin AndAlso status = "Requested" Then
+                CancelBorrowRequestToolStripMenuItem.Enabled = True
+            Else
+                CancelBorrowRequestToolStripMenuItem.Enabled = False
+            End If
+        Else
+            CancelBorrowRequestToolStripMenuItem.Enabled = False
+        End If
     End Sub
 
 

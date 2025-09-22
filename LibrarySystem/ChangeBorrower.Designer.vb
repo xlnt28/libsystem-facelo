@@ -64,12 +64,12 @@ Partial Class ChangeBorrower
         Me.borrowdgv.DefaultCellStyle = DataGridViewCellStyle2
         Me.borrowdgv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.borrowdgv.GridColor = System.Drawing.Color.Gainsboro
-        Me.borrowdgv.Location = New System.Drawing.Point(0, 0)
+        Me.borrowdgv.Location = New System.Drawing.Point(0, 33)
         Me.borrowdgv.MultiSelect = False
         Me.borrowdgv.Name = "borrowdgv"
         Me.borrowdgv.ReadOnly = True
         Me.borrowdgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.borrowdgv.Size = New System.Drawing.Size(1366, 722)
+        Me.borrowdgv.Size = New System.Drawing.Size(1366, 689)
         Me.borrowdgv.TabIndex = 12
         '
         'MenuStrip1
@@ -117,8 +117,8 @@ Partial Class ChangeBorrower
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1366, 722)
-        Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.borrowdgv)
+        Me.Controls.Add(Me.MenuStrip1)
         Me.Name = "ChangeBorrower"
         Me.Text = "ChangeBorrower"
         CType(Me.borrowdgv, System.ComponentModel.ISupportInitialize).EndInit()

@@ -150,6 +150,7 @@ Partial Class frmmain
         '
         'BorrowPendingRequestToolStripMenuItem
         '
+        Me.BorrowPendingRequestToolStripMenuItem.Image = CType(resources.GetObject("BorrowPendingRequestToolStripMenuItem.Image"), System.Drawing.Image)
         Me.BorrowPendingRequestToolStripMenuItem.Name = "BorrowPendingRequestToolStripMenuItem"
         Me.BorrowPendingRequestToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
                     Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)

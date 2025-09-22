@@ -22,6 +22,7 @@ Partial Class History
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(History))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
@@ -31,6 +32,7 @@ Partial Class History
         Me.ViewAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.borrowdgv = New System.Windows.Forms.DataGridView()
+        Me.CancelBorrowRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.borrowdgv, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -47,27 +49,34 @@ Partial Class History
         '
         'MenuToolStripMenuItem
         '
-        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuCheckTransaction, Me.SearchToolStripMenuItem, Me.ViewAllToolStripMenuItem})
+        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuCheckTransaction, Me.SearchToolStripMenuItem, Me.ViewAllToolStripMenuItem, Me.CancelBorrowRequestToolStripMenuItem})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
         Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
         Me.MenuToolStripMenuItem.Text = "Menu"
         '
         'menuCheckTransaction
         '
+        Me.menuCheckTransaction.Image = CType(resources.GetObject("menuCheckTransaction.Image"), System.Drawing.Image)
         Me.menuCheckTransaction.Name = "menuCheckTransaction"
-        Me.menuCheckTransaction.Size = New System.Drawing.Size(236, 30)
+        Me.menuCheckTransaction.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
+        Me.menuCheckTransaction.Size = New System.Drawing.Size(337, 30)
         Me.menuCheckTransaction.Text = "Check Transaction"
         '
         'SearchToolStripMenuItem
         '
+        Me.SearchToolStripMenuItem.Image = CType(resources.GetObject("SearchToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
-        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(236, 30)
+        Me.SearchToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(337, 30)
         Me.SearchToolStripMenuItem.Text = "Search"
         '
         'ViewAllToolStripMenuItem
         '
+        Me.ViewAllToolStripMenuItem.Image = CType(resources.GetObject("ViewAllToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ViewAllToolStripMenuItem.Name = "ViewAllToolStripMenuItem"
-        Me.ViewAllToolStripMenuItem.Size = New System.Drawing.Size(236, 30)
+        Me.ViewAllToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+                    Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
+        Me.ViewAllToolStripMenuItem.Size = New System.Drawing.Size(337, 30)
         Me.ViewAllToolStripMenuItem.Text = "View All "
         '
         'GoBackToolStripMenuItem
@@ -114,6 +123,13 @@ Partial Class History
         Me.borrowdgv.Size = New System.Drawing.Size(1370, 716)
         Me.borrowdgv.TabIndex = 11
         '
+        'CancelBorrowRequestToolStripMenuItem
+        '
+        Me.CancelBorrowRequestToolStripMenuItem.Name = "CancelBorrowRequestToolStripMenuItem"
+        Me.CancelBorrowRequestToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
+        Me.CancelBorrowRequestToolStripMenuItem.Size = New System.Drawing.Size(337, 30)
+        Me.CancelBorrowRequestToolStripMenuItem.Text = "Cancel Borrow Request"
+        '
         'History
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -140,4 +156,5 @@ Partial Class History
     Friend WithEvents menuCheckTransaction As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ViewAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents CancelBorrowRequestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
 End Class

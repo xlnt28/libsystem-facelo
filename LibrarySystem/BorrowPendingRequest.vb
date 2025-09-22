@@ -148,7 +148,7 @@ Public Class BorrowPendingRequest
         End If
     End Sub
 
-    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
+    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         LoadPendingRequests()
     End Sub
 

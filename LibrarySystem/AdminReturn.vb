@@ -24,6 +24,8 @@ Public Class AdminReturn
                 dgv.DataSource = admindbds.Tables("borrowings")
                 dgv.ClearSelection()
             Else
+                dgv.DataSource = admindbds.Tables("borrowings")
+                dgv.ClearSelection()
                 MsgBox("No borrowed items found.", MsgBoxStyle.Information, "Information")
             End If
         Catch ex As Exception

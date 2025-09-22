@@ -33,8 +33,8 @@ Partial Class PenaltyForm
         Me.ViewAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SwitchViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.dgvPenalty, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -68,12 +68,12 @@ Partial Class PenaltyForm
         Me.dgvPenalty.DefaultCellStyle = DataGridViewCellStyle2
         Me.dgvPenalty.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgvPenalty.GridColor = System.Drawing.Color.Gainsboro
-        Me.dgvPenalty.Location = New System.Drawing.Point(0, 0)
+        Me.dgvPenalty.Location = New System.Drawing.Point(0, 33)
         Me.dgvPenalty.MultiSelect = False
         Me.dgvPenalty.Name = "dgvPenalty"
         Me.dgvPenalty.ReadOnly = True
         Me.dgvPenalty.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgvPenalty.Size = New System.Drawing.Size(1370, 749)
+        Me.dgvPenalty.Size = New System.Drawing.Size(1370, 716)
         Me.dgvPenalty.TabIndex = 12
         '
         'MenuStrip1
@@ -129,6 +129,12 @@ Partial Class PenaltyForm
         Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(235, 30)
         Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
+        'SwitchViewToolStripMenuItem
+        '
+        Me.SwitchViewToolStripMenuItem.Name = "SwitchViewToolStripMenuItem"
+        Me.SwitchViewToolStripMenuItem.Size = New System.Drawing.Size(82, 29)
+        Me.SwitchViewToolStripMenuItem.Text = "Viewer"
+        '
         'GoBackToolStripMenuItem
         '
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
@@ -136,19 +142,13 @@ Partial Class PenaltyForm
         Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
         Me.GoBackToolStripMenuItem.Text = "Go back"
         '
-        'SwitchViewToolStripMenuItem
-        '
-        Me.SwitchViewToolStripMenuItem.Name = "SwitchViewToolStripMenuItem"
-        Me.SwitchViewToolStripMenuItem.Size = New System.Drawing.Size(82, 29)
-        Me.SwitchViewToolStripMenuItem.Text = "Viewer"
-        '
         'PenaltyForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1370, 749)
-        Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.dgvPenalty)
+        Me.Controls.Add(Me.MenuStrip1)
         Me.Name = "PenaltyForm"
         Me.Text = "PenaltyForm"
         CType(Me.dgvPenalty, System.ComponentModel.ISupportInitialize).EndInit()

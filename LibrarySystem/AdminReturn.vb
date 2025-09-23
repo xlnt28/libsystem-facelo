@@ -234,7 +234,6 @@ Public Class AdminReturn
             Dim returnDate As DateTime = DateTime.Now
             Dim daysLate As Integer = 0
 
-            ' Get actual due date and return date
             Using selectCmd As New OleDbCommand("SELECT [Due Date], [Return Date] FROM borrowings WHERE [Borrow ID] = ?", con)
                 selectCmd.Parameters.AddWithValue("?", borrowID)
 

@@ -24,10 +24,12 @@ Public Class PenaltyForm
         SwitchViewToolStripMenuItem.Enabled = isAdmin
         SwitchViewToolStripMenuItem.Text = "View All Users"
 
+        CustomizeDataGridView(dgvPenalty)
         LoadPenaltyData()
         ToggleViewButtons("All")
 
         AddHandler dgvPenalty.SelectionChanged, AddressOf dgvPenalty_SelectionChanged
+
     End Sub
 
     Private Sub LoadPenaltyData(Optional ByVal status As String = "")

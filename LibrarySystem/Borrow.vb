@@ -322,9 +322,9 @@ Public Class Borrow
                 cmd.Parameters.AddWithValue("?", xpost)
                 cmd.Parameters.AddWithValue("?", xpriv)
                 cmd.Parameters.AddWithValue("?", quantityList)
-                cmd.Parameters.AddWithValue("?", dtpBorrowDate.Value)
-                cmd.Parameters.AddWithValue("?", dtpDueDate.Value)
-                cmd.Parameters.AddWithValue("?", DBNull.Value)
+                cmd.Parameters.Add("?", OleDbType.Date).Value = dtpBorrowDate.Value
+                cmd.Parameters.Add("?", OleDbType.Date).Value = dtpDueDate.Value
+                cmd.Parameters.Add("?", OleDbType.Date).Value = DBNull.Value
                 cmd.Parameters.AddWithValue("?", status)
                 cmd.Parameters.AddWithValue("?", "No")
                 cmd.ExecuteNonQuery()

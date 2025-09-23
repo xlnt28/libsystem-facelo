@@ -4,10 +4,11 @@ Imports System.IO
 Public Class Borrow
     Private trec As Integer = 0
     Private recpointer As Integer = 0
-    Private userReturnDate As DateTime = DateTime.Today.AddDays(7)
+    Public Shared userReturnDate As DateTime = DateTime.Today.AddDays(7)
     Private availableQuantity As Integer = 0
     Public isOnBorrowMode As Boolean = False
     Private selectedBooks As New Dictionary(Of String, Integer)()
+
 
     Private Sub Borrow_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
@@ -26,10 +27,17 @@ Public Class Borrow
                 dtpDueDate.Value = userReturnDate
                 dtpDueDate.Enabled = True
                 ChangeBorrowerToolStripMenuItem.Enabled = True
+                dtpBorrowDate.Visible = True
+                dtpDueDate.Visible = True
+                txtPendingApprovalText.Visible = False
             Else
                 dtpDueDate.Value = userReturnDate
                 Label6.Visible = True
                 ChangeBorrowerToolStripMenuItem.Enabled = False
+                dtpBorrowDate.Visible = True
+                dtpDueDate.Visible = False
+                txtPendingApprovalText.Visible = True
+                txtPendingApprovalText.Text = "Pending Approval"
             End If
 
             txtName.Text = XName
@@ -189,9 +197,19 @@ Public Class Borrow
 
         If xpriv = "Admin" Then
             dtpDueDate.Enabled = True
+            dtpBorrowDate.Enabled = True
+            dtpBorrowDate.Visible = True
+            dtpDueDate.Visible = True
+            txtPendingApprovalText.Visible = False
+            Label6.Visible = False
         Else
-            dtpDueDate.Value = userReturnDate
+            dtpDueDate.Enabled = False
+            dtpBorrowDate.Enabled = False
+            dtpBorrowDate.Visible = False
+            dtpDueDate.Visible = False
+            txtPendingApprovalText.Visible = True
             Label6.Visible = True
+            txtPendingApprovalText.Text = "Pending Approval"
         End If
 
         pbBookImage.ImageLocation = Application.StartupPath & "\bookImages\book_default.jpg"
@@ -290,13 +308,7 @@ Public Class Borrow
                 Return
             End If
 
-            If xpriv <> "Admin" Then
-                If dtpDueDate.Value <= dtpBorrowDate.Value Then
-                    MsgBox("Return date must be after borrow date.", MsgBoxStyle.Exclamation)
-                    dtpDueDate.Focus()
-                    Return
-                End If
-            Else
+            If xpriv = "Admin" Then
                 If dtpDueDate.Value < dtpBorrowDate.Value Then
                     MsgBox("Return date cannot be before borrow date.", MsgBoxStyle.Exclamation)
                     dtpDueDate.Focus()
@@ -314,19 +326,36 @@ Public Class Borrow
                 Dim quantityList As String = String.Join(",", selectedBooks.Values)
                 Dim status As String = If(xpriv = "Admin", "Borrowed", "Requested")
 
+                cmd = New OleDbCommand("INSERT INTO borrowings([Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Return Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
-                cmd = New OleDbCommand("INSERT INTO borrowings([Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Return Date], [Status], [Has Requested Return]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ? ,?)", con)
                 cmd.Parameters.AddWithValue("?", borrowID)
                 cmd.Parameters.AddWithValue("?", bookIDList)
                 cmd.Parameters.AddWithValue("?", txtName.Text)
                 cmd.Parameters.AddWithValue("?", xpost)
                 cmd.Parameters.AddWithValue("?", xpriv)
                 cmd.Parameters.AddWithValue("?", quantityList)
-                cmd.Parameters.Add("?", OleDbType.Date).Value = dtpBorrowDate.Value
-                cmd.Parameters.Add("?", OleDbType.Date).Value = dtpDueDate.Value
-                cmd.Parameters.Add("?", OleDbType.Date).Value = DBNull.Value
+
+                If xpriv = "User" Then
+                    cmd.Parameters.AddWithValue("?", DBNull.Value)
+                    cmd.Parameters.AddWithValue("?", DBNull.Value)
+                Else
+                    Dim formattedBorrowDate As String = dtpBorrowDate.Value.ToString("MM/dd/yyyy hh:mm tt")
+                    Dim formattedDueDate As String = dtpDueDate.Value.ToString("MM/dd/yyyy hh:mm tt")
+
+                    cmd.Parameters.AddWithValue("?", formattedBorrowDate)
+                    cmd.Parameters.AddWithValue("?", formattedDueDate)
+                End If
+
+                cmd.Parameters.AddWithValue("?", DBNull.Value)
                 cmd.Parameters.AddWithValue("?", status)
                 cmd.Parameters.AddWithValue("?", "No")
+
+                If xpriv = "User" Then
+                    cmd.Parameters.AddWithValue("?", DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"))
+                Else
+                    cmd.Parameters.AddWithValue("?", DBNull.Value)
+                End If
+
                 cmd.ExecuteNonQuery()
 
                 If xpriv = "Admin" Then
@@ -725,4 +754,29 @@ Public Class Borrow
         Dim changeBorrowerForm As New ChangeBorrower()
         changeBorrowerForm.ShowDialog()
     End Sub
+
+    Private Sub txtPendingApprovalText_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtPendingApprovalText.TextChanged
+
+    End Sub
+
+    Private Function GetBookTitleByID(ByVal bookID As String) As String
+        Try
+            If con.State <> ConnectionState.Open Then
+                OpenDB()
+            End If
+
+            cmd = New OleDbCommand("SELECT [Title] FROM books WHERE [Book ID] = ?", con)
+            cmd.Parameters.AddWithValue("?", bookID)
+            Dim result As Object = cmd.ExecuteScalar()
+
+            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                Return result.ToString()
+            Else
+                Return "Unknown Title"
+            End If
+        Catch ex As Exception
+            Return "Unknown Title"
+        End Try
+    End Function
+
 End Class

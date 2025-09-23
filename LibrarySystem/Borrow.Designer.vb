@@ -64,6 +64,7 @@ Partial Class Borrow
         Me.FormToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuMainForm = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.txtPendingApprovalText = New System.Windows.Forms.TextBox()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.txtName = New System.Windows.Forms.TextBox()
@@ -464,6 +465,7 @@ Partial Class Borrow
         '
         Me.Panel4.BackColor = System.Drawing.Color.Beige
         Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel4.Controls.Add(Me.txtPendingApprovalText)
         Me.Panel4.Controls.Add(Me.Label13)
         Me.Panel4.Controls.Add(Me.Label1)
         Me.Panel4.Controls.Add(Me.nudCopies)
@@ -477,6 +479,17 @@ Partial Class Borrow
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(426, 313)
         Me.Panel4.TabIndex = 50
+        '
+        'txtPendingApprovalText
+        '
+        Me.txtPendingApprovalText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtPendingApprovalText.Enabled = False
+        Me.txtPendingApprovalText.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPendingApprovalText.Location = New System.Drawing.Point(31, 204)
+        Me.txtPendingApprovalText.Name = "txtPendingApprovalText"
+        Me.txtPendingApprovalText.Size = New System.Drawing.Size(367, 35)
+        Me.txtPendingApprovalText.TabIndex = 58
+        Me.txtPendingApprovalText.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label13
         '
@@ -739,4 +752,5 @@ Partial Class Borrow
     Friend WithEvents Label16 As System.Windows.Forms.Label
     Friend WithEvents menuRemoveBook As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ChangeBorrowerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents txtPendingApprovalText As System.Windows.Forms.TextBox
 End Class

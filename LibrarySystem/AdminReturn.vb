@@ -80,7 +80,6 @@ Public Class AdminReturn
 
 
 
-
     Private Sub ApproveReturnToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ApproveReturnToolStripMenuItem.Click
         If dgv.SelectedRows.Count = 0 Then
             MsgBox("Please select a record to approve.", MsgBoxStyle.Exclamation, "Select Record")
@@ -176,7 +175,7 @@ Public Class AdminReturn
                 Return
             End If
         Next
-        Dim returnDate As String = DateTime.Now.ToString("MM/dd/yyyy")
+        Dim returnDate As String = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
         Try
             Dim newCurrentReturned(bookIDs.Length - 1) As Integer
             Dim allReturned As Boolean = True
@@ -219,7 +218,6 @@ Public Class AdminReturn
 
     Private Sub InsertPenaltyRecord(ByVal borrowID As String, ByVal bookIDs() As String, ByVal copiesToReturn() As Integer, ByVal totalPenalty As Decimal)
         Try
-            ' Get Borrower Name from borrowings table
             Dim borrowerName As String = ""
             Using cmdName As New OleDbCommand("SELECT [Borrower Name] FROM borrowings WHERE [Borrow ID] = ?", con)
                 cmdName.Parameters.AddWithValue("?", borrowID)

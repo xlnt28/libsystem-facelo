@@ -39,13 +39,13 @@ Public Class AdminReturn
 
             If onlyReturnRequests Then
                 sql = "SELECT [Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], " &
-                      "[Borrower Privileges], [Copies], [Current Returned], [Borrow Date], " &
+                      "[Borrower Privileges], [Copies], [Current Returned], [Request Date] ,[Borrow Date], " &
                       "[Due Date], [Return Date], [Status], [Has Requested Return] " &
                       "FROM borrowings " &
                        "WHERE ([Status] = 'Borrowed' AND [Has Requested Return] = 'Yes')"
             Else
                 sql = "SELECT [Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], " &
-                      "[Borrower Privileges], [Copies], [Current Returned], [Borrow Date], " &
+                      "[Borrower Privileges], [Copies], [Current Returned], [Request Date], [Borrow Date], " &
                       "[Due Date], [Return Date], [Status], [Has Requested Return] " &
                       "FROM borrowings " &
                       "WHERE ([Status] = 'Borrowed')"

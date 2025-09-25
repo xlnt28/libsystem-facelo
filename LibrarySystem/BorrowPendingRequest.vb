@@ -44,7 +44,6 @@ Public Class BorrowPendingRequest
                                                 "[Copies], " & _
                                                 "[Borrow Date], " & _
                                                 "[Due Date], " & _
-                                                "[Return Date], " & _
                                                 "[Status], " & _
                                                 "[Request Date] " & _
                                                 "FROM borrowings " & _
@@ -191,14 +190,12 @@ Public Class BorrowPendingRequest
             position = If(selectedRow.Cells("Borrower Position").Value IsNot Nothing, selectedRow.Cells("Borrower Position").Value.ToString(), "")
             privilege = If(selectedRow.Cells("Borrower Privileges").Value IsNot Nothing, selectedRow.Cells("Borrower Privileges").Value.ToString(), "")
 
+            storedCopiesList = If(selectedRow.Cells("Copies").Value IsNot Nothing, selectedRow.Cells("Copies").Value.ToString(), "")
             borrowDate = If(selectedRow.Cells("Borrow Date").Value IsNot Nothing AndAlso Not IsDBNull(selectedRow.Cells("Borrow Date").Value),
                            Convert.ToDateTime(selectedRow.Cells("Borrow Date").Value).ToString("MM/dd/yyyy"), "")
 
             dueDate = If(selectedRow.Cells("Due Date").Value IsNot Nothing AndAlso Not IsDBNull(selectedRow.Cells("Due Date").Value),
                         Convert.ToDateTime(selectedRow.Cells("Due Date").Value).ToString("MM/dd/yyyy"), "")
-
-            returnDate = If(selectedRow.Cells("Return Date").Value IsNot Nothing AndAlso Not IsDBNull(selectedRow.Cells("Return Date").Value),
-                           Convert.ToDateTime(selectedRow.Cells("Return Date").Value).ToString("MM/dd/yyyy"), "")
 
             status = If(selectedRow.Cells("Status").Value IsNot Nothing, selectedRow.Cells("Status").Value.ToString(), "")
 

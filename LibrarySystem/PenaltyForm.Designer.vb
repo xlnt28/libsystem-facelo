@@ -99,7 +99,7 @@ Partial Class PenaltyForm
         Me.MarkAsPaidToolStripMenuItem.Image = CType(resources.GetObject("MarkAsPaidToolStripMenuItem.Image"), System.Drawing.Image)
         Me.MarkAsPaidToolStripMenuItem.Name = "MarkAsPaidToolStripMenuItem"
         Me.MarkAsPaidToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-                    Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
+            Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
         Me.MarkAsPaidToolStripMenuItem.Size = New System.Drawing.Size(329, 30)
         Me.MarkAsPaidToolStripMenuItem.Text = "Mark as Paid"
         '
@@ -124,7 +124,7 @@ Partial Class PenaltyForm
         Me.ViewAllToolStripMenuItem.Image = CType(resources.GetObject("ViewAllToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ViewAllToolStripMenuItem.Name = "ViewAllToolStripMenuItem"
         Me.ViewAllToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
-                    Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
+            Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
         Me.ViewAllToolStripMenuItem.Size = New System.Drawing.Size(329, 30)
         Me.ViewAllToolStripMenuItem.Text = "View All Penalty"
         '
@@ -149,7 +149,7 @@ Partial Class PenaltyForm
         Me.SwitchViewToolStripMenuItem.Image = CType(resources.GetObject("SwitchViewToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SwitchViewToolStripMenuItem.Name = "SwitchViewToolStripMenuItem"
         Me.SwitchViewToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-                    Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
+            Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
         Me.SwitchViewToolStripMenuItem.Size = New System.Drawing.Size(98, 29)
         Me.SwitchViewToolStripMenuItem.Text = "Viewer"
         '
@@ -165,9 +165,12 @@ Partial Class PenaltyForm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1370, 749)
+        Me.ControlBox = False
         Me.Controls.Add(Me.dgvPenalty)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Name = "PenaltyForm"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "PenaltyForm"
         CType(Me.dgvPenalty, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip1.ResumeLayout(False)

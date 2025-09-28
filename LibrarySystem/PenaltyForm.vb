@@ -39,34 +39,43 @@ Public Class PenaltyForm
 
             If isAdmin AndAlso currentViewMode = "All" Then
                 If String.IsNullOrEmpty(status) OrElse status = "All" Then
-                    sql = "SELECT [PenaltyID], [Borrow ID], [User Name], [Book ID List], [Total Quantity], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date] " &
-                          "FROM Penalties " &
-                          "ORDER BY [PenaltyID] DESC"
+                    sql = "SELECT [PenaltyID], [Borrow ID], [User Name], [Book ID], [Quantity], " &
+              "[Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date], " &
+              "[Book Condition], [Condition Penalty] " &
+              "FROM Penalties " &
+              "ORDER BY [PenaltyID] DESC"
                     da = New OleDbDataAdapter(sql, con)
                 Else
-                    sql = "SELECT [PenaltyID], [Borrow ID], [User Name], [Book ID List], [Total Quantity], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date] " &
-                          "FROM Penalties WHERE [Penalty Status] = ? " &
-                          "ORDER BY [PenaltyID] DESC"
+                    sql = "SELECT [PenaltyID], [Borrow ID], [User Name], [Book ID], [Quantity], " &
+              "[Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date], " &
+              "[Book Condition], [Condition Penalty] " &
+              "FROM Penalties WHERE [Penalty Status] = ? " &
+              "ORDER BY [PenaltyID] DESC"
                     da = New OleDbDataAdapter(sql, con)
                     da.SelectCommand.Parameters.AddWithValue("?", status)
                 End If
             Else
                 Dim userFilter As String = XName
                 If String.IsNullOrEmpty(status) OrElse status = "All" Then
-                    sql = "SELECT [PenaltyID], [Borrow ID], [User Name], [Book ID List], [Total Quantity], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date] " &
-                          "FROM Penalties WHERE [User Name] = ? " &
-                          "ORDER BY [PenaltyID] DESC"
+                    sql = "SELECT [PenaltyID], [Borrow ID], [User Name], [Book ID], [Quantity], " &
+              "[Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date], " &
+              "[Book Condition], [Condition Penalty] " &
+              "FROM Penalties WHERE [User Name] = ? " &
+              "ORDER BY [PenaltyID] DESC"
                     da = New OleDbDataAdapter(sql, con)
                     da.SelectCommand.Parameters.AddWithValue("?", userFilter)
                 Else
-                    sql = "SELECT [PenaltyID], [Borrow ID], [User Name], [Book ID List], [Total Quantity], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date] " &
-                          "FROM Penalties WHERE [User Name] = ? AND [Penalty Status] = ? " &
-                          "ORDER BY [PenaltyID] DESC"
+                    sql = "SELECT [PenaltyID], [Borrow ID], [User Name], [Book ID], [Quantity], " &
+              "[Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date], " &
+              "[Book Condition], [Condition Penalty] " &
+              "FROM Penalties WHERE [User Name] = ? AND [Penalty Status] = ? " &
+              "ORDER BY [PenaltyID] DESC"
                     da = New OleDbDataAdapter(sql, con)
                     da.SelectCommand.Parameters.AddWithValue("?", userFilter)
                     da.SelectCommand.Parameters.AddWithValue("?", status)
                 End If
             End If
+
 
             Dim ds As New DataSet()
             da.Fill(ds, "Penalties")

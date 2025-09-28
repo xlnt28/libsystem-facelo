@@ -185,4 +185,15 @@ Private Sub LoadStatistics()
         penalty.Show()
         Me.Hide()
     End Sub
+
+    Private Sub btnReports_Click(sender As Object, e As EventArgs) Handles btnReports.Click
+        Try
+            ' Create an instance of the report form
+            Dim reportForm As New ReportForm()
+            reportForm.Show()
+        Catch ex As Exception
+            MessageBox.Show("Error opening report: " & ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
 End Class

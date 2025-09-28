@@ -324,9 +324,10 @@ Public Class Borrow
                 Dim borrowID As String = GenerateBorrowID()
                 Dim bookIDList As String = String.Join(",", selectedBooks.Keys)
                 Dim quantityList As String = String.Join(",", selectedBooks.Values)
+                Dim currentReturnedList As String = String.Join(",", Enumerable.Repeat("0", selectedBooks.Count))
                 Dim status As String = If(xpriv = "Admin", "Borrowed", "Requested")
 
-                cmd = New OleDbCommand("INSERT INTO borrowings([Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Return Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+                cmd = New OleDbCommand("INSERT INTO borrowings([Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Return Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
                 cmd.Parameters.AddWithValue("?", borrowID)
                 cmd.Parameters.AddWithValue("?", bookIDList)
@@ -334,6 +335,7 @@ Public Class Borrow
                 cmd.Parameters.AddWithValue("?", xpost)
                 cmd.Parameters.AddWithValue("?", xpriv)
                 cmd.Parameters.AddWithValue("?", quantityList)
+                cmd.Parameters.AddWithValue("?", currentReturnedList)
 
                 If xpriv = "User" Then
                     cmd.Parameters.AddWithValue("?", DBNull.Value)

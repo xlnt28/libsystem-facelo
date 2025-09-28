@@ -153,7 +153,7 @@ Partial Class frmmain
         Me.BorrowPendingRequestToolStripMenuItem.Image = CType(resources.GetObject("BorrowPendingRequestToolStripMenuItem.Image"), System.Drawing.Image)
         Me.BorrowPendingRequestToolStripMenuItem.Name = "BorrowPendingRequestToolStripMenuItem"
         Me.BorrowPendingRequestToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-                    Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
+            Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
         Me.BorrowPendingRequestToolStripMenuItem.Size = New System.Drawing.Size(407, 30)
         Me.BorrowPendingRequestToolStripMenuItem.Text = "Borrow Pending Request"
         '

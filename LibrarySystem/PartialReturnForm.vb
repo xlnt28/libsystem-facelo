@@ -1,16 +1,15 @@
-﻿Imports System.Data.OleDb
-Imports System.Drawing
-
-Public Class PartialReturnForm
+﻿Public Class PartialReturnForm
     Public Property BookIDs() As String()
     Public Property TotalCopies() As Integer()
     Public Property CurrentReturned() As Integer()
     Public Property BorrowID As String
-
+    Public Property ConditionTypes() As String()
     Private numericControls As New List(Of NumericUpDown)()
     Private bookTitles As New List(Of String)()
     Private bookPanels As New List(Of Panel)()
     Private penaltyLabels As New List(Of Label)()
+    Private conditionComboBoxes As New List(Of ComboBox)()
+    Private penaltyAmountControls As New List(Of NumericUpDown)()
 
     Private BorrowDate As DateTime
     Public DueDate As DateTime
@@ -76,6 +75,30 @@ Public Class PartialReturnForm
         Return results
     End Function
 
+    Public Function GetConditionTypes() As String()
+        Dim results(BookIDs.Length - 1) As String
+        For i As Integer = 0 To BookIDs.Length - 1
+            If i < conditionComboBoxes.Count Then
+                results(i) = conditionComboBoxes(i).SelectedItem.ToString()
+            Else
+                results(i) = "Normal"
+            End If
+        Next
+        Return results
+    End Function
+
+    Public Function GetPenaltyAmounts() As Decimal()
+        Dim results(BookIDs.Length - 1) As Decimal
+        For i As Integer = 0 To BookIDs.Length - 1
+            If i < penaltyAmountControls.Count Then
+                results(i) = penaltyAmountControls(i).Value
+            Else
+                results(i) = 0
+            End If
+        Next
+        Return results
+    End Function
+
     Public Function GetTotalPenalty() As Decimal
         Return totalPenalty
     End Function
@@ -87,7 +110,7 @@ Public Class PartialReturnForm
         Me.StartPosition = FormStartPosition.CenterParent
         Me.Text = "Partial Return"
         Me.Padding = New Padding(20)
-        Me.MinimumSize = New Size(700, 400)
+        Me.MinimumSize = New Size(800, 400)
 
         If BorrowDate = Nothing Then
             BorrowDate = DateTime.Today
@@ -124,7 +147,7 @@ Public Class PartialReturnForm
         Dim infoLabel As New Label With {.Text = "Borrow Date: " & BorrowDate.ToString("yyyy-MM-dd") & " | Return Date: " & ReturnDate.ToString("yyyy-MM-dd") & " | Days Late: " & daysLate.ToString(), .Font = New Font("Segoe UI", 9), .ForeColor = If(daysLate > 0, Color.Red, Color.FromArgb(100, 100, 100)), .AutoSize = True, .Location = New Point(0, headerLabel.Bottom + 5)}
         mainPanel.Controls.Add(infoLabel)
 
-        Dim booksContainer As New Panel With {.Location = New Point(0, infoLabel.Bottom + 20), .Size = New Size(650, 0), .BackColor = Color.White, .AutoSize = True}
+        Dim booksContainer As New Panel With {.Location = New Point(0, infoLabel.Bottom + 20), .Size = New Size(750, 0), .BackColor = Color.White, .AutoSize = True}
         mainPanel.Controls.Add(booksContainer)
 
         CreateTableHeaders(booksContainer)
@@ -133,29 +156,44 @@ Public Class PartialReturnForm
         numericControls.Clear()
         bookPanels.Clear()
         penaltyLabels.Clear()
+        conditionComboBoxes.Clear()
+        penaltyAmountControls.Clear()
 
         For i As Integer = 0 To BookIDs.Length - 1
-            Dim bookPanel As New Panel With {.BackColor = If(i Mod 2 = 0, Color.FromArgb(250, 250, 250), Color.FromArgb(240, 245, 250)), .Size = New Size(630, 70), .Location = New Point(0, yPos)}
+            Dim bookPanel As New Panel With {.BackColor = If(i Mod 2 = 0, Color.FromArgb(250, 250, 250), Color.FromArgb(240, 245, 250)), .Size = New Size(730, 70), .Location = New Point(0, yPos)}
             booksContainer.Controls.Add(bookPanel)
             bookPanels.Add(bookPanel)
 
-            Dim titleLabel As New Label With {.Text = bookTitles(i), .Font = New Font("Segoe UI", 9), .ForeColor = Color.FromArgb(60, 60, 60), .Location = New Point(10, 10), .MaximumSize = New Size(250, 40), .AutoSize = True, .Tag = "Title"}
+            Dim titleLabel As New Label With {.Text = bookTitles(i), .Font = New Font("Segoe UI", 9), .ForeColor = Color.FromArgb(60, 60, 60), .Location = New Point(10, 10), .MaximumSize = New Size(200, 40), .AutoSize = True, .Tag = "Title"}
             bookPanel.Controls.Add(titleLabel)
 
             Dim bookIDLabel As New Label With {.Text = "ID: " & BookIDs(i), .Font = New Font("Segoe UI", 8), .ForeColor = Color.FromArgb(120, 120, 120), .Location = New Point(10, titleLabel.Bottom + 2), .AutoSize = True}
             bookPanel.Controls.Add(bookIDLabel)
 
             Dim copiesInfo As String = CurrentReturned(i).ToString() & "/" & TotalCopies(i).ToString() & " returned"
-            Dim copiesLabel As New Label With {.Text = copiesInfo, .Font = New Font("Segoe UI", 9), .ForeColor = Color.FromArgb(100, 100, 100), .AutoSize = True, .Location = New Point(270, 15)}
+            Dim copiesLabel As New Label With {.Text = copiesInfo, .Font = New Font("Segoe UI", 9), .ForeColor = Color.FromArgb(100, 100, 100), .AutoSize = True, .Location = New Point(220, 15)}
             bookPanel.Controls.Add(copiesLabel)
 
             Dim remaining As Integer = Math.Max(0, TotalCopies(i) - CurrentReturned(i))
-            Dim numUpDown As New NumericUpDown With {.Minimum = 0, .Maximum = remaining, .Size = New Size(70, 25), .Location = New Point(400, 22), .Value = remaining, .BorderStyle = BorderStyle.FixedSingle, .ForeColor = Color.FromArgb(45, 45, 45)}
+            Dim numUpDown As New NumericUpDown With {.Minimum = 0, .Maximum = remaining, .Size = New Size(60, 25), .Location = New Point(320, 22), .Value = remaining, .BorderStyle = BorderStyle.FixedSingle, .ForeColor = Color.FromArgb(45, 45, 45)}
             AddHandler numUpDown.ValueChanged, AddressOf NumericUpDown_ValueChanged
             bookPanel.Controls.Add(numUpDown)
             numericControls.Add(numUpDown)
 
-            Dim penaltyLabel As New Label With {.Text = "Penalty: ₱0.00", .Font = New Font("Segoe UI", 9), .ForeColor = If(daysLate > 0, Color.Red, Color.FromArgb(100, 100, 100)), .AutoSize = True, .Location = New Point(480, 25)}
+            Dim conditionCombo As New ComboBox With {.Size = New Size(80, 25), .Location = New Point(390, 22), .DropDownStyle = ComboBoxStyle.DropDownList}
+            conditionCombo.Items.AddRange({"Normal", "Damaged", "Lost"})
+            conditionCombo.SelectedIndex = 0
+            AddHandler conditionCombo.SelectedIndexChanged, AddressOf ConditionCombo_SelectedIndexChanged
+            bookPanel.Controls.Add(conditionCombo)
+            conditionComboBoxes.Add(conditionCombo)
+
+            Dim penaltyAmount As New NumericUpDown With {.Minimum = 0, .Maximum = 10000, .DecimalPlaces = 2, .Size = New Size(80, 25), .Location = New Point(480, 22), .Value = 0, .BorderStyle = BorderStyle.FixedSingle, .ForeColor = Color.FromArgb(45, 45, 45)}
+            penaltyAmount.Enabled = False
+            AddHandler penaltyAmount.ValueChanged, AddressOf PenaltyAmount_ValueChanged
+            bookPanel.Controls.Add(penaltyAmount)
+            penaltyAmountControls.Add(penaltyAmount)
+
+            Dim penaltyLabel As New Label With {.Text = "Penalty: ₱0.00", .Font = New Font("Segoe UI", 9), .ForeColor = If(daysLate > 0, Color.Red, Color.FromArgb(100, 100, 100)), .AutoSize = True, .Location = New Point(570, 25)}
             bookPanel.Controls.Add(penaltyLabel)
             penaltyLabels.Add(penaltyLabel)
 
@@ -168,22 +206,76 @@ Public Class PartialReturnForm
     End Sub
 
     Private Sub NumericUpDown_ValueChanged(ByVal sender As Object, ByVal e As EventArgs)
+        CalculateTotalPenalty()
+    End Sub
+
+    Private Sub ConditionCombo_SelectedIndexChanged(ByVal sender As Object, ByVal e As EventArgs)
+        Dim combo As ComboBox = CType(sender, ComboBox)
+        Dim index As Integer = conditionComboBoxes.IndexOf(combo)
+
+        If index >= 0 AndAlso index < penaltyAmountControls.Count Then
+            Dim penaltyAmountControl As NumericUpDown = penaltyAmountControls(index)
+
+            If combo.SelectedItem.ToString() = "Normal" Then
+                penaltyAmountControl.Enabled = False
+                penaltyAmountControl.Value = 0
+
+            ElseIf combo.SelectedItem.ToString() = "Damaged" Then
+                penaltyAmountControl.Enabled = True
+                penaltyAmountControl.Value = 300
+
+            ElseIf combo.SelectedItem.ToString() = "Lost" Then
+                penaltyAmountControl.Enabled = True
+                penaltyAmountControl.Value = 1000
+            End If
+        End If
+
+        CalculateTotalPenalty()
+    End Sub
+
+
+
+    Private Sub PenaltyAmount_ValueChanged(ByVal sender As Object, ByVal e As EventArgs)
+        CalculateTotalPenalty()
+    End Sub
+
+    Private Sub CalculateTotalPenalty()
         totalPenalty = 0
         totalQuantity = 0
+
         For i As Integer = 0 To numericControls.Count - 1
             Dim qty As Integer = CInt(numericControls(i).Value)
-            Dim penalty As Decimal = daysLate * 10 * qty
+            Dim condition As String = conditionComboBoxes(i).SelectedItem.ToString()
+            Dim penalty As Decimal = 0
+
+            Dim overduePenalty As Decimal = daysLate * 10 * qty
+            Dim conditionPenalty As Decimal = 0
+
+            If condition = "Damaged" OrElse condition = "Lost" Then
+                conditionPenalty = penaltyAmountControls(i).Value * qty
+            End If
+
+            penalty = overduePenalty + conditionPenalty
 
             penaltyLabels(i).Text = "Penalty: ₱" & penalty.ToString("N2")
             totalPenalty += penalty
             totalQuantity += qty
         Next
+
         If totalPenaltyLabel IsNot Nothing Then
             totalPenaltyLabel.Text = "Total Penalty: ₱" & totalPenalty.ToString("N2")
         End If
     End Sub
 
+
     Private Sub btnOK_Click(ByVal sender As Object, ByVal e As EventArgs)
+        For i As Integer = 0 To conditionComboBoxes.Count - 1
+            If conditionComboBoxes(i).SelectedItem.ToString() <> "Normal" AndAlso penaltyAmountControls(i).Value = 0 Then
+                MessageBox.Show("Please set penalty amount for " & conditionComboBoxes(i).SelectedItem.ToString() & " book: " & bookTitles(i), "Penalty Required", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Return
+            End If
+        Next
+
         Me.DialogResult = DialogResult.OK
         Me.Close()
     End Sub
@@ -197,13 +289,17 @@ Public Class PartialReturnForm
         container.Controls.Clear()
         Dim titleHeader As New Label With {.Text = "Book Details", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(10, 5), .AutoSize = True}
         container.Controls.Add(titleHeader)
-        Dim copiesHeader As New Label With {.Text = "Copies Status", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(270, 5), .AutoSize = True}
+        Dim copiesHeader As New Label With {.Text = "Copies Status", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(220, 5), .AutoSize = True}
         container.Controls.Add(copiesHeader)
-        Dim returnHeader As New Label With {.Text = "Return Qty", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(400, 5), .AutoSize = True}
+        Dim returnHeader As New Label With {.Text = "Return Qty", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(320, 5), .AutoSize = True}
         container.Controls.Add(returnHeader)
-        Dim penaltyHeader As New Label With {.Text = "Penalty", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(480, 5), .AutoSize = True}
+        Dim conditionHeader As New Label With {.Text = "Condition", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(395, 5), .AutoSize = True}
+        container.Controls.Add(conditionHeader)
+        Dim penaltyAmountHeader As New Label With {.Text = "Penalty Amount", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(470, 5), .AutoSize = True}
+        container.Controls.Add(penaltyAmountHeader)
+        Dim penaltyHeader As New Label With {.Text = "Overdue Penalty", .Font = New Font("Segoe UI", 9, FontStyle.Bold), .ForeColor = Color.FromArgb(70, 70, 70), .Location = New Point(580, 5), .AutoSize = True}
         container.Controls.Add(penaltyHeader)
-        Dim separator As New Label With {.BorderStyle = BorderStyle.Fixed3D, .Height = 2, .Width = 630, .Location = New Point(0, 25)}
+        Dim separator As New Label With {.BorderStyle = BorderStyle.Fixed3D, .Height = 2, .Width = 730, .Location = New Point(0, 25)}
         container.Controls.Add(separator)
     End Sub
 
@@ -219,7 +315,7 @@ Public Class PartialReturnForm
         For i As Integer = 0 To bookPanels.Count - 1
             For Each ctrl As Control In bookPanels(i).Controls
                 If TypeOf ctrl Is Label AndAlso ctrl.Tag IsNot Nothing AndAlso ctrl.Tag.ToString() = "Title" Then
-                    ctrl.MaximumSize = New Size(Me.ClientSize.Width - 300, 40)
+                    ctrl.MaximumSize = New Size(Me.ClientSize.Width - 400, 40)
                 End If
             Next
         Next

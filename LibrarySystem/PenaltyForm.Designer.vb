@@ -34,6 +34,7 @@ Partial Class PenaltyForm
         Me.ViewAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.MarkAsUnpaidToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SwitchViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.dgvPenalty, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,7 +90,7 @@ Partial Class PenaltyForm
         '
         'MenuToolStripMenuItem
         '
-        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MarkAsPaidToolStripMenuItem, Me.ViewPaidToolStripMenuItem, Me.ViewUnpaidToolStripMenuItem, Me.ViewAllToolStripMenuItem, Me.SearchToolStripMenuItem, Me.RefreshToolStripMenuItem})
+        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MarkAsPaidToolStripMenuItem, Me.ViewPaidToolStripMenuItem, Me.ViewUnpaidToolStripMenuItem, Me.ViewAllToolStripMenuItem, Me.SearchToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.MarkAsUnpaidToolStripMenuItem})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
         Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
         Me.MenuToolStripMenuItem.Text = "Menu"
@@ -144,6 +145,12 @@ Partial Class PenaltyForm
         Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(329, 30)
         Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
+        'MarkAsUnpaidToolStripMenuItem
+        '
+        Me.MarkAsUnpaidToolStripMenuItem.Name = "MarkAsUnpaidToolStripMenuItem"
+        Me.MarkAsUnpaidToolStripMenuItem.Size = New System.Drawing.Size(329, 30)
+        Me.MarkAsUnpaidToolStripMenuItem.Text = "Mark As Unpaid"
+        '
         'SwitchViewToolStripMenuItem
         '
         Me.SwitchViewToolStripMenuItem.Image = CType(resources.GetObject("SwitchViewToolStripMenuItem.Image"), System.Drawing.Image)
@@ -190,4 +197,5 @@ Partial Class PenaltyForm
     Friend WithEvents ViewPaidToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ViewUnpaidToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SwitchViewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents MarkAsUnpaidToolStripMenuItem As ToolStripMenuItem
 End Class

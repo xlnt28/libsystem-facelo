@@ -110,11 +110,11 @@
       <DependentUpon>CrystalReport1.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CrystalReportViewerForm.Designer.vb">
-      <DependentUpon>CrystalReportViewerForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="CrystalReportViewerForm.vb">
-      <SubType>Form</SubType>
+    <Compile Include="CrystalReport2.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport2.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="History.Designer.vb">
       <DependentUpon>History.vb</DependentUpon>
@@ -216,8 +216,9 @@
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport1.vb</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="CrystalReportViewerForm.resx">
-      <DependentUpon>CrystalReportViewerForm.vb</DependentUpon>
+    <EmbeddedResource Include="CrystalReport2.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport2.vb</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="History.resx">
       <DependentUpon>History.vb</DependentUpon>

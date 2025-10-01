@@ -1,5 +1,6 @@
 ﻿Imports System.Data.OleDb
 Imports System.IO
+Imports CrystalDecisions.CrystalReports.Engine
 
 Public Class Borrow
     Private trec As Integer = 0
@@ -379,6 +380,8 @@ Public Class Borrow
 
                 MsgBox("Borrow request saved successfully!" & vbCrLf & "Borrow ID: " & borrowID & vbCrLf, MsgBoxStyle.Information)
 
+                GenerateBorrowReceipt(borrowID, selectedBooks)
+
                 isOnBorrowMode = False
                 UpdateBorrowModeUI()
                 LoadBookData()
@@ -387,6 +390,85 @@ Public Class Borrow
                 MsgBox("Failed to save borrow request. " & ex.Message, MsgBoxStyle.Critical, "Error")
             End Try
         End If
+    End Sub
+
+    Public Sub GenerateBorrowReceipt(ByVal borrowID As String, ByVal selectedBooks As Dictionary(Of String, Integer))
+        Try
+            Dim result As DialogResult = MsgBox("Do you want to generate a borrow slip receipt?",
+                                           MsgBoxStyle.YesNo + MsgBoxStyle.Question,
+                                           "Generate Receipt")
+
+            If result <> DialogResult.Yes Then
+                Return
+            End If
+
+            Dim dt As New DataTable("BorrowReceipt")
+            dt.Columns.Add("Borrow ID", GetType(String))
+            dt.Columns.Add("Book ID List", GetType(String))
+            dt.Columns.Add("Borrower Name", GetType(String))
+            dt.Columns.Add("Borrower Position", GetType(String))
+            dt.Columns.Add("Borrower Privileges", GetType(String))
+            dt.Columns.Add("Copies", GetType(String))
+            dt.Columns.Add("Borrow Date", GetType(String))
+            dt.Columns.Add("Due Date", GetType(String))
+            dt.Columns.Add("Status", GetType(String))
+            dt.Columns.Add("Return Date", GetType(String))
+            dt.Columns.Add("Current Returned", GetType(String))
+            dt.Columns.Add("Has Requested Return", GetType(String))
+            dt.Columns.Add("Request Date", GetType(String))
+
+            Dim bookIDList As String = String.Join(",", selectedBooks.Keys)
+            Dim copiesList As String = String.Join(",", selectedBooks.Values)
+            Dim currentReturnedList As String = String.Join(",", Enumerable.Repeat("0", selectedBooks.Count))
+            Dim status As String = If(xpriv = "Admin", "Borrowed", "Requested")
+
+            Dim borrowDate As String = ""
+            Dim dueDate As String = ""
+            Dim returnDate As String = ""
+            Dim requestDate As String = ""
+
+            If xpriv = "Admin" Then
+                borrowDate = dtpBorrowDate.Value.ToString("MM/dd/yyyy hh:mm tt")
+                dueDate = dtpDueDate.Value.ToString("MM/dd/yyyy hh:mm tt")
+                returnDate = DBNull.Value.ToString()
+                requestDate = DBNull.Value.ToString()
+            Else
+                borrowDate = DBNull.Value.ToString()
+                dueDate = DBNull.Value.ToString()
+                returnDate = DBNull.Value.ToString()
+                requestDate = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
+            End If
+
+            dt.Rows.Add(
+            borrowID,
+            bookIDList,
+            txtName.Text,
+            xpost,
+            xpriv,
+            copiesList,
+            borrowDate,
+            dueDate,
+            status,
+            returnDate,
+            currentReturnedList,
+            "No",
+            requestDate
+        )
+
+            Dim report As New ReportDocument()
+            report.Load("C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\CrystalReport2.rpt")
+            report.SetDataSource(dt)
+
+            report.PrintToPrinter(1, False, 0, 0)
+
+            MsgBox("Borrow slip printed successfully!", MsgBoxStyle.Information, "Print Receipt")
+
+            report.Close()
+            report.Dispose()
+
+        Catch ex As Exception
+            MsgBox("Error generating borrow receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
     End Sub
 
     Private Sub menuAddBooks_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuAddBooks.Click

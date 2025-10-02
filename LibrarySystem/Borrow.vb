@@ -10,7 +10,6 @@ Public Class Borrow
     Public isOnBorrowMode As Boolean = False
     Private selectedBooks As New Dictionary(Of String, Integer)()
 
-
     Private Sub Borrow_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Try
             OpenDB()
@@ -200,6 +199,7 @@ Public Class Borrow
         dtpBorrowDate.Value = DateTime.Today
 
         If xpriv = "Admin" Then
+            dtpDueDate.Value = userReturnDate
             dtpDueDate.Enabled = True
             dtpBorrowDate.Enabled = True
             dtpBorrowDate.Visible = True
@@ -208,6 +208,7 @@ Public Class Borrow
             txtPendingApprovalText2.Visible = False
             Label6.Visible = True
         Else
+            dtpDueDate.Value = userReturnDate
             dtpDueDate.Enabled = False
             dtpBorrowDate.Enabled = False
             dtpBorrowDate.Visible = False
@@ -328,49 +329,49 @@ Public Class Borrow
                     OpenDB()
                 End If
 
+
                 Dim borrowID As String = GenerateBorrowID()
-                Dim bookIDList As String = String.Join(",", selectedBooks.Keys)
-                Dim quantityList As String = String.Join(",", selectedBooks.Values)
-                Dim currentReturnedList As String = String.Join(",", Enumerable.Repeat("0", selectedBooks.Count))
                 Dim status As String = If(xpriv = "Admin", "Borrowed", "Requested")
 
-                cmd = New OleDbCommand("INSERT INTO borrowings([Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Return Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+                For Each bookID As String In selectedBooks.Keys
+                    Dim quantityToBorrow As Integer = selectedBooks(bookID)
+                    Dim recordID As String = GenerateRecordID()
 
-                cmd.Parameters.AddWithValue("?", borrowID)
-                cmd.Parameters.AddWithValue("?", bookIDList)
-                cmd.Parameters.AddWithValue("?", txtName.Text)
-                cmd.Parameters.AddWithValue("?", xpost)
-                cmd.Parameters.AddWithValue("?", xpriv)
-                cmd.Parameters.AddWithValue("?", quantityList)
-                cmd.Parameters.AddWithValue("?", currentReturnedList)
+                    cmd = New OleDbCommand("INSERT INTO borrowings([Record ID], [Borrow ID], [Book ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Return Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
-                If xpriv = "User" Then
+                    cmd.Parameters.AddWithValue("?", recordID)
+                    cmd.Parameters.AddWithValue("?", borrowID)
+                    cmd.Parameters.AddWithValue("?", bookID)
+                    cmd.Parameters.AddWithValue("?", txtName.Text)
+                    cmd.Parameters.AddWithValue("?", xpost)
+                    cmd.Parameters.AddWithValue("?", xpriv)
+                    cmd.Parameters.AddWithValue("?", quantityToBorrow)
+                    cmd.Parameters.AddWithValue("?", 0)
+
+                    If xpriv = "User" Then
+                        cmd.Parameters.AddWithValue("?", DBNull.Value)
+                        cmd.Parameters.AddWithValue("?", DBNull.Value)
+                    Else
+                        Dim formattedBorrowDate As String = dtpBorrowDate.Value.ToString("MM/dd/yyyy hh:mm tt")
+                        Dim formattedDueDate As String = dtpDueDate.Value.ToString("MM/dd/yyyy hh:mm tt")
+
+                        cmd.Parameters.AddWithValue("?", formattedBorrowDate)
+                        cmd.Parameters.AddWithValue("?", formattedDueDate)
+                    End If
+
                     cmd.Parameters.AddWithValue("?", DBNull.Value)
-                    cmd.Parameters.AddWithValue("?", DBNull.Value)
-                Else
-                    Dim formattedBorrowDate As String = dtpBorrowDate.Value.ToString("MM/dd/yyyy hh:mm tt")
-                    Dim formattedDueDate As String = dtpDueDate.Value.ToString("MM/dd/yyyy hh:mm tt")
+                    cmd.Parameters.AddWithValue("?", status)
+                    cmd.Parameters.AddWithValue("?", "No")
 
-                    cmd.Parameters.AddWithValue("?", formattedBorrowDate)
-                    cmd.Parameters.AddWithValue("?", formattedDueDate)
-                End If
+                    If xpriv = "User" Then
+                        cmd.Parameters.AddWithValue("?", DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"))
+                    Else
+                        cmd.Parameters.AddWithValue("?", DBNull.Value)
+                    End If
 
-                cmd.Parameters.AddWithValue("?", DBNull.Value)
-                cmd.Parameters.AddWithValue("?", status)
-                cmd.Parameters.AddWithValue("?", "No")
+                    cmd.ExecuteNonQuery()
 
-                If xpriv = "User" Then
-                    cmd.Parameters.AddWithValue("?", DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"))
-                Else
-                    cmd.Parameters.AddWithValue("?", DBNull.Value)
-                End If
-
-                cmd.ExecuteNonQuery()
-
-                If xpriv = "Admin" Then
-                    For Each bookID As String In selectedBooks.Keys
-                        Dim quantityToBorrow As Integer = selectedBooks(bookID)
-
+                    If xpriv = "Admin" Then
                         cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
                         cmd.Parameters.AddWithValue("?", bookID)
                         Dim currentQuantity As Integer = CInt(cmd.ExecuteScalar())
@@ -381,8 +382,8 @@ Public Class Borrow
                         cmd.Parameters.AddWithValue("?", newQuantity)
                         cmd.Parameters.AddWithValue("?", bookID)
                         cmd.ExecuteNonQuery()
-                    Next
-                End If
+                    End If
+                Next
 
                 MsgBox("Borrow request saved successfully!" & vbCrLf & "Borrow ID: " & borrowID & vbCrLf, MsgBoxStyle.Information)
 
@@ -398,68 +399,105 @@ Public Class Borrow
         End If
     End Sub
 
+    Private Function GenerateRecordID() As String
+        Dim maxNumber As Integer = 0
+        Dim prefix As String = "REC-"
+
+        Try
+            If con.State <> ConnectionState.Open Then
+                OpenDB()
+            End If
+
+            cmd = New OleDbCommand("SELECT MAX([Record ID]) FROM borrowings WHERE [Record ID] LIKE '" & prefix & "%'", con)
+            Dim result As Object = cmd.ExecuteScalar()
+
+            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                Dim lastID As String = result.ToString()
+                If lastID.StartsWith(prefix) Then
+                    Dim numberPart As String = lastID.Substring(prefix.Length)
+                    If Integer.TryParse(numberPart, maxNumber) Then
+                        maxNumber += 1
+                    Else
+                        maxNumber = 1
+                    End If
+                Else
+                    maxNumber = 1
+                End If
+            Else
+                maxNumber = 1
+            End If
+
+            Return prefix & maxNumber.ToString("D5")
+        Catch ex As Exception
+            Return prefix & "00001"
+        End Try
+    End Function
+
     Public Sub GenerateBorrowReceipt(ByVal borrowID As String, ByVal selectedBooks As Dictionary(Of String, Integer))
         Try
             Dim result As DialogResult = MsgBox("Do you want to generate a borrow slip receipt?",
-                                           MsgBoxStyle.YesNo + MsgBoxStyle.Question,
-                                           "Generate Receipt")
+                                       MsgBoxStyle.YesNo + MsgBoxStyle.Question,
+                                       "Generate Receipt")
 
             If result <> DialogResult.Yes Then
                 Return
             End If
 
             Dim dt As New DataTable("BorrowReceipt")
+            dt.Columns.Add("Record ID", GetType(String))
             dt.Columns.Add("Borrow ID", GetType(String))
-            dt.Columns.Add("Book ID List", GetType(String))
+            dt.Columns.Add("Book ID", GetType(String))
             dt.Columns.Add("Borrower Name", GetType(String))
             dt.Columns.Add("Borrower Position", GetType(String))
             dt.Columns.Add("Borrower Privileges", GetType(String))
-            dt.Columns.Add("Copies", GetType(String))
+            dt.Columns.Add("Copies", GetType(Integer))
             dt.Columns.Add("Borrow Date", GetType(String))
             dt.Columns.Add("Due Date", GetType(String))
             dt.Columns.Add("Status", GetType(String))
             dt.Columns.Add("Return Date", GetType(String))
-            dt.Columns.Add("Current Returned", GetType(String))
+            dt.Columns.Add("Current Returned", GetType(Integer))
             dt.Columns.Add("Has Requested Return", GetType(String))
             dt.Columns.Add("Request Date", GetType(String))
 
-            Dim bookIDList As String = String.Join(",", selectedBooks.Keys)
-            Dim copiesList As String = String.Join(",", selectedBooks.Values)
-            Dim currentReturnedList As String = String.Join(",", Enumerable.Repeat("0", selectedBooks.Count))
             Dim status As String = If(xpriv = "Admin", "Borrowed", "Requested")
 
-            Dim borrowDate As String = ""
-            Dim dueDate As String = ""
-            Dim returnDate As String = ""
-            Dim requestDate As String = ""
+            For Each bookID As String In selectedBooks.Keys
+                Dim quantityToBorrow As Integer = selectedBooks(bookID)
+                Dim recordID As String = GenerateRecordID()
+                Dim borrowDate As String = ""
+                Dim dueDate As String = ""
+                Dim returnDate As String = ""
+                Dim requestDate As String = ""
 
-            If xpriv = "Admin" Then
-                borrowDate = dtpBorrowDate.Value.ToString("MM/dd/yyyy hh:mm tt")
-                dueDate = dtpDueDate.Value.ToString("MM/dd/yyyy hh:mm tt")
-                returnDate = DBNull.Value.ToString()
-                requestDate = DBNull.Value.ToString()
-            Else
-                borrowDate = DBNull.Value.ToString()
-                dueDate = DBNull.Value.ToString()
-                returnDate = DBNull.Value.ToString()
-                requestDate = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
-            End If
+                If xpriv = "Admin" Then
+                    borrowDate = dtpBorrowDate.Value.ToString("MM/dd/yyyy hh:mm tt")
+                    dueDate = dtpDueDate.Value.ToString("MM/dd/yyyy hh:mm tt")
+                    returnDate = DBNull.Value.ToString()
+                    requestDate = DBNull.Value.ToString()
+                Else
+                    borrowDate = DBNull.Value.ToString()
+                    dueDate = DBNull.Value.ToString()
+                    returnDate = DBNull.Value.ToString()
+                    requestDate = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
+                End If
 
-            dt.Rows.Add(
-            borrowID,
-            bookIDList,
-            txtName.Text,
-            xpost,
-            xpriv,
-            copiesList,
-            borrowDate,
-            dueDate,
-            status,
-            returnDate,
-            currentReturnedList,
-            "No",
-            requestDate
-        )
+                dt.Rows.Add(
+                recordID,
+                borrowID,
+                bookID,
+                txtName.Text,
+                xpost,
+                xpriv,
+                quantityToBorrow,
+                borrowDate,
+                dueDate,
+                status,
+                returnDate,
+                0,
+                "No",
+                requestDate
+            )
+            Next
 
             Dim report As New ReportDocument()
             report.Load("C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\CrystalReport2.rpt")
@@ -568,12 +606,12 @@ Public Class Borrow
                 OpenDB()
             End If
 
-            cmd = New OleDbCommand("SELECT [Book ID], [ISBN], [Title], [Author], [Publisher], " & _
-                                  "[Publication Year], [Category], [Quantity], " & _
-                                  "IIF(Val([Quantity]) > 0, 'Available', 'Unavailable') AS [Status] " & _
-                                  "FROM books WHERE ([Title] LIKE ? OR " & _
-                                  "[Book ID] LIKE ? OR " & _
-                                  "[ISBN] LIKE ? OR " & _
+            cmd = New OleDbCommand("SELECT [Book ID], [ISBN], [Title], [Author], [Publisher], " &
+                                  "[Publication Year], [Category], [Quantity], " &
+                                  "IIF(Val([Quantity]) > 0, 'Available', 'Unavailable') AS [Status] " &
+                                  "FROM books WHERE ([Title] LIKE ? OR " &
+                                  "[Book ID] LIKE ? OR " &
+                                  "[ISBN] LIKE ? OR " &
                                   "[Author] LIKE ?)", con)
 
             cmd.Parameters.AddWithValue("?", "%" & searchTerm & "%")
@@ -623,9 +661,9 @@ Public Class Borrow
                 OpenDB()
             End If
 
-            Dim sql As String = "SELECT [Book ID], [ISBN], [Title], [Author], [Publisher], " & _
-                              "[Publication Year], [Category], [Quantity], " & _
-                              "IIF(Val([Quantity]) > 0, 'Available', 'Unavailable') AS [Status] " & _
+            Dim sql As String = "SELECT [Book ID], [ISBN], [Title], [Author], [Publisher], " &
+                              "[Publication Year], [Category], [Quantity], " &
+                              "IIF(Val([Quantity]) > 0, 'Available', 'Unavailable') AS [Status] " &
                               "FROM books"
 
             If Not String.IsNullOrEmpty(category) Then

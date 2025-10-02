@@ -476,7 +476,7 @@ Public Class Borrow
             Dim report As New ReportDocument()
 
             Dim reportPath As String = System.IO.Path.Combine(Application.StartupPath, "CrystalReport2.rpt")
-            report.Load(reportPath)
+            report.Load("C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\CrystalReport2.rpt")
 
             report.SetDataSource(dt)
 

@@ -637,16 +637,8 @@ Public Class BorrowPendingRequest
         Return DateTime.Now.AddDays(7)
     End Function
 
-
-    Private Sub GenerateBorrowReceipt(ByVal selectedRequests As List(Of String))
+    Private Sub GenerateBorrowReceipt(selectedBorrowIDs As List(Of String))
         Try
-            Dim result As DialogResult = MsgBox("Do you want to generate borrow slip receipts?",
-            MsgBoxStyle.YesNo + MsgBoxStyle.Question,
-            "Generate Receipts")
-            If result <> DialogResult.Yes Then
-                Return
-            End If
-
             Dim dt As New DataTable("BorrowReceipt")
             dt.Columns.Add("Borrow ID", GetType(String))
             dt.Columns.Add("Book ID", GetType(String))
@@ -662,57 +654,83 @@ Public Class BorrowPendingRequest
             dt.Columns.Add("Has Requested Return", GetType(String))
             dt.Columns.Add("Request Date", GetType(String))
 
-            For Each borrowID As String In selectedRequests
-                Dim row As DataGridViewRow = GetRowByBorrowID(borrowID)
-                If row IsNot Nothing Then
-                    Dim bookID As String = If(row.Cells("Book ID").Value IsNot Nothing, row.Cells("Book ID").Value.ToString(), "")
-                    Dim userID As String = If(row.Cells("User ID").Value IsNot Nothing, row.Cells("User ID").Value.ToString(), "")
-                    Dim borrowerName As String = If(row.Cells("Borrower Name").Value IsNot Nothing, row.Cells("Borrower Name").Value.ToString(), "")
-                    Dim borrowerPosition As String = If(row.Cells("Borrower Position").Value IsNot Nothing, row.Cells("Borrower Position").Value.ToString(), "")
-                    Dim borrowerPrivileges As String = If(row.Cells("Borrower Privileges").Value IsNot Nothing, row.Cells("Borrower Privileges").Value.ToString(), "")
-                    Dim copies As Integer = If(row.Cells("Copies").Value IsNot Nothing, Integer.Parse(row.Cells("Copies").Value.ToString()), 0)
-                    Dim requestDate As String = If(row.Cells("Request Date").Value IsNot Nothing, row.Cells("Request Date").Value.ToString(), "")
-
-                    Dim currentDate As DateTime = DateTime.Now
-                    Dim dueDate As DateTime = GetUserReturnDate()
-
-                    Dim borrowDate As String = currentDate.ToString("MM/dd/yyyy")
-                    Dim formattedDueDate As String = dueDate.ToString("MM/dd/yyyy")
-
-                    dt.Rows.Add(
-                        borrowID,
-                        bookID,
-                        userID,
-                        borrowerName,
-                        borrowerPosition,
-                        borrowerPrivileges,
-                        copies,
-                        borrowDate,
-                        formattedDueDate,
-                        "Borrowed",
-                        0,
-                        "No",
-                        requestDate
-                    )
-                End If
+            For Each borrowID As String In selectedBorrowIDs
+                Dim query As String = "SELECT [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Status], [Current Returned], [Has Requested Return], [Request Date] FROM borrowings WHERE [Borrow ID] = ?"
+                Using cmd As New OleDbCommand(query, con)
+                    cmd.Parameters.AddWithValue("?", borrowID)
+                    Using reader As OleDbDataReader = cmd.ExecuteReader()
+                        If reader.Read() Then
+                            dt.Rows.Add(
+                            reader("Borrow ID").ToString(),
+                            reader("Book ID").ToString(),
+                            reader("User ID").ToString(),
+                            reader("Borrower Name").ToString(),
+                            reader("Borrower Position").ToString(),
+                            reader("Borrower Privileges").ToString(),
+                            If(IsDBNull(reader("Copies")), 0, Convert.ToInt32(reader("Copies"))),
+                            If(IsDBNull(reader("Borrow Date")), "", Convert.ToDateTime(reader("Borrow Date")).ToString("MM/dd/yyyy")),
+                            If(IsDBNull(reader("Due Date")), "", Convert.ToDateTime(reader("Due Date")).ToString("MM/dd/yyyy")),
+                            reader("Status").ToString(),
+                            If(IsDBNull(reader("Current Returned")), 0, Convert.ToInt32(reader("Current Returned"))),
+                            reader("Has Requested Return").ToString(),
+                            If(IsDBNull(reader("Request Date")), "", Convert.ToDateTime(reader("Request Date")).ToString("MM/dd/yyyy"))
+                        )
+                        End If
+                    End Using
+                End Using
             Next
 
             Dim report As New ReportDocument()
+            Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CrystalReport2.rpt")
 
-            Dim reportPath As String = System.IO.Path.Combine(Application.StartupPath, "CrystalReport2.rpt")
+            If Not File.Exists(reportPath) Then
+                MsgBox("Report not found: " & reportPath, MsgBoxStyle.Critical, "Error")
+                Return
+            End If
+
             report.Load(reportPath)
-
             report.SetDataSource(dt)
-
             report.PrintToPrinter(1, False, 0, 0)
 
-            MsgBox("Borrow slips printed successfully!", MsgBoxStyle.Information, "Print Receipts")
-
-            report.Close()
-            report.Dispose()
+            MsgBox("Borrow receipts printed successfully!", MsgBoxStyle.Information, "Print")
 
         Catch ex As Exception
-            MsgBox("Error generating borrow receipts: " + ex.Message, MsgBoxStyle.Critical, "Error")
+            MsgBox("Error generating borrow receipts: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
+
+
+    Private Function GenerateBorrowID() As String
+        Dim maxNumber As Integer = 0
+        Dim prefix As String = "BR-"
+
+        Try
+            If con.State <> ConnectionState.Open Then
+                OpenDB()
+            End If
+
+            cmd = New OleDbCommand("SELECT MAX([Borrow ID]) FROM borrowings WHERE [Borrow ID] LIKE '" & prefix & "%'", con)
+            Dim result As Object = cmd.ExecuteScalar()
+
+            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                Dim lastID As String = result.ToString()
+                If lastID.StartsWith(prefix) Then
+                    Dim numberPart As String = lastID.Substring(prefix.Length)
+                    If Integer.TryParse(numberPart, maxNumber) Then
+                        maxNumber += 1
+                    Else
+                        maxNumber = 1
+                    End If
+                Else
+                    maxNumber = 1
+                End If
+            Else
+                maxNumber = 1
+            End If
+
+            Return prefix & maxNumber.ToString("D5")
+        Catch ex As Exception
+            Return prefix & "00001"
+        End Try
+    End Function
 End Class

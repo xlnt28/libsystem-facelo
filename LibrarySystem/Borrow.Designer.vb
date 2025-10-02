@@ -22,8 +22,8 @@ Partial Class Borrow
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Borrow))
         Me.bookdgv = New System.Windows.Forms.DataGridView()
         Me.pbBookImage = New System.Windows.Forms.PictureBox()
@@ -80,6 +80,7 @@ Partial Class Borrow
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
+        Me.txtPendingApprovalText2 = New System.Windows.Forms.TextBox()
         CType(Me.bookdgv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbBookImage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudCopies, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -100,24 +101,24 @@ Partial Class Borrow
         Me.bookdgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.bookdgv.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.bookdgv.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.bookdgv.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.bookdgv.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.bookdgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.bookdgv.Cursor = System.Windows.Forms.Cursors.Hand
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.RoyalBlue
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.WhiteSmoke
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.bookdgv.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.WhiteSmoke
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.bookdgv.DefaultCellStyle = DataGridViewCellStyle4
         Me.bookdgv.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.bookdgv.GridColor = System.Drawing.Color.Gainsboro
         Me.bookdgv.Location = New System.Drawing.Point(0, 439)
@@ -376,7 +377,7 @@ Partial Class Borrow
         '
         Me.ChangeBorrowerToolStripMenuItem.Name = "ChangeBorrowerToolStripMenuItem"
         Me.ChangeBorrowerToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-                    Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
+            Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
         Me.ChangeBorrowerToolStripMenuItem.Size = New System.Drawing.Size(349, 30)
         Me.ChangeBorrowerToolStripMenuItem.Text = "Change Borrower"
         '
@@ -465,6 +466,7 @@ Partial Class Borrow
         '
         Me.Panel4.BackColor = System.Drawing.Color.Beige
         Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel4.Controls.Add(Me.txtPendingApprovalText2)
         Me.Panel4.Controls.Add(Me.txtPendingApprovalText)
         Me.Panel4.Controls.Add(Me.Label13)
         Me.Panel4.Controls.Add(Me.Label1)
@@ -581,6 +583,7 @@ Partial Class Borrow
         '
         'rtxtSelectedBooks
         '
+        Me.rtxtSelectedBooks.Enabled = False
         Me.rtxtSelectedBooks.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rtxtSelectedBooks.Location = New System.Drawing.Point(430, 24)
         Me.rtxtSelectedBooks.Name = "rtxtSelectedBooks"
@@ -663,6 +666,17 @@ Partial Class Borrow
         Me.Label11.TabIndex = 58
         Me.Label11.Text = "Book Information"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'txtPendingApprovalText2
+        '
+        Me.txtPendingApprovalText2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtPendingApprovalText2.Enabled = False
+        Me.txtPendingApprovalText2.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPendingApprovalText2.Location = New System.Drawing.Point(31, 144)
+        Me.txtPendingApprovalText2.Name = "txtPendingApprovalText2"
+        Me.txtPendingApprovalText2.Size = New System.Drawing.Size(367, 35)
+        Me.txtPendingApprovalText2.TabIndex = 59
+        Me.txtPendingApprovalText2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Borrow
         '
@@ -753,4 +767,5 @@ Partial Class Borrow
     Friend WithEvents menuRemoveBook As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ChangeBorrowerToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents txtPendingApprovalText As System.Windows.Forms.TextBox
+    Friend WithEvents txtPendingApprovalText2 As TextBox
 End Class

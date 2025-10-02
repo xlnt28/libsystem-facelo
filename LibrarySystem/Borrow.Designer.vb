@@ -64,6 +64,7 @@ Partial Class Borrow
         Me.FormToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuMainForm = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.txtPendingApprovalText2 = New System.Windows.Forms.TextBox()
         Me.txtPendingApprovalText = New System.Windows.Forms.TextBox()
         Me.Label13 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
@@ -80,7 +81,6 @@ Partial Class Borrow
         Me.Label15 = New System.Windows.Forms.Label()
         Me.Label12 = New System.Windows.Forms.Label()
         Me.Label11 = New System.Windows.Forms.Label()
-        Me.txtPendingApprovalText2 = New System.Windows.Forms.TextBox()
         CType(Me.bookdgv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbBookImage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudCopies, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -482,6 +482,17 @@ Partial Class Borrow
         Me.Panel4.Size = New System.Drawing.Size(426, 313)
         Me.Panel4.TabIndex = 50
         '
+        'txtPendingApprovalText2
+        '
+        Me.txtPendingApprovalText2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtPendingApprovalText2.Enabled = False
+        Me.txtPendingApprovalText2.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPendingApprovalText2.Location = New System.Drawing.Point(31, 144)
+        Me.txtPendingApprovalText2.Name = "txtPendingApprovalText2"
+        Me.txtPendingApprovalText2.Size = New System.Drawing.Size(367, 35)
+        Me.txtPendingApprovalText2.TabIndex = 59
+        Me.txtPendingApprovalText2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'txtPendingApprovalText
         '
         Me.txtPendingApprovalText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
@@ -508,7 +519,7 @@ Partial Class Borrow
         '
         Me.Label9.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.ForeColor = System.Drawing.Color.Black
-        Me.Label9.Location = New System.Drawing.Point(-1, 35)
+        Me.Label9.Location = New System.Drawing.Point(-1, 54)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(426, 25)
         Me.Label9.TabIndex = 13
@@ -519,7 +530,7 @@ Partial Class Borrow
         '
         Me.txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.txtName.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtName.Location = New System.Drawing.Point(31, 81)
+        Me.txtName.Location = New System.Drawing.Point(31, 82)
         Me.txtName.Name = "txtName"
         Me.txtName.Size = New System.Drawing.Size(367, 35)
         Me.txtName.TabIndex = 44
@@ -666,17 +677,6 @@ Partial Class Borrow
         Me.Label11.TabIndex = 58
         Me.Label11.Text = "Book Information"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'txtPendingApprovalText2
-        '
-        Me.txtPendingApprovalText2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtPendingApprovalText2.Enabled = False
-        Me.txtPendingApprovalText2.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPendingApprovalText2.Location = New System.Drawing.Point(31, 144)
-        Me.txtPendingApprovalText2.Name = "txtPendingApprovalText2"
-        Me.txtPendingApprovalText2.Size = New System.Drawing.Size(367, 35)
-        Me.txtPendingApprovalText2.TabIndex = 59
-        Me.txtPendingApprovalText2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Borrow
         '

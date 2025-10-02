@@ -316,62 +316,75 @@ Public Class Borrow
                 Return
             End If
 
-            If xpriv = "Admin" Then
-                If dtpDueDate.Value < dtpBorrowDate.Value Then
-                    MsgBox("Return date cannot be before borrow date.", MsgBoxStyle.Exclamation)
-                    dtpDueDate.Focus()
-                    Return
-                End If
-            End If
+            Dim userID As String = ""
+            Dim userPosition As String = ""
+            Dim userPrivileges As String = ""
 
             Try
                 If con.State <> ConnectionState.Open Then
                     OpenDB()
                 End If
 
+                cmd = New OleDbCommand("SELECT [User ID], [Position], [Privileges] FROM tbluser WHERE [User Name] = ?", con)
+                cmd.Parameters.AddWithValue("?", txtName.Text)
+                Dim reader As OleDbDataReader = cmd.ExecuteReader()
 
-                Dim borrowID As String = GenerateBorrowID()
-                Dim status As String = If(xpriv = "Admin", "Borrowed", "Requested")
+                If reader.Read() Then
+                    userID = reader("User ID").ToString()
+                    userPosition = reader("Position").ToString()
+                    userPrivileges = reader("Privileges").ToString()
+                Else
+                    MsgBox("Borrower not found in user table.", MsgBoxStyle.Exclamation)
+                    reader.Close()
+                    Return
+                End If
+                reader.Close()
+            Catch ex As Exception
+                MsgBox("Error retrieving user data: " & ex.Message, MsgBoxStyle.Critical, "Error")
+                Return
+            End Try
+
+            Try
+                Dim status As String = If(userPrivileges = "Admin", "Borrowed", "Requested")
 
                 For Each bookID As String In selectedBooks.Keys
                     Dim quantityToBorrow As Integer = selectedBooks(bookID)
-                    Dim recordID As String = GenerateRecordID()
+                    Dim borrowID As String = GenerateBorrowID()
 
-                    cmd = New OleDbCommand("INSERT INTO borrowings([Record ID], [Borrow ID], [Book ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Return Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+                    cmd = New OleDbCommand("INSERT INTO borrowings([Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
-                    cmd.Parameters.AddWithValue("?", recordID)
                     cmd.Parameters.AddWithValue("?", borrowID)
                     cmd.Parameters.AddWithValue("?", bookID)
+                    cmd.Parameters.AddWithValue("?", userID)
                     cmd.Parameters.AddWithValue("?", txtName.Text)
-                    cmd.Parameters.AddWithValue("?", xpost)
-                    cmd.Parameters.AddWithValue("?", xpriv)
+                    cmd.Parameters.AddWithValue("?", userPosition)
+                    cmd.Parameters.AddWithValue("?", userPrivileges)
                     cmd.Parameters.AddWithValue("?", quantityToBorrow)
                     cmd.Parameters.AddWithValue("?", 0)
 
-                    If xpriv = "User" Then
+                    If userPrivileges = "User" Then
                         cmd.Parameters.AddWithValue("?", DBNull.Value)
                         cmd.Parameters.AddWithValue("?", DBNull.Value)
                     Else
-                        Dim formattedBorrowDate As String = dtpBorrowDate.Value.ToString("MM/dd/yyyy hh:mm tt")
-                        Dim formattedDueDate As String = dtpDueDate.Value.ToString("MM/dd/yyyy hh:mm tt")
+                        Dim formattedBorrowDate As String = dtpBorrowDate.Value.ToString("MM/dd/yyyy")
+                        Dim formattedDueDate As String = dtpDueDate.Value.ToString("MM/dd/yyyy")
 
                         cmd.Parameters.AddWithValue("?", formattedBorrowDate)
                         cmd.Parameters.AddWithValue("?", formattedDueDate)
                     End If
 
-                    cmd.Parameters.AddWithValue("?", DBNull.Value)
                     cmd.Parameters.AddWithValue("?", status)
                     cmd.Parameters.AddWithValue("?", "No")
 
-                    If xpriv = "User" Then
-                        cmd.Parameters.AddWithValue("?", DateTime.Now.ToString("MM/dd/yyyy hh:mm tt"))
+                    If userPrivileges = "User" Then
+                        cmd.Parameters.AddWithValue("?", DateTime.Now.ToString("MM/dd/yyyy"))
                     Else
                         cmd.Parameters.AddWithValue("?", DBNull.Value)
                     End If
 
                     cmd.ExecuteNonQuery()
 
-                    If xpriv = "Admin" Then
+                    If userPrivileges = "Admin" Then
                         cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
                         cmd.Parameters.AddWithValue("?", bookID)
                         Dim currentQuantity As Integer = CInt(cmd.ExecuteScalar())
@@ -382,12 +395,12 @@ Public Class Borrow
                         cmd.Parameters.AddWithValue("?", newQuantity)
                         cmd.Parameters.AddWithValue("?", bookID)
                         cmd.ExecuteNonQuery()
+
+                        GenerateBorrowReceipt(selectedBooks, userID, txtName.Text, userPosition, userPrivileges)
                     End If
                 Next
 
-                MsgBox("Borrow request saved successfully!" & vbCrLf & "Borrow ID: " & borrowID & vbCrLf, MsgBoxStyle.Information)
-
-                GenerateBorrowReceipt(borrowID, selectedBooks)
+                MsgBox("Borrow request saved successfully!" & vbCrLf & "Multiple borrow records created.", MsgBoxStyle.Information)
 
                 isOnBorrowMode = False
                 UpdateBorrowModeUI()
@@ -399,54 +412,20 @@ Public Class Borrow
         End If
     End Sub
 
-    Private Function GenerateRecordID() As String
-        Dim maxNumber As Integer = 0
-        Dim prefix As String = "REC-"
-
+    Private Sub GenerateBorrowReceipt(ByVal selectedBooks As Dictionary(Of String, Integer), ByVal userID As String, ByVal userName As String, ByVal userPosition As String, ByVal userPrivileges As String)
         Try
-            If con.State <> ConnectionState.Open Then
-                OpenDB()
-            End If
-
-            cmd = New OleDbCommand("SELECT MAX([Record ID]) FROM borrowings WHERE [Record ID] LIKE '" & prefix & "%'", con)
-            Dim result As Object = cmd.ExecuteScalar()
-
-            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
-                Dim lastID As String = result.ToString()
-                If lastID.StartsWith(prefix) Then
-                    Dim numberPart As String = lastID.Substring(prefix.Length)
-                    If Integer.TryParse(numberPart, maxNumber) Then
-                        maxNumber += 1
-                    Else
-                        maxNumber = 1
-                    End If
-                Else
-                    maxNumber = 1
-                End If
-            Else
-                maxNumber = 1
-            End If
-
-            Return prefix & maxNumber.ToString("D5")
-        Catch ex As Exception
-            Return prefix & "00001"
-        End Try
-    End Function
-
-    Public Sub GenerateBorrowReceipt(ByVal borrowID As String, ByVal selectedBooks As Dictionary(Of String, Integer))
-        Try
-            Dim result As DialogResult = MsgBox("Do you want to generate a borrow slip receipt?",
-                                       MsgBoxStyle.YesNo + MsgBoxStyle.Question,
-                                       "Generate Receipt")
+            Dim result As DialogResult = MsgBox("Do you want to generate borrow slip receipts?",
+                               MsgBoxStyle.YesNo + MsgBoxStyle.Question,
+                               "Generate Receipts")
 
             If result <> DialogResult.Yes Then
                 Return
             End If
 
             Dim dt As New DataTable("BorrowReceipt")
-            dt.Columns.Add("Record ID", GetType(String))
             dt.Columns.Add("Borrow ID", GetType(String))
             dt.Columns.Add("Book ID", GetType(String))
+            dt.Columns.Add("User ID", GetType(String))
             dt.Columns.Add("Borrower Name", GetType(String))
             dt.Columns.Add("Borrower Position", GetType(String))
             dt.Columns.Add("Borrower Privileges", GetType(String))
@@ -454,45 +433,40 @@ Public Class Borrow
             dt.Columns.Add("Borrow Date", GetType(String))
             dt.Columns.Add("Due Date", GetType(String))
             dt.Columns.Add("Status", GetType(String))
-            dt.Columns.Add("Return Date", GetType(String))
             dt.Columns.Add("Current Returned", GetType(Integer))
             dt.Columns.Add("Has Requested Return", GetType(String))
             dt.Columns.Add("Request Date", GetType(String))
 
-            Dim status As String = If(xpriv = "Admin", "Borrowed", "Requested")
+            Dim status As String = If(userPrivileges = "Admin", "Borrowed", "Requested")
 
             For Each bookID As String In selectedBooks.Keys
                 Dim quantityToBorrow As Integer = selectedBooks(bookID)
-                Dim recordID As String = GenerateRecordID()
+                Dim borrowID As String = GenerateBorrowID()
                 Dim borrowDate As String = ""
                 Dim dueDate As String = ""
-                Dim returnDate As String = ""
                 Dim requestDate As String = ""
 
-                If xpriv = "Admin" Then
-                    borrowDate = dtpBorrowDate.Value.ToString("MM/dd/yyyy hh:mm tt")
-                    dueDate = dtpDueDate.Value.ToString("MM/dd/yyyy hh:mm tt")
-                    returnDate = DBNull.Value.ToString()
+                If userPrivileges = "Admin" Then
+                    borrowDate = dtpBorrowDate.Value.ToString("MM/dd/yyyy")
+                    dueDate = dtpDueDate.Value.ToString("MM/dd/yyyy")
                     requestDate = DBNull.Value.ToString()
                 Else
                     borrowDate = DBNull.Value.ToString()
                     dueDate = DBNull.Value.ToString()
-                    returnDate = DBNull.Value.ToString()
-                    requestDate = DateTime.Now.ToString("MM/dd/yyyy hh:mm tt")
+                    requestDate = DateTime.Now.ToString("MM/dd/yyyy")
                 End If
 
                 dt.Rows.Add(
-                recordID,
                 borrowID,
                 bookID,
-                txtName.Text,
-                xpost,
-                xpriv,
+                userID,
+                userName,
+                userPosition,
+                userPrivileges,
                 quantityToBorrow,
                 borrowDate,
                 dueDate,
                 status,
-                returnDate,
                 0,
                 "No",
                 requestDate
@@ -500,20 +474,24 @@ Public Class Borrow
             Next
 
             Dim report As New ReportDocument()
-            report.Load("C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\CrystalReport2.rpt")
+
+            Dim reportPath As String = System.IO.Path.Combine(Application.StartupPath, "CrystalReport2.rpt")
+            report.Load(reportPath)
+
             report.SetDataSource(dt)
 
             report.PrintToPrinter(1, False, 0, 0)
 
-            MsgBox("Borrow slip printed successfully!", MsgBoxStyle.Information, "Print Receipt")
+            MsgBox("Borrow slips printed successfully!", MsgBoxStyle.Information, "Print Receipts")
 
             report.Close()
             report.Dispose()
 
         Catch ex As Exception
-            MsgBox("Error generating borrow receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            MsgBox("Error generating borrow receipts: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
+
 
     Private Sub menuAddBooks_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuAddBooks.Click
         If Not isOnBorrowMode Then

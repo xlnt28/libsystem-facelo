@@ -23,15 +23,17 @@ Partial Class BorrowPendingRequest
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(BorrowPendingRequest))
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.FunctionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ApproveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RejectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.dg = New System.Windows.Forms.DataGridView()
+        Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.dg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -55,7 +57,7 @@ Partial Class BorrowPendingRequest
         '
         'FunctionToolStripMenuItem
         '
-        Me.FunctionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApproveToolStripMenuItem, Me.RejectToolStripMenuItem, Me.ViewDetailsToolStripMenuItem})
+        Me.FunctionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApproveToolStripMenuItem, Me.RejectToolStripMenuItem, Me.ViewDetailsToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.SearchToolStripMenuItem})
         Me.FunctionToolStripMenuItem.Name = "FunctionToolStripMenuItem"
         Me.FunctionToolStripMenuItem.Size = New System.Drawing.Size(97, 29)
         Me.FunctionToolStripMenuItem.Text = "Function"
@@ -65,7 +67,7 @@ Partial Class BorrowPendingRequest
         Me.ApproveToolStripMenuItem.Image = CType(resources.GetObject("ApproveToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ApproveToolStripMenuItem.Name = "ApproveToolStripMenuItem"
         Me.ApproveToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-                    Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
+            Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
         Me.ApproveToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
         Me.ApproveToolStripMenuItem.Text = "Approve"
         '
@@ -74,7 +76,7 @@ Partial Class BorrowPendingRequest
         Me.RejectToolStripMenuItem.Image = CType(resources.GetObject("RejectToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RejectToolStripMenuItem.Name = "RejectToolStripMenuItem"
         Me.RejectToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.RejectToolStripMenuItem.Size = New System.Drawing.Size(273, 30)
+        Me.RejectToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
         Me.RejectToolStripMenuItem.Text = "Decline"
         '
         'ViewDetailsToolStripMenuItem
@@ -82,9 +84,15 @@ Partial Class BorrowPendingRequest
         Me.ViewDetailsToolStripMenuItem.Image = CType(resources.GetObject("ViewDetailsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ViewDetailsToolStripMenuItem.Name = "ViewDetailsToolStripMenuItem"
         Me.ViewDetailsToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-                    Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
+            Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
         Me.ViewDetailsToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
         Me.ViewDetailsToolStripMenuItem.Text = "View Details"
+        '
+        'SearchToolStripMenuItem
+        '
+        Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
+        Me.SearchToolStripMenuItem.Text = "Search"
         '
         'dg
         '
@@ -95,24 +103,24 @@ Partial Class BorrowPendingRequest
         Me.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dg.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.dg.BackgroundColor = System.Drawing.Color.WhiteSmoke
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dg.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle7.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dg.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle7
         Me.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dg.Cursor = System.Windows.Forms.Cursors.Cross
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.dg.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle8.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.dg.DefaultCellStyle = DataGridViewCellStyle8
         Me.dg.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dg.GridColor = System.Drawing.Color.Gainsboro
         Me.dg.Location = New System.Drawing.Point(0, 33)
@@ -123,6 +131,12 @@ Partial Class BorrowPendingRequest
         Me.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dg.Size = New System.Drawing.Size(1366, 689)
         Me.dg.TabIndex = 9
+        '
+        'RefreshToolStripMenuItem
+        '
+        Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
+        Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
         'BorrowPendingRequest
         '
@@ -151,4 +165,6 @@ Partial Class BorrowPendingRequest
     Friend WithEvents ApproveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RejectToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ViewDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents SearchToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RefreshToolStripMenuItem As ToolStripMenuItem
 End Class

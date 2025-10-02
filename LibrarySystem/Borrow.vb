@@ -304,113 +304,96 @@ Public Class Borrow
         If Not isOnBorrowMode Then
             isOnBorrowMode = True
             UpdateBorrowModeUI()
-        Else
-            If selectedBooks.Count = 0 Then
-                MsgBox("Please add at least one book to borrow.", MsgBoxStyle.Exclamation)
-                Return
-            End If
+            Return
+        End If
 
-            If String.IsNullOrWhiteSpace(txtName.Text) Then
-                MsgBox("Please enter borrower's name.", MsgBoxStyle.Exclamation)
-                txtName.Focus()
-                Return
-            End If
+        If selectedBooks.Count = 0 Then
+            MsgBox("Please add at least one book to borrow.", MsgBoxStyle.Exclamation)
+            Return
+        End If
 
-            Dim userID As String = ""
-            Dim userPosition As String = ""
-            Dim userPrivileges As String = ""
+        If String.IsNullOrWhiteSpace(txtName.Text) Then
+            MsgBox("Please enter borrower's name.", MsgBoxStyle.Exclamation)
+            txtName.Focus()
+            Return
+        End If
 
-            Try
-                If con.State <> ConnectionState.Open Then
-                    OpenDB()
-                End If
+        Dim userID As String = ""
+        Dim userPosition As String = ""
+        Dim userPrivileges As String = ""
 
-                cmd = New OleDbCommand("SELECT [User ID], [Position], [Privileges] FROM tbluser WHERE [User Name] = ?", con)
-                cmd.Parameters.AddWithValue("?", txtName.Text)
-                Dim reader As OleDbDataReader = cmd.ExecuteReader()
-
-                If reader.Read() Then
-                    userID = reader("User ID").ToString()
-                    userPosition = reader("Position").ToString()
-                    userPrivileges = reader("Privileges").ToString()
-                Else
-                    MsgBox("Borrower not found in user table.", MsgBoxStyle.Exclamation)
-                    reader.Close()
-                    Return
-                End If
+        Try
+            If con.State <> ConnectionState.Open Then OpenDB()
+            cmd = New OleDbCommand("SELECT [User ID], [Position], [Privileges] FROM tbluser WHERE [User Name] = ?", con)
+            cmd.Parameters.AddWithValue("?", txtName.Text)
+            Dim reader As OleDbDataReader = cmd.ExecuteReader()
+            If reader.Read() Then
+                userID = reader("User ID").ToString()
+                userPosition = reader("Position").ToString()
+                userPrivileges = reader("Privileges").ToString()
+            Else
+                MsgBox("Borrower not found in user table.", MsgBoxStyle.Exclamation)
                 reader.Close()
-            Catch ex As Exception
-                MsgBox("Error retrieving user data: " & ex.Message, MsgBoxStyle.Critical, "Error")
                 Return
-            End Try
+            End If
+            reader.Close()
+        Catch ex As Exception
+            MsgBox("Error retrieving user data: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            Return
+        End Try
 
-            Try
+        Try
+            For Each bookID As String In selectedBooks.Keys
+                Dim quantityToBorrow As Integer = selectedBooks(bookID)
+                Dim borrowID As String = GenerateBorrowID()
                 Dim status As String = If(userPrivileges = "Admin", "Borrowed", "Requested")
 
-                For Each bookID As String In selectedBooks.Keys
-                    Dim quantityToBorrow As Integer = selectedBooks(bookID)
-                    Dim borrowID As String = GenerateBorrowID()
+                Dim borrowDate As Object = If(userPrivileges = "Admin", dtpBorrowDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
+                Dim dueDate As Object = If(userPrivileges = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
+                Dim requestDate As Object = If(userPrivileges = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
 
-                    cmd = New OleDbCommand("INSERT INTO borrowings([Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+                cmd = New OleDbCommand("INSERT INTO borrowings([Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
-                    cmd.Parameters.AddWithValue("?", borrowID)
+                cmd.Parameters.AddWithValue("?", borrowID)
+                cmd.Parameters.AddWithValue("?", bookID)
+                cmd.Parameters.AddWithValue("?", userID)
+                cmd.Parameters.AddWithValue("?", txtName.Text)
+                cmd.Parameters.AddWithValue("?", userPosition)
+                cmd.Parameters.AddWithValue("?", userPrivileges)
+                cmd.Parameters.AddWithValue("?", quantityToBorrow)
+                cmd.Parameters.AddWithValue("?", 0)
+                cmd.Parameters.AddWithValue("?", borrowDate)
+                cmd.Parameters.AddWithValue("?", dueDate)
+                cmd.Parameters.AddWithValue("?", status)
+                cmd.Parameters.AddWithValue("?", "No")
+                cmd.Parameters.AddWithValue("?", requestDate)
+
+                cmd.ExecuteNonQuery()
+
+                If userPrivileges = "Admin" Then
+                    cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
                     cmd.Parameters.AddWithValue("?", bookID)
-                    cmd.Parameters.AddWithValue("?", userID)
-                    cmd.Parameters.AddWithValue("?", txtName.Text)
-                    cmd.Parameters.AddWithValue("?", userPosition)
-                    cmd.Parameters.AddWithValue("?", userPrivileges)
-                    cmd.Parameters.AddWithValue("?", quantityToBorrow)
-                    cmd.Parameters.AddWithValue("?", 0)
-
-                    If userPrivileges = "User" Then
-                        cmd.Parameters.AddWithValue("?", DBNull.Value)
-                        cmd.Parameters.AddWithValue("?", DBNull.Value)
-                    Else
-                        Dim formattedBorrowDate As String = dtpBorrowDate.Value.ToString("MM/dd/yyyy")
-                        Dim formattedDueDate As String = dtpDueDate.Value.ToString("MM/dd/yyyy")
-
-                        cmd.Parameters.AddWithValue("?", formattedBorrowDate)
-                        cmd.Parameters.AddWithValue("?", formattedDueDate)
-                    End If
-
-                    cmd.Parameters.AddWithValue("?", status)
-                    cmd.Parameters.AddWithValue("?", "No")
-
-                    If userPrivileges = "User" Then
-                        cmd.Parameters.AddWithValue("?", DateTime.Now.ToString("MM/dd/yyyy"))
-                    Else
-                        cmd.Parameters.AddWithValue("?", DBNull.Value)
-                    End If
-
+                    Dim currentQuantity As Integer = CInt(cmd.ExecuteScalar())
+                    Dim newQuantity As Integer = currentQuantity - quantityToBorrow
+                    cmd = New OleDbCommand("UPDATE books SET [Quantity] = ?, [Status] = IIF(? > 0, 'Available', 'Unavailable') WHERE [Book ID] = ?", con)
+                    cmd.Parameters.AddWithValue("?", newQuantity)
+                    cmd.Parameters.AddWithValue("?", newQuantity)
+                    cmd.Parameters.AddWithValue("?", bookID)
                     cmd.ExecuteNonQuery()
 
-                    If userPrivileges = "Admin" Then
-                        cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
-                        cmd.Parameters.AddWithValue("?", bookID)
-                        Dim currentQuantity As Integer = CInt(cmd.ExecuteScalar())
+                    GenerateBorrowReceipt(selectedBooks, userID, txtName.Text, userPosition, userPrivileges)
+                End If
+            Next
 
-                        Dim newQuantity As Integer = currentQuantity - quantityToBorrow
-                        cmd = New OleDbCommand("UPDATE books SET [Quantity] = ?, [Status] = IIF(? > 0, 'Available', 'Unavailable') WHERE [Book ID] = ?", con)
-                        cmd.Parameters.AddWithValue("?", newQuantity)
-                        cmd.Parameters.AddWithValue("?", newQuantity)
-                        cmd.Parameters.AddWithValue("?", bookID)
-                        cmd.ExecuteNonQuery()
-
-                        GenerateBorrowReceipt(selectedBooks, userID, txtName.Text, userPosition, userPrivileges)
-                    End If
-                Next
-
-                MsgBox("Borrow request saved successfully!" & vbCrLf & "Multiple borrow records created.", MsgBoxStyle.Information)
-
-                isOnBorrowMode = False
-                UpdateBorrowModeUI()
-                LoadBookData()
-
-            Catch ex As Exception
-                MsgBox("Failed to save borrow request. " & ex.Message, MsgBoxStyle.Critical, "Error")
-            End Try
-        End If
+            isOnBorrowMode = False
+            UpdateBorrowModeUI()
+            LoadBookData()
+            MsgBox("Borrow process completed successfully.", MsgBoxStyle.Information)
+        Catch ex As Exception
+            MsgBox("Failed to save borrow request. " & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
     End Sub
+
 
     Private Sub GenerateBorrowReceipt(ByVal selectedBooks As Dictionary(Of String, Integer), ByVal userID As String, ByVal userName As String, ByVal userPosition As String, ByVal userPrivileges As String)
         Try
@@ -475,8 +458,8 @@ Public Class Borrow
 
             Dim report As New ReportDocument()
 
-            Dim reportPath As String = System.IO.Path.Combine(Application.StartupPath, "CrystalReport2.rpt")
-            report.Load("C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\CrystalReport2.rpt")
+            Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CrystalReport2.rpt")
+            report.Load(reportPath)
 
             report.SetDataSource(dt)
 

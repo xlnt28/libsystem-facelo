@@ -159,9 +159,7 @@ Public Class BorrowPendingRequest
         If SearchToolStripMenuItem IsNot Nothing Then
             SearchToolStripMenuItem.Enabled = Not isApproveMode
         End If
-        If RefreshToolStripMenuItem IsNot Nothing Then
-            RefreshToolStripMenuItem.Enabled = Not isApproveMode
-        End If
+
     End Sub
 
     Private Sub AddSelectionColumn()
@@ -452,14 +450,12 @@ Public Class BorrowPendingRequest
 
     Private Sub DisableOtherMenuItems()
         If SearchToolStripMenuItem IsNot Nothing Then SearchToolStripMenuItem.Enabled = False
-        If RefreshToolStripMenuItem IsNot Nothing Then RefreshToolStripMenuItem.Enabled = False
         If RejectToolStripMenuItem IsNot Nothing Then RejectToolStripMenuItem.Enabled = False
         If ViewDetailsToolStripMenuItem IsNot Nothing Then ViewDetailsToolStripMenuItem.Enabled = False
     End Sub
 
     Private Sub EnableOtherMenuItems()
         If SearchToolStripMenuItem IsNot Nothing Then SearchToolStripMenuItem.Enabled = True
-        If RefreshToolStripMenuItem IsNot Nothing Then RefreshToolStripMenuItem.Enabled = True
         If RejectToolStripMenuItem IsNot Nothing Then RejectToolStripMenuItem.Enabled = True
         If ViewDetailsToolStripMenuItem IsNot Nothing Then ViewDetailsToolStripMenuItem.Enabled = True
     End Sub
@@ -620,7 +616,7 @@ Public Class BorrowPendingRequest
         End If
     End Sub
 
-    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RefreshToolStripMenuItem.Click
+    Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If isApproveMode Then
             MsgBox("Please exit Approve mode first.", MsgBoxStyle.Exclamation, "Approve Mode Active")
             Return

@@ -34,10 +34,8 @@ Module variables
     Public storedBookIDList As String
     Public storedCopiesList As String
 
-
     Public daUserReturn As OleDbDataAdapter
     Public dsUserReturn As DataSet
-
 
     Public Sub CustomizeDataGridView(ByVal dg As DataGridView)
 

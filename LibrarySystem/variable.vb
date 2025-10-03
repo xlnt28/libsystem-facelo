@@ -21,16 +21,6 @@ Module variables
     Public xpriv As String
     Public wasOnBorrowOrReturn As Boolean = False
 
-
-    Public borrowID As String
-    Public names As String
-    Public position As String
-    Public privilege As String
-    Public borrowDate As String
-    Public dueDate As String
-    Public returnDate As String
-    Public status As String
-
     Public storedBookIDList As String
     Public storedCopiesList As String
 

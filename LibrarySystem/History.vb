@@ -5,7 +5,6 @@ Public Class History
 
     Private Property ShowAllUsers As Boolean = False
 
-    ' Determine if the logged-in user is admin
     Private ReadOnly Property IsAdmin As Boolean
         Get
             Return xpriv = "Admin"
@@ -23,7 +22,6 @@ Public Class History
 
         ViewAllToolStripMenuItem.Enabled = IsAdmin
         SearchToolStripMenuItem.Enabled = IsAdmin AndAlso ShowAllUsers
-        menuCheckTransaction.Enabled = True
     End Sub
 
     Private Sub History_Activated(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Activated
@@ -31,7 +29,6 @@ Public Class History
 
         ViewAllToolStripMenuItem.Enabled = IsAdmin
         SearchToolStripMenuItem.Enabled = False
-        menuCheckTransaction.Enabled = True
 
         If IsAdmin Then
             CancelBorrowRequestToolStripMenuItem.Visible = False
@@ -75,8 +72,8 @@ Public Class History
 
     Public Sub SQLQueryForHistoryUser(Optional ByVal searchName As String = "")
         Try
-            Dim sql As String = "SELECT [Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], " &
-                                "[Copies], [Current Returned], [Borrow Date], [Due Date], [Return Date], [Status] FROM borrowings WHERE 1=1 "
+            Dim sql As String = "SELECT [Borrow ID], [Book ID],[User ID] ,[Borrower Name], [Borrower Position], [Borrower Privileges], " &
+                                "[Copies], [Current Returned], [Request Date] ,[Borrow Date], [Due Date], [Status] FROM borrowings WHERE 1=1"
 
             If IsAdmin AndAlso ShowAllUsers AndAlso Not String.IsNullOrEmpty(searchName) Then
                 sql &= " AND [Borrower Name] LIKE ? "
@@ -112,36 +109,6 @@ Public Class History
         Catch ex As Exception
             MsgBox("Error retrieving borrowings data: " & ex.Message, MsgBoxStyle.Critical, "Query Error")
         End Try
-    End Sub
-
-    Private Sub borrowdgv_CellFormatting(ByVal sender As Object, ByVal e As DataGridViewCellFormattingEventArgs) Handles borrowdgv.CellFormatting
-        If e.ColumnIndex = borrowdgv.Columns("Book ID List").Index AndAlso e.Value IsNot Nothing Then
-            Dim bookIDList As String = e.Value.ToString()
-            If Not String.IsNullOrEmpty(bookIDList) Then
-                Dim bookIDs() As String = bookIDList.Split(","c)
-                e.Value = String.Join(vbCrLf, bookIDs)
-                e.FormattingApplied = True
-            End If
-        End If
-    End Sub
-
-    Private Sub menuCheckTransaction_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuCheckTransaction.Click
-        If borrowdgv.SelectedRows.Count > 0 Then
-            Dim selectedRow As DataGridViewRow = borrowdgv.SelectedRows(0)
-            borrowID = selectedRow.Cells("Borrow ID").Value.ToString()
-            names = selectedRow.Cells("Borrower Name").Value.ToString()
-            position = selectedRow.Cells("Borrower Position").Value.ToString()
-            privilege = selectedRow.Cells("Borrower Privileges").Value.ToString()
-            borrowDate = selectedRow.Cells("Borrow Date").Value.ToString()
-            dueDate = selectedRow.Cells("Due Date").Value.ToString()
-            returnDate = If(selectedRow.Cells("Return Date").Value Is DBNull.Value, "", selectedRow.Cells("Return Date").Value.ToString())
-            status = selectedRow.Cells("Status").Value.ToString()
-
-            Dim transactionChecker As New TransactionChecker()
-            transactionChecker.Show()
-        Else
-            MsgBox("Please select a transaction to check.", MsgBoxStyle.Exclamation, "Select Transaction")
-        End If
     End Sub
 
     Private Sub menuCancelRequest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
@@ -247,5 +214,7 @@ Public Class History
         End If
     End Sub
 
+    Private Sub borrowdgv_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles borrowdgv.CellContentClick
 
+    End Sub
 End Class

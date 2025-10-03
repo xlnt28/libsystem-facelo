@@ -11,8 +11,8 @@ Public Class frmmain
     Private Sub MainForm_Activated(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Activated
         OpenDB()
         lblUsername.Text = XName
-        lblPrivilege.Text = "Privilege : " & xpriv
-        lblPosition.Text = "Position : " & xpost
+        txtPrivilege.Text = "Privilege : " & xpriv
+        txtPosition.Text = "Position : " & xpost
         LoadUserImage()
 
         LoadStatistics()
@@ -188,7 +188,6 @@ Private Sub LoadStatistics()
 
     Private Sub btnReports_Click(sender As Object, e As EventArgs) Handles btnReports.Click
         Try
-            ' Create an instance of the report form
             Dim reportForm As New ReportForm()
             reportForm.Show()
         Catch ex As Exception

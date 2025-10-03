@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmmain
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmmain
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmmain))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
@@ -35,17 +35,15 @@ Partial Class frmmain
         Me.BorrowPendingRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuLogout = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.Label7 = New System.Windows.Forms.Label()
-        Me.lblPosition = New System.Windows.Forms.Label()
-        Me.lblPrivilege = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.pbProfile = New System.Windows.Forms.PictureBox()
         Me.lblUsername = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.Panel5 = New System.Windows.Forms.Panel()
+        Me.txtPrivilege = New System.Windows.Forms.Label()
+        Me.txtPosition = New System.Windows.Forms.Label()
         Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.lblCurrentBorrowings = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -61,13 +59,10 @@ Partial Class frmmain
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.MenuStrip1.SuspendLayout()
-        Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.pbProfile, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel3.SuspendLayout()
         Me.Panel5.SuspendLayout()
         Me.Panel4.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel6.SuspendLayout()
         Me.Panel7.SuspendLayout()
         Me.Panel8.SuspendLayout()
@@ -81,7 +76,7 @@ Partial Class frmmain
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolStripMenuItem, Me.menuTransactions, Me.menuLogout})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1380, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1384, 33)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -169,45 +164,11 @@ Partial Class frmmain
         '
         Me.Panel1.BackColor = System.Drawing.Color.WhiteSmoke
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel1.Controls.Add(Me.Label7)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.Panel1.Location = New System.Drawing.Point(0, 639)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1380, 120)
+        Me.Panel1.Size = New System.Drawing.Size(1384, 120)
         Me.Panel1.TabIndex = 3
-        '
-        'Label7
-        '
-        Me.Label7.AutoSize = True
-        Me.Label7.Font = New System.Drawing.Font("Segoe UI", 27.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label7.Location = New System.Drawing.Point(756, 50)
-        Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(602, 50)
-        Me.Label7.TabIndex = 0
-        Me.Label7.Text = "LIBRARY MANAGEMENT SYSTEM"
-        '
-        'lblPosition
-        '
-        Me.lblPosition.BackColor = System.Drawing.Color.Transparent
-        Me.lblPosition.Font = New System.Drawing.Font("Segoe UI Semibold", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPosition.ForeColor = System.Drawing.Color.Black
-        Me.lblPosition.Location = New System.Drawing.Point(6, 85)
-        Me.lblPosition.Name = "lblPosition"
-        Me.lblPosition.Size = New System.Drawing.Size(324, 60)
-        Me.lblPosition.TabIndex = 1
-        Me.lblPosition.Text = "Position"
-        Me.lblPosition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblPrivilege
-        '
-        Me.lblPrivilege.BackColor = System.Drawing.Color.Transparent
-        Me.lblPrivilege.Font = New System.Drawing.Font("Segoe UI Semibold", 20.25!, System.Drawing.FontStyle.Bold)
-        Me.lblPrivilege.Location = New System.Drawing.Point(6, 27)
-        Me.lblPrivilege.Name = "lblPrivilege"
-        Me.lblPrivilege.Size = New System.Drawing.Size(324, 60)
-        Me.lblPrivilege.TabIndex = 0
-        Me.lblPrivilege.Text = "Privilege"
-        Me.lblPrivilege.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Panel2
         '
@@ -247,7 +208,7 @@ Partial Class frmmain
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 48.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.Gray
-        Me.Label1.Location = New System.Drawing.Point(12, 17)
+        Me.Label1.Location = New System.Drawing.Point(11, 16)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(418, 78)
         Me.Label1.TabIndex = 6
@@ -257,43 +218,57 @@ Partial Class frmmain
         '
         Me.Panel3.BackColor = System.Drawing.Color.SeaShell
         Me.Panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel3.Controls.Add(Me.Panel5)
         Me.Panel3.Location = New System.Drawing.Point(36, 489)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(331, 193)
+        Me.Panel3.Size = New System.Drawing.Size(331, 165)
         Me.Panel3.TabIndex = 6
         '
         'Panel5
         '
-        Me.Panel5.BackColor = System.Drawing.Color.SeaShell
+        Me.Panel5.BackColor = System.Drawing.Color.Linen
         Me.Panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel5.Controls.Add(Me.lblPosition)
-        Me.Panel5.Controls.Add(Me.lblPrivilege)
-        Me.Panel5.Location = New System.Drawing.Point(-1, -1)
+        Me.Panel5.Controls.Add(Me.txtPrivilege)
+        Me.Panel5.Controls.Add(Me.txtPosition)
+        Me.Panel5.Location = New System.Drawing.Point(36, 505)
         Me.Panel5.Name = "Panel5"
-        Me.Panel5.Size = New System.Drawing.Size(331, 193)
+        Me.Panel5.Size = New System.Drawing.Size(331, 163)
         Me.Panel5.TabIndex = 7
+        '
+        'txtPrivilege
+        '
+        Me.txtPrivilege.BackColor = System.Drawing.Color.SeaShell
+        Me.txtPrivilege.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtPrivilege.Font = New System.Drawing.Font("Segoe UI Semibold", 15.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPrivilege.ForeColor = System.Drawing.Color.Black
+        Me.txtPrivilege.Location = New System.Drawing.Point(-1, 35)
+        Me.txtPrivilege.Name = "txtPrivilege"
+        Me.txtPrivilege.Size = New System.Drawing.Size(331, 41)
+        Me.txtPrivilege.TabIndex = 3
+        Me.txtPrivilege.Text = "Text"
+        Me.txtPrivilege.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'txtPosition
+        '
+        Me.txtPosition.BackColor = System.Drawing.Color.SeaShell
+        Me.txtPosition.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.txtPosition.Font = New System.Drawing.Font("Segoe UI Semibold", 15.75!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPosition.ForeColor = System.Drawing.Color.Black
+        Me.txtPosition.Location = New System.Drawing.Point(-1, 85)
+        Me.txtPosition.Name = "txtPosition"
+        Me.txtPosition.Size = New System.Drawing.Size(331, 39)
+        Me.txtPosition.TabIndex = 2
+        Me.txtPosition.Text = "Text"
+        Me.txtPosition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.WhiteSmoke
         Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel4.Controls.Add(Me.PictureBox1)
         Me.Panel4.Controls.Add(Me.Label1)
         Me.Panel4.Location = New System.Drawing.Point(0, 32)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1380, 156)
         Me.Panel4.TabIndex = 7
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(1191, 17)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(167, 120)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox1.TabIndex = 7
-        Me.PictureBox1.TabStop = False
         '
         'Panel6
         '
@@ -446,9 +421,10 @@ Partial Class frmmain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.BackColor = System.Drawing.Color.GhostWhite
-        Me.ClientSize = New System.Drawing.Size(1380, 759)
+        Me.BackColor = System.Drawing.Color.SeaShell
+        Me.ClientSize = New System.Drawing.Size(1384, 759)
         Me.ControlBox = False
+        Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.Panel8)
         Me.Controls.Add(Me.Panel9)
         Me.Controls.Add(Me.Panel7)
@@ -465,15 +441,11 @@ Partial Class frmmain
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
-        Me.Panel1.ResumeLayout(False)
-        Me.Panel1.PerformLayout()
         Me.Panel2.ResumeLayout(False)
         CType(Me.pbProfile, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel3.ResumeLayout(False)
         Me.Panel5.ResumeLayout(False)
         Me.Panel4.ResumeLayout(False)
         Me.Panel4.PerformLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel6.ResumeLayout(False)
         Me.Panel7.ResumeLayout(False)
         Me.Panel8.ResumeLayout(False)
@@ -493,8 +465,6 @@ Partial Class frmmain
     Friend WithEvents ReturnToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents PenaltyToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
-    Friend WithEvents lblPrivilege As System.Windows.Forms.Label
-    Friend WithEvents lblPosition As System.Windows.Forms.Label
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents pbProfile As System.Windows.Forms.PictureBox
     Friend WithEvents lblUsername As System.Windows.Forms.Label
@@ -516,8 +486,8 @@ Partial Class frmmain
     Friend WithEvents TransactionHistoryToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents lblUnpaidBorrowedBooks As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
-    Friend WithEvents PictureBox1 As System.Windows.Forms.PictureBox
-    Friend WithEvents Label7 As System.Windows.Forms.Label
     Friend WithEvents BorrowPendingRequestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents btnReports As System.Windows.Forms.Button
+    Friend WithEvents txtPrivilege As Label
+    Friend WithEvents txtPosition As Label
 End Class

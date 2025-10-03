@@ -27,7 +27,6 @@ Partial Class History
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.MenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.menuCheckTransaction = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ViewAllToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CancelBorrowRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -49,18 +48,10 @@ Partial Class History
         '
         'MenuToolStripMenuItem
         '
-        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuCheckTransaction, Me.SearchToolStripMenuItem, Me.ViewAllToolStripMenuItem, Me.CancelBorrowRequestToolStripMenuItem})
+        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SearchToolStripMenuItem, Me.ViewAllToolStripMenuItem, Me.CancelBorrowRequestToolStripMenuItem})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
         Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
         Me.MenuToolStripMenuItem.Text = "Menu"
-        '
-        'menuCheckTransaction
-        '
-        Me.menuCheckTransaction.Image = CType(resources.GetObject("menuCheckTransaction.Image"), System.Drawing.Image)
-        Me.menuCheckTransaction.Name = "menuCheckTransaction"
-        Me.menuCheckTransaction.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.menuCheckTransaction.Size = New System.Drawing.Size(337, 30)
-        Me.menuCheckTransaction.Text = "Check Transaction"
         '
         'SearchToolStripMenuItem
         '
@@ -75,7 +66,7 @@ Partial Class History
         Me.ViewAllToolStripMenuItem.Image = CType(resources.GetObject("ViewAllToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ViewAllToolStripMenuItem.Name = "ViewAllToolStripMenuItem"
         Me.ViewAllToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-                    Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
+            Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
         Me.ViewAllToolStripMenuItem.Size = New System.Drawing.Size(337, 30)
         Me.ViewAllToolStripMenuItem.Text = "View All "
         '
@@ -153,7 +144,6 @@ Partial Class History
     Friend WithEvents GoBackToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents borrowdgv As System.Windows.Forms.DataGridView
     Friend WithEvents MenuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents menuCheckTransaction As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ViewAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CancelBorrowRequestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem

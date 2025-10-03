@@ -342,6 +342,7 @@ Public Class Borrow
             Return
         End Try
 
+        Dim hasStopped As Boolean = False
         Try
             For Each bookID As String In selectedBooks.Keys
                 Dim quantityToBorrow As Integer = selectedBooks(bookID)
@@ -381,14 +382,23 @@ Public Class Borrow
                     cmd.Parameters.AddWithValue("?", bookID)
                     cmd.ExecuteNonQuery()
 
-                    GenerateBorrowReceipt(selectedBooks, userID, txtName.Text, userPosition, userPrivileges)
+                    If hasStopped = False Then
+                        GenerateBorrowReceipt(selectedBooks, userID, txtName.Text, userPosition, userPrivileges)
+                        hasStopped = True
+                    End If
                 End If
             Next
 
             isOnBorrowMode = False
             UpdateBorrowModeUI()
             LoadBookData()
-            MsgBox("Borrow process completed successfully.", MsgBoxStyle.Information)
+
+            If xpriv = "Admin" Then
+                MsgBox("Borrowed successfully.", MsgBoxStyle.Information)
+            Else
+                MsgBox("Borrow requested successfully.", MsgBoxStyle.Information)
+            End If
+
         Catch ex As Exception
             MsgBox("Failed to save borrow request. " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
@@ -397,13 +407,9 @@ Public Class Borrow
 
     Private Sub GenerateBorrowReceipt(ByVal selectedBooks As Dictionary(Of String, Integer), ByVal userID As String, ByVal userName As String, ByVal userPosition As String, ByVal userPrivileges As String)
         Try
-            Dim result As DialogResult = MsgBox("Do you want to generate borrow slip receipts?",
-                               MsgBoxStyle.YesNo + MsgBoxStyle.Question,
+            Dim result As DialogResult = MsgBox("Generating receipt, please wait..",
+                               MsgBoxStyle.OkOnly + MsgBoxStyle.Information,
                                "Generate Receipts")
-
-            If result <> DialogResult.Yes Then
-                Return
-            End If
 
             Dim dt As New DataTable("BorrowReceipt")
             dt.Columns.Add("Borrow ID", GetType(String))

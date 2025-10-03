@@ -155,10 +155,8 @@ C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySys
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.Login.resources
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.Resources.resources
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.Borrow.resources
-C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.PartialReturnForm.resources
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.PenaltyForm.resources
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.ReportForm.resources
-C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.TransactionChecker.resources
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.UserReturn.resources
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.vbproj.GenerateResource.Cache
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.exe
@@ -189,3 +187,8 @@ C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\Reports\Crysta
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\Database\library.mdb
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.vbprojResolveAssemblyReference.cache
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.UserSearchForm.resources
+C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\Reports\CrystalReport1.rpt
+C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\Reports\CrystalReport2.rpt
+C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\Reports\CrystalReport1.vb
+C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\Reports\CrystalReport2.vb
+C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\Database\library.mdb

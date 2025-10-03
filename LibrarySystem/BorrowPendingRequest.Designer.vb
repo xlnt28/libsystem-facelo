@@ -30,7 +30,6 @@ Partial Class BorrowPendingRequest
         Me.FunctionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ApproveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RejectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ViewDetailsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.dg = New System.Windows.Forms.DataGridView()
         Me.MenuStrip1.SuspendLayout()
@@ -56,7 +55,7 @@ Partial Class BorrowPendingRequest
         '
         'FunctionToolStripMenuItem
         '
-        Me.FunctionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApproveToolStripMenuItem, Me.RejectToolStripMenuItem, Me.ViewDetailsToolStripMenuItem, Me.SearchToolStripMenuItem})
+        Me.FunctionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApproveToolStripMenuItem, Me.RejectToolStripMenuItem, Me.SearchToolStripMenuItem})
         Me.FunctionToolStripMenuItem.Name = "FunctionToolStripMenuItem"
         Me.FunctionToolStripMenuItem.Size = New System.Drawing.Size(97, 29)
         Me.FunctionToolStripMenuItem.Text = "Function"
@@ -67,7 +66,7 @@ Partial Class BorrowPendingRequest
         Me.ApproveToolStripMenuItem.Name = "ApproveToolStripMenuItem"
         Me.ApproveToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.ApproveToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
+        Me.ApproveToolStripMenuItem.Size = New System.Drawing.Size(273, 30)
         Me.ApproveToolStripMenuItem.Text = "Approve"
         '
         'RejectToolStripMenuItem
@@ -75,24 +74,15 @@ Partial Class BorrowPendingRequest
         Me.RejectToolStripMenuItem.Image = CType(resources.GetObject("RejectToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RejectToolStripMenuItem.Name = "RejectToolStripMenuItem"
         Me.RejectToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.RejectToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
+        Me.RejectToolStripMenuItem.Size = New System.Drawing.Size(273, 30)
         Me.RejectToolStripMenuItem.Text = "Decline"
-        '
-        'ViewDetailsToolStripMenuItem
-        '
-        Me.ViewDetailsToolStripMenuItem.Image = CType(resources.GetObject("ViewDetailsToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.ViewDetailsToolStripMenuItem.Name = "ViewDetailsToolStripMenuItem"
-        Me.ViewDetailsToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
-            Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
-        Me.ViewDetailsToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
-        Me.ViewDetailsToolStripMenuItem.Text = "View Details"
         '
         'SearchToolStripMenuItem
         '
         Me.SearchToolStripMenuItem.Image = CType(resources.GetObject("SearchToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
         Me.SearchToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(311, 30)
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(273, 30)
         Me.SearchToolStripMenuItem.Text = "Search"
         '
         'dg
@@ -159,6 +149,5 @@ Partial Class BorrowPendingRequest
     Friend WithEvents FunctionToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ApproveToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RejectToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ViewDetailsToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchToolStripMenuItem As ToolStripMenuItem
 End Class

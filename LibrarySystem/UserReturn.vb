@@ -30,10 +30,10 @@ Public Class UserReturn
 
     Public Sub SQLQueryForReturningAndLost()
         Try
-            Dim sql As String = "SELECT [Borrow ID], [Book ID List], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Status], [Has Requested Return]" & _
-                                "FROM borrowings " & _
-                                "WHERE [Borrower Name] = ? " & _
-                                "AND ([Status] = 'Borrowed') " & _
+            Dim sql As String = "SELECT [Borrow ID], [Book ID], [User ID],[Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Status], [Has Requested Return]" &
+                                "FROM borrowings " &
+                                "WHERE [Borrower Name] = ? " &
+                                "AND ([Status] = 'Borrowed') " &
                                 "ORDER BY [Borrow ID] DESC"
 
             daUserReturn = New OleDbDataAdapter(sql, con)

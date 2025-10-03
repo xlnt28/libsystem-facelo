@@ -153,9 +153,7 @@ Public Class BorrowPendingRequest
         If RejectToolStripMenuItem IsNot Nothing Then
             RejectToolStripMenuItem.Enabled = (selectedRequests.Count > 0 AndAlso Not isApproveMode)
         End If
-        If ViewDetailsToolStripMenuItem IsNot Nothing Then
-            ViewDetailsToolStripMenuItem.Enabled = (selectedRequests.Count = 1 AndAlso Not isApproveMode)
-        End If
+
         If SearchToolStripMenuItem IsNot Nothing Then
             SearchToolStripMenuItem.Enabled = Not isApproveMode
         End If
@@ -451,13 +449,11 @@ Public Class BorrowPendingRequest
     Private Sub DisableOtherMenuItems()
         If SearchToolStripMenuItem IsNot Nothing Then SearchToolStripMenuItem.Enabled = False
         If RejectToolStripMenuItem IsNot Nothing Then RejectToolStripMenuItem.Enabled = False
-        If ViewDetailsToolStripMenuItem IsNot Nothing Then ViewDetailsToolStripMenuItem.Enabled = False
     End Sub
 
     Private Sub EnableOtherMenuItems()
         If SearchToolStripMenuItem IsNot Nothing Then SearchToolStripMenuItem.Enabled = True
         If RejectToolStripMenuItem IsNot Nothing Then RejectToolStripMenuItem.Enabled = True
-        If ViewDetailsToolStripMenuItem IsNot Nothing Then ViewDetailsToolStripMenuItem.Enabled = True
     End Sub
 
     Private Sub btnApproveSelected_Click(ByVal sender As Object, ByVal e As EventArgs)
@@ -584,37 +580,6 @@ Public Class BorrowPendingRequest
         Me.Hide()
     End Sub
 
-    Private Sub ViewDetailsToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ViewDetailsToolStripMenuItem.Click
-        If isApproveMode Then
-            MsgBox("Please exit Approve mode first.", MsgBoxStyle.Exclamation, "Approve Mode Active")
-            Return
-        End If
-
-        If dg.SelectedRows.Count = 1 Then
-            Dim selectedRow As DataGridViewRow = dg.SelectedRows(0)
-
-            If selectedRow.Cells("Borrow ID").Value IsNot Nothing Then
-                borrowID = selectedRow.Cells("Borrow ID").Value.ToString()
-            End If
-            If selectedRow.Cells("Borrower Name").Value IsNot Nothing Then
-                names = selectedRow.Cells("Borrower Name").Value.ToString()
-            End If
-            If selectedRow.Cells("Borrower Position").Value IsNot Nothing Then
-                position = selectedRow.Cells("Borrower Position").Value.ToString()
-            End If
-            If selectedRow.Cells("Borrower Privileges").Value IsNot Nothing Then
-                privilege = selectedRow.Cells("Borrower Privileges").Value.ToString()
-            End If
-            If selectedRow.Cells("Copies").Value IsNot Nothing Then
-                storedCopiesList = selectedRow.Cells("Copies").Value.ToString()
-            End If
-
-            Dim transactionChecker As New Form()
-            transactionChecker.Show()
-        Else
-            MsgBox("Please select a single request to view details.", MsgBoxStyle.Exclamation, "Select Request")
-        End If
-    End Sub
 
     Private Sub RefreshToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If isApproveMode Then
@@ -687,8 +652,6 @@ Public Class BorrowPendingRequest
             report.Load(reportPath)
             report.SetDataSource(dt)
             report.PrintToPrinter(1, False, 0, 0)
-
-            MsgBox("Borrow receipts printed successfully!", MsgBoxStyle.Information, "Print")
 
         Catch ex As Exception
             MsgBox("Error generating borrow receipts: " & ex.Message, MsgBoxStyle.Critical, "Error")

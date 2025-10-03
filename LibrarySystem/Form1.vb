@@ -1,5 +1,8 @@
 ﻿Imports System.Data.OleDb
 Imports System.Threading
+Imports Microsoft.Office.Interop
+Imports CrystalDecisions.CrystalReports.Engine
+
 
 Public Class Form1
     Private isAdding As Boolean = False
@@ -71,7 +74,6 @@ Public Class Form1
             menuDelete.Enabled = (dg.Rows.Count > 0 And recpointer >= 0)
             menuClose.Enabled = True
             menuSearch.Enabled = True
-            menuPrint.Enabled = (dg.Rows.Count > 0)
             menuRefresh.Enabled = True
 
             Dim hasRecords As Boolean = (dg.Rows.Count > 0)
@@ -818,81 +820,6 @@ Sub loadImage()
         End Try
     End Sub
 
-    Private Sub menuPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuPrint.Click
-        If dbds.Tables("tbluser").Rows.Count = 0 Then
-            MsgBox("No records to print.", MsgBoxStyle.Information)
-            Return
-        End If
-
-        Dim printDialog As New PrintDialog()
-        Dim printDocument As New Printing.PrintDocument()
-
-        printDocument.DocumentName = "User Accounts Report"
-
-        AddHandler printDocument.PrintPage, Sub(senderPrint As Object, ePrint As Printing.PrintPageEventArgs)
-                                                Dim titleFont As New Font("Arial", 16, FontStyle.Bold)
-                                                Dim headerFont As New Font("Arial", 10, FontStyle.Bold)
-                                                Dim contentFont As New Font("Arial", 10)
-
-                                                Dim leftMargin As Integer = ePrint.MarginBounds.Left
-                                                Dim topMargin As Integer = ePrint.MarginBounds.Top
-                                                Dim yPos As Integer = topMargin
-
-                                                ePrint.Graphics.DrawString("USER ACCOUNTS REPORT", titleFont, Brushes.Black, leftMargin, yPos)
-                                                yPos += 40
-
-                                                ePrint.Graphics.DrawString("Printed on: " & DateTime.Now.ToString("MMMM dd, yyyy hh:mm tt"), contentFont, Brushes.Black, leftMargin, yPos)
-                                                yPos += 30
-
-                                                Dim headers() As String = {"User ID", "User Name", "Position", "Privileges"}
-                                                Dim columnWidths() As Integer = {150, 250, 150, 150}
-
-                                                ePrint.Graphics.FillRectangle(Brushes.LightGray, leftMargin, yPos, columnWidths.Sum(), 25)
-
-                                                Dim xPos As Integer = leftMargin
-                                                For i As Integer = 0 To headers.Length - 1
-                                                    ePrint.Graphics.DrawString(headers(i), headerFont, Brushes.Black, xPos, yPos + 5)
-                                                    xPos += columnWidths(i)
-                                                Next
-                                                yPos += 30
-
-                                                For Each row As DataRow In dbds.Tables("tbluser").Rows
-                                                    If yPos > ePrint.MarginBounds.Height - 100 Then
-                                                        ePrint.HasMorePages = True
-                                                        Return
-                                                    End If
-
-                                                    xPos = leftMargin
-                                                    Dim fields() As String = {
-                                                        row("User ID").ToString(),
-                                                        row("User Name").ToString(),
-                                                        row("Position").ToString(),
-                                                        row("Privileges").ToString()
-                                                    }
-
-                                                    For i As Integer = 0 To fields.Length - 1
-                                                        ePrint.Graphics.DrawString(fields(i), contentFont, Brushes.Black, xPos, yPos)
-                                                        xPos += columnWidths(i)
-                                                    Next
-
-                                                    yPos += 20
-
-                                                    ePrint.Graphics.DrawLine(Pens.LightGray, leftMargin, yPos, leftMargin + columnWidths.Sum(), yPos)
-                                                    yPos += 5
-                                                Next
-
-                                                yPos = ePrint.MarginBounds.Bottom - 30
-                                                ePrint.Graphics.DrawString("Page 1", contentFont, Brushes.Black, leftMargin, yPos)
-                                                ePrint.Graphics.DrawString("Library Management System", contentFont, Brushes.Black, ePrint.MarginBounds.Right - 150, yPos)
-                                            End Sub
-
-        printDialog.Document = printDocument
-        If printDialog.ShowDialog() = DialogResult.OK Then
-            printDocument.Print()
-        End If
-    End Sub
-
-
     Private Sub MainFormToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MainFormToolStripMenuItem.Click
         Dim main As New frmmain
         main.Show()
@@ -915,7 +842,62 @@ Sub loadImage()
     End Sub
 
 
-    Private Sub Panel1_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Panel1.Paint
+    Private Sub CrystalReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrystalReportToolStripMenuItem.Click
+        Try
+            Dim rpt As New ReportDocument()
+            rpt.Load(Application.StartupPath & "\Reports\UserForm.rpt")
 
+            rpt.SetDatabaseLogon("", "", Application.StartupPath, con.Database)
+            rpt.SetDataSource(dbds.Tables("tbluser"))
+
+            rpt.PrintToPrinter(1, False, 0, 0)
+
+            MsgBox("Report sent to printer successfully.", MsgBoxStyle.Information)
+
+        Catch ex As Exception
+            MsgBox("Error printing Crystal Report: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
     End Sub
+
+
+    Private Sub ExcelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExcelToolStripMenuItem.Click
+        Try
+            If dg.Rows.Count = 0 Then
+                MsgBox("No records to export.", MsgBoxStyle.Exclamation)
+                Return
+            End If
+
+            Dim excelApp As New Excel.Application
+            Dim workbook As Excel.Workbook = excelApp.Workbooks.Add(Type.Missing)
+            Dim worksheet As Excel.Worksheet = Nothing
+            worksheet = workbook.Sheets("sheet1")
+            worksheet = workbook.ActiveSheet
+            worksheet.Name = "Users"
+
+            For i As Integer = 1 To dg.Columns.Count
+                worksheet.Cells(1, i) = dg.Columns(i - 1).HeaderText
+            Next
+
+            For i As Integer = 0 To dg.Rows.Count - 1
+                For j As Integer = 0 To dg.Columns.Count - 1
+                    worksheet.Cells(i + 2, j + 1) = dg.Rows(i).Cells(j).Value?.ToString()
+                Next
+            Next
+
+            Dim saveDialog As New SaveFileDialog()
+            saveDialog.Filter = "Excel files (*.xlsx)|*.xlsx"
+            saveDialog.FileName = "UserList.xlsx"
+            If saveDialog.ShowDialog() = DialogResult.OK Then
+                workbook.SaveAs(saveDialog.FileName)
+                MsgBox("Exported successfully to Excel!", MsgBoxStyle.Information)
+            End If
+
+            workbook.Close()
+            excelApp.Quit()
+
+        Catch ex As Exception
+            MsgBox("Error exporting to Excel: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
 End Class

@@ -1,5 +1,8 @@
 ﻿Imports System.Data.OleDb
 Imports System.Threading
+Imports ClosedXML.Excel
+Imports CrystalDecisions.CrystalReports.Engine
+Imports CrystalDecisions.Shared
 
 Public Class BookInventory
     Private isAdding As Boolean = False
@@ -511,15 +514,15 @@ Public Class BookInventory
 
         Dim status As String = If(nudQuantity.Value > 0, "Available", "Unavailable")
 
-        cmd = New OleDbCommand("UPDATE books SET " & _
-                              "[ISBN]=?, " & _
-                              "[Title]=?, " & _
-                              "[Author]=?, " & _
-                              "[Publisher]=?, " & _
-                              "[Publication Year]=?, " & _
-                              "[Category]=?, " & _
-                              "[Quantity]=?, " & _
-                              "[Status]=? " & _
+        cmd = New OleDbCommand("UPDATE books SET " &
+                              "[ISBN]=?, " &
+                              "[Title]=?, " &
+                              "[Author]=?, " &
+                              "[Publisher]=?, " &
+                              "[Publication Year]=?, " &
+                              "[Category]=?, " &
+                              "[Quantity]=?, " &
+                              "[Status]=? " &
                               "WHERE [Book ID]=?", con)
 
         With cmd.Parameters
@@ -727,11 +730,11 @@ Public Class BookInventory
                 OpenDB()
             End If
 
-            cmd = New OleDbCommand("SELECT [Book ID], [ISBN], [Title], [Author], [Publisher], " & _
-                                  "[Publication Year], [Category], [Quantity], [Status]" & _
-                                  "FROM books WHERE " & _
-                                  "[Title] LIKE ? OR " & _
-                                  "[Book ID] LIKE ? OR " & _
+            cmd = New OleDbCommand("SELECT [Book ID], [ISBN], [Title], [Author], [Publisher], " &
+                                  "[Publication Year], [Category], [Quantity], [Status]" &
+                                  "FROM books WHERE " &
+                                  "[Title] LIKE ? OR " &
+                                  "[Book ID] LIKE ? OR " &
                                   "[ISBN] LIKE ?", con)
 
             cmd.Parameters.AddWithValue("?", "%" & lastSearchTerm & "%")
@@ -903,4 +906,77 @@ Public Class BookInventory
     Private Sub bookdgv_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles bookdgv.CellContentClick
 
     End Sub
+
+
+    Private Sub ExcelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExcelToolStripMenuItem.Click
+        Try
+            Dim sfd As New SaveFileDialog()
+            sfd.Filter = "Excel Workbook (*.xlsx)|*.xlsx"
+            sfd.Title = "Save Excel File"
+            sfd.FileName = "BooksExport.xlsx"
+
+            If sfd.ShowDialog() = DialogResult.OK Then
+                Dim dt As New DataTable()
+
+                Using cmd As New OleDbCommand("SELECT * FROM books", con)
+                    Using da As New OleDbDataAdapter(cmd)
+                        da.Fill(dt)
+                    End Using
+                End Using
+
+                Using wb As New XLWorkbook()
+                    wb.Worksheets.Add(dt, "Books")
+                    wb.SaveAs(sfd.FileName)
+                End Using
+
+                MsgBox("Excel file saved to: " & sfd.FileName, MsgBoxStyle.Information)
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error exporting: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
+
+    Private Sub CrystalReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrystalReportToolStripMenuItem.Click
+        Try
+            Dim dbPath As String = Application.StartupPath & "\Database\library.mdb"
+
+            Dim rpt As New ReportDocument()
+            rpt.Load(Application.StartupPath & "\Reports\BookInventoryReport.rpt")
+
+            rpt.SetDatabaseLogon("", "", dbPath, "library")
+
+            Dim sfd As New SaveFileDialog()
+            sfd.Filter = "PDF File (*.pdf)|*.pdf|Excel File (*.xlsx)|*.xlsx|Word File (*.docx)|*.docx"
+            sfd.Title = "Save Report As"
+            sfd.FileName = "BookReport"
+
+            If sfd.ShowDialog() = DialogResult.OK Then
+                Dim diskOpts As New DiskFileDestinationOptions()
+                diskOpts.DiskFileName = sfd.FileName
+
+                With rpt.ExportOptions
+                    .ExportDestinationType = ExportDestinationType.DiskFile
+                    .ExportDestinationOptions = diskOpts
+
+                    Select Case IO.Path.GetExtension(sfd.FileName).ToLower()
+                        Case ".pdf"
+                            .ExportFormatType = ExportFormatType.PortableDocFormat
+                        Case ".xlsx"
+                            .ExportFormatType = ExportFormatType.ExcelWorkbook
+                        Case ".docx"
+                            .ExportFormatType = ExportFormatType.WordForWindows
+                    End Select
+                End With
+
+                rpt.Export()
+                MessageBox.Show("Report saved to: " & sfd.FileName, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show("Error exporting report: " & ex.Message, "Report Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
 End Class

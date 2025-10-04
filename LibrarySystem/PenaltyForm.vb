@@ -385,7 +385,7 @@ Public Class PenaltyForm
             Next
 
             Dim report As New ReportDocument()
-            report.Load("C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\CrystalReport1.rpt")
+            report.Load(Application.StartupPath & "\Reports\CrystalReport1.rpt")
             report.SetDataSource(dt)
 
             report.PrintToPrinter(1, False, 0, 0)

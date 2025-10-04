@@ -850,14 +850,16 @@ Sub loadImage()
             rpt.SetDatabaseLogon("", "", Application.StartupPath, con.Database)
             rpt.SetDataSource(dbds.Tables("tbluser"))
 
-            rpt.PrintToPrinter(1, False, 0, 0)
-
-            MsgBox("Report sent to printer successfully.", MsgBoxStyle.Information)
+            Dim frm As New ReportForm()
+            frm.CrystalReportViewer1.ReportSource = rpt
+            frm.CrystalReportViewer1.Refresh()
+            frm.ShowDialog()
 
         Catch ex As Exception
-            MsgBox("Error printing Crystal Report: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox("Error loading Crystal Report: " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
+
 
 
     Private Sub ExcelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExcelToolStripMenuItem.Click
@@ -900,4 +902,7 @@ Sub loadImage()
         End Try
     End Sub
 
+    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+
+    End Sub
 End Class

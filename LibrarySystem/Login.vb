@@ -62,7 +62,7 @@ Public Class Login
                 loginAttempts += 1
                 If loginAttempts >= 3 Then
                     MsgBox("Maximum login attempts reached. Closing application.", MsgBoxStyle.Critical, "Login Failed")
-                    Me.Close()
+                    Application.Exit()
                 End If
 
                 txtun.Clear()

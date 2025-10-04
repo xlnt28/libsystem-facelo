@@ -112,6 +112,18 @@
     <Compile Include="ChangeBorrower.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="PartialReturnForm.Designer.vb">
+      <DependentUpon>PartialReturnForm.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PartialReturnForm.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PartialReturnForm2.Designer.vb">
+      <DependentUpon>PartialReturnForm2.vb</DependentUpon>
+    </Compile>
+    <Compile Include="PartialReturnForm2.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Reports\BookInventoryReport.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -257,6 +269,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Borrow.resx">
       <DependentUpon>Borrow.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PartialReturnForm.resx">
+      <DependentUpon>PartialReturnForm.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PartialReturnForm2.resx">
+      <DependentUpon>PartialReturnForm2.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PenaltyForm.resx">
       <DependentUpon>PenaltyForm.vb</DependentUpon>

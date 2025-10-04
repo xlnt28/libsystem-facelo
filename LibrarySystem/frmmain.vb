@@ -23,14 +23,12 @@ Public Class frmmain
             menuUserForm.Enabled = False
             menuBookInventory.Enabled = False
             BorrowPendingRequestToolStripMenuItem.Enabled = False
-            btnReports.Visible = False
         ElseIf xpriv = "Admin" Then
             BookInventory.Enabled = True
             menuTransactions.Enabled = True
             menuUserForm.Enabled = True
             menuBookInventory.Enabled = True
             BorrowPendingRequestToolStripMenuItem.Enabled = True
-            btnReports.Visible = True
         End If
 
         If xpost = "Administrator" And xpriv = "Admin" Then
@@ -40,7 +38,6 @@ Public Class frmmain
             menuUserForm.Enabled = True
             menuBookInventory.Enabled = True
             BorrowPendingRequestToolStripMenuItem.Enabled = True
-            btnReports.Enabled = True
         End If
     End Sub
 
@@ -186,7 +183,7 @@ Private Sub LoadStatistics()
         Me.Hide()
     End Sub
 
-    Private Sub btnReports_Click(sender As Object, e As EventArgs) Handles btnReports.Click
+    Private Sub btnReports_Click(sender As Object, e As EventArgs)
         Try
             Dim reportForm As New ReportForm()
             reportForm.Show()

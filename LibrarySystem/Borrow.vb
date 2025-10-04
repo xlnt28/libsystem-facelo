@@ -39,8 +39,8 @@ Public Class Borrow
                 dtpDueDate.Visible = False
                 txtPendingApprovalText.Visible = True
                 txtPendingApprovalText2.Visible = True
-                txtPendingApprovalText.Text = "Pending Approval"
-                txtPendingApprovalText2.Text = "Pending Approval"
+                txtPendingApprovalText.Text = "For Approval "
+                txtPendingApprovalText2.Text = "For Approval"
             End If
 
             txtName.Text = XName
@@ -216,8 +216,8 @@ Public Class Borrow
             txtPendingApprovalText.Visible = True
             txtPendingApprovalText2.Visible = True
             Label6.Visible = True
-            txtPendingApprovalText.Text = "Pending Approval"
-            txtPendingApprovalText2.Text = "Pending Approval"
+            txtPendingApprovalText.Text = "For Approval"
+            txtPendingApprovalText2.Text = "For Approval"
         End If
 
         pbBookImage.ImageLocation = Application.StartupPath & "\bookImages\book_default.jpg"

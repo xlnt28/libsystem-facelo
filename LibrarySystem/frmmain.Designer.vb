@@ -48,7 +48,6 @@ Partial Class frmmain
         Me.lblCurrentBorrowings = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel7 = New System.Windows.Forms.Panel()
-        Me.btnReports = New System.Windows.Forms.Button()
         Me.lblCurrentRequestedBook = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.Panel8 = New System.Windows.Forms.Panel()
@@ -305,26 +304,12 @@ Partial Class frmmain
         '
         Me.Panel7.BackColor = System.Drawing.Color.SeaShell
         Me.Panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel7.Controls.Add(Me.btnReports)
         Me.Panel7.Controls.Add(Me.lblCurrentRequestedBook)
         Me.Panel7.Controls.Add(Me.Label3)
         Me.Panel7.Location = New System.Drawing.Point(895, 205)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(331, 193)
         Me.Panel7.TabIndex = 9
-        '
-        'btnReports
-        '
-        Me.btnReports.BackColor = System.Drawing.Color.PeachPuff
-        Me.btnReports.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.btnReports.Font = New System.Drawing.Font("Verdana", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReports.ForeColor = System.Drawing.Color.Black
-        Me.btnReports.Location = New System.Drawing.Point(-1, -1)
-        Me.btnReports.Name = "btnReports"
-        Me.btnReports.Size = New System.Drawing.Size(331, 193)
-        Me.btnReports.TabIndex = 10
-        Me.btnReports.Text = "Reports"
-        Me.btnReports.UseVisualStyleBackColor = False
         '
         'lblCurrentRequestedBook
         '
@@ -487,7 +472,6 @@ Partial Class frmmain
     Friend WithEvents lblUnpaidBorrowedBooks As System.Windows.Forms.Label
     Friend WithEvents Label6 As System.Windows.Forms.Label
     Friend WithEvents BorrowPendingRequestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents btnReports As System.Windows.Forms.Button
     Friend WithEvents txtPrivilege As Label
     Friend WithEvents txtPosition As Label
 End Class

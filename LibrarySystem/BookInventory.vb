@@ -918,7 +918,7 @@ Public Class BookInventory
             If sfd.ShowDialog() = DialogResult.OK Then
                 Dim dt As New DataTable()
 
-                Using cmd As New OleDbCommand("SELECT * FROM books", con)
+                Using cmd As New OleDbCommand("SELECT * FROM books ORDER BY [Book ID]", con)
                     Using da As New OleDbDataAdapter(cmd)
                         da.Fill(dt)
                     End Using
@@ -942,40 +942,25 @@ Public Class BookInventory
         Try
             Dim dbPath As String = Application.StartupPath & "\Database\library.mdb"
 
+            Dim fullDataSet As New DataSet()
+
+            Using cmd As New OleDbCommand("SELECT * FROM books ORDER BY [Book ID]", con)
+                Using da As New OleDbDataAdapter(cmd)
+                    da.Fill(fullDataSet, "books")
+                End Using
+            End Using
+
             Dim rpt As New ReportDocument()
             rpt.Load(Application.StartupPath & "\Reports\BookInventoryReport.rpt")
+            rpt.SetDataSource(fullDataSet)
 
-            rpt.SetDatabaseLogon("", "", dbPath, "library")
-
-            Dim sfd As New SaveFileDialog()
-            sfd.Filter = "PDF File (*.pdf)|*.pdf|Excel File (*.xlsx)|*.xlsx|Word File (*.docx)|*.docx"
-            sfd.Title = "Save Report As"
-            sfd.FileName = "BookReport"
-
-            If sfd.ShowDialog() = DialogResult.OK Then
-                Dim diskOpts As New DiskFileDestinationOptions()
-                diskOpts.DiskFileName = sfd.FileName
-
-                With rpt.ExportOptions
-                    .ExportDestinationType = ExportDestinationType.DiskFile
-                    .ExportDestinationOptions = diskOpts
-
-                    Select Case IO.Path.GetExtension(sfd.FileName).ToLower()
-                        Case ".pdf"
-                            .ExportFormatType = ExportFormatType.PortableDocFormat
-                        Case ".xlsx"
-                            .ExportFormatType = ExportFormatType.ExcelWorkbook
-                        Case ".docx"
-                            .ExportFormatType = ExportFormatType.WordForWindows
-                    End Select
-                End With
-
-                rpt.Export()
-                MessageBox.Show("Report saved to: " & sfd.FileName, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
-            End If
+            Dim frm As New ReportForm()
+            frm.CrystalReportViewer1.ReportSource = rpt
+            frm.CrystalReportViewer1.Refresh()
+            frm.ShowDialog()
 
         Catch ex As Exception
-            MessageBox.Show("Error exporting report: " & ex.Message, "Report Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+            MessageBox.Show("Error loading report: " & ex.Message, "Report Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
     End Sub
 

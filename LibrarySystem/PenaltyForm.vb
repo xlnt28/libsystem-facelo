@@ -30,7 +30,6 @@ Public Class PenaltyForm
         End If
 
         MarkAsPaidToolStripMenuItem.Enabled = isAdmin
-        MarkAsUnpaidToolStripMenuItem.Enabled = isAdmin
         ViewPaidToolStripMenuItem.Enabled = True
         ViewUnpaidToolStripMenuItem.Enabled = True
         ViewAllToolStripMenuItem.Enabled = True
@@ -279,7 +278,6 @@ Public Class PenaltyForm
         ViewUnpaidToolStripMenuItem.Enabled = False
         ViewAllToolStripMenuItem.Enabled = False
         SwitchViewToolStripMenuItem.Enabled = False
-        MarkAsUnpaidToolStripMenuItem.Enabled = False
     End Sub
 
     Private Sub EnableOtherMenuItems()
@@ -288,7 +286,6 @@ Public Class PenaltyForm
         ViewPaidToolStripMenuItem.Enabled = True
         ViewUnpaidToolStripMenuItem.Enabled = True
         ViewAllToolStripMenuItem.Enabled = True
-        MarkAsUnpaidToolStripMenuItem.Enabled = isAdmin
 
         SwitchViewToolStripMenuItem.Enabled = isAdmin
     End Sub
@@ -535,49 +532,22 @@ Public Class PenaltyForm
 
         If Not isAdmin Then
             MarkAsPaidToolStripMenuItem.Enabled = False
-            MarkAsUnpaidToolStripMenuItem.Enabled = False
             Return
         End If
 
         MarkAsPaidToolStripMenuItem.Enabled = True
 
         If dgvPenalty.SelectedRows.Count = 0 Then
-            MarkAsUnpaidToolStripMenuItem.Enabled = False
         Else
             Dim status As String = dgvPenalty.SelectedRows(0).Cells("Penalty Status").Value.ToString()
-            MarkAsUnpaidToolStripMenuItem.Enabled = (status = "Paid")
         End If
     End Sub
 
-    Private Sub MarkAsUnpaidToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles MarkAsUnpaidToolStripMenuItem.Click
-        If isMarkAsPaidMode Then
-            MsgBox("Please exit Mark as Paid mode first.", MsgBoxStyle.Exclamation, "Mark as Paid Mode Active")
-            Return
+    Private Sub PenaltyForm_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        If xpriv = "Admin" Then
+            SearchToolStripMenuItem.Visible = True
+        Else
+            SearchToolStripMenuItem.Visible = False
         End If
-
-        If Not isAdmin Then
-            Return
-        End If
-
-        If dgvPenalty.SelectedRows.Count = 0 Then
-            MsgBox("Please select a penalty record to mark as unpaid.", MsgBoxStyle.Exclamation, "Select Record")
-            Return
-        End If
-
-        Try
-            Dim penaltyID As String = dgvPenalty.SelectedRows(0).Cells("PenaltyID").Value.ToString()
-            Using cmd As New OleDbCommand("UPDATE Penalties SET [Penalty Status] = 'Unpaid', [Payment Date] = NULL WHERE [PenaltyID] = @PenaltyID", con)
-                cmd.Parameters.AddWithValue("@PenaltyID", penaltyID)
-                cmd.ExecuteNonQuery()
-            End Using
-            MsgBox("Penalty marked as Unpaid.", MsgBoxStyle.Information, "Success")
-            LoadPenaltyData()
-        Catch ex As Exception
-            MsgBox("Error updating penalty status: " & ex.Message, MsgBoxStyle.Critical, "Error")
-        End Try
-    End Sub
-
-    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
-
     End Sub
 End Class

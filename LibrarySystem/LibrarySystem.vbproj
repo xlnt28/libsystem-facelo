@@ -106,6 +106,12 @@
     <Compile Include="BorrowPendingRequest.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="BorrowRequest.Designer.vb">
+      <DependentUpon>BorrowRequest.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BorrowRequest.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ChangeBorrower.Designer.vb">
       <DependentUpon>ChangeBorrower.vb</DependentUpon>
     </Compile>
@@ -215,6 +221,12 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="ReturnedBooks.Designer.vb">
+      <DependentUpon>ReturnedBooks.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ReturnedBooks.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UserReturn.Designer.vb">
       <DependentUpon>UserReturn.vb</DependentUpon>
     </Compile>
@@ -232,6 +244,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="BorrowPendingRequest.resx">
       <DependentUpon>BorrowPendingRequest.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BorrowRequest.resx">
+      <DependentUpon>BorrowRequest.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ChangeBorrower.resx">
       <DependentUpon>ChangeBorrower.vb</DependentUpon>
@@ -292,6 +307,9 @@
       <LastGenOutput>BookInventoryReport.vb</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="ReturnedBooks.resx">
+      <DependentUpon>ReturnedBooks.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserReturn.resx">
       <DependentUpon>UserReturn.vb</DependentUpon>
     </EmbeddedResource>

@@ -38,7 +38,7 @@ Public Class BorrowPendingRequest
             approvePanel = New Panel()
             approvePanel.Dock = DockStyle.Bottom
             approvePanel.Height = 80
-            approvePanel.BackColor = Color.LightGreen
+            approvePanel.BackColor = Color.FromArgb(230, 240, 255)
             approvePanel.Visible = False
 
             Dim lblCurrentUser As New Label()
@@ -46,7 +46,7 @@ Public Class BorrowPendingRequest
             lblCurrentUser.Text = "User: None"
             lblCurrentUser.Size = New Size(300, 20)
             lblCurrentUser.Location = New Point(20, 10)
-            lblCurrentUser.ForeColor = Color.DarkGreen
+            lblCurrentUser.ForeColor = Color.FromArgb(0, 51, 102)
             lblCurrentUser.Font = New Font(lblCurrentUser.Font, FontStyle.Bold)
 
             Dim lblSelectedCount As New Label()
@@ -54,13 +54,13 @@ Public Class BorrowPendingRequest
             lblSelectedCount.Text = "Selected: 0 requests"
             lblSelectedCount.Size = New Size(200, 20)
             lblSelectedCount.Location = New Point(20, 35)
-            lblSelectedCount.ForeColor = Color.DarkGreen
+            lblSelectedCount.ForeColor = Color.FromArgb(0, 51, 102)
 
             Dim btnApproveSelected As New Button()
             btnApproveSelected.Text = "Approve Selected"
             btnApproveSelected.Size = New Size(150, 30)
             btnApproveSelected.Location = New Point(350, 10)
-            btnApproveSelected.BackColor = Color.Green
+            btnApproveSelected.BackColor = Color.FromArgb(0, 102, 204)
             btnApproveSelected.ForeColor = Color.White
             AddHandler btnApproveSelected.Click, AddressOf btnApproveSelected_Click
 
@@ -68,7 +68,7 @@ Public Class BorrowPendingRequest
             btnCancelApprove.Text = "Cancel"
             btnCancelApprove.Size = New Size(100, 30)
             btnCancelApprove.Location = New Point(510, 10)
-            btnCancelApprove.BackColor = Color.Red
+            btnCancelApprove.BackColor = Color.FromArgb(192, 57, 43)
             btnCancelApprove.ForeColor = Color.White
             AddHandler btnCancelApprove.Click, AddressOf btnCancelApprove_Click
 
@@ -84,6 +84,7 @@ Public Class BorrowPendingRequest
             MsgBox("Error initializing approve mode controls: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
+
 
     Private Sub adminHistory_Activated(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Activated
         LoadPendingRequests()
@@ -692,4 +693,8 @@ Public Class BorrowPendingRequest
             Return prefix & "00001"
         End Try
     End Function
+
+    Private Sub dg_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dg.CellContentClick
+
+    End Sub
 End Class

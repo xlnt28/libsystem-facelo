@@ -217,7 +217,23 @@ Public Class AdminReturn
             Dim returnID As String = GenerateNextReturnID()
             Dim returnDate As DateTime = DateTime.Now
 
-            cmd = New OleDbCommand("INSERT INTO returnLog ([ReturnID], [Borrow ID], [Book ID], [Returned Quantity], [Return Date], [Processed By]) VALUES (?, ?, ?, ?, ?, ?)", con)
+            Dim borrowerName As String = ""
+            Dim getNameCmd As New OleDbCommand("SELECT [Borrower Name] FROM borrowings WHERE [Borrow ID] = ?", con)
+            getNameCmd.Parameters.AddWithValue("?", borrowID)
+
+            Dim result As Object = getNameCmd.ExecuteScalar()
+            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                borrowerName = result.ToString()
+            Else
+                borrowerName = "Unknown"
+            End If
+            getNameCmd.Dispose()
+
+            cmd = New OleDbCommand("
+            INSERT INTO returnLog 
+            ([ReturnID], [Borrow ID], [Book ID], [Returned Quantity], [Return Date], [Processed By], [Borrower Name]) 
+            VALUES (?, ?, ?, ?, ?, ?, ?)", con)
+
             cmd.Parameters.AddWithValue("?", returnID)
             cmd.Parameters.AddWithValue("?", borrowID)
             cmd.Parameters.AddWithValue("?", bookID)
@@ -231,11 +247,12 @@ Public Class AdminReturn
             cmd.Parameters.Add(dateParam)
 
             cmd.Parameters.AddWithValue("?", XName)
+            cmd.Parameters.AddWithValue("?", borrowerName)
 
             Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
 
             If rowsAffected > 0 Then
-                Console.WriteLine("Successfully inserted into returnLog")
+                Console.WriteLine("Successfully inserted into returnLog.")
             Else
                 MsgBox("Failed to insert into returnLog", MsgBoxStyle.Exclamation, "Insert Failed")
             End If
@@ -244,6 +261,7 @@ Public Class AdminReturn
             MsgBox($"Error creating return log: {ex.Message}", MsgBoxStyle.Critical, "Database Error")
         End Try
     End Sub
+
 
     Private Sub InsertPenaltyRecord(ByVal borrowID As String, ByVal bookIDs() As String,
                                   ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
@@ -420,7 +438,6 @@ Public Class AdminReturn
             Return
         End If
 
-        ' Get user's borrowed books
         Dim userBooks As List(Of PartialReturnForm2.BookRecord) = GetUserBorrowedBooksForMultiReturn(userInput)
 
         If userBooks Is Nothing OrElse userBooks.Count = 0 Then
@@ -428,7 +445,6 @@ Public Class AdminReturn
             Return
         End If
 
-        ' Show multi-return form
         Using multiReturnForm As New PartialReturnForm2(userBooks)
             If multiReturnForm.ShowDialog() = DialogResult.OK Then
                 ProcessMultipleReturns(multiReturnForm.GetSelectedBooks(), multiReturnForm.GetTotalPenalty())
@@ -440,7 +456,6 @@ Public Class AdminReturn
         Dim userBooks As New List(Of PartialReturnForm2.BookRecord)()
 
         Try
-            ' First, get all borrowings for the user
             Dim sql As String = "SELECT [Borrow ID], [Book ID], [Copies], [Current Returned], [Borrow Date], [Due Date] " &
                           "FROM borrowings " &
                           "WHERE ([Borrower Name] LIKE ? OR [User ID] = ?) " &
@@ -457,7 +472,6 @@ Public Class AdminReturn
                         Dim borrowID As String = reader("Borrow ID").ToString()
                         Dim bookID As String = reader("Book ID").ToString()
 
-                        ' Get book title separately
                         Dim bookTitle As String = GetBookTitleByID(bookID)
 
                         Dim bookRecord As New PartialReturnForm2.BookRecord With {
@@ -469,11 +483,9 @@ Public Class AdminReturn
                         .BorrowDate = Convert.ToDateTime(reader("Borrow Date")),
                         .DueDate = Convert.ToDateTime(reader("Due Date"))
                     }
-                        ' Calculate days late for each book individually
                         bookRecord.DaysLate = Math.Max(0, (DateTime.Today - bookRecord.DueDate).Days)
                         userBooks.Add(bookRecord)
                     Catch ex As Exception
-                        ' Skip invalid records
                         Continue While
                     End Try
                 End While
@@ -595,6 +607,8 @@ Public Class AdminReturn
             Dim penaltyID As String = GenerateNextPenaltyID()
             Dim daysLate As Integer = Math.Max(0, (returnDate - dueDate).Days)
 
+
+
             Using insertCmd As New OleDbCommand("
             INSERT INTO Penalties 
             ([PenaltyID], [Borrow ID], [Book ID], [Quantity], [Book Condition], [Condition Penalty], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date], [User Name]) 
@@ -619,6 +633,10 @@ Public Class AdminReturn
         Catch ex As Exception
             MsgBox("Error creating penalty record: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
+    End Sub
+
+    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
+
     End Sub
 End Class
 

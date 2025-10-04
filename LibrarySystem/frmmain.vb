@@ -23,14 +23,17 @@ Public Class frmmain
             menuUserForm.Enabled = False
             menuBookInventory.Enabled = False
             BorrowPendingRequestToolStripMenuItem.Enabled = False
+            dashAdminPan.Visible = False
+            dashUserpanel.Visible = True
         ElseIf xpriv = "Admin" Then
             BookInventory.Enabled = True
             menuTransactions.Enabled = True
             menuUserForm.Enabled = True
             menuBookInventory.Enabled = True
             BorrowPendingRequestToolStripMenuItem.Enabled = True
+            dashAdminPan.Visible = True
+            dashUserpanel.Visible = False
         End If
-
         If xpost = "Administrator" And xpriv = "Admin" Then
             BorrowToolStripMenuItem.Enabled = False
             ReturnToolStripMenuItem.Enabled = False
@@ -38,6 +41,8 @@ Public Class frmmain
             menuUserForm.Enabled = True
             menuBookInventory.Enabled = True
             BorrowPendingRequestToolStripMenuItem.Enabled = True
+            dashAdminPan.Visible = True
+            dashUserpanel.Visible = False
         End If
     End Sub
 
@@ -108,50 +113,12 @@ Public Class frmmain
         OpenDB()
     End Sub
 
-Private Sub BorrowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BorrowToolStripMenuItem.Click
+    Private Sub BorrowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BorrowToolStripMenuItem.Click
         Dim borrow As New Borrow()
         Me.Hide()
         borrow.Show()
     End Sub
 
-Private Sub LoadStatistics()
-        Try
-            OpenDB()
-
-            Dim pendingBorrowedQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Borrower Name] = @UserName AND [Status] = 'Borrowed'"
-            cmd = New OleDbCommand(pendingBorrowedQuery, con)
-            cmd.Parameters.AddWithValue("@UserName", XName)
-            Dim pendingBorrowedCount As Integer = CInt(cmd.ExecuteScalar())
-            lblCurrentBorrowings.Text = pendingBorrowedCount.ToString()
-
-            Dim requestedBooksQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Borrower Name] = @UserName AND [Status] = 'Requested'"
-            cmd = New OleDbCommand(requestedBooksQuery, con)
-            cmd.Parameters.AddWithValue("@UserName", XName)
-            Dim requestedBooksCount As Integer = CInt(cmd.ExecuteScalar())
-            lblCurrentRequestedBook.Text = requestedBooksCount.ToString()
-
-            Dim totalUnpaidQuery As String = "SELECT COUNT(*) FROM Penalties WHERE [Penalty Status] = 'Unpaid' AND [Borrow ID] IN (SELECT [Borrow ID] FROM borrowings WHERE [Borrower Name] = @UserName)"
-            cmd = New OleDbCommand(totalUnpaidQuery, con)
-            cmd.Parameters.AddWithValue("@UserName", XName)
-            Dim totalUnpaidCount As Integer = If(IsDBNull(cmd.ExecuteScalar()), 0, CInt(cmd.ExecuteScalar()))
-            lblUnpaidBorrowedBooks.Text = totalUnpaidCount.ToString()
-
-
-            Dim totalReturnedQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Borrower Name] = @UserName AND [Status] = 'Completed'"
-            cmd = New OleDbCommand(totalReturnedQuery, con)
-            cmd.Parameters.AddWithValue("@UserName", XName)
-            Dim totalReturnedCount As Integer = CInt(cmd.ExecuteScalar())
-            lblBooksReturned.Text = totalReturnedCount.ToString()
-
-        Catch ex As Exception
-            MessageBox.Show("Error loading statistics: " & ex.Message)
-            lblCurrentBorrowings.Text = "Error"
-            lblBooksReturned.Text = "Error"
-            lblCurrentRequestedBook.Text = "Error"
-        Finally
-            CloseDB()
-        End Try
-    End Sub
 
     Private Sub TransactionHistoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TransactionHistoryToolStripMenuItem.Click
         Me.Hide()
@@ -192,4 +159,116 @@ Private Sub LoadStatistics()
         End Try
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        BorrowRequest.Show()
+        Me.Hide()
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        ReturnedBooks.Show()
+        Me.Hide()
+    End Sub
+
+
+    Private Sub LoadStatistics()
+        Try
+            OpenDB()
+
+
+            If xpriv = "Admin" Then
+
+
+                Dim totalBorrowedQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Status] = 'Borrowed'"
+                cmd = New OleDbCommand(totalBorrowedQuery, con)
+                Dim totalBorrowedCount As Integer = CInt(cmd.ExecuteScalar())
+                lblTotalBorrowedBooks.Text = totalBorrowedCount.ToString()
+
+                Dim totalOverdueQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Status] = 'Borrowed' AND [Due Date] < Date()"
+                cmd = New OleDbCommand(totalOverdueQuery, con)
+                Dim totalOverdueCount As Integer = CInt(cmd.ExecuteScalar())
+                lblTotalBorrowedOverdue.Text = totalOverdueCount.ToString()
+
+                Dim totalBooksQuery As String = "SELECT COUNT(*) FROM Books"
+                cmd = New OleDbCommand(totalBooksQuery, con)
+                Dim totalBooksCount As Integer = CInt(cmd.ExecuteScalar())
+                lblTotalBooks.Text = totalBooksCount.ToString()
+
+                Dim currentReturnReqQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Has Requested Return] = 'Yes'"
+                cmd = New OleDbCommand(currentReturnReqQuery, con)
+                Dim currentReturnReqCount As Integer = CInt(cmd.ExecuteScalar())
+                lblCurrentRequestedReturn.Text = currentReturnReqCount.ToString()
+
+                Dim totalUnpaidPenaltiesQuery As String = "SELECT COUNT(*) FROM Penalties WHERE [Penalty Status] = 'Unpaid'"
+                cmd = New OleDbCommand(totalUnpaidPenaltiesQuery, con)
+                Dim totalUnpaidPenaltiesCount As Integer = CInt(cmd.ExecuteScalar())
+                lblTotalUnpaidPenalties.Text = totalUnpaidPenaltiesCount.ToString()
+
+                ' Dim forgotPasswordQuery As String = "SELECT COUNT(*) FROM ForgotPasswordRequests WHERE [Status] = 'Pending'"
+                'cmd = New OleDbCommand(forgotPasswordQuery, con)
+                'Dim forgotPasswordCount As Integer = CInt(cmd.ExecuteScalar())
+                'lblForgotPasswordRequest.Text = forgotPasswordCount.ToString()
+
+
+            Else
+                Dim pendingBorrowedQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Borrower Name] = @UserName AND [Status] = 'Borrowed'"
+                cmd = New OleDbCommand(pendingBorrowedQuery, con)
+                cmd.Parameters.AddWithValue("@UserName", XName)
+                Dim pendingBorrowedCount As Integer = CInt(cmd.ExecuteScalar())
+                lblCurrentBorrowings.Text = pendingBorrowedCount.ToString()
+
+                Dim requestedBooksQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Borrower Name] = @UserName AND [Status] = 'Requested'"
+                cmd = New OleDbCommand(requestedBooksQuery, con)
+                cmd.Parameters.AddWithValue("@UserName", XName)
+                Dim requestedBooksCount As Integer = CInt(cmd.ExecuteScalar())
+                lblCurrentRequestedBook.Text = requestedBooksCount.ToString()
+
+                Dim totalUnpaidAmountQuery As String = "
+                                SELECT SUM([Penalty Amount]) 
+                                FROM Penalties 
+                                WHERE [Penalty Status] = 'Unpaid' 
+                                "
+                cmd = New OleDbCommand(totalUnpaidAmountQuery, con)
+                cmd.Parameters.AddWithValue("@UserName", XName)
+                Dim totalUnpaidAmount As Decimal = If(IsDBNull(cmd.ExecuteScalar()), 0D, CDec(cmd.ExecuteScalar()))
+                lblUnpaidBorrowedBooks.Text = totalUnpaidAmount.ToString("₱#,##0.00")
+
+                Dim totalReturnedQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Borrower Name] = @UserName AND [Status] = 'Completed'"
+                cmd = New OleDbCommand(totalReturnedQuery, con)
+                cmd.Parameters.AddWithValue("@UserName", XName)
+                Dim totalReturnedCount As Integer = CInt(cmd.ExecuteScalar())
+                lblBooksReturned.Text = totalReturnedCount.ToString()
+            End If
+
+
+
+
+        Catch ex As Exception
+            MessageBox.Show("Error loading statistics: " & ex.Message)
+
+            lblCurrentBorrowings.Text = "Error"
+            lblBooksReturned.Text = "Error"
+            lblCurrentRequestedBook.Text = "Error"
+            lblUnpaidBorrowedBooks.Text = "Error"
+            lblTotalBorrowedBooks.Text = "Error"
+            lblTotalBorrowedOverdue.Text = "Error"
+            lblTotalBooks.Text = "Error"
+            lblCurrentRequestedReturn.Text = "Error"
+            lblTotalUnpaidPenalties.Text = "Error"
+            lblForgotPasswordRequest.Text = "Error"
+
+        Finally
+            CloseDB()
+        End Try
+    End Sub
+
+
+    Private Sub btnviewTotalUnpaidPenalties_Click(sender As Object, e As EventArgs) Handles btnviewTotalUnpaidPenalties.Click
+        PenaltyForm.Show()
+        Me.Hide()
+    End Sub
+
+    Private Sub btnCurrentRequestedReturn_Click(sender As Object, e As EventArgs) Handles btnCurrentRequestedReturn.Click
+        AdminReturn.Show()
+        Me.Hide()
+    End Sub
 End Class

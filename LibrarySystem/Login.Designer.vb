@@ -209,9 +209,9 @@ Partial Class Login
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(659, 151)
         Me.Label7.TabIndex = 10
-        Me.Label7.Text = "This project was made to help manage the library better." & Global.Microsoft.VisualBasic.ChrW(10) & "It can record borrowed a" &
-    "nd returned books easily." & Global.Microsoft.VisualBasic.ChrW(10) & "The system also helps the librarian monitor users and " &
-    "keep track of penalties."
+        Me.Label7.Text = "Made to help manage the library better." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "It can record borrowed and returned book" &
+    "s easily." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "The system also helps the librarian monitor users and keep track of p" &
+    "enalties."
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label5

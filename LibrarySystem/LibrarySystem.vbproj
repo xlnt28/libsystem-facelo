@@ -252,7 +252,7 @@
       <DependentUpon>ChangeBorrower.vb</DependentUpon>
     </EmbeddedResource>
     <Content Include="Database\library.mdb">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Reports\CrystalReport1.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>

@@ -11,7 +11,31 @@ Public Class RequestedChangePassword
         UpdateExpiredRequests()
         LoadRequests()
         CustomizeDataGridView(dgv)
+
     End Sub
+
+    Private Sub AutoSelectFirstRow()
+        If dgv.Rows.Count > 0 Then
+            dgv.ClearSelection()
+            dgv.Rows(0).Selected = True
+            selectedRequestID = GetRequestIDFromRow(0)
+        Else
+            selectedRequestID = -1
+        End If
+    End Sub
+
+    Private Function GetRequestIDFromRow(rowIndex As Integer) As Integer
+        If rowIndex >= 0 AndAlso rowIndex < dgv.Rows.Count Then
+            Try
+                Dim val = dgv.Rows(rowIndex).Cells("RequestID").Value
+                If Not IsDBNull(val) AndAlso val IsNot Nothing Then
+                    Return CInt(val)
+                End If
+            Catch ex As Exception
+            End Try
+        End If
+        Return -1
+    End Function
 
     Private Sub UpdateExpiredRequests()
         Try
@@ -62,6 +86,9 @@ Public Class RequestedChangePassword
                 dgv.DataSource = dt
             End Using
 
+            ' Auto-select first row after loading data
+            AutoSelectFirstRow()
+
         Catch ex As Exception
             MsgBox("Error loading reset requests: " & ex.Message, vbCritical)
         End Try
@@ -69,16 +96,7 @@ Public Class RequestedChangePassword
 
     Private Sub dgv_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv.CellClick
         If e.RowIndex >= 0 Then
-            Try
-                Dim val = dgv.Rows(e.RowIndex).Cells("RequestID").Value
-                If Not IsDBNull(val) Then
-                    selectedRequestID = CInt(val)
-                Else
-                    selectedRequestID = -1
-                End If
-            Catch ex As Exception
-                selectedRequestID = -1
-            End Try
+            selectedRequestID = GetRequestIDFromRow(e.RowIndex)
         End If
     End Sub
 
@@ -167,5 +185,9 @@ Public Class RequestedChangePassword
     Private Sub GoBackToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GoBackToolStripMenuItem.Click
         frmmain.Show()
         Me.Hide()
+    End Sub
+
+    Private Sub RequestedChangePassword_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        LoadRequests()
     End Sub
 End Class

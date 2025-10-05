@@ -87,4 +87,12 @@ Public Class Login
     Private Sub PictureBox2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
 
     End Sub
+
+    Private Sub a_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles MyBase.FormClosing
+        CloseDB()
+    End Sub
+
+    Private Sub Login_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        OpenDB()
+    End Sub
 End Class

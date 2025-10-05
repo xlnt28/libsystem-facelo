@@ -93,6 +93,7 @@ Public Class BorrowRequest
     End Sub
 
     Private Sub BorrowRequest_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        OpenDB()
         LoadBorrowData()
     End Sub
 End Class

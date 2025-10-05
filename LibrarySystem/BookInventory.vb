@@ -387,6 +387,9 @@ Public Class BookInventory
     Private Sub menuSave_Click(ByVal sender As Object, ByVal e As EventArgs) Handles menuSave.Click
         If Not ValidateBookFields() Then Exit Sub
 
+        If con.State <> ConnectionState.Open Then
+            con.Open()
+        End If
         Try
             If isAdding Then
                 SaveNewBook()
@@ -964,4 +967,9 @@ Public Class BookInventory
         End Try
     End Sub
 
+    Private Sub BookInventory_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        If con.State <> ConnectionState.Open Then
+            con.Open()
+        End If
+    End Sub
 End Class

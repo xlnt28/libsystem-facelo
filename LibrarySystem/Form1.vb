@@ -330,6 +330,10 @@ Sub loadImage()
 
     Private Sub menuSave_Click(ByVal sender As Object, ByVal e As EventArgs) Handles menuSave.Click
 
+        If con.State <> ConnectionState.Open Then
+            con.Open()
+        End If
+
         Select Case cbopv.Text
             Case "Admin"
                 If cbopost.Text <> "Administrator" AndAlso cbopost.Text <> "Librarian" Then

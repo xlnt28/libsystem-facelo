@@ -544,6 +544,10 @@ Public Class PenaltyForm
     End Sub
 
     Private Sub PenaltyForm_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        If con.State <> ConnectionState.Open Then
+            con.Open()
+        End If
+
         If xpriv = "Admin" Then
             SearchToolStripMenuItem.Visible = True
         Else

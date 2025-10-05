@@ -12,7 +12,9 @@ Public Class AdminReturn
     End Sub
 
     Private Sub Form1_Activated(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Activated
-        OpenDB()
+        If con.State <> ConnectionState.Open Then
+            con.Open()
+        End If
     End Sub
 
     Private Sub LoadAllBorrowedItems()

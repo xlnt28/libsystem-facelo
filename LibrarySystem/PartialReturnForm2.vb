@@ -567,4 +567,10 @@ Public Class PartialReturnForm2
             Next
         Next
     End Sub
+
+    Private Sub PartialReturnForm2_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        If con.State <> ConnectionState.Open Then
+            con.Open()
+        End If
+    End Sub
 End Class

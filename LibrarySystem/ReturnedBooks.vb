@@ -57,4 +57,18 @@ Public Class ReturnedBooks
         Me.Close()
 
     End Sub
+
+    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
+
+    End Sub
+
+    Private Sub ReturnedBooks_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        If con.State <> ConnectionState.Open Then
+            con.Open()
+        End If
+    End Sub
+
+    Private Sub a_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles MyBase.FormClosing
+        CloseDB()
+    End Sub
 End Class

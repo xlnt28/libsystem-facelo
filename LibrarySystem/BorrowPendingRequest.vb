@@ -87,6 +87,8 @@ Public Class BorrowPendingRequest
 
 
     Private Sub adminHistory_Activated(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Activated
+
+        OpenDB()
         LoadPendingRequests()
     End Sub
 

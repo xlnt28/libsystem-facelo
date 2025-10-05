@@ -11,6 +11,10 @@ Public Class UserReturn
     End Sub
 
     Private Sub UserReturn_Activated(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Activated
+        If con.State <> ConnectionState.Open Then
+            con.Open()
+        End If
+
         LoadReturnedAndLostItems()
     End Sub
 
@@ -119,7 +123,5 @@ Public Class UserReturn
         End Try
     End Sub
 
-    Private Sub dg_CellContentClick_1(sender As Object, e As DataGridViewCellEventArgs) Handles dg.CellContentClick
 
-    End Sub
 End Class

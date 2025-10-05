@@ -877,4 +877,14 @@ Public Class Borrow
     Private Sub Label2_Click(sender As Object, e As EventArgs) Handles Label2.Click
 
     End Sub
+
+    Private Sub Borrow_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        If con.State <> ConnectionState.Open Then
+            con.Open()
+        End If
+    End Sub
+
+    Private Sub a_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles MyBase.FormClosing
+        CloseDB()
+    End Sub
 End Class

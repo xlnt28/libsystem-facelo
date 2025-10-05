@@ -64,4 +64,14 @@ Public Class ChangeBorrower
     Private Sub borrowdgv_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles borrowdgv.CellContentClick
 
     End Sub
+
+    Private Sub ChangeBorrower_Activated(sender As Object, e As EventArgs) Handles Me.Activated
+        If con.State <> ConnectionState.Open Then
+            con.Open()
+        End If
+    End Sub
+
+    Private Sub ChangeBorrower_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+
+    End Sub
 End Class

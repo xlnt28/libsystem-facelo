@@ -25,6 +25,10 @@ Public Class History
     End Sub
 
     Private Sub History_Activated(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Activated
+        If con.State <> ConnectionState.Open Then
+            con.Open()
+        End If
+
         ShowAllUsers = False
 
         ViewAllToolStripMenuItem.Enabled = IsAdmin
@@ -66,7 +70,7 @@ Public Class History
         Me.Hide()
     End Sub
 
-    Private Sub History_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles MyBase.FormClosing
+    Private Sub a_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles MyBase.FormClosing
         CloseDB()
     End Sub
 
@@ -215,6 +219,10 @@ Public Class History
     End Sub
 
     Private Sub borrowdgv_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles borrowdgv.CellContentClick
+
+    End Sub
+
+    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
 
     End Sub
 End Class

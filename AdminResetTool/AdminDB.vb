@@ -8,17 +8,18 @@ Module AdminDB
     Public Function GetAdminConnection() As OleDbConnection
         Dim exeFolder As String = Application.StartupPath
 
-        Dim projectsRoot As String = Directory.GetParent(Directory.GetParent(Directory.GetParent(exeFolder).FullName).FullName).FullName
-
-        Dim dbPath As String = Path.Combine(projectsRoot, "LibrarySystem", "Database", "library.mdb")
+        Dim dbPath As String = Path.Combine(exeFolder, "Database", "library.mdb")
 
         If Not File.Exists(dbPath) Then
-            Throw New FileNotFoundException("Database not found: " & dbPath)
+            MsgBox("Database not found at: " & dbPath, MsgBoxStyle.Critical, "Database Error")
+            Return Nothing
         End If
 
         Dim conStr As String = $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={dbPath};Persist Security Info=False;"
+
         Return New OleDbConnection(conStr)
     End Function
+
 
     Public Sub SQLQueryFortbluser()
         Try

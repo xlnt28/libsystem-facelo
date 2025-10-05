@@ -43,12 +43,9 @@ Module variables
         cellStyle.WrapMode = DataGridViewTriState.True
         cellStyle.Font = New Font("Verdana", 8.5, FontStyle.Regular)
         dg.DefaultCellStyle = cellStyle
-
         dg.AlternatingRowsDefaultCellStyle.BackColor = Color.SeaShell
 
     End Sub
-
-
 
     Public Sub OpenDB()
         Try

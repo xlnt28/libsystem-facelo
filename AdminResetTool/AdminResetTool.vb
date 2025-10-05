@@ -34,4 +34,8 @@ Public Class AdminResetTool
         Application.Exit()
 
     End Sub
+
+    Private Sub AdminResetTool_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+    End Sub
 End Class

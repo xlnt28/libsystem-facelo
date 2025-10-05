@@ -61,4 +61,7 @@ Public Class ChangeBorrower
         Me.Close()
     End Sub
 
+    Private Sub borrowdgv_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles borrowdgv.CellContentClick
+
+    End Sub
 End Class

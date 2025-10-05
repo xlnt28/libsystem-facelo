@@ -550,4 +550,8 @@ Public Class PenaltyForm
             SearchToolStripMenuItem.Visible = False
         End If
     End Sub
+
+    Private Sub dgvPenalty_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvPenalty.CellContentClick
+
+    End Sub
 End Class

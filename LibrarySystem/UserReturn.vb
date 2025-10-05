@@ -119,4 +119,7 @@ Public Class UserReturn
         End Try
     End Sub
 
+    Private Sub dg_CellContentClick_1(sender As Object, e As DataGridViewCellEventArgs) Handles dg.CellContentClick
+
+    End Sub
 End Class

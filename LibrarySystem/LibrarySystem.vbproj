@@ -118,6 +118,12 @@
     <Compile Include="ChangeBorrower.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ForgotPasswordRequest.Designer.vb">
+      <DependentUpon>ForgotPasswordRequest.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ForgotPasswordRequest.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="PartialReturnForm.Designer.vb">
       <DependentUpon>PartialReturnForm.vb</DependentUpon>
     </Compile>
@@ -221,6 +227,12 @@
       <SubType>Component</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="RequestedChangePassword.Designer.vb">
+      <DependentUpon>RequestedChangePassword.vb</DependentUpon>
+    </Compile>
+    <Compile Include="RequestedChangePassword.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ReturnedBooks.Designer.vb">
       <DependentUpon>ReturnedBooks.vb</DependentUpon>
     </Compile>
@@ -264,6 +276,9 @@
       <LastGenOutput>CrystalReport2.vb</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="ForgotPasswordRequest.resx">
+      <DependentUpon>ForgotPasswordRequest.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="History.resx">
       <DependentUpon>History.vb</DependentUpon>
     </EmbeddedResource>
@@ -307,6 +322,9 @@
       <LastGenOutput>BookInventoryReport.vb</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <EmbeddedResource Include="RequestedChangePassword.resx">
+      <DependentUpon>RequestedChangePassword.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ReturnedBooks.resx">
       <DependentUpon>ReturnedBooks.vb</DependentUpon>
     </EmbeddedResource>

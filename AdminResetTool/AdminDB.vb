@@ -31,3 +31,38 @@ Module AdminDB
         End Try
     End Sub
 End Module
+
+' PANG TEST SA RESET TOOL
+
+'Imports System.Data.OleDb
+'Imports System.IO
+
+'Module AdminDB
+
+'Public daUser As OleDbDataAdapter
+'Public dbds As DataSet
+
+'Public Function GetAdminConnection() As OleDbConnection
+'Dim exeFolder As String = Application.StartupPath
+'Dim projectsRoot As String = Directory.GetParent(Directory.GetParent(Directory.GetParent(exeFolder).FullName).FullName).FullName
+'Dim dbPath As String = Path.Combine(projectsRoot, "LibrarySystem", "Database", "library.mdb")
+
+'If Not File.Exists(dbPath) Then
+'Throw New FileNotFoundException("Database not found: " & dbPath)
+'End If
+
+'Dim conStr As String = $"Provider=Microsoft.Jet.OLEDB.4.0;Data Source={dbPath};Persist Security Info=False;"
+'Return New OleDbConnection(conStr)
+'End Function
+
+'Public Sub SQLQueryFortbluser()
+'Try
+'            daUser = New OleDbDataAdapter("SELECT [User ID], [User Name], [Position], [Privileges] FROM tbluser", GetAdminConnection())
+'dbds = New DataSet()
+'daUser.Fill(dbds, "tbluser")
+'Catch ex As Exception
+'MsgBox("Error retrieving user data: " & ex.Message, MsgBoxStyle.Critical, "Query Error")
+'End Try
+'End Sub
+
+'End Module

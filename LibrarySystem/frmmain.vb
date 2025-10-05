@@ -203,10 +203,10 @@ Public Class frmmain
                 Dim totalUnpaidPenaltiesCount As Integer = CInt(cmd.ExecuteScalar())
                 lblTotalUnpaidPenalties.Text = totalUnpaidPenaltiesCount.ToString()
 
-                ' Dim forgotPasswordQuery As String = "SELECT COUNT(*) FROM ForgotPasswordRequests WHERE [Status] = 'Pending'"
-                'cmd = New OleDbCommand(forgotPasswordQuery, con)
-                'Dim forgotPasswordCount As Integer = CInt(cmd.ExecuteScalar())
-                'lblForgotPasswordRequest.Text = forgotPasswordCount.ToString()
+                Dim forgotPasswordQuery As String = "SELECT COUNT(*) FROM PasswordResetRequests WHERE [Status] = 'Pending'"
+                cmd = New OleDbCommand(forgotPasswordQuery, con)
+                Dim forgotPasswordCount As Integer = CInt(cmd.ExecuteScalar())
+                lblForgotPasswordRequest.Text = forgotPasswordCount.ToString()
 
 
             Else
@@ -223,10 +223,10 @@ Public Class frmmain
                 lblCurrentRequestedBook.Text = requestedBooksCount.ToString()
 
                 Dim totalUnpaidCountQuery As String = "
-    SELECT COUNT(*) 
-    FROM Penalties 
-    WHERE [Penalty Status] = 'Unpaid' 
-    AND [User Name] = ?"
+                  SELECT COUNT(*) 
+                    FROM Penalties 
+                     WHERE [Penalty Status] = 'Unpaid' 
+                     AND [User Name] = ?"
                 cmd = New OleDbCommand(totalUnpaidCountQuery, con)
                 cmd.Parameters.AddWithValue("?", XName)
                 Dim totalUnpaidCountObj As Object = cmd.ExecuteScalar()
@@ -235,10 +235,10 @@ Public Class frmmain
 
 
                 Dim totalReturnedQuery As String = "
-    SELECT COUNT(*) 
-    FROM borrowings 
-    WHERE [Borrower Name] = ? 
-    AND [Status] = 'Completed'"
+                SELECT COUNT(*) 
+                FROM borrowings 
+                WHERE [Borrower Name] = ? 
+                AND [Status] = 'Completed'"
                 cmd = New OleDbCommand(totalReturnedQuery, con)
                 cmd.Parameters.AddWithValue("?", XName)
                 Dim totalReturnedCountObj As Object = cmd.ExecuteScalar()
@@ -280,11 +280,16 @@ Public Class frmmain
         Me.Hide()
     End Sub
 
-    Private Sub Panel4_Paint(sender As Object, e As PaintEventArgs) Handles Panel4.Paint
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        RequestedChangePassword.Show()
+        Me.Hide()
+    End Sub
+
+    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
 
     End Sub
 
-    Private Sub dashAdminPan_Paint(sender As Object, e As PaintEventArgs) Handles dashAdminPan.Paint
+    Private Sub lblForgotPasswordRequest_Click(sender As Object, e As EventArgs) Handles lblForgotPasswordRequest.Click
 
     End Sub
 End Class

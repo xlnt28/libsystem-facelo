@@ -95,4 +95,10 @@ Public Class Login
     Private Sub Login_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         OpenDB()
     End Sub
+
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        Dim p As New ForgotPasswordRequest
+        p.Show()
+
+    End Sub
 End Class

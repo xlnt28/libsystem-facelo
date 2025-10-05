@@ -222,21 +222,29 @@ Public Class frmmain
                 Dim requestedBooksCount As Integer = CInt(cmd.ExecuteScalar())
                 lblCurrentRequestedBook.Text = requestedBooksCount.ToString()
 
-                Dim totalUnpaidAmountQuery As String = "
-                                SELECT SUM([Penalty Amount]) 
-                                FROM Penalties 
-                                WHERE [Penalty Status] = 'Unpaid' 
-                                "
-                cmd = New OleDbCommand(totalUnpaidAmountQuery, con)
-                cmd.Parameters.AddWithValue("@UserName", XName)
-                Dim totalUnpaidAmount As Decimal = If(IsDBNull(cmd.ExecuteScalar()), 0D, CDec(cmd.ExecuteScalar()))
-                lblUnpaidBorrowedBooks.Text = totalUnpaidAmount.ToString("₱#,##0.00")
+                Dim totalUnpaidCountQuery As String = "
+    SELECT COUNT(*) 
+    FROM Penalties 
+    WHERE [Penalty Status] = 'Unpaid' 
+    AND [User Name] = ?"
+                cmd = New OleDbCommand(totalUnpaidCountQuery, con)
+                cmd.Parameters.AddWithValue("?", XName)
+                Dim totalUnpaidCountObj As Object = cmd.ExecuteScalar()
+                Dim totalUnpaidCount As Integer = If(IsDBNull(totalUnpaidCountObj), 0, CInt(totalUnpaidCountObj))
+                lblUnpaidBorrowedBooks.Text = totalUnpaidCount.ToString()
 
-                Dim totalReturnedQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Borrower Name] = @UserName AND [Status] = 'Completed'"
+
+                Dim totalReturnedQuery As String = "
+    SELECT COUNT(*) 
+    FROM borrowings 
+    WHERE [Borrower Name] = ? 
+    AND [Status] = 'Completed'"
                 cmd = New OleDbCommand(totalReturnedQuery, con)
-                cmd.Parameters.AddWithValue("@UserName", XName)
-                Dim totalReturnedCount As Integer = CInt(cmd.ExecuteScalar())
+                cmd.Parameters.AddWithValue("?", XName)
+                Dim totalReturnedCountObj As Object = cmd.ExecuteScalar()
+                Dim totalReturnedCount As Integer = If(IsDBNull(totalReturnedCountObj), 0, CInt(totalReturnedCountObj))
                 lblBooksReturned.Text = totalReturnedCount.ToString()
+
             End If
 
 
@@ -270,5 +278,9 @@ Public Class frmmain
     Private Sub btnCurrentRequestedReturn_Click(sender As Object, e As EventArgs) Handles btnCurrentRequestedReturn.Click
         AdminReturn.Show()
         Me.Hide()
+    End Sub
+
+    Private Sub Panel4_Paint(sender As Object, e As PaintEventArgs) Handles Panel4.Paint
+
     End Sub
 End Class

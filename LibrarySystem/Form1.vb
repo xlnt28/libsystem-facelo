@@ -2,7 +2,7 @@
 Imports System.Threading
 Imports Microsoft.Office.Interop
 Imports CrystalDecisions.CrystalReports.Engine
-
+Imports ClosedXML.Excel
 
 Public Class Form1
     Private isAdding As Boolean = False
@@ -184,7 +184,7 @@ Public Class Form1
         End Try
     End Sub
 
-Sub loadImage()
+    Sub loadImage()
         Try
             If idpict.Image IsNot Nothing Then
                 idpict.Image.Dispose()
@@ -868,41 +868,30 @@ Sub loadImage()
 
     Private Sub ExcelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExcelToolStripMenuItem.Click
         Try
-            If dg.Rows.Count = 0 Then
-                MsgBox("No records to export.", MsgBoxStyle.Exclamation)
-                Return
+            Dim sfd As New SaveFileDialog()
+            sfd.Filter = "Excel Workbook (*.xlsx)|*.xlsx"
+            sfd.Title = "Save Excel File"
+            sfd.FileName = "UserExport.xlsx"
+
+            If sfd.ShowDialog() = DialogResult.OK Then
+                Dim dt As New DataTable()
+
+                Using cmd As New OleDbCommand("SELECT * FROM tbluser ORDER BY [User ID]", con)
+                    Using da As New OleDbDataAdapter(cmd)
+                        da.Fill(dt)
+                    End Using
+                End Using
+
+                Using wb As New XLWorkbook()
+                    wb.Worksheets.Add(dt, "Users")
+                    wb.SaveAs(sfd.FileName)
+                End Using
+
+                MsgBox("Excel file saved to: " & sfd.FileName, MsgBoxStyle.Information)
             End If
-
-            Dim excelApp As New Excel.Application
-            Dim workbook As Excel.Workbook = excelApp.Workbooks.Add(Type.Missing)
-            Dim worksheet As Excel.Worksheet = Nothing
-            worksheet = workbook.Sheets("sheet1")
-            worksheet = workbook.ActiveSheet
-            worksheet.Name = "Users"
-
-            For i As Integer = 1 To dg.Columns.Count
-                worksheet.Cells(1, i) = dg.Columns(i - 1).HeaderText
-            Next
-
-            For i As Integer = 0 To dg.Rows.Count - 1
-                For j As Integer = 0 To dg.Columns.Count - 1
-                    worksheet.Cells(i + 2, j + 1) = dg.Rows(i).Cells(j).Value?.ToString()
-                Next
-            Next
-
-            Dim saveDialog As New SaveFileDialog()
-            saveDialog.Filter = "Excel files (*.xlsx)|*.xlsx"
-            saveDialog.FileName = "UserList.xlsx"
-            If saveDialog.ShowDialog() = DialogResult.OK Then
-                workbook.SaveAs(saveDialog.FileName)
-                MsgBox("Exported successfully to Excel!", MsgBoxStyle.Information)
-            End If
-
-            workbook.Close()
-            excelApp.Quit()
 
         Catch ex As Exception
-            MsgBox("Error exporting to Excel: " & ex.Message, MsgBoxStyle.Critical)
+            MsgBox("Error exporting: " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
 

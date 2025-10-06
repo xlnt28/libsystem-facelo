@@ -2,7 +2,9 @@
 Public Class ReportForm
 
     Private Sub ReportForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        CenterToScreen()
+        Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
+        Me.WindowState = FormWindowState.Maximized
     End Sub
 
     Private Sub menuLogout_Click(sender As Object, e As EventArgs) Handles menuLogout.Click

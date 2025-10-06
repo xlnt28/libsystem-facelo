@@ -130,12 +130,6 @@
     <Compile Include="PartialReturnForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="PartialReturnForm2.Designer.vb">
-      <DependentUpon>PartialReturnForm2.vb</DependentUpon>
-    </Compile>
-    <Compile Include="PartialReturnForm2.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Reports\BookInventoryReport.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -245,6 +239,12 @@
     <Compile Include="UserReturn.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="UserUnpaidList.Designer.vb">
+      <DependentUpon>UserUnpaidList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserUnpaidList.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="variable.vb" />
   </ItemGroup>
   <ItemGroup>
@@ -303,9 +303,6 @@
     <EmbeddedResource Include="PartialReturnForm.resx">
       <DependentUpon>PartialReturnForm.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="PartialReturnForm2.resx">
-      <DependentUpon>PartialReturnForm2.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="PenaltyForm.resx">
       <DependentUpon>PenaltyForm.vb</DependentUpon>
     </EmbeddedResource>
@@ -330,6 +327,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserReturn.resx">
       <DependentUpon>UserReturn.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserUnpaidList.resx">
+      <DependentUpon>UserUnpaidList.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

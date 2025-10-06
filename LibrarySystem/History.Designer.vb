@@ -117,6 +117,7 @@ Partial Class History
         Me.borrowdgv.MultiSelect = False
         Me.borrowdgv.Name = "borrowdgv"
         Me.borrowdgv.ReadOnly = True
+        Me.borrowdgv.RowTemplate.Height = 30
         Me.borrowdgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.borrowdgv.Size = New System.Drawing.Size(1370, 716)
         Me.borrowdgv.TabIndex = 11
@@ -142,9 +143,9 @@ Partial Class History
     End Sub
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
     Friend WithEvents GoBackToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents borrowdgv As System.Windows.Forms.DataGridView
     Friend WithEvents MenuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ViewAllToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CancelBorrowRequestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents borrowdgv As DataGridView
 End Class

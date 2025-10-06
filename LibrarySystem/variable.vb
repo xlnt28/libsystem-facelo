@@ -16,6 +16,9 @@ Module variables
     Public admindbds As DataSet
     Public adminhistoryda As OleDbDataAdapter
 
+    Public dsUserUnpaidList As DataSet
+    Public daUserUnpaidList As OleDbDataAdapter
+
     Public XName As String
     Public xpost As String
     Public xpriv As String

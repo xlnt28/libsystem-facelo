@@ -210,7 +210,7 @@ Public Class frmmain
 
 
             Else
-                Dim pendingBorrowedQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Borrower Name] = @UserName AND [Status] = 'Borrowed'"
+                Dim pendingBorrowedQuery As String = "SELECT COUNT(*) FROM transactions WHERE [Borrower Name] = @UserName AND [Status] = 'Borrowed'"
                 cmd = New OleDbCommand(pendingBorrowedQuery, con)
                 cmd.Parameters.AddWithValue("@UserName", XName)
                 Dim pendingBorrowedCount As Integer = CInt(cmd.ExecuteScalar())
@@ -290,6 +290,10 @@ Public Class frmmain
     End Sub
 
     Private Sub lblForgotPasswordRequest_Click(sender As Object, e As EventArgs) Handles lblForgotPasswordRequest.Click
+
+    End Sub
+
+    Private Sub lblCurrentBorrowings_Click(sender As Object, e As EventArgs) Handles lblCurrentBorrowings.Click
 
     End Sub
 End Class

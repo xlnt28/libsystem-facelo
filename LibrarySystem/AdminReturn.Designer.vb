@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class AdminReturn
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class AdminReturn
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(AdminReturn))
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
@@ -28,7 +28,6 @@ Partial Class AdminReturn
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ApproveReturnToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ApproveUserReturnsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ShowReturnRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchUserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -51,7 +50,7 @@ Partial Class AdminReturn
         '
         'ManageToolStripMenuItem
         '
-        Me.ManageToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApproveReturnToolStripMenuItem, Me.ApproveUserReturnsToolStripMenuItem, Me.ShowReturnRequestToolStripMenuItem, Me.SearchUserToolStripMenuItem, Me.RefreshToolStripMenuItem})
+        Me.ManageToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApproveReturnToolStripMenuItem, Me.ShowReturnRequestToolStripMenuItem, Me.SearchUserToolStripMenuItem, Me.RefreshToolStripMenuItem})
         Me.ManageToolStripMenuItem.Name = "ManageToolStripMenuItem"
         Me.ManageToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
         Me.ManageToolStripMenuItem.Text = "Menu"
@@ -62,17 +61,8 @@ Partial Class AdminReturn
         Me.ApproveReturnToolStripMenuItem.Name = "ApproveReturnToolStripMenuItem"
         Me.ApproveReturnToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.ApproveReturnToolStripMenuItem.Size = New System.Drawing.Size(458, 30)
+        Me.ApproveReturnToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
         Me.ApproveReturnToolStripMenuItem.Text = "Mark As Returned"
-        '
-        'ApproveUserReturnsToolStripMenuItem
-        '
-        Me.ApproveUserReturnsToolStripMenuItem.Image = CType(resources.GetObject("ApproveUserReturnsToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.ApproveUserReturnsToolStripMenuItem.Name = "ApproveUserReturnsToolStripMenuItem"
-        Me.ApproveUserReturnsToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
-            Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.ApproveUserReturnsToolStripMenuItem.Size = New System.Drawing.Size(458, 30)
-        Me.ApproveUserReturnsToolStripMenuItem.Text = "Mark Multiple Book As Returned"
         '
         'ShowReturnRequestToolStripMenuItem
         '
@@ -80,14 +70,14 @@ Partial Class AdminReturn
         Me.ShowReturnRequestToolStripMenuItem.Name = "ShowReturnRequestToolStripMenuItem"
         Me.ShowReturnRequestToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
-        Me.ShowReturnRequestToolStripMenuItem.Size = New System.Drawing.Size(458, 30)
+        Me.ShowReturnRequestToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
         Me.ShowReturnRequestToolStripMenuItem.Text = "Show Return Request Only"
         '
         'SearchUserToolStripMenuItem
         '
         Me.SearchUserToolStripMenuItem.Name = "SearchUserToolStripMenuItem"
         Me.SearchUserToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SearchUserToolStripMenuItem.Size = New System.Drawing.Size(458, 30)
+        Me.SearchUserToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
         Me.SearchUserToolStripMenuItem.Text = "Search User"
         '
         'RefreshToolStripMenuItem
@@ -95,7 +85,7 @@ Partial Class AdminReturn
         Me.RefreshToolStripMenuItem.Image = CType(resources.GetObject("RefreshToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
         Me.RefreshToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(458, 30)
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
         Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
         'GoBackToolStripMenuItem
@@ -169,5 +159,4 @@ Partial Class AdminReturn
     Friend WithEvents ShowReturnRequestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SearchUserToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RefreshToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents ApproveUserReturnsToolStripMenuItem As ToolStripMenuItem
 End Class

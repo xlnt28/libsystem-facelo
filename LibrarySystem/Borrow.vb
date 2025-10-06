@@ -343,18 +343,31 @@ Public Class Borrow
         End Try
 
         Dim hasStopped As Boolean = False
+        Dim borrowID As String = GenerateBorrowID() ' Generate one Borrow ID for all books in this transaction
+
         Try
+            ' Prepare lists for transactions table
+            Dim bookIDList As New List(Of String)
+            Dim copyList As New List(Of String)
+            Dim currentReturnedList As New List(Of String)
+
+            ' Insert into borrowings table (individual records per book)
             For Each bookID As String In selectedBooks.Keys
                 Dim quantityToBorrow As Integer = selectedBooks(bookID)
-                Dim borrowID As String = GenerateBorrowID()
+
+                ' Generate unique ID for each book in borrowings table
+                Dim uniqueID As String = GenerateUniqueID()
+
                 Dim status As String = If(userPrivileges = "Admin", "Borrowed", "Requested")
 
                 Dim borrowDate As Object = If(userPrivileges = "Admin", dtpBorrowDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
                 Dim dueDate As Object = If(userPrivileges = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
                 Dim requestDate As Object = If(userPrivileges = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
 
-                cmd = New OleDbCommand("INSERT INTO borrowings([Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+                ' Insert into borrowings table (individual records)
+                cmd = New OleDbCommand("INSERT INTO borrowings([ID], [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
+                cmd.Parameters.AddWithValue("?", uniqueID)
                 cmd.Parameters.AddWithValue("?", borrowID)
                 cmd.Parameters.AddWithValue("?", bookID)
                 cmd.Parameters.AddWithValue("?", userID)
@@ -362,7 +375,7 @@ Public Class Borrow
                 cmd.Parameters.AddWithValue("?", userPosition)
                 cmd.Parameters.AddWithValue("?", userPrivileges)
                 cmd.Parameters.AddWithValue("?", quantityToBorrow)
-                cmd.Parameters.AddWithValue("?", 0)
+                cmd.Parameters.AddWithValue("?", "0") ' Current Returned starts at 0 for each book
                 cmd.Parameters.AddWithValue("?", borrowDate)
                 cmd.Parameters.AddWithValue("?", dueDate)
                 cmd.Parameters.AddWithValue("?", status)
@@ -371,6 +384,12 @@ Public Class Borrow
 
                 cmd.ExecuteNonQuery()
 
+                ' Add to lists for transactions table
+                bookIDList.Add(bookID)
+                copyList.Add(quantityToBorrow.ToString())
+                currentReturnedList.Add("0") ' Add "0" for each book for Current Returned list
+
+                ' Update book quantity if admin
                 If userPrivileges = "Admin" Then
                     cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
                     cmd.Parameters.AddWithValue("?", bookID)
@@ -381,13 +400,44 @@ Public Class Borrow
                     cmd.Parameters.AddWithValue("?", newQuantity)
                     cmd.Parameters.AddWithValue("?", bookID)
                     cmd.ExecuteNonQuery()
-
-                    If hasStopped = False Then
-                        GenerateBorrowReceipt(selectedBooks, userID, txtName.Text, userPosition, userPrivileges)
-                        hasStopped = True
-                    End If
                 End If
             Next
+
+            ' Insert into transactions table (combined record)
+            Dim transactionID As String = GenerateTransactionID()
+            Dim combinedBookIDs As String = String.Join(",", bookIDList)
+            Dim combinedCopies As String = String.Join(",", copyList)
+            Dim combinedCurrentReturned As String = String.Join(",", currentReturnedList) ' This will be "0,0,0" etc.
+
+            Dim statusForTransaction As String = If(userPrivileges = "Admin", "Borrowed", "Requested")
+            Dim borrowDateForTransaction As Object = If(userPrivileges = "Admin", dtpBorrowDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
+            Dim dueDateForTransaction As Object = If(userPrivileges = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
+            Dim requestDateForTransaction As Object = If(userPrivileges = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
+
+            cmd = New OleDbCommand("INSERT INTO transactions([Transaction ID], [Borrow ID], [Book ID List], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copy List], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+
+            cmd.Parameters.AddWithValue("?", transactionID)
+            cmd.Parameters.AddWithValue("?", borrowID)
+            cmd.Parameters.AddWithValue("?", combinedBookIDs)
+            cmd.Parameters.AddWithValue("?", userID)
+            cmd.Parameters.AddWithValue("?", txtName.Text)
+            cmd.Parameters.AddWithValue("?", userPosition)
+            cmd.Parameters.AddWithValue("?", userPrivileges)
+            cmd.Parameters.AddWithValue("?", combinedCopies)
+            cmd.Parameters.AddWithValue("?", combinedCurrentReturned) ' This will be formatted like "0,0,0"
+            cmd.Parameters.AddWithValue("?", borrowDateForTransaction)
+            cmd.Parameters.AddWithValue("?", dueDateForTransaction)
+            cmd.Parameters.AddWithValue("?", statusForTransaction)
+            cmd.Parameters.AddWithValue("?", "No")
+            cmd.Parameters.AddWithValue("?", requestDateForTransaction)
+
+            cmd.ExecuteNonQuery()
+
+            ' Generate receipt if admin
+            If userPrivileges = "Admin" AndAlso hasStopped = False Then
+                GenerateBorrowReceipt(selectedBooks, userID, txtName.Text, userPosition, userPrivileges)
+                hasStopped = True
+            End If
 
             isOnBorrowMode = False
             UpdateBorrowModeUI()
@@ -403,6 +453,75 @@ Public Class Borrow
             MsgBox("Failed to save borrow request. " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
+
+    ' Add these helper functions to generate unique IDs
+    Private Function GenerateUniqueID() As String
+        Dim maxNumber As Integer = 0
+        Dim prefix As String = "BOR-"
+
+        Try
+            If con.State <> ConnectionState.Open Then
+                OpenDB()
+            End If
+
+            cmd = New OleDbCommand("SELECT MAX([ID]) FROM borrowings WHERE [ID] LIKE '" & prefix & "%'", con)
+            Dim result As Object = cmd.ExecuteScalar()
+
+            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                Dim lastID As String = result.ToString()
+                If lastID.StartsWith(prefix) Then
+                    Dim numberPart As String = lastID.Substring(prefix.Length)
+                    If Integer.TryParse(numberPart, maxNumber) Then
+                        maxNumber += 1
+                    Else
+                        maxNumber = 1
+                    End If
+                Else
+                    maxNumber = 1
+                End If
+            Else
+                maxNumber = 1
+            End If
+
+            Return prefix & maxNumber.ToString("D5")
+        Catch ex As Exception
+            Return prefix & "00001"
+        End Try
+    End Function
+
+    Private Function GenerateTransactionID() As String
+        Dim maxNumber As Integer = 0
+        Dim prefix As String = "TRN-"
+
+        Try
+            If con.State <> ConnectionState.Open Then
+                OpenDB()
+            End If
+
+            cmd = New OleDbCommand("SELECT MAX([Transaction ID]) FROM transactions WHERE [Transaction ID] LIKE '" & prefix & "%'", con)
+            Dim result As Object = cmd.ExecuteScalar()
+
+            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                Dim lastID As String = result.ToString()
+                If lastID.StartsWith(prefix) Then
+                    Dim numberPart As String = lastID.Substring(prefix.Length)
+                    If Integer.TryParse(numberPart, maxNumber) Then
+                        maxNumber += 1
+                    Else
+                        maxNumber = 1
+                    End If
+                Else
+                    maxNumber = 1
+                End If
+            Else
+                maxNumber = 1
+            End If
+
+            Return prefix & maxNumber.ToString("D5")
+        Catch ex As Exception
+            Return prefix & "00001"
+        End Try
+    End Function
 
 
     Private Sub GenerateBorrowReceipt(ByVal selectedBooks As Dictionary(Of String, Integer), ByVal userID As String, ByVal userName As String, ByVal userPosition As String, ByVal userPrivileges As String)

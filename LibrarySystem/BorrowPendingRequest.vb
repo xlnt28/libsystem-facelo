@@ -154,13 +154,11 @@ Public Class BorrowPendingRequest
         Dim selectedRow As DataGridViewRow = dg.SelectedRows(0)
         Dim borrowID As String = selectedRow.Cells("Borrow ID").Value.ToString()
 
-        ' Get the book IDs and copies from the borrowings table instead of transactions
         Try
             If con Is Nothing OrElse con.State <> ConnectionState.Open Then
                 OpenDB()
             End If
 
-            ' Get all books for this borrow ID from borrowings table
             cmd = New OleDbCommand("SELECT [Book ID], [Copies] FROM borrowings WHERE [Borrow ID] = ? AND [Status] = 'Requested'", con)
             cmd.Parameters.AddWithValue("?", borrowID)
             Dim reader As OleDbDataReader = cmd.ExecuteReader()
@@ -301,24 +299,25 @@ Public Class BorrowPendingRequest
                 Using reader As OleDbDataReader = cmd.ExecuteReader()
                     While reader.Read()
                         dt.Rows.Add(
-                        reader("Borrow ID").ToString(),
-                        reader("Book ID").ToString(),
-                        reader("User ID").ToString(),
-                        reader("Borrower Name").ToString(),
-                        reader("Borrower Position").ToString(),
-                        reader("Borrower Privileges").ToString(),
-                        If(IsDBNull(reader("Copies")), 0, Convert.ToInt32(reader("Copies"))),
-                        If(IsDBNull(reader("Borrow Date")), "", Convert.ToDateTime(reader("Borrow Date")).ToString("MM/dd/yyyy")),
-                        If(IsDBNull(reader("Due Date")), "", Convert.ToDateTime(reader("Due Date")).ToString("MM/dd/yyyy")),
-                        reader("Status").ToString(),
-                        If(IsDBNull(reader("Current Returned")), 0, Convert.ToInt32(reader("Current Returned"))),
-                        reader("Has Requested Return").ToString(),
-                        If(IsDBNull(reader("Request Date")), "", Convert.ToDateTime(reader("Request Date")).ToString("MM/dd/yyyy"))
-                    )
+                    reader("Borrow ID").ToString(),
+                    reader("Book ID").ToString(),
+                    reader("User ID").ToString(),
+                    reader("Borrower Name").ToString(),
+                    reader("Borrower Position").ToString(),
+                    reader("Borrower Privileges").ToString(),
+                    If(IsDBNull(reader("Copies")), 0, Convert.ToInt32(reader("Copies"))),
+                    If(IsDBNull(reader("Borrow Date")), "", Convert.ToDateTime(reader("Borrow Date")).ToString("MM/dd/yyyy")),
+                    If(IsDBNull(reader("Due Date")), "", Convert.ToDateTime(reader("Due Date")).ToString("MM/dd/yyyy")),
+                    reader("Status").ToString(),
+                    If(IsDBNull(reader("Current Returned")), 0, Convert.ToInt32(reader("Current Returned"))),
+                    reader("Has Requested Return").ToString(),
+                    If(IsDBNull(reader("Request Date")), "", Convert.ToDateTime(reader("Request Date")).ToString("MM/dd/yyyy"))
+                )
                     End While
                 End Using
             End Using
 
+            Dim reportForm As New ReportForm()
             Dim report As New ReportDocument()
             Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CrystalReport2.rpt")
 
@@ -329,7 +328,11 @@ Public Class BorrowPendingRequest
 
             report.Load(reportPath)
             report.SetDataSource(dt)
-            report.PrintToPrinter(1, False, 0, 0)
+            reportForm.CrystalReportViewer1.ReportSource = report
+            reportForm.ShowDialog()
+
+            report.Close()
+            report.Dispose()
 
         Catch ex As Exception
             MsgBox("Error generating borrow receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")

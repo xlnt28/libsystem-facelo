@@ -22,7 +22,9 @@ Partial Class ForgotPasswordRequest
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ForgotPasswordRequest))
         Me.panRequest = New System.Windows.Forms.Panel()
+        Me.chkHideUserID = New System.Windows.Forms.CheckBox()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.txtPhoneNumber = New System.Windows.Forms.TextBox()
         Me.Button1 = New System.Windows.Forms.Button()
@@ -37,6 +39,7 @@ Partial Class ForgotPasswordRequest
         Me.RequestCodeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.llContactLibrarian = New System.Windows.Forms.LinkLabel()
         Me.panResetPassword = New System.Windows.Forms.Panel()
+        Me.chkHidePassword = New System.Windows.Forms.CheckBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.txtUserNameForReset = New System.Windows.Forms.TextBox()
         Me.btnChangePassword = New System.Windows.Forms.Button()
@@ -45,8 +48,6 @@ Partial Class ForgotPasswordRequest
         Me.Label4 = New System.Windows.Forms.Label()
         Me.txtNewPassword = New System.Windows.Forms.TextBox()
         Me.txtCode = New System.Windows.Forms.TextBox()
-        Me.chkHidePassword = New System.Windows.Forms.CheckBox()
-        Me.chkHideUserID = New System.Windows.Forms.CheckBox()
         Me.panRequest.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.panResetPassword.SuspendLayout()
@@ -69,6 +70,15 @@ Partial Class ForgotPasswordRequest
         Me.panRequest.Name = "panRequest"
         Me.panRequest.Size = New System.Drawing.Size(338, 363)
         Me.panRequest.TabIndex = 6
+        '
+        'chkHideUserID
+        '
+        Me.chkHideUserID.AutoSize = True
+        Me.chkHideUserID.Location = New System.Drawing.Point(261, 129)
+        Me.chkHideUserID.Name = "chkHideUserID"
+        Me.chkHideUserID.Size = New System.Drawing.Size(15, 14)
+        Me.chkHideUserID.TabIndex = 22
+        Me.chkHideUserID.UseVisualStyleBackColor = True
         '
         'Label7
         '
@@ -168,15 +178,17 @@ Partial Class ForgotPasswordRequest
         '
         'GoBackToolStripMenuItem
         '
+        Me.GoBackToolStripMenuItem.Image = CType(resources.GetObject("GoBackToolStripMenuItem.Image"), System.Drawing.Image)
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
         Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(221, 30)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(225, 30)
         Me.GoBackToolStripMenuItem.Text = "Go Back"
         '
         'RequestCodeToolStripMenuItem
         '
+        Me.RequestCodeToolStripMenuItem.Image = CType(resources.GetObject("RequestCodeToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RequestCodeToolStripMenuItem.Name = "RequestCodeToolStripMenuItem"
-        Me.RequestCodeToolStripMenuItem.Size = New System.Drawing.Size(221, 30)
+        Me.RequestCodeToolStripMenuItem.Size = New System.Drawing.Size(225, 30)
         Me.RequestCodeToolStripMenuItem.Text = "Request Code"
         '
         'llContactLibrarian
@@ -206,6 +218,15 @@ Partial Class ForgotPasswordRequest
         Me.panResetPassword.Name = "panResetPassword"
         Me.panResetPassword.Size = New System.Drawing.Size(338, 362)
         Me.panResetPassword.TabIndex = 7
+        '
+        'chkHidePassword
+        '
+        Me.chkHidePassword.AutoSize = True
+        Me.chkHidePassword.Location = New System.Drawing.Point(259, 253)
+        Me.chkHidePassword.Name = "chkHidePassword"
+        Me.chkHidePassword.Size = New System.Drawing.Size(15, 14)
+        Me.chkHidePassword.TabIndex = 20
+        Me.chkHidePassword.UseVisualStyleBackColor = True
         '
         'Label8
         '
@@ -284,24 +305,6 @@ Partial Class ForgotPasswordRequest
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(235, 35)
         Me.txtCode.TabIndex = 1
-        '
-        'chkHidePassword
-        '
-        Me.chkHidePassword.AutoSize = True
-        Me.chkHidePassword.Location = New System.Drawing.Point(259, 253)
-        Me.chkHidePassword.Name = "chkHidePassword"
-        Me.chkHidePassword.Size = New System.Drawing.Size(15, 14)
-        Me.chkHidePassword.TabIndex = 20
-        Me.chkHidePassword.UseVisualStyleBackColor = True
-        '
-        'chkHideUserID
-        '
-        Me.chkHideUserID.AutoSize = True
-        Me.chkHideUserID.Location = New System.Drawing.Point(261, 129)
-        Me.chkHideUserID.Name = "chkHideUserID"
-        Me.chkHideUserID.Size = New System.Drawing.Size(15, 14)
-        Me.chkHideUserID.TabIndex = 22
-        Me.chkHideUserID.UseVisualStyleBackColor = True
         '
         'ForgotPasswordRequest
         '

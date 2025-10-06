@@ -193,7 +193,7 @@ Public Class frmmain
                 Dim totalBooksCount As Integer = CInt(cmd.ExecuteScalar())
                 lblTotalBooks.Text = totalBooksCount.ToString()
 
-                Dim currentReturnReqQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Has Requested Return] = 'Yes'"
+                Dim currentReturnReqQuery As String = "SELECT COUNT(*) FROM transactions WHERE [Has Requested Return] = 'Yes'"
                 cmd = New OleDbCommand(currentReturnReqQuery, con)
                 Dim currentReturnReqCount As Integer = CInt(cmd.ExecuteScalar())
                 lblCurrentRequestedReturn.Text = currentReturnReqCount.ToString()
@@ -294,6 +294,10 @@ Public Class frmmain
     End Sub
 
     Private Sub lblCurrentBorrowings_Click(sender As Object, e As EventArgs) Handles lblCurrentBorrowings.Click
+
+    End Sub
+
+    Private Sub lblCurrentRequestedReturn_Click(sender As Object, e As EventArgs) Handles lblCurrentRequestedReturn.Click
 
     End Sub
 End Class

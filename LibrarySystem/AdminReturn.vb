@@ -1,4 +1,6 @@
 ﻿Imports System.Data.OleDb
+Imports System.IO
+Imports CrystalDecisions.CrystalReports.Engine
 
 Public Class AdminReturn
     Private showOnlyReturnRequests As Boolean = False
@@ -143,9 +145,9 @@ Public Class AdminReturn
     End Function
 
     Private Sub ProcessReturnQuantities(ByVal borrowID As String, ByVal bookIDs() As String,
-                                      ByVal totalCopies() As Integer, ByVal currentReturned() As Integer,
-                                      ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
-                                      ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal)
+                                  ByVal totalCopies() As Integer, ByVal currentReturned() As Integer,
+                                  ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
+                                  ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal)
 
         Dim totalReturnCount As Integer = 0
         For i As Integer = 0 To copiesToReturn.Length - 1
@@ -167,6 +169,7 @@ Public Class AdminReturn
         Dim returnDate As DateTime = DateTime.Now
 
         Try
+            ' Update transactions table
             Dim newCurrentReturnedArray(bookIDs.Length - 1) As String
             Dim allBooksReturned As Boolean = True
 
@@ -235,11 +238,92 @@ Public Class AdminReturn
                 InsertPenaltyRecord(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate)
             End If
 
+            GenerateReturnReceipt(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate)
+
             MsgBox("Return approved successfully.", MsgBoxStyle.Information, "Success")
             LoadAllBorrowedItems()
 
         Catch ex As Exception
             MsgBox("Error approving return: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
+
+    Private Sub GenerateReturnReceipt(ByVal borrowID As String, ByVal bookIDs() As String,
+                                ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
+                                ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal,
+                                ByVal returnDate As DateTime)
+        Try
+            Dim dt As New DataTable("ReturnReceipt")
+            dt.Columns.Add("Return Date", GetType(String))
+            dt.Columns.Add("Borrow ID", GetType(String))
+            dt.Columns.Add("Book ID", GetType(String))
+            dt.Columns.Add("Book Title", GetType(String))
+            dt.Columns.Add("Quantity Returned", GetType(Integer))
+            dt.Columns.Add("Condition", GetType(String))
+            dt.Columns.Add("Penalty Amount", GetType(Decimal))
+            dt.Columns.Add("Borrower Name", GetType(String))
+            dt.Columns.Add("Processed By", GetType(String))
+
+            Dim borrowerName As String = ""
+            cmd = New OleDbCommand("SELECT [Borrower Name] FROM transactions WHERE [Borrow ID] = ?", con)
+            cmd.Parameters.AddWithValue("?", borrowID)
+            Dim nameResult As Object = cmd.ExecuteScalar()
+            If nameResult IsNot Nothing AndAlso Not IsDBNull(nameResult) Then
+                borrowerName = nameResult.ToString()
+            End If
+
+            For i As Integer = 0 To bookIDs.Length - 1
+                If copiesToReturn(i) > 0 Then
+                    Dim bookID As String = bookIDs(i)
+                    Dim bookTitle As String = ""
+
+                    ' Get book title
+                    cmd = New OleDbCommand("SELECT [Title] FROM books WHERE [Book ID] = ?", con)
+                    cmd.Parameters.AddWithValue("?", bookID)
+                    Dim titleResult As Object = cmd.ExecuteScalar()
+                    If titleResult IsNot Nothing AndAlso Not IsDBNull(titleResult) Then
+                        bookTitle = titleResult.ToString()
+                    End If
+
+                    dt.Rows.Add(
+                    returnDate.ToString("MM/dd/yyyy"),
+                    borrowID,
+                    bookID,
+                    bookTitle,
+                    copiesToReturn(i),
+                    conditionTypes(i),
+                    penaltyAmounts(i),
+                    borrowerName,
+                    XName
+                )
+                End If
+            Next
+
+            If totalPenalty > 0 Then
+                dt.Rows.Add(
+                "", "", "", "TOTAL PENALTY", 0, "", totalPenalty, "", ""
+            )
+            End If
+
+            Dim reportForm As New ReportForm()
+            Dim report As New ReportDocument()
+            Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CRReturnBook.rpt")
+
+            If Not File.Exists(reportPath) Then
+                MsgBox("Return receipt report not found: " & reportPath, MsgBoxStyle.Critical, "Error")
+                Return
+            End If
+
+            report.Load(reportPath)
+            report.SetDataSource(dt)
+            reportForm.CrystalReportViewer1.ReportSource = report
+            reportForm.ShowDialog()
+
+            report.Close()
+            report.Dispose()
+
+        Catch ex As Exception
+            MsgBox("Error generating return receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
 

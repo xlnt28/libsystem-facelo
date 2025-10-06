@@ -29,8 +29,8 @@ Partial Class UserReturn
         Me.MenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RequestReturnToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CancelReturnRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.dg = New System.Windows.Forms.DataGridView()
+        Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.dg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -38,7 +38,7 @@ Partial Class UserReturn
         'MenuStrip1
         '
         Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem, Me.GoBackToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(1366, 33)
@@ -47,7 +47,7 @@ Partial Class UserReturn
         '
         'MenuToolStripMenuItem
         '
-        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequestReturnToolStripMenuItem, Me.CancelReturnRequestToolStripMenuItem})
+        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RequestReturnToolStripMenuItem, Me.CancelReturnRequestToolStripMenuItem, Me.GoBackToolStripMenuItem})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
         Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
         Me.MenuToolStripMenuItem.Text = "Menu"
@@ -67,13 +67,6 @@ Partial Class UserReturn
         Me.CancelReturnRequestToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
         Me.CancelReturnRequestToolStripMenuItem.Size = New System.Drawing.Size(276, 30)
         Me.CancelReturnRequestToolStripMenuItem.Text = "Cancel Request"
-        '
-        'GoBackToolStripMenuItem
-        '
-        Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
-        Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
-        Me.GoBackToolStripMenuItem.Text = "Go back"
         '
         'dg
         '
@@ -112,6 +105,13 @@ Partial Class UserReturn
         Me.dg.Size = New System.Drawing.Size(1366, 689)
         Me.dg.TabIndex = 15
         '
+        'GoBackToolStripMenuItem
+        '
+        Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
+        Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(276, 30)
+        Me.GoBackToolStripMenuItem.Text = "Go back"
+        '
         'UserReturn
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -132,9 +132,9 @@ Partial Class UserReturn
 
     End Sub
     Friend WithEvents MenuStrip1 As System.Windows.Forms.MenuStrip
-    Friend WithEvents GoBackToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents MenuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents RequestReturnToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents CancelReturnRequestToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents dg As System.Windows.Forms.DataGridView
+    Friend WithEvents GoBackToolStripMenuItem As ToolStripMenuItem
 End Class

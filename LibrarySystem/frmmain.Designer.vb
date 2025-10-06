@@ -103,12 +103,13 @@ Partial Class frmmain
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.BackColor = System.Drawing.Color.Snow
+        Me.MenuStrip1.BackColor = System.Drawing.Color.Transparent
+        Me.MenuStrip1.Dock = System.Windows.Forms.DockStyle.None
         Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolStripMenuItem, Me.menuTransactions, Me.menuLogout})
-        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Location = New System.Drawing.Point(8, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1384, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(320, 33)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -240,7 +241,7 @@ Partial Class frmmain
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 48.0!, CType((System.Drawing.FontStyle.Bold Or System.Drawing.FontStyle.Italic), System.Drawing.FontStyle), System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.ForeColor = System.Drawing.Color.Gray
-        Me.Label1.Location = New System.Drawing.Point(11, 16)
+        Me.Label1.Location = New System.Drawing.Point(11, 48)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(418, 78)
         Me.Label1.TabIndex = 6
@@ -297,9 +298,10 @@ Partial Class frmmain
         Me.Panel4.BackColor = System.Drawing.Color.WhiteSmoke
         Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel4.Controls.Add(Me.Label1)
-        Me.Panel4.Location = New System.Drawing.Point(0, 32)
+        Me.Panel4.Controls.Add(Me.MenuStrip1)
+        Me.Panel4.Location = New System.Drawing.Point(0, 0)
         Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(1384, 156)
+        Me.Panel4.Size = New System.Drawing.Size(1384, 188)
         Me.Panel4.TabIndex = 7
         '
         'Panel6
@@ -735,11 +737,10 @@ Partial Class frmmain
         Me.Controls.Add(Me.lblUsername)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel1)
-        Me.Controls.Add(Me.MenuStrip1)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel4)
-        Me.Controls.Add(Me.dashUserpanel)
         Me.Controls.Add(Me.dashAdminPan)
+        Me.Controls.Add(Me.dashUserpanel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmmain"

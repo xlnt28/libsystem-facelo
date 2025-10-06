@@ -22,8 +22,8 @@ Partial Class PenaltyForm
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle7 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle8 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(PenaltyForm))
         Me.dgvPenalty = New System.Windows.Forms.DataGridView()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
@@ -36,6 +36,7 @@ Partial Class PenaltyForm
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SwitchViewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ChangePenaltyAmountToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.dgvPenalty, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
@@ -49,24 +50,24 @@ Partial Class PenaltyForm
         Me.dgvPenalty.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dgvPenalty.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.dgvPenalty.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgvPenalty.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle7.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgvPenalty.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle7
         Me.dgvPenalty.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvPenalty.Cursor = System.Windows.Forms.Cursors.Hand
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.RoyalBlue
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.WhiteSmoke
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.dgvPenalty.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle8.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle8.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle8.SelectionBackColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle8.SelectionForeColor = System.Drawing.Color.WhiteSmoke
+        DataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.dgvPenalty.DefaultCellStyle = DataGridViewCellStyle8
         Me.dgvPenalty.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgvPenalty.GridColor = System.Drawing.Color.Gainsboro
         Me.dgvPenalty.Location = New System.Drawing.Point(0, 33)
@@ -89,7 +90,7 @@ Partial Class PenaltyForm
         '
         'MenuToolStripMenuItem
         '
-        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MarkAsPaidToolStripMenuItem, Me.ViewPaidToolStripMenuItem, Me.ViewUnpaidToolStripMenuItem, Me.ViewAllToolStripMenuItem, Me.SearchToolStripMenuItem, Me.RefreshToolStripMenuItem})
+        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MarkAsPaidToolStripMenuItem, Me.ChangePenaltyAmountToolStripMenuItem, Me.ViewPaidToolStripMenuItem, Me.ViewUnpaidToolStripMenuItem, Me.ViewAllToolStripMenuItem, Me.SearchToolStripMenuItem, Me.RefreshToolStripMenuItem})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
         Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
         Me.MenuToolStripMenuItem.Text = "Menu"
@@ -100,7 +101,7 @@ Partial Class PenaltyForm
         Me.MarkAsPaidToolStripMenuItem.Name = "MarkAsPaidToolStripMenuItem"
         Me.MarkAsPaidToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.MarkAsPaidToolStripMenuItem.Size = New System.Drawing.Size(342, 30)
+        Me.MarkAsPaidToolStripMenuItem.Size = New System.Drawing.Size(405, 30)
         Me.MarkAsPaidToolStripMenuItem.Text = "Process Payment"
         '
         'ViewPaidToolStripMenuItem
@@ -160,6 +161,15 @@ Partial Class PenaltyForm
         Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
         Me.GoBackToolStripMenuItem.Text = "Go back"
         '
+        'ChangePenaltyAmountToolStripMenuItem
+        '
+        Me.ChangePenaltyAmountToolStripMenuItem.Image = CType(resources.GetObject("ChangePenaltyAmountToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.ChangePenaltyAmountToolStripMenuItem.Name = "ChangePenaltyAmountToolStripMenuItem"
+        Me.ChangePenaltyAmountToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
+        Me.ChangePenaltyAmountToolStripMenuItem.Size = New System.Drawing.Size(405, 30)
+        Me.ChangePenaltyAmountToolStripMenuItem.Text = "Change Penalty Amount"
+        '
         'PenaltyForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -171,7 +181,6 @@ Partial Class PenaltyForm
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.Name = "PenaltyForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "n"
         CType(Me.dgvPenalty, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MenuStrip1.ResumeLayout(False)
         Me.MenuStrip1.PerformLayout()
@@ -190,4 +199,5 @@ Partial Class PenaltyForm
     Friend WithEvents ViewPaidToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ViewUnpaidToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents SwitchViewToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
+    Friend WithEvents ChangePenaltyAmountToolStripMenuItem As ToolStripMenuItem
 End Class

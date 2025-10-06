@@ -3,10 +3,10 @@
 Public Class UserUnpaidList
     Private Sub UserUnpaidList_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CenterToScreen()
-        Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
-        Me.WindowState = FormWindowState.Maximized
         CustomizeDataGridView(dgvUserUnpaidList)
         LoadUserUnpaidList()
+
+        MsgBox("Double-click rows to select user to process payment.", MsgBoxStyle.Information,)
     End Sub
 
     Private Sub LoadUserUnpaidList()

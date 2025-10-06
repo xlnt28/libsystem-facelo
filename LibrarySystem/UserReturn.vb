@@ -56,7 +56,7 @@ Public Class UserReturn
         End Try
     End Sub
 
-    Private Sub GoBackToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles GoBackToolStripMenuItem.Click
+    Private Sub GoBackToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) 
         frmmain.Visible = True
         Me.Close()
     End Sub

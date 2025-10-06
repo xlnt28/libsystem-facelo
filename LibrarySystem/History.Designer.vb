@@ -72,6 +72,7 @@ Partial Class History
         '
         'CancelBorrowRequestToolStripMenuItem
         '
+        Me.CancelBorrowRequestToolStripMenuItem.Image = CType(resources.GetObject("CancelBorrowRequestToolStripMenuItem.Image"), System.Drawing.Image)
         Me.CancelBorrowRequestToolStripMenuItem.Name = "CancelBorrowRequestToolStripMenuItem"
         Me.CancelBorrowRequestToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
         Me.CancelBorrowRequestToolStripMenuItem.Size = New System.Drawing.Size(337, 30)

@@ -343,19 +343,16 @@ Public Class Borrow
         End Try
 
         Dim hasStopped As Boolean = False
-        Dim borrowID As String = GenerateBorrowID() ' Generate one Borrow ID for all books in this transaction
+        Dim borrowID As String = GenerateBorrowID()
 
         Try
-            ' Prepare lists for transactions table
             Dim bookIDList As New List(Of String)
             Dim copyList As New List(Of String)
             Dim currentReturnedList As New List(Of String)
 
-            ' Insert into borrowings table (individual records per book)
             For Each bookID As String In selectedBooks.Keys
                 Dim quantityToBorrow As Integer = selectedBooks(bookID)
 
-                ' Generate unique ID for each book in borrowings table
                 Dim uniqueID As String = GenerateUniqueID()
 
                 Dim status As String = If(userPrivileges = "Admin", "Borrowed", "Requested")
@@ -364,7 +361,6 @@ Public Class Borrow
                 Dim dueDate As Object = If(userPrivileges = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
                 Dim requestDate As Object = If(userPrivileges = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
 
-                ' Insert into borrowings table (individual records)
                 cmd = New OleDbCommand("INSERT INTO borrowings([ID], [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
                 cmd.Parameters.AddWithValue("?", uniqueID)
@@ -375,7 +371,7 @@ Public Class Borrow
                 cmd.Parameters.AddWithValue("?", userPosition)
                 cmd.Parameters.AddWithValue("?", userPrivileges)
                 cmd.Parameters.AddWithValue("?", quantityToBorrow)
-                cmd.Parameters.AddWithValue("?", "0") ' Current Returned starts at 0 for each book
+                cmd.Parameters.AddWithValue("?", "0")
                 cmd.Parameters.AddWithValue("?", borrowDate)
                 cmd.Parameters.AddWithValue("?", dueDate)
                 cmd.Parameters.AddWithValue("?", status)
@@ -384,12 +380,9 @@ Public Class Borrow
 
                 cmd.ExecuteNonQuery()
 
-                ' Add to lists for transactions table
                 bookIDList.Add(bookID)
                 copyList.Add(quantityToBorrow.ToString())
-                currentReturnedList.Add("0") ' Add "0" for each book for Current Returned list
 
-                ' Update book quantity if admin
                 If userPrivileges = "Admin" Then
                     cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
                     cmd.Parameters.AddWithValue("?", bookID)
@@ -403,11 +396,10 @@ Public Class Borrow
                 End If
             Next
 
-            ' Insert into transactions table (combined record)
             Dim transactionID As String = GenerateTransactionID()
             Dim combinedBookIDs As String = String.Join(",", bookIDList)
             Dim combinedCopies As String = String.Join(",", copyList)
-            Dim combinedCurrentReturned As String = String.Join(",", currentReturnedList) ' This will be "0,0,0" etc.
+            Dim combinedCurrentReturned As String = String.Join(",", currentReturnedList)
 
             Dim statusForTransaction As String = If(userPrivileges = "Admin", "Borrowed", "Requested")
             Dim borrowDateForTransaction As Object = If(userPrivileges = "Admin", dtpBorrowDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
@@ -424,7 +416,7 @@ Public Class Borrow
             cmd.Parameters.AddWithValue("?", userPosition)
             cmd.Parameters.AddWithValue("?", userPrivileges)
             cmd.Parameters.AddWithValue("?", combinedCopies)
-            cmd.Parameters.AddWithValue("?", combinedCurrentReturned) ' This will be formatted like "0,0,0"
+            cmd.Parameters.AddWithValue("?", combinedCurrentReturned)
             cmd.Parameters.AddWithValue("?", borrowDateForTransaction)
             cmd.Parameters.AddWithValue("?", dueDateForTransaction)
             cmd.Parameters.AddWithValue("?", statusForTransaction)
@@ -433,7 +425,6 @@ Public Class Borrow
 
             cmd.ExecuteNonQuery()
 
-            ' Generate receipt if admin
             If userPrivileges = "Admin" AndAlso hasStopped = False Then
                 GenerateBorrowReceipt(selectedBooks, userID, txtName.Text, userPosition, userPrivileges)
                 hasStopped = True
@@ -454,7 +445,6 @@ Public Class Borrow
         End Try
     End Sub
 
-    ' Add these helper functions to generate unique IDs
     Private Function GenerateUniqueID() As String
         Dim maxNumber As Integer = 0
         Dim prefix As String = "BOR-"
@@ -527,8 +517,8 @@ Public Class Borrow
     Private Sub GenerateBorrowReceipt(ByVal selectedBooks As Dictionary(Of String, Integer), ByVal userID As String, ByVal userName As String, ByVal userPosition As String, ByVal userPrivileges As String)
         Try
             Dim result As DialogResult = MsgBox("Generating receipt, please wait..",
-                               MsgBoxStyle.OkOnly + MsgBoxStyle.Information,
-                               "Generate Receipts")
+                           MsgBoxStyle.OkOnly + MsgBoxStyle.Information,
+                           "Generate Receipts")
 
             Dim dt As New DataTable("BorrowReceipt")
             dt.Columns.Add("Borrow ID", GetType(String))
@@ -565,32 +555,31 @@ Public Class Borrow
                 End If
 
                 dt.Rows.Add(
-                borrowID,
-                bookID,
-                userID,
-                userName,
-                userPosition,
-                userPrivileges,
-                quantityToBorrow,
-                borrowDate,
-                dueDate,
-                status,
-                0,
-                "No",
-                requestDate
-            )
+            borrowID,
+            bookID,
+            userID,
+            userName,
+            userPosition,
+            userPrivileges,
+            quantityToBorrow,
+            borrowDate,
+            dueDate,
+            status,
+            0,
+            "No",
+            requestDate
+        )
             Next
 
+            Dim reportForm As New ReportForm()
             Dim report As New ReportDocument()
-
             Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CrystalReport2.rpt")
             report.Load(reportPath)
-
             report.SetDataSource(dt)
+            reportForm.CrystalReportViewer1.ReportSource = report
+            reportForm.ShowDialog()
 
-            report.PrintToPrinter(1, False, 0, 0)
-
-            MsgBox("Borrow slips printed successfully!", MsgBoxStyle.Information, "Print Receipts")
+            MsgBox("Borrow slips generated successfully!", MsgBoxStyle.Information, "Generate Receipts")
 
             report.Close()
             report.Dispose()

@@ -349,24 +349,25 @@ Public Class PenaltyForm
                     End If
 
                     dt.Rows.Add(
-                        reader("User Name").ToString(),
-                        reader("Borrow ID").ToString(),
-                        reader("Book ID").ToString(),
-                        quantity,
-                        DateTime.Now.ToString("MM/dd/yyyy"),
-                        reader("Book Condition").ToString(),
-                        daysLate,
-                        amount
-                    )
+                    reader("User Name").ToString(),
+                    reader("Borrow ID").ToString(),
+                    reader("Book ID").ToString(),
+                    quantity,
+                    DateTime.Now.ToString("MM/dd/yyyy"),
+                    reader("Book Condition").ToString(),
+                    daysLate,
+                    amount
+                )
                 End If
                 reader.Close()
             Next
 
+            Dim reportForm As New ReportForm()
             Dim report As New ReportDocument()
             report.Load(Application.StartupPath & "\Reports\CrystalReport1.rpt")
             report.SetDataSource(dt)
-
-            report.PrintToPrinter(1, False, 0, 0)
+            reportForm.CrystalReportViewer1.ReportSource = report
+            reportForm.ShowDialog()
 
             report.Close()
             report.Dispose()
@@ -517,6 +518,80 @@ Public Class PenaltyForm
             SearchToolStripMenuItem.Visible = True
         Else
             SearchToolStripMenuItem.Visible = False
+        End If
+    End Sub
+
+    Private Sub ChangePenaltyAmountToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ChangePenaltyAmountToolStripMenuItem.Click
+        If Not isAdmin Then
+            MsgBox("Only administrators can change penalty amounts.", MsgBoxStyle.Exclamation, "Access Denied")
+            Return
+        End If
+
+        If dgvPenalty.SelectedRows.Count = 0 Then
+            MsgBox("Please select a penalty record to change the amount.", MsgBoxStyle.Exclamation, "No Selection")
+            Return
+        End If
+
+        Dim selectedRow As DataGridViewRow = dgvPenalty.SelectedRows(0)
+
+        Dim penaltyID As String = selectedRow.Cells("PenaltyID").Value.ToString()
+        Dim currentAmount As Decimal = 0
+        Dim userNote As String = ""
+
+        If Not IsDBNull(selectedRow.Cells("Penalty Amount").Value) Then
+            Decimal.TryParse(selectedRow.Cells("Penalty Amount").Value.ToString(), currentAmount)
+        End If
+
+        If Not IsDBNull(selectedRow.Cells("User Name").Value) Then
+            userNote = " for user: " & selectedRow.Cells("User Name").Value.ToString()
+        End If
+
+        Dim newAmountInput As String = InputBox(
+        "Current Penalty Amount: $" & currentAmount.ToString("F2") & userNote & vbCrLf & vbCrLf &
+        "Enter new penalty amount:",
+        "Change Penalty Amount",
+        currentAmount.ToString("F2"))
+
+        If String.IsNullOrEmpty(newAmountInput) Then
+            MsgBox("Operation cancelled.", MsgBoxStyle.Information, "Cancelled")
+            Return
+        End If
+
+        Dim newAmount As Decimal
+        If Not Decimal.TryParse(newAmountInput, newAmount) Then
+            MsgBox("Please enter a valid amount.", MsgBoxStyle.Exclamation, "Invalid Amount")
+            Return
+        End If
+
+        If newAmount < 0 Then
+            MsgBox("Penalty amount cannot be negative.", MsgBoxStyle.Exclamation, "Invalid Amount")
+            Return
+        End If
+
+        Dim confirmMessage As String = "Change penalty amount from $" & currentAmount.ToString("F2") & " to $" & newAmount.ToString("F2") & "?" & userNote
+        Dim result As DialogResult = MsgBox(confirmMessage, MsgBoxStyle.YesNo + MsgBoxStyle.Question, "Confirm Amount Change")
+
+        If result = DialogResult.Yes Then
+            Try
+                cmd = New OleDbCommand("UPDATE Penalties SET [Penalty Amount] = ? WHERE [PenaltyID] = ?", con)
+                cmd.Parameters.AddWithValue("?", newAmount)
+                cmd.Parameters.AddWithValue("?", penaltyID)
+
+                Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
+
+                If rowsAffected > 0 Then
+                    MsgBox("Penalty amount updated successfully from $" & currentAmount.ToString("F2") & " to $" & newAmount.ToString("F2"), MsgBoxStyle.Information, "Success")
+
+                    LoadPenaltyData()
+                Else
+                    MsgBox("Failed to update penalty amount. Record not found.", MsgBoxStyle.Exclamation, "Update Failed")
+                End If
+
+            Catch ex As Exception
+                MsgBox("Error updating penalty amount: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
+        Else
+            MsgBox("Amount change cancelled.", MsgBoxStyle.Information, "Cancelled")
         End If
     End Sub
 End Class

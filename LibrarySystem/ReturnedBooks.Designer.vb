@@ -49,7 +49,7 @@ Partial Class ReturnedBooks
         DataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.WhiteSmoke
         DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
         Me.dgv.DefaultCellStyle = DataGridViewCellStyle1
-        Me.dgv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.dgv.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.dgv.GridColor = System.Drawing.Color.Gainsboro
         Me.dgv.Location = New System.Drawing.Point(0, 33)
         Me.dgv.MultiSelect = False
@@ -61,11 +61,12 @@ Partial Class ReturnedBooks
         '
         'MenuStrip1
         '
+        Me.MenuStrip1.Dock = System.Windows.Forms.DockStyle.None
         Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GoBackToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(805, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(100, 33)
         Me.MenuStrip1.TabIndex = 16
         Me.MenuStrip1.Text = "MenuStrip1"
         '

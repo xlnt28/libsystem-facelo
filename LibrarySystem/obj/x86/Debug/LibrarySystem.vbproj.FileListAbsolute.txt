@@ -205,3 +205,5 @@ C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySys
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.ForgotPasswordRequest.resources
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.RequestedChangePassword.resources
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.UserUnpaidList.resources
+C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\Reports\CRReturnBook.rpt
+C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\Reports\CRReturnBook.vb

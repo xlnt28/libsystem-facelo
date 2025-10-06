@@ -30,6 +30,8 @@ Module variables
     Public daUserReturn As OleDbDataAdapter
     Public dsUserReturn As DataSet
 
+
+    Public hasClickedTheCurrentRequestedReturn As Boolean
     Public Sub CustomizeDataGridView(ByVal dg As DataGridView)
 
         dg.EnableHeadersVisualStyles = False

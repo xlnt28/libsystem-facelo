@@ -183,10 +183,10 @@ Public Class frmmain
                 Dim totalBorrowedCount As Integer = CInt(cmd.ExecuteScalar())
                 lblTotalBorrowedBooks.Text = totalBorrowedCount.ToString()
 
-                Dim totalOverdueQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Status] = 'Borrowed' AND [Due Date] < Date()"
+                Dim totalOverdueQuery As String = "SELECT COUNT(*) FROM transactions WHERE [Status] = 'Requested' "
                 cmd = New OleDbCommand(totalOverdueQuery, con)
                 Dim totalOverdueCount As Integer = CInt(cmd.ExecuteScalar())
-                lblTotalBorrowedOverdue.Text = totalOverdueCount.ToString()
+                lblTotalBorrowedRequest.Text = totalOverdueCount.ToString()
 
                 Dim totalBooksQuery As String = "SELECT COUNT(*) FROM Books"
                 cmd = New OleDbCommand(totalBooksQuery, con)
@@ -258,7 +258,7 @@ Public Class frmmain
             lblCurrentRequestedBook.Text = "Error"
             lblUnpaidBorrowedBooks.Text = "Error"
             lblTotalBorrowedBooks.Text = "Error"
-            lblTotalBorrowedOverdue.Text = "Error"
+            lblTotalBorrowedRequest.Text = "Error"
             lblTotalBooks.Text = "Error"
             lblCurrentRequestedReturn.Text = "Error"
             lblTotalUnpaidPenalties.Text = "Error"
@@ -276,6 +276,7 @@ Public Class frmmain
     End Sub
 
     Private Sub btnCurrentRequestedReturn_Click(sender As Object, e As EventArgs) Handles btnCurrentRequestedReturn.Click
+        hasClickedTheCurrentRequestedReturn = True
         AdminReturn.Show()
         Me.Hide()
     End Sub
@@ -298,6 +299,10 @@ Public Class frmmain
     End Sub
 
     Private Sub lblCurrentRequestedReturn_Click(sender As Object, e As EventArgs) Handles lblCurrentRequestedReturn.Click
+
+    End Sub
+
+    Private Sub dashAdminPan_Paint(sender As Object, e As PaintEventArgs) Handles dashAdminPan.Paint
 
     End Sub
 End Class

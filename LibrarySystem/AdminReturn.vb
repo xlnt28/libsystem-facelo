@@ -17,6 +17,11 @@ Public Class AdminReturn
         If con.State <> ConnectionState.Open Then
             con.Open()
         End If
+
+        If hasClickedTheCurrentRequestedReturn Then
+            ShowReturnRequestToolStripMenuItem.PerformClick()
+            hasClickedTheCurrentRequestedReturn = False
+        End If
     End Sub
 
     Private Sub LoadAllBorrowedItems()
@@ -169,7 +174,6 @@ Public Class AdminReturn
         Dim returnDate As DateTime = DateTime.Now
 
         Try
-            ' Update transactions table
             Dim newCurrentReturnedArray(bookIDs.Length - 1) As String
             Dim allBooksReturned As Boolean = True
 

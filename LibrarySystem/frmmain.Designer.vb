@@ -63,7 +63,7 @@ Partial Class frmmain
         Me.dashAdminPan = New System.Windows.Forms.Panel()
         Me.Panel15 = New System.Windows.Forms.Panel()
         Me.Label17 = New System.Windows.Forms.Label()
-        Me.lblTotalBorrowedOverdue = New System.Windows.Forms.Label()
+        Me.lblTotalBorrowedRequest = New System.Windows.Forms.Label()
         Me.Panel14 = New System.Windows.Forms.Panel()
         Me.btnCurrentRequestedReturn = New System.Windows.Forms.Button()
         Me.lblCurrentRequestedReturn = New System.Windows.Forms.Label()
@@ -493,7 +493,7 @@ Partial Class frmmain
         '
         Me.Panel15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel15.Controls.Add(Me.Label17)
-        Me.Panel15.Controls.Add(Me.lblTotalBorrowedOverdue)
+        Me.Panel15.Controls.Add(Me.lblTotalBorrowedRequest)
         Me.Panel15.Location = New System.Drawing.Point(368, 231)
         Me.Panel15.Name = "Panel15"
         Me.Panel15.Size = New System.Drawing.Size(278, 185)
@@ -508,18 +508,18 @@ Partial Class frmmain
         Me.Label17.Name = "Label17"
         Me.Label17.Size = New System.Drawing.Size(276, 31)
         Me.Label17.TabIndex = 17
-        Me.Label17.Text = "Total Borrowed Overdue"
+        Me.Label17.Text = "Total Borrow Request"
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'lblTotalBorrowedOverdue
+        'lblTotalBorrowedRequest
         '
-        Me.lblTotalBorrowedOverdue.Font = New System.Drawing.Font("Segoe UI", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalBorrowedOverdue.Location = New System.Drawing.Point(3, 34)
-        Me.lblTotalBorrowedOverdue.Name = "lblTotalBorrowedOverdue"
-        Me.lblTotalBorrowedOverdue.Size = New System.Drawing.Size(270, 146)
-        Me.lblTotalBorrowedOverdue.TabIndex = 15
-        Me.lblTotalBorrowedOverdue.Text = "0"
-        Me.lblTotalBorrowedOverdue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblTotalBorrowedRequest.Font = New System.Drawing.Font("Segoe UI", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalBorrowedRequest.Location = New System.Drawing.Point(3, 34)
+        Me.lblTotalBorrowedRequest.Name = "lblTotalBorrowedRequest"
+        Me.lblTotalBorrowedRequest.Size = New System.Drawing.Size(270, 146)
+        Me.lblTotalBorrowedRequest.TabIndex = 15
+        Me.lblTotalBorrowedRequest.Text = "0"
+        Me.lblTotalBorrowedRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Panel14
         '
@@ -828,5 +828,5 @@ Partial Class frmmain
     Friend WithEvents Label16 As Label
     Friend WithEvents Panel15 As Panel
     Friend WithEvents Label17 As Label
-    Friend WithEvents lblTotalBorrowedOverdue As Label
+    Friend WithEvents lblTotalBorrowedRequest As Label
 End Class

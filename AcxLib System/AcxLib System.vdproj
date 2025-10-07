@@ -903,12 +903,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_133136F141044F88B8DB0C4144EA7599"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_1334B768925849BD8976D15908721DB2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -2404,6 +2398,12 @@
         "Entry"
         {
         "MsmKey" = "8:_32E7B5A506CD411584AB22F27B0A0C06"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_3332F0FD13A0417DA0BDF88E5570A5B9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -5680,6 +5680,12 @@
         "Entry"
         {
         "MsmKey" = "8:_7902B4C5851E468DBB49266A7C90F85C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_792EA05DC98348D7BA5D618C025DD7BE"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -11950,7 +11956,7 @@
         "Entry"
         {
         "MsmKey" = "8:_FF2AE2702169C89217D21AF6805AB85D"
-        "OwnerKey" = "8:_133136F141044F88B8DB0C4144EA7599"
+        "OwnerKey" = "8:_3332F0FD13A0417DA0BDF88E5570A5B9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -12004,7 +12010,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_133136F141044F88B8DB0C4144EA7599"
+        "OwnerKey" = "8:_3332F0FD13A0417DA0BDF88E5570A5B9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -31001,6 +31007,26 @@
             "TargetName" = "8:BK-01284.jpg"
             "Tag" = "8:"
             "Folder" = "8:_E8AF460A5D3A4A1CBF323C1235BAD980"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_792EA05DC98348D7BA5D618C025DD7BE"
+            {
+            "SourcePath" = "8:..\\..\\ssssasdasdasdasd.ico"
+            "TargetName" = "8:ssssasdasdasdasd.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_27D6CF8174304071942089BE74FEAEAF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -52222,7 +52248,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AcxLib System"
         "ProductCode" = "8:{D7C34CD7-7A27-4546-8287-D9D1461C6A14}"
-        "PackageCode" = "8:{EC9066D4-CA0C-4F32-9CD9-D0D45E1DF98D}"
+        "PackageCode" = "8:{7B6F2EF6-8AF0-44A8-B457-BF51A289B23F}"
         "UpgradeCode" = "8:{B1FE0689-021A-4B28-B492-AB77523E3A6B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -52342,6 +52368,20 @@
         }
         "Shortcut"
         {
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D4CD73EEE30B4411997FC2BAC1C959C2"
+            {
+            "Name" = "8:Acx Library System"
+            "Arguments" = "8:"
+            "Description" = "8:"
+            "ShowCmd" = "3:1"
+            "IconIndex" = "3:0"
+            "Transitive" = "11:FALSE"
+            "Target" = "8:_BB64B780AAE94A9F9EC85AC94CAEF5BC"
+            "Folder" = "8:_6D6E3BCECF834593AA1F1739C910B88F"
+            "WorkingFolder" = "8:_27D6CF8174304071942089BE74FEAEAF"
+            "Icon" = "8:_792EA05DC98348D7BA5D618C025DD7BE"
+            "Feature" = "8:"
+            }
         }
         "UserInterface"
         {
@@ -52741,7 +52781,7 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_133136F141044F88B8DB0C4144EA7599"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3332F0FD13A0417DA0BDF88E5570A5B9"
             {
             "SourcePath" = "8:..\\AdminResetTool\\obj\\Debug\\AdminResetTool.exe"
             "TargetName" = "8:"

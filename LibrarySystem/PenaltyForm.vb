@@ -245,7 +245,7 @@ Public Class PenaltyForm
 
         DisableOtherMenuItems()
 
-        MsgBox("Mark as Paid Mode Activated for user: " & userName & vbCrLf & "Double-click rows to select penalties for payment.", MsgBoxStyle.Information, "Mark as Paid Mode")
+        MsgBox("Please select penalties for User: " & userName & " to process their Payment.", MsgBoxStyle.Information, "Process Payment Penalty Selection Mode")
     End Sub
 
     Private Sub ExitMarkAsPaidMode()
@@ -253,7 +253,7 @@ Public Class PenaltyForm
         currentSelectedUser = ""
         selectedPenalties.Clear()
         receiptPanel.Visible = False
-        MarkAsPaidToolStripMenuItem.Text = "Mark as Paid"
+        MarkAsPaidToolStripMenuItem.Text = "Process Payment"
 
         EnableOtherMenuItems()
 
@@ -298,10 +298,10 @@ Public Class PenaltyForm
 
             GenerateReceipt(selectedPenalties)
 
-            MsgBox(selectedPenalties.Count & " penalties marked as paid and receipt saved successfully.", MsgBoxStyle.Information, "Success")
-
             ExitMarkAsPaidMode()
             LoadPenaltyData()
+
+            MsgBox("Penalties marked as paid successfully.", MsgBoxStyle.Information, "Success")
 
         Catch ex As Exception
             MsgBox("Error updating penalties: " & ex.Message, MsgBoxStyle.Critical, "Error")

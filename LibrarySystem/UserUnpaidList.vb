@@ -5,8 +5,6 @@ Public Class UserUnpaidList
         CenterToScreen()
         CustomizeDataGridView(dgvUserUnpaidList)
         LoadUserUnpaidList()
-
-        MsgBox("Double-click rows to select user to process payment.", MsgBoxStyle.Information,)
     End Sub
 
     Private Sub LoadUserUnpaidList()

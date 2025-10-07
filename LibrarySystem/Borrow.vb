@@ -382,6 +382,9 @@ Public Class Borrow
 
                 bookIDList.Add(bookID)
                 copyList.Add(quantityToBorrow.ToString())
+                For i As Integer = 1 To quantityToBorrow
+                    currentReturnedList.Add("0")
+                Next
 
                 If userPrivileges = "Admin" Then
                     cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)

@@ -149,108 +149,108 @@ Public Class AdminReturn
         Return True
     End Function
 
-    Private Sub ProcessReturnQuantities(ByVal borrowID As String, ByVal bookIDs() As String,
-                                  ByVal totalCopies() As Integer, ByVal currentReturned() As Integer,
-                                  ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
-                                  ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal)
+        Private Sub ProcessReturnQuantities(ByVal borrowID As String, ByVal bookIDs() As String,
+                                      ByVal totalCopies() As Integer, ByVal currentReturned() As Integer,
+                                      ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
+                                      ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal)
 
-        Dim totalReturnCount As Integer = 0
-        For i As Integer = 0 To copiesToReturn.Length - 1
-            totalReturnCount += copiesToReturn(i)
-        Next
+            Dim totalReturnCount As Integer = 0
+            For i As Integer = 0 To copiesToReturn.Length - 1
+                totalReturnCount += copiesToReturn(i)
+            Next
 
-        If totalReturnCount = 0 Then
-            MsgBox("No copies selected to return.", MsgBoxStyle.Exclamation, "No Return")
-            Return
-        End If
-
-        For i As Integer = 0 To bookIDs.Length - 1
-            If copiesToReturn(i) < 0 OrElse copiesToReturn(i) > (totalCopies(i) - currentReturned(i)) Then
-                MsgBox("Invalid return quantity for Book ID " & bookIDs(i), MsgBoxStyle.Critical, "Validation Error")
+            If totalReturnCount = 0 Then
+                MsgBox("No copies selected to return.", MsgBoxStyle.Exclamation, "No Return")
                 Return
             End If
-        Next
-
-        Dim returnDate As DateTime = DateTime.Now
-
-        Try
-            Dim newCurrentReturnedArray(bookIDs.Length - 1) As String
-            Dim allBooksReturned As Boolean = True
 
             For i As Integer = 0 To bookIDs.Length - 1
-                Dim newCurrentReturned As Integer = currentReturned(i) + copiesToReturn(i)
-                newCurrentReturnedArray(i) = newCurrentReturned.ToString()
-
-                If newCurrentReturned < totalCopies(i) Then
-                    allBooksReturned = False
+                If copiesToReturn(i) < 0 OrElse copiesToReturn(i) > (totalCopies(i) - currentReturned(i)) Then
+                    MsgBox("Invalid return quantity for Book ID " & bookIDs(i), MsgBoxStyle.Critical, "Validation Error")
+                    Return
                 End If
             Next
 
-            Dim newCurrentReturnedString As String = String.Join(",", newCurrentReturnedArray)
-            Dim newStatus As String = If(allBooksReturned, "Completed", "Borrowed")
+            Dim returnDate As DateTime = DateTime.Now
 
-            cmd = New OleDbCommand("UPDATE transactions SET [Current Returned] = ?, [Status] = ?, [Has Requested Return] = ? WHERE [Borrow ID] = ?", con)
-            cmd.Parameters.AddWithValue("?", newCurrentReturnedString)
-            cmd.Parameters.AddWithValue("?", newStatus)
-            cmd.Parameters.AddWithValue("?", "No")
-            cmd.Parameters.AddWithValue("?", borrowID)
-            cmd.ExecuteNonQuery()
+            Try
+                Dim newCurrentReturnedArray(bookIDs.Length - 1) As String
+                Dim allBooksReturned As Boolean = True
 
-            For i As Integer = 0 To bookIDs.Length - 1
-                If copiesToReturn(i) > 0 Then
-                    Dim bookID As String = bookIDs(i).Trim()
+                For i As Integer = 0 To bookIDs.Length - 1
+                    Dim newCurrentReturned As Integer = currentReturned(i) + copiesToReturn(i)
+                    newCurrentReturnedArray(i) = newCurrentReturned.ToString()
 
-                    Dim individualCurrentReturned As Integer = GetIndividualCurrentReturned(borrowID, bookID)
-                    Dim newIndividualReturned As Integer = individualCurrentReturned + copiesToReturn(i)
-                    Dim individualAllReturned As Boolean = (newIndividualReturned >= GetIndividualTotalCopies(borrowID, bookID))
+                    If newCurrentReturned < totalCopies(i) Then
+                        allBooksReturned = False
+                    End If
+                Next
 
-                    cmd = New OleDbCommand("UPDATE borrowings SET [Current Returned] = ?, [Status] = ?, [Has Requested Return] = ? WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
-                    cmd.Parameters.AddWithValue("?", newIndividualReturned.ToString())
-                    cmd.Parameters.AddWithValue("?", If(individualAllReturned, "Completed", "Borrowed"))
-                    cmd.Parameters.AddWithValue("?", "No")
-                    cmd.Parameters.AddWithValue("?", borrowID)
-                    cmd.Parameters.AddWithValue("?", bookID)
-                    cmd.ExecuteNonQuery()
+                Dim newCurrentReturnedString As String = String.Join(",", newCurrentReturnedArray)
+                Dim newStatus As String = If(allBooksReturned, "Completed", "Borrowed")
 
-                    CreateReturnLog(borrowID, bookID, copiesToReturn(i))
+                cmd = New OleDbCommand("UPDATE transactions SET [Current Returned] = ?, [Status] = ?, [Has Requested Return] = ? WHERE [Borrow ID] = ?", con)
+                cmd.Parameters.AddWithValue("?", newCurrentReturnedString)
+                cmd.Parameters.AddWithValue("?", newStatus)
+                cmd.Parameters.AddWithValue("?", "No")
+                cmd.Parameters.AddWithValue("?", borrowID)
+                cmd.ExecuteNonQuery()
 
-                    If conditionTypes(i) = "Normal" Then
-                        cmd = New OleDbCommand("UPDATE books SET [Quantity] = [Quantity] + ? WHERE [Book ID] = ?", con)
-                        cmd.Parameters.AddWithValue("?", copiesToReturn(i))
+                For i As Integer = 0 To bookIDs.Length - 1
+                    If copiesToReturn(i) > 0 Then
+                        Dim bookID As String = bookIDs(i).Trim()
+
+                        Dim individualCurrentReturned As Integer = GetIndividualCurrentReturned(borrowID, bookID)
+                        Dim newIndividualReturned As Integer = individualCurrentReturned + copiesToReturn(i)
+                        Dim individualAllReturned As Boolean = (newIndividualReturned >= GetIndividualTotalCopies(borrowID, bookID))
+
+                        cmd = New OleDbCommand("UPDATE borrowings SET [Current Returned] = ?, [Status] = ?, [Has Requested Return] = ? WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
+                        cmd.Parameters.AddWithValue("?", newIndividualReturned.ToString())
+                        cmd.Parameters.AddWithValue("?", If(individualAllReturned, "Completed", "Borrowed"))
+                        cmd.Parameters.AddWithValue("?", "No")
+                        cmd.Parameters.AddWithValue("?", borrowID)
                         cmd.Parameters.AddWithValue("?", bookID)
                         cmd.ExecuteNonQuery()
-                    ElseIf conditionTypes(i) = "Lost" Then
-                        cmd = New OleDbCommand("UPDATE books SET [Quantity] = [Quantity] - ? WHERE [Book ID] = ?", con)
-                        cmd.Parameters.AddWithValue("?", copiesToReturn(i))
+
+                        CreateReturnLog(borrowID, bookID, copiesToReturn(i))
+
+                        If conditionTypes(i) = "Normal" Then
+                            cmd = New OleDbCommand("UPDATE books SET [Quantity] = [Quantity] + ? WHERE [Book ID] = ?", con)
+                            cmd.Parameters.AddWithValue("?", copiesToReturn(i))
+                            cmd.Parameters.AddWithValue("?", bookID)
+                            cmd.ExecuteNonQuery()
+                        ElseIf conditionTypes(i) = "Lost" Then
+                            cmd = New OleDbCommand("UPDATE books SET [Quantity] = [Quantity] - ? WHERE [Book ID] = ?", con)
+                            cmd.Parameters.AddWithValue("?", copiesToReturn(i))
+                            cmd.Parameters.AddWithValue("?", bookID)
+                            cmd.ExecuteNonQuery()
+                        End If
+
+                        cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
+                        cmd.Parameters.AddWithValue("?", bookID)
+                        Dim currentQtyObj = cmd.ExecuteScalar()
+                        Dim currentQty As Integer = If(currentQtyObj IsNot Nothing AndAlso Not IsDBNull(currentQtyObj), Convert.ToInt32(currentQtyObj), 0)
+
+                        cmd = New OleDbCommand("UPDATE books SET [Status] = ? WHERE [Book ID] = ?", con)
+                        cmd.Parameters.AddWithValue("?", If(currentQty > 0, "Available", "Unavailable"))
                         cmd.Parameters.AddWithValue("?", bookID)
                         cmd.ExecuteNonQuery()
                     End If
+                Next
 
-                    cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
-                    cmd.Parameters.AddWithValue("?", bookID)
-                    Dim currentQtyObj = cmd.ExecuteScalar()
-                    Dim currentQty As Integer = If(currentQtyObj IsNot Nothing AndAlso Not IsDBNull(currentQtyObj), Convert.ToInt32(currentQtyObj), 0)
-
-                    cmd = New OleDbCommand("UPDATE books SET [Status] = ? WHERE [Book ID] = ?", con)
-                    cmd.Parameters.AddWithValue("?", If(currentQty > 0, "Available", "Unavailable"))
-                    cmd.Parameters.AddWithValue("?", bookID)
-                    cmd.ExecuteNonQuery()
+                If totalPenalty > 0 Then
+                    InsertPenaltyRecord(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate)
                 End If
-            Next
 
-            If totalPenalty > 0 Then
-                InsertPenaltyRecord(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate)
-            End If
+                GenerateReturnReceipt(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate)
 
-            GenerateReturnReceipt(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate)
+                MsgBox("Return approved successfully.", MsgBoxStyle.Information, "Success")
+                LoadAllBorrowedItems()
 
-            MsgBox("Return approved successfully.", MsgBoxStyle.Information, "Success")
-            LoadAllBorrowedItems()
-
-        Catch ex As Exception
-            MsgBox("Error approving return: " & ex.Message, MsgBoxStyle.Critical, "Error")
-        End Try
-    End Sub
+            Catch ex As Exception
+                MsgBox("Error approving return: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
+        End Sub
 
     Private Sub GenerateReturnReceipt(ByVal borrowID As String, ByVal bookIDs() As String,
                                 ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,

@@ -516,8 +516,10 @@ Public Class PenaltyForm
 
         If xpriv = "Admin" Then
             SearchToolStripMenuItem.Visible = True
+            ChangePenaltyAmountToolStripMenuItem.Enabled = True
         Else
             SearchToolStripMenuItem.Visible = False
+            ChangePenaltyAmountToolStripMenuItem.Enabled = False
         End If
     End Sub
 

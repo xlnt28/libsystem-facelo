@@ -82,6 +82,7 @@ Partial Class frmmain
         Me.Button4 = New System.Windows.Forms.Button()
         Me.lblForgotPasswordRequest = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.pbProfile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -99,6 +100,7 @@ Partial Class frmmain
         Me.Panel12.SuspendLayout()
         Me.Panel11.SuspendLayout()
         Me.Panel10.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip1
@@ -297,6 +299,7 @@ Partial Class frmmain
         '
         Me.Panel4.BackColor = System.Drawing.Color.WhiteSmoke
         Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel4.Controls.Add(Me.PictureBox1)
         Me.Panel4.Controls.Add(Me.Label1)
         Me.Panel4.Controls.Add(Me.MenuStrip1)
         Me.Panel4.Location = New System.Drawing.Point(0, 0)
@@ -726,6 +729,16 @@ Partial Class frmmain
         Me.Label7.TabIndex = 14
         Me.Label7.Text = "Forgot password request"
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
+        Me.PictureBox1.Location = New System.Drawing.Point(1227, 48)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(119, 118)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox1.TabIndex = 7
+        Me.PictureBox1.TabStop = False
+        '
         'frmmain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -766,6 +779,7 @@ Partial Class frmmain
         Me.Panel11.ResumeLayout(False)
         Me.Panel10.ResumeLayout(False)
         Me.Panel10.PerformLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -829,4 +843,5 @@ Partial Class frmmain
     Friend WithEvents Panel15 As Panel
     Friend WithEvents Label17 As Label
     Friend WithEvents lblTotalBorrowedRequest As Label
+    Friend WithEvents PictureBox1 As PictureBox
 End Class

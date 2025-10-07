@@ -201,4 +201,28 @@ Public Class History
             CancelBorrowRequestToolStripMenuItem.Enabled = False
         End If
     End Sub
+
+    Private Sub ViewTransactionDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewTransactionDetailToolStripMenuItem.Click
+        If borrowdgv.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = borrowdgv.SelectedRows(0)
+
+            selectedBorrowID = selectedRow.Cells("Borrow ID").Value.ToString()
+            selectedUserID = selectedRow.Cells("User ID").Value.ToString()
+            selectedBorrowerName = selectedRow.Cells("Borrower Name").Value.ToString()
+            selectedBorrowerPosition = selectedRow.Cells("Borrower Position").Value.ToString()
+            selectedBorrowerPrivilege = selectedRow.Cells("Borrower Privileges").Value.ToString()
+            selectedBorrowDate = selectedRow.Cells("Borrow Date").Value.ToString()
+            selectedDueDate = selectedRow.Cells("Due Date").Value.ToString()
+            selectedStatus = selectedRow.Cells("Status").Value.ToString()
+            selectedBookIDList = selectedRow.Cells("Book ID List").Value.ToString()
+            selectedCopyList = selectedRow.Cells("Copy List").Value.ToString()
+
+            Dim viewer As New TransactionViewer()
+            viewer.Text = "Transaction Details - Borrow ID: " & selectedBorrowID
+            viewer.Show()
+        Else
+            MsgBox("Please select a transaction to view details.", MsgBoxStyle.Exclamation, "Select Transaction")
+        End If
+    End Sub
+
 End Class

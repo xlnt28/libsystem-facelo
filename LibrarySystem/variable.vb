@@ -31,6 +31,18 @@ Module variables
     Public dsUserReturn As DataSet
 
 
+    Public selectedBorrowID As String = ""
+    Public selectedUserID As String = ""
+    Public selectedBorrowerName As String = ""
+    Public selectedBorrowerPosition As String = ""
+    Public selectedBorrowerPrivilege As String = ""
+    Public selectedBorrowDate As String = ""
+    Public selectedDueDate As String = ""
+    Public selectedStatus As String = ""
+    Public selectedBookIDList As String = ""
+    Public selectedCopyList As String = ""
+
+
     Public hasClickedTheCurrentRequestedReturn As Boolean
     Public Sub CustomizeDataGridView(ByVal dg As DataGridView)
 

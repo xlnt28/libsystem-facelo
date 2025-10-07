@@ -34,7 +34,7 @@ Public Class UserReturn
 
     Public Sub SQLQueryForBorrowedItemss()
         Try
-            Dim sql As String = "SELECT [Transaction ID] AS [Borrow ID], [Book ID List], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copy List], [Borrow Date], [Due Date], [Status], [Has Requested Return] " &
+            Dim sql As String = "SELECT [Transaction ID] ,[Borrow ID], [Book ID List], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copy List], [Borrow Date], [Due Date], [Status], [Has Requested Return] " &
                                 "FROM transactions " &
                                 "WHERE [Borrower Name] = ? " &
                                 "AND [Status] = 'Borrowed' " &
@@ -132,7 +132,26 @@ Public Class UserReturn
 
     End Sub
 
-    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
+    Private Sub ViewTransactionDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewTransactionDetailToolStripMenuItem.Click
+        If dg.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = dg.SelectedRows(0)
 
+            selectedBorrowID = selectedRow.Cells("Borrow ID").Value.ToString()
+            selectedUserID = selectedRow.Cells("User ID").Value.ToString()
+            selectedBorrowerName = selectedRow.Cells("Borrower Name").Value.ToString()
+            selectedBorrowerPosition = selectedRow.Cells("Borrower Position").Value.ToString()
+            selectedBorrowerPrivilege = selectedRow.Cells("Borrower Privileges").Value.ToString()
+            selectedBorrowDate = selectedRow.Cells("Borrow Date").Value.ToString()
+            selectedDueDate = selectedRow.Cells("Due Date").Value.ToString()
+            selectedStatus = selectedRow.Cells("Status").Value.ToString()
+            selectedBookIDList = selectedRow.Cells("Book ID List").Value.ToString()
+            selectedCopyList = selectedRow.Cells("Copy List").Value.ToString()
+
+            Dim viewer As New TransactionViewer()
+            viewer.Text = "Transaction Details - Borrow ID: " & selectedBorrowID
+            viewer.Show()
+        Else
+            MsgBox("Please select a transaction to view details.", MsgBoxStyle.Exclamation, "Select Transaction")
+        End If
     End Sub
 End Class

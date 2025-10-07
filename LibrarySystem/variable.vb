@@ -30,7 +30,6 @@ Module variables
     Public daUserReturn As OleDbDataAdapter
     Public dsUserReturn As DataSet
 
-
     Public selectedBorrowID As String = ""
     Public selectedUserID As String = ""
     Public selectedBorrowerName As String = ""
@@ -42,8 +41,6 @@ Module variables
     Public selectedBookIDList As String = ""
     Public selectedCopyList As String = ""
 
-
-    Public hasClickedTheCurrentRequestedReturn As Boolean
     Public Sub CustomizeDataGridView(ByVal dg As DataGridView)
 
         dg.EnableHeadersVisualStyles = False

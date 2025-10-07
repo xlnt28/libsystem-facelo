@@ -225,4 +225,7 @@ Public Class History
         End If
     End Sub
 
+    Private Sub borrowdgv_CellContentClick_1(sender As Object, e As DataGridViewCellEventArgs) Handles borrowdgv.CellContentClick
+
+    End Sub
 End Class

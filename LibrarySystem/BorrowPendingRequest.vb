@@ -52,9 +52,6 @@ Public Class BorrowPendingRequest
             dg.MultiSelect = False
             dg.ClearSelection()
 
-            RemoveHandler dg.CellFormatting, AddressOf dg_CellFormatting
-            AddHandler dg.CellFormatting, AddressOf dg_CellFormatting
-
         Catch ex As Exception
             MsgBox("Error loading pending requests: " & ex.Message, MsgBoxStyle.Critical, "Load Error")
         End Try
@@ -87,23 +84,6 @@ Public Class BorrowPendingRequest
         End Try
     End Sub
 
-    Private Sub dg_CellFormatting(ByVal sender As Object, ByVal e As DataGridViewCellFormattingEventArgs)
-        If e.RowIndex < 0 Then Return
-
-        Try
-            If e.Value IsNot Nothing AndAlso TypeOf e.Value Is DateTime Then
-                e.Value = CType(e.Value, DateTime).ToString("MM/dd/yyyy")
-                e.FormattingApplied = True
-            ElseIf e.Value IsNot Nothing AndAlso Not IsDBNull(e.Value) Then
-                Dim dateValue As DateTime
-                If DateTime.TryParse(e.Value.ToString(), dateValue) Then
-                    e.Value = dateValue.ToString("MM/dd/yyyy")
-                    e.FormattingApplied = True
-                End If
-            End If
-        Catch ex As Exception
-        End Try
-    End Sub
 
     Private Sub SearchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchToolStripMenuItem.Click
         Dim searchTerm As String = InputBox("Enter Borrower Name to search:", "Search Borrower")
@@ -337,5 +317,30 @@ Public Class BorrowPendingRequest
         Catch ex As Exception
             MsgBox("Error generating borrow receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
+    End Sub
+
+
+
+    Private Sub ViewTransactionDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewTransactionDetailsToolStripMenuItem.Click
+        If dg.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = dg.SelectedRows(0)
+
+            selectedBorrowID = selectedRow.Cells("Borrow ID").Value.ToString()
+            selectedUserID = selectedRow.Cells("User ID").Value.ToString()
+            selectedBorrowerName = selectedRow.Cells("Borrower Name").Value.ToString()
+            selectedBorrowerPosition = selectedRow.Cells("Borrower Position").Value.ToString()
+            selectedBorrowerPrivilege = selectedRow.Cells("Borrower Privileges").Value.ToString()
+            selectedBorrowDate = "Not yet approved"
+            selectedDueDate = "Not yet approved"
+            selectedStatus = "Requested"
+            selectedBookIDList = selectedRow.Cells("Book ID List").Value.ToString()
+            selectedCopyList = selectedRow.Cells("Copy List").Value.ToString()
+
+            Dim viewer As New TransactionViewer()
+            viewer.Text = "Transaction Details - Borrow ID: " & selectedBorrowID
+            viewer.Show()
+        Else
+            MsgBox("Please select a transaction to view details.", MsgBoxStyle.Exclamation, "Select Transaction")
+        End If
     End Sub
 End Class

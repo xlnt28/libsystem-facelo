@@ -183,7 +183,7 @@ Public Class frmmain
                 Dim totalBorrowedCount As Integer = CInt(cmd.ExecuteScalar())
                 lblTotalBorrowedBooks.Text = totalBorrowedCount.ToString()
 
-                Dim totalOverdueQuery As String = "SELECT COUNT(*) FROM transactions WHERE [Status] = 'Requested' "
+                Dim totalOverdueQuery As String = "SELECT COUNT(*) FROM transactions WHERE [Status] = 'Requested'"
                 cmd = New OleDbCommand(totalOverdueQuery, con)
                 Dim totalOverdueCount As Integer = CInt(cmd.ExecuteScalar())
                 lblTotalBorrowedRequest.Text = totalOverdueCount.ToString()
@@ -192,11 +192,6 @@ Public Class frmmain
                 cmd = New OleDbCommand(totalBooksQuery, con)
                 Dim totalBooksCount As Integer = CInt(cmd.ExecuteScalar())
                 lblTotalBooks.Text = totalBooksCount.ToString()
-
-                Dim currentReturnReqQuery As String = "SELECT COUNT(*) FROM transactions WHERE [Has Requested Return] = 'Yes'"
-                cmd = New OleDbCommand(currentReturnReqQuery, con)
-                Dim currentReturnReqCount As Integer = CInt(cmd.ExecuteScalar())
-                lblCurrentRequestedReturn.Text = currentReturnReqCount.ToString()
 
                 Dim totalUnpaidPenaltiesQuery As String = "SELECT COUNT(*) FROM Penalties WHERE [Penalty Status] = 'Unpaid'"
                 cmd = New OleDbCommand(totalUnpaidPenaltiesQuery, con)
@@ -208,7 +203,11 @@ Public Class frmmain
                 Dim forgotPasswordCount As Integer = CInt(cmd.ExecuteScalar())
                 lblForgotPasswordRequest.Text = forgotPasswordCount.ToString()
 
-
+                Dim totalBookCopiesQuery As String = "SELECT SUM([Quantity]) FROM books"
+                cmd = New OleDbCommand(totalBookCopiesQuery, con)
+                Dim result = cmd.ExecuteScalar()
+                Dim totalBookCopiesCount As Integer = If(result Is DBNull.Value, 0, CInt(result))
+                lblTotalBookCopies.Text = totalBookCopiesCount.ToString()
             Else
                 Dim pendingBorrowedQuery As String = "SELECT COUNT(*) FROM transactions WHERE [Borrower Name] = @UserName AND [Status] = 'Borrowed'"
                 cmd = New OleDbCommand(pendingBorrowedQuery, con)
@@ -260,7 +259,6 @@ Public Class frmmain
             lblTotalBorrowedBooks.Text = "Error"
             lblTotalBorrowedRequest.Text = "Error"
             lblTotalBooks.Text = "Error"
-            lblCurrentRequestedReturn.Text = "Error"
             lblTotalUnpaidPenalties.Text = "Error"
             lblForgotPasswordRequest.Text = "Error"
 
@@ -276,8 +274,8 @@ Public Class frmmain
     End Sub
 
     Private Sub btnCurrentRequestedReturn_Click(sender As Object, e As EventArgs) Handles btnCurrentRequestedReturn.Click
-        hasClickedTheCurrentRequestedReturn = True
-        AdminReturn.Show()
+
+        BorrowPendingRequest.Show()
         Me.Hide()
     End Sub
 
@@ -298,11 +296,19 @@ Public Class frmmain
 
     End Sub
 
-    Private Sub lblCurrentRequestedReturn_Click(sender As Object, e As EventArgs) Handles lblCurrentRequestedReturn.Click
+    Private Sub lblCurrentRequestedReturn_Click(sender As Object, e As EventArgs)
 
     End Sub
 
     Private Sub dashAdminPan_Paint(sender As Object, e As PaintEventArgs) Handles dashAdminPan.Paint
+
+    End Sub
+
+    Private Sub Panel4_Paint(sender As Object, e As PaintEventArgs) Handles Panel4.Paint
+
+    End Sub
+
+    Private Sub Label9_Click(sender As Object, e As EventArgs) Handles lblTotalBookCopies.Click
 
     End Sub
 End Class

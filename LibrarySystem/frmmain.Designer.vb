@@ -62,11 +62,9 @@ Partial Class frmmain
         Me.dashUserpanel = New System.Windows.Forms.Panel()
         Me.dashAdminPan = New System.Windows.Forms.Panel()
         Me.Panel15 = New System.Windows.Forms.Panel()
-        Me.Label17 = New System.Windows.Forms.Label()
         Me.lblTotalBorrowedRequest = New System.Windows.Forms.Label()
         Me.Panel14 = New System.Windows.Forms.Panel()
         Me.btnCurrentRequestedReturn = New System.Windows.Forms.Button()
-        Me.lblCurrentRequestedReturn = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Panel13 = New System.Windows.Forms.Panel()
         Me.btnviewTotalUnpaidPenalties = New System.Windows.Forms.Button()
@@ -83,6 +81,8 @@ Partial Class frmmain
         Me.lblForgotPasswordRequest = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.lblTotalBookCopies = New System.Windows.Forms.Label()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.pbProfile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -495,31 +495,19 @@ Partial Class frmmain
         'Panel15
         '
         Me.Panel15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel15.Controls.Add(Me.Label17)
-        Me.Panel15.Controls.Add(Me.lblTotalBorrowedRequest)
-        Me.Panel15.Location = New System.Drawing.Point(368, 231)
+        Me.Panel15.Controls.Add(Me.lblTotalBookCopies)
+        Me.Panel15.Controls.Add(Me.Label8)
+        Me.Panel15.Location = New System.Drawing.Point(56, 233)
         Me.Panel15.Name = "Panel15"
-        Me.Panel15.Size = New System.Drawing.Size(278, 185)
+        Me.Panel15.Size = New System.Drawing.Size(277, 185)
         Me.Panel15.TabIndex = 18
-        '
-        'Label17
-        '
-        Me.Label17.BackColor = System.Drawing.Color.Transparent
-        Me.Label17.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label17.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.Label17.Location = New System.Drawing.Point(0, 0)
-        Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(276, 31)
-        Me.Label17.TabIndex = 17
-        Me.Label17.Text = "Total Borrow Request"
-        Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'lblTotalBorrowedRequest
         '
-        Me.lblTotalBorrowedRequest.Font = New System.Drawing.Font("Segoe UI", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalBorrowedRequest.Location = New System.Drawing.Point(3, 34)
+        Me.lblTotalBorrowedRequest.Font = New System.Drawing.Font("Segoe UI", 48.0!, System.Drawing.FontStyle.Bold)
+        Me.lblTotalBorrowedRequest.Location = New System.Drawing.Point(0, 34)
         Me.lblTotalBorrowedRequest.Name = "lblTotalBorrowedRequest"
-        Me.lblTotalBorrowedRequest.Size = New System.Drawing.Size(270, 146)
+        Me.lblTotalBorrowedRequest.Size = New System.Drawing.Size(276, 90)
         Me.lblTotalBorrowedRequest.TabIndex = 15
         Me.lblTotalBorrowedRequest.Text = "0"
         Me.lblTotalBorrowedRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -528,7 +516,7 @@ Partial Class frmmain
         '
         Me.Panel14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel14.Controls.Add(Me.btnCurrentRequestedReturn)
-        Me.Panel14.Controls.Add(Me.lblCurrentRequestedReturn)
+        Me.Panel14.Controls.Add(Me.lblTotalBorrowedRequest)
         Me.Panel14.Controls.Add(Me.Label16)
         Me.Panel14.Location = New System.Drawing.Point(676, 27)
         Me.Panel14.Name = "Panel14"
@@ -549,16 +537,6 @@ Partial Class frmmain
         Me.btnCurrentRequestedReturn.Text = "View"
         Me.btnCurrentRequestedReturn.UseVisualStyleBackColor = False
         '
-        'lblCurrentRequestedReturn
-        '
-        Me.lblCurrentRequestedReturn.Font = New System.Drawing.Font("Segoe UI", 48.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCurrentRequestedReturn.Location = New System.Drawing.Point(3, 34)
-        Me.lblCurrentRequestedReturn.Name = "lblCurrentRequestedReturn"
-        Me.lblCurrentRequestedReturn.Size = New System.Drawing.Size(270, 90)
-        Me.lblCurrentRequestedReturn.TabIndex = 15
-        Me.lblCurrentRequestedReturn.Text = "0"
-        Me.lblCurrentRequestedReturn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'Label16
         '
         Me.Label16.BackColor = System.Drawing.Color.Transparent
@@ -568,7 +546,7 @@ Partial Class frmmain
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(276, 31)
         Me.Label16.TabIndex = 14
-        Me.Label16.Text = "Current Requested Return"
+        Me.Label16.Text = "Current Borrow Request"
         Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Panel13
@@ -623,7 +601,7 @@ Partial Class frmmain
         Me.Panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel12.Controls.Add(Me.Label12)
         Me.Panel12.Controls.Add(Me.lblTotalBorrowedBooks)
-        Me.Panel12.Location = New System.Drawing.Point(55, 230)
+        Me.Panel12.Location = New System.Drawing.Point(368, 232)
         Me.Panel12.Name = "Panel12"
         Me.Panel12.Size = New System.Drawing.Size(278, 185)
         Me.Panel12.TabIndex = 17
@@ -739,6 +717,28 @@ Partial Class frmmain
         Me.PictureBox1.TabIndex = 7
         Me.PictureBox1.TabStop = False
         '
+        'Label8
+        '
+        Me.Label8.BackColor = System.Drawing.Color.Transparent
+        Me.Label8.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.Label8.Location = New System.Drawing.Point(-1, 0)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(276, 31)
+        Me.Label8.TabIndex = 18
+        Me.Label8.Text = "Total Book Copies"
+        Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'lblTotalBookCopies
+        '
+        Me.lblTotalBookCopies.Font = New System.Drawing.Font("Segoe UI", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalBookCopies.Location = New System.Drawing.Point(-1, 38)
+        Me.lblTotalBookCopies.Name = "lblTotalBookCopies"
+        Me.lblTotalBookCopies.Size = New System.Drawing.Size(276, 146)
+        Me.lblTotalBookCopies.TabIndex = 19
+        Me.lblTotalBookCopies.Text = "0"
+        Me.lblTotalBookCopies.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
         'frmmain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -838,10 +838,10 @@ Partial Class frmmain
     Friend WithEvents Label12 As Label
     Friend WithEvents Panel14 As Panel
     Friend WithEvents btnCurrentRequestedReturn As Button
-    Friend WithEvents lblCurrentRequestedReturn As Label
     Friend WithEvents Label16 As Label
     Friend WithEvents Panel15 As Panel
-    Friend WithEvents Label17 As Label
     Friend WithEvents lblTotalBorrowedRequest As Label
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents lblTotalBookCopies As Label
+    Friend WithEvents Label8 As Label
 End Class

@@ -28,7 +28,14 @@ Public Class BorrowRequest
                 If confirm = MsgBoxResult.Yes Then
                     Try
                         If con.State <> ConnectionState.Open Then OpenDB()
+
                         Dim sql As String = "UPDATE borrowings SET [Status] = 'Cancelled' WHERE [Borrow ID] = ?"
+                        Using cmd As New OleDbCommand(sql, con)
+                            cmd.Parameters.AddWithValue("?", borrowID)
+                            cmd.ExecuteNonQuery()
+                        End Using
+
+                        sql = "UPDATE transactions SET [Status] = 'Cancelled' WHERE [Borrow ID] = ?"
                         Using cmd As New OleDbCommand(sql, con)
                             cmd.Parameters.AddWithValue("?", borrowID)
                             cmd.ExecuteNonQuery()
@@ -54,7 +61,7 @@ Public Class BorrowRequest
             If con.State <> ConnectionState.Open Then OpenDB()
             SQLQueryForHistoryUser(searchName)
             borrowdgv.DataSource = Nothing
-            borrowdgv.DataSource = dbdsBorrowHistory.Tables("borrowings")
+            borrowdgv.DataSource = dbdsBorrowHistory.Tables("transactions")
             borrowdgv.ReadOnly = True
             borrowdgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect
             borrowdgv.ClearSelection()
@@ -66,8 +73,8 @@ Public Class BorrowRequest
 
     Public Sub SQLQueryForHistoryUser(Optional ByVal searchName As String = "")
         Try
-            Dim sql As String = "SELECT [Borrow ID], [Book ID],[User ID] ,[Borrower Name], [Borrower Position], [Borrower Privileges], " &
-                                "[Copies], [Current Returned], [Request Date] ,[Borrow Date], [Due Date], [Status] FROM borrowings WHERE [Borrower Name] = ? AND [Status] = 'Requested'"
+            Dim sql As String = "SELECT [Transaction ID], [Borrow ID], [Book ID List],[User ID] ,[Borrower Name], [Borrower Position], [Borrower Privileges], " &
+                                "[Copy List], [Current Returned], [Request Date] ,[Borrow Date], [Due Date], [Status] FROM transactions WHERE [Borrower Name] = ? AND [Status] = 'Requested'"
 
 
             daBorrowHistory = New OleDbDataAdapter(sql, con)
@@ -77,23 +84,20 @@ Public Class BorrowRequest
             If dbdsBorrowHistory Is Nothing Then
                 dbdsBorrowHistory = New DataSet()
             Else
-                If dbdsBorrowHistory.Tables.Contains("borrowings") Then
-                    dbdsBorrowHistory.Tables("borrowings").Clear()
+                If dbdsBorrowHistory.Tables.Contains("transactions") Then
+                    dbdsBorrowHistory.Tables("transactions").Clear()
                 End If
             End If
 
-            daBorrowHistory.Fill(dbdsBorrowHistory, "borrowings")
+            daBorrowHistory.Fill(dbdsBorrowHistory, "transactions")
         Catch ex As Exception
             MsgBox("Error retrieving borrowings data: " & ex.Message, MsgBoxStyle.Critical, "Query Error")
         End Try
-    End Sub
-
-    Private Sub borrowdgv_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles borrowdgv.CellContentClick
-
     End Sub
 
     Private Sub BorrowRequest_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         OpenDB()
         LoadBorrowData()
     End Sub
+
 End Class

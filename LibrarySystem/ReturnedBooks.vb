@@ -2,6 +2,9 @@
 
 Public Class ReturnedBooks
 
+    Private dsReturnLog As DataSet
+    Private daReturnLog As OleDbDataAdapter
+
     Private Sub ReturnedBooks_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Call CenterToScreen()
         Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
@@ -16,7 +19,7 @@ Public Class ReturnedBooks
             If con.State <> ConnectionState.Open Then OpenDB()
             SQLQueryForHistoryUser()
             dgv.DataSource = Nothing
-            dgv.DataSource = dbdsBorrowHistory.Tables("returnLog")
+            dgv.DataSource = dsReturnLog.Tables("returnLog")
             dgv.ReadOnly = True
             dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect
             dgv.ClearSelection()
@@ -25,24 +28,22 @@ Public Class ReturnedBooks
         End Try
     End Sub
 
-
     Public Sub SQLQueryForHistoryUser()
         Try
-            Dim sql As String = "SELECT * FROM returnLog WHERE [Borrower Name] = ?"
+            Dim sql As String = "SELECT [ReturnID], [Borrower Name], [Borrow ID], [Book ID], [Returned Quantity], [Return Date], [Processed By] FROM returnLog WHERE [Borrower Name] = ?"
 
-            daBorrowHistory = New OleDbDataAdapter(sql, con)
+            daReturnLog = New OleDbDataAdapter(sql, con)
+            daReturnLog.SelectCommand.Parameters.AddWithValue("?", XName.Trim())
 
-            daBorrowHistory.SelectCommand.Parameters.AddWithValue("?", XName.Trim())
-
-            If dbdsBorrowHistory Is Nothing Then
-                dbdsBorrowHistory = New DataSet()
+            If dsReturnLog Is Nothing Then
+                dsReturnLog = New DataSet()
             Else
-                If dbdsBorrowHistory.Tables.Contains("returnLog") Then
-                    dbdsBorrowHistory.Tables("returnLog").Clear()
+                If dsReturnLog.Tables.Contains("returnLog") Then
+                    dsReturnLog.Tables("returnLog").Clear()
                 End If
             End If
 
-            daBorrowHistory.Fill(dbdsBorrowHistory, "returnLog")
+            daReturnLog.Fill(dsReturnLog, "returnLog")
         Catch ex As Exception
             MsgBox("Error retrieving return log data: " & ex.Message, MsgBoxStyle.Critical, "Query Error")
         End Try
@@ -55,7 +56,6 @@ Public Class ReturnedBooks
     Private Sub GoBackToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles GoBackToolStripMenuItem.Click
         frmmain.Show()
         Me.Close()
-
     End Sub
 
     Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked

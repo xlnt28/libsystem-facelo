@@ -27,12 +27,14 @@ Partial Class frmmain
         Me.ManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuUserForm = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuBookInventory = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ChangePasswordToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuTransactions = New System.Windows.Forms.ToolStripMenuItem()
         Me.BorrowToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReturnToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PenaltyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.TransactionHistoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BorrowPendingRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ReportsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuLogout = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -108,16 +110,16 @@ Partial Class frmmain
         Me.MenuStrip1.BackColor = System.Drawing.Color.Transparent
         Me.MenuStrip1.Dock = System.Windows.Forms.DockStyle.None
         Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolStripMenuItem, Me.menuTransactions, Me.menuLogout})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolStripMenuItem, Me.menuTransactions, Me.ReportsToolStripMenuItem, Me.menuLogout})
         Me.MenuStrip1.Location = New System.Drawing.Point(8, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(320, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(407, 33)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'ManageToolStripMenuItem
         '
-        Me.ManageToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuUserForm, Me.menuBookInventory})
+        Me.ManageToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuUserForm, Me.menuBookInventory, Me.ChangePasswordToolStripMenuItem})
         Me.ManageToolStripMenuItem.Name = "ManageToolStripMenuItem"
         Me.ManageToolStripMenuItem.Size = New System.Drawing.Size(93, 29)
         Me.ManageToolStripMenuItem.Text = "Manage"
@@ -127,7 +129,7 @@ Partial Class frmmain
         Me.menuUserForm.Image = CType(resources.GetObject("menuUserForm.Image"), System.Drawing.Image)
         Me.menuUserForm.Name = "menuUserForm"
         Me.menuUserForm.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.U), System.Windows.Forms.Keys)
-        Me.menuUserForm.Size = New System.Drawing.Size(270, 30)
+        Me.menuUserForm.Size = New System.Drawing.Size(350, 30)
         Me.menuUserForm.Text = "User Form"
         '
         'menuBookInventory
@@ -137,6 +139,15 @@ Partial Class frmmain
         Me.menuBookInventory.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.I), System.Windows.Forms.Keys)
         Me.menuBookInventory.Size = New System.Drawing.Size(270, 30)
         Me.menuBookInventory.Text = "Book Inventory"
+        '
+        'ChangePasswordToolStripMenuItem
+        '
+        Me.ChangePasswordToolStripMenuItem.Image = CType(resources.GetObject("ChangePasswordToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.ChangePasswordToolStripMenuItem.Name = "ChangePasswordToolStripMenuItem"
+        Me.ChangePasswordToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
+        Me.ChangePasswordToolStripMenuItem.Size = New System.Drawing.Size(350, 30)
+        Me.ChangePasswordToolStripMenuItem.Text = "Change Password"
         '
         'menuTransactions
         '
@@ -186,6 +197,12 @@ Partial Class frmmain
             Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
         Me.BorrowPendingRequestToolStripMenuItem.Size = New System.Drawing.Size(407, 30)
         Me.BorrowPendingRequestToolStripMenuItem.Text = "Borrow Pending Request"
+        '
+        'ReportsToolStripMenuItem
+        '
+        Me.ReportsToolStripMenuItem.Name = "ReportsToolStripMenuItem"
+        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(87, 29)
+        Me.ReportsToolStripMenuItem.Text = "Reports"
         '
         'menuLogout
         '
@@ -279,7 +296,7 @@ Partial Class frmmain
         Me.txtPrivilege.Name = "txtPrivilege"
         Me.txtPrivilege.Size = New System.Drawing.Size(331, 60)
         Me.txtPrivilege.TabIndex = 3
-        Me.txtPrivilege.Text = "Text"
+        Me.txtPrivilege.Text = "User's Privilege"
         Me.txtPrivilege.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'txtPosition
@@ -292,16 +309,16 @@ Partial Class frmmain
         Me.txtPosition.Name = "txtPosition"
         Me.txtPosition.Size = New System.Drawing.Size(331, 62)
         Me.txtPosition.TabIndex = 2
-        Me.txtPosition.Text = "Text"
+        Me.txtPosition.Text = "User's Position"
         Me.txtPosition.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Panel4
         '
         Me.Panel4.BackColor = System.Drawing.Color.WhiteSmoke
         Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel4.Controls.Add(Me.MenuStrip1)
         Me.Panel4.Controls.Add(Me.PictureBox1)
         Me.Panel4.Controls.Add(Me.Label1)
-        Me.Panel4.Controls.Add(Me.MenuStrip1)
         Me.Panel4.Location = New System.Drawing.Point(0, 0)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(1384, 188)
@@ -751,9 +768,9 @@ Partial Class frmmain
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Panel2)
-        Me.Controls.Add(Me.Panel4)
         Me.Controls.Add(Me.dashAdminPan)
         Me.Controls.Add(Me.dashUserpanel)
+        Me.Controls.Add(Me.Panel4)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmmain"
@@ -844,4 +861,6 @@ Partial Class frmmain
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents lblTotalBookCopies As Label
     Friend WithEvents Label8 As Label
+    Friend WithEvents ReportsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ChangePasswordToolStripMenuItem As ToolStripMenuItem
 End Class

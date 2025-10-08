@@ -16,6 +16,7 @@ Public Class Form1
         txtrpw.UseSystemPasswordChar = True
         UpdateButtonStates()
         menuDelete.Enabled = False
+        panFillUpRequired.Visible = False
 
         Call CenterToScreen()
         Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
@@ -274,16 +275,28 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub menuAdd_Click(ByVal sender As Object, ByVal e As EventArgs) Handles menuNew.Click
+    Private Sub menuNew_Click(ByVal sender As Object, ByVal e As EventArgs) Handles menuNew.Click
         isAdding = True
         isEditingOrAdding = True
+        panFillUpRequired.Visible = True
         unlock()
         txtclear()
         txtid.Text = GenerateUserID()
         dg.Enabled = False
+
         cbopv.Visible = True
         cbopv.Enabled = True
-        cbopost.Enabled = False
+        cbopv.SelectedIndex = -1
+
+        cbopost.Enabled = True
+        cbopost.SelectedIndex = -1
+        cbopost.Items.Clear()
+        cbopost.Items.Add("Administrator")
+        cbopost.Items.Add("Librarian")
+        cbopost.Items.Add("Teacher")
+        cbopost.Items.Add("Staff")
+        cbopost.Items.Add("Student")
+
         txtpv.Visible = False
         LinkLabel1.Visible = True
         txtun.Focus()
@@ -297,34 +310,41 @@ Public Class Form1
         End If
 
         isEditing = True
+        panFillUpRequired.Visible = True
         isEditingOrAdding = True
         unlock()
 
         Dim currentPrivilege As String = txtpv.Text
+        Dim currentPosition As String = dbds.Tables("tbluser").Rows(recpointer)("Position").ToString()
 
         cbopv.Visible = True
+        cbopv.Enabled = True
         cbopv.Text = currentPrivilege
         txtpv.Visible = False
-        LinkLabel1.Visible = True
-        dg.Enabled = False
 
         cbopost.Enabled = True
-        cbopv.Enabled = True
-
         cbopost.Items.Clear()
 
         Select Case currentPrivilege
             Case "Admin"
                 cbopost.Items.Add("Administrator")
                 cbopost.Items.Add("Librarian")
+                cbopost.Items.Add("Teacher")
+                cbopost.Items.Add("Staff")
             Case "User"
                 cbopost.Items.Add("Teacher")
                 cbopost.Items.Add("Student")
+                cbopost.Items.Add("Staff")
         End Select
 
-        Dim currentPosition As String = dbds.Tables("tbluser").Rows(recpointer)("Position").ToString()
-        cbopost.Text = currentPosition
+        If cbopost.Items.Contains(currentPosition) Then
+            cbopost.Text = currentPosition
+        ElseIf cbopost.Items.Count > 0 Then
+            cbopost.SelectedIndex = 0
+        End If
 
+        LinkLabel1.Visible = True
+        dg.Enabled = False
         UpdateButtonStates()
     End Sub
 
@@ -336,20 +356,23 @@ Public Class Form1
 
         Select Case cbopv.Text
             Case "Admin"
-                If cbopost.Text <> "Administrator" AndAlso cbopost.Text <> "Librarian" Then
-                    MsgBox("Admin privileges can only be assigned to Administrators or Librarians.", MsgBoxStyle.Exclamation)
+                If cbopost.Text <> "Administrator" AndAlso cbopost.Text <> "Librarian" AndAlso cbopost.Text <> "Teacher" AndAlso cbopost.Text <> "Staff" Then
+                    MsgBox("Admin privileges can only be assigned to Administrators, Librarians, Teachers, or Staff.", MsgBoxStyle.Exclamation)
                     Exit Sub
                 End If
             Case "User"
-                If cbopost.Text <> "Teacher" AndAlso cbopost.Text <> "Student" Then
-                    MsgBox("User privileges can only be assigned to Teachers or Students.", MsgBoxStyle.Exclamation)
+                If cbopost.Text <> "Teacher" AndAlso cbopost.Text <> "Student" AndAlso cbopost.Text <> "Staff" Then
+                    MsgBox("User privileges can only be assigned to Teachers, Students, or Staff.", MsgBoxStyle.Exclamation)
                     Exit Sub
                 End If
+            Case Else
+                MsgBox("Please select a valid privilege level.", MsgBoxStyle.Exclamation)
+                Exit Sub
         End Select
 
         If String.IsNullOrWhiteSpace(txtun.Text) OrElse
-           String.IsNullOrWhiteSpace(cbopost.Text) OrElse
-           String.IsNullOrWhiteSpace(cbopv.Text) Then
+       String.IsNullOrWhiteSpace(cbopost.Text) OrElse
+       String.IsNullOrWhiteSpace(cbopv.Text) Then
 
             MsgBox("Please fill in all required fields.", MsgBoxStyle.Exclamation)
             Exit Sub
@@ -385,6 +408,7 @@ Public Class Form1
             End If
         End If
 
+        ' Image validation for new users
         If isAdding Then
             Dim imgPath As String = Application.StartupPath & "\images\" & txtid.Text.Trim & ".jpg"
             If Not IO.File.Exists(imgPath) Then
@@ -393,6 +417,7 @@ Public Class Form1
             End If
         End If
 
+        ' Username uniqueness check
         If isAdding Or (isEditing AndAlso Not txtun.Text.Equals(dbds.Tables("tbluser").Rows(recpointer)("User Name").ToString())) Then
             For Each row As DataRow In dbds.Tables("tbluser").Rows
                 If row("User Name").ToString().Trim.ToLower() = txtun.Text.Trim.ToLower() Then
@@ -403,6 +428,7 @@ Public Class Form1
         End If
 
         Try
+            ' Save to database
             If isAdding Then
                 cmd = New OleDbCommand("INSERT INTO tbluser([User ID],[User Name],[Password],[Position],[Privileges]) VALUES (?,?,?,?,?)", con)
                 cmd.Parameters.AddWithValue("@id", txtid.Text.Trim)
@@ -431,10 +457,12 @@ Public Class Form1
                 MsgBox("User updated successfully!", MsgBoxStyle.Information)
             End If
 
+            ' Refresh data
             SQLQueryFortbluser()
             dg.DataSource = dbds.Tables("tbluser")
             trec = dbds.Tables("tbluser").Rows.Count - 1
 
+            ' Find and select the saved record
             Dim savedID As String = txtid.Text.Trim
             Dim foundIndex As Integer = -1
 
@@ -453,15 +481,26 @@ Public Class Form1
 
             lock()
             dg.Enabled = True
+
             cbopv.Visible = False
+            cbopv.Enabled = True
             txtpv.Visible = True
+
+            cbopost.Enabled = False
+            cbopost.Items.Clear()
+            cbopost.Items.Add("Administrator")
+            cbopost.Items.Add("Librarian")
+            cbopost.Items.Add("Teacher")
+            cbopost.Items.Add("Staff")
+            cbopost.Items.Add("Student")
+
             LinkLabel1.Visible = False
             isAdding = False
             isEditing = False
             isEditingOrAdding = False
             chbShowPassword.Checked = False
             chbShowRetypePassword.Checked = False
-
+            panFillUpRequired.Visible = False
             txtpw.Clear()
             txtrpw.Clear()
 
@@ -484,19 +523,22 @@ Public Class Form1
             isAdding = False
             isEditing = False
             isEditingOrAdding = False
+            panFillUpRequired.Visible = False
             txtclear()
             lock()
             dg.Enabled = True
+
             cbopv.Visible = False
+            cbopv.Enabled = True
             txtpv.Visible = True
             LinkLabel1.Visible = False
             cbopost.Enabled = False
-            cbopv.Enabled = True
 
             cbopost.Items.Clear()
             cbopost.Items.Add("Administrator")
             cbopost.Items.Add("Librarian")
             cbopost.Items.Add("Teacher")
+            cbopost.Items.Add("Staff")
             cbopost.Items.Add("Student")
 
             txtpw.Clear()
@@ -587,6 +629,7 @@ Public Class Form1
                 Me.Refresh()
                 Thread.Sleep(10)
             Next
+            panFillUpRequired.Visible = False
             Application.Exit()
         End If
     End Sub
@@ -600,34 +643,24 @@ Public Class Form1
                 Case "Admin"
                     cbopost.Items.Add("Administrator")
                     cbopost.Items.Add("Librarian")
+                    cbopost.Items.Add("Teacher")
+                    cbopost.Items.Add("Staff")
                 Case "User"
                     cbopost.Items.Add("Teacher")
                     cbopost.Items.Add("Student")
+                    cbopost.Items.Add("Staff")
                 Case Else
+                    cbopost.Items.Add("Administrator")
+                    cbopost.Items.Add("Librarian")
+                    cbopost.Items.Add("Teacher")
+                    cbopost.Items.Add("Staff")
+                    cbopost.Items.Add("Student")
             End Select
 
-            If isAdding Then
-                If cbopost.Items.Count = 1 Then
-                    cbopost.SelectedIndex = 0
-                Else
-                    cbopost.SelectedIndex = -1
-                End If
+            If cbopost.Items.Count = 1 Then
+                cbopost.SelectedIndex = 0
             Else
-                Dim currentPosition As String = dbds.Tables("tbluser").Rows(recpointer)("Position").ToString()
-
-                Dim isValidPosition As Boolean = False
-                For Each item As String In cbopost.Items
-                    If item = currentPosition Then
-                        isValidPosition = True
-                        Exit For
-                    End If
-                Next
-
-                If isValidPosition Then
-                    cbopost.Text = currentPosition
-                ElseIf cbopost.Items.Count > 0 Then
-                    cbopost.SelectedIndex = 0
-                End If
+                cbopost.SelectedIndex = -1
             End If
 
             cbopost.Enabled = True
@@ -783,8 +816,8 @@ Public Class Form1
 
     Private Sub RefreshData()
         Dim selectedID As String = If(recpointer >= 0 AndAlso recpointer <= trec,
-                                     dbds.Tables("tbluser").Rows(recpointer)("User ID").ToString(),
-                                     String.Empty)
+                                 dbds.Tables("tbluser").Rows(recpointer)("User ID").ToString(),
+                                 String.Empty)
 
         Try
             txtclear()
@@ -816,6 +849,13 @@ Public Class Form1
             isEditingOrAdding = False
             cbopost.Enabled = False
 
+            cbopost.Items.Clear()
+            cbopost.Items.Add("Administrator")
+            cbopost.Items.Add("Librarian")
+            cbopost.Items.Add("Teacher")
+            cbopost.Items.Add("Staff")
+            cbopost.Items.Add("Student")
+
             UpdateButtonStates()
             dg.Refresh()
 
@@ -832,16 +872,18 @@ Public Class Form1
 
     Private Sub cbopost_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbopost.SelectedIndexChanged
         If isEditingOrAdding Then
-            Select Case cbopost.Text
-                Case "Administrator", "Librarian"
-                    cbopv.Text = "Admin"
-                    cbopv.Enabled = False
-                Case "Teacher", "Student"
-                    If cbopv.Text = "Admin" Then
-                        cbopv.Text = "User"
-                    End If
-                    cbopv.Enabled = True
-            End Select
+            If isAdding Then
+                Select Case cbopost.Text
+                    Case "Administrator", "Librarian", "Teacher", "Staff"
+                        If cbopv.SelectedIndex = -1 OrElse cbopv.Text <> "Admin" Then
+                            cbopv.Text = "Admin"
+                        End If
+                    Case "Student"
+                        If cbopv.SelectedIndex = -1 OrElse cbopv.Text <> "User" Then
+                            cbopv.Text = "User"
+                        End If
+                End Select
+            End If
         End If
     End Sub
 

@@ -289,7 +289,6 @@ Public Class frmmain
     End Sub
 
     Private Sub btnCurrentRequestedReturn_Click(sender As Object, e As EventArgs) Handles btnCurrentRequestedReturn.Click
-
         BorrowPendingRequest.Show()
         Me.Hide()
     End Sub
@@ -299,35 +298,9 @@ Public Class frmmain
         Me.Hide()
     End Sub
 
-    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
 
-    End Sub
-
-    Private Sub lblForgotPasswordRequest_Click(sender As Object, e As EventArgs) Handles lblForgotPasswordRequest.Click
-
-    End Sub
-
-    Private Sub lblCurrentBorrowings_Click(sender As Object, e As EventArgs) Handles lblCurrentBorrowings.Click
-
-    End Sub
-
-    Private Sub lblCurrentRequestedReturn_Click(sender As Object, e As EventArgs)
-
-    End Sub
-
-    Private Sub dashAdminPan_Paint(sender As Object, e As PaintEventArgs) Handles dashAdminPan.Paint
-
-    End Sub
-
-    Private Sub Panel4_Paint(sender As Object, e As PaintEventArgs) Handles Panel4.Paint
-
-    End Sub
-
-    Private Sub Label9_Click(sender As Object, e As EventArgs) Handles lblTotalBookCopies.Click
-
-    End Sub
-
-    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
-
+    Private Sub ChangePasswordToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ChangePasswordToolStripMenuItem.Click
+        Dim changePasswordForm As New ChangePassword()
+        changePasswordForm.ShowDialog()
     End Sub
 End Class

@@ -49,6 +49,8 @@ Partial Class Form1
         Me.ofd = New System.Windows.Forms.OpenFileDialog()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.panFillUpRequired = New System.Windows.Forms.Panel()
+        Me.Label9 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.cbopost = New System.Windows.Forms.ComboBox()
         Me.Label6 = New System.Windows.Forms.Label()
@@ -68,13 +70,14 @@ Partial Class Form1
         Me.txtid = New System.Windows.Forms.TextBox()
         Me.txtpv = New System.Windows.Forms.TextBox()
         Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.dg, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
+        Me.panFillUpRequired.SuspendLayout()
         CType(Me.idpict, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel3.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -292,6 +295,7 @@ Partial Class Form1
         '
         Me.Panel2.BackColor = System.Drawing.Color.GhostWhite
         Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.Panel2.Controls.Add(Me.panFillUpRequired)
         Me.Panel2.Controls.Add(Me.Label2)
         Me.Panel2.Controls.Add(Me.cbopost)
         Me.Panel2.Controls.Add(Me.Label6)
@@ -316,6 +320,27 @@ Partial Class Form1
         Me.Panel2.Size = New System.Drawing.Size(496, 567)
         Me.Panel2.TabIndex = 20
         '
+        'panFillUpRequired
+        '
+        Me.panFillUpRequired.BackColor = System.Drawing.Color.WhiteSmoke
+        Me.panFillUpRequired.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.panFillUpRequired.Controls.Add(Me.Label9)
+        Me.panFillUpRequired.Location = New System.Drawing.Point(339, 113)
+        Me.panFillUpRequired.Name = "panFillUpRequired"
+        Me.panFillUpRequired.Size = New System.Drawing.Size(141, 43)
+        Me.panFillUpRequired.TabIndex = 23
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label9.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
+        Me.Label9.Location = New System.Drawing.Point(2, 13)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(135, 17)
+        Me.Label9.TabIndex = 22
+        Me.Label9.Text = "Please fill up all fields"
+        '
         'Label2
         '
         Me.Label2.AutoSize = True
@@ -333,7 +358,7 @@ Partial Class Form1
         Me.cbopost.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.cbopost.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cbopost.FormattingEnabled = True
-        Me.cbopost.Items.AddRange(New Object() {"Administrator", "Librarian", "Student", "Teacher"})
+        Me.cbopost.Items.AddRange(New Object() {"Administrator", "Librarian", "Student", "Staff", "Teacher"})
         Me.cbopost.Location = New System.Drawing.Point(54, 508)
         Me.cbopost.Name = "cbopost"
         Me.cbopost.Size = New System.Drawing.Size(387, 33)
@@ -517,6 +542,16 @@ Partial Class Form1
         Me.Panel3.Size = New System.Drawing.Size(795, 74)
         Me.Panel3.TabIndex = 19
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
+        Me.PictureBox1.Location = New System.Drawing.Point(11, 7)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(55, 59)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox1.TabIndex = 21
+        Me.PictureBox1.TabStop = False
+        '
         'Label8
         '
         Me.Label8.AutoSize = True
@@ -539,16 +574,6 @@ Partial Class Form1
         Me.Panel4.Size = New System.Drawing.Size(795, 27)
         Me.Panel4.TabIndex = 20
         '
-        'PictureBox1
-        '
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(11, 7)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(55, 59)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox1.TabIndex = 21
-        Me.PictureBox1.TabStop = False
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -569,6 +594,8 @@ Partial Class Form1
         Me.Panel1.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
+        Me.panFillUpRequired.ResumeLayout(False)
+        Me.panFillUpRequired.PerformLayout()
         CType(Me.idpict, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel3.ResumeLayout(False)
         Me.Panel3.PerformLayout()
@@ -623,4 +650,6 @@ Partial Class Form1
     Friend WithEvents CrystalReportToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ExcelToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents panFillUpRequired As Panel
+    Friend WithEvents Label9 As Label
 End Class

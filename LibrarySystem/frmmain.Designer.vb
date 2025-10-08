@@ -752,8 +752,8 @@ Partial Class frmmain
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel4)
-        Me.Controls.Add(Me.dashAdminPan)
         Me.Controls.Add(Me.dashUserpanel)
+        Me.Controls.Add(Me.dashAdminPan)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmmain"

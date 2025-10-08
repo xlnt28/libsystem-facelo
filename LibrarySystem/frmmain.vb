@@ -15,10 +15,7 @@ Public Class frmmain
         txtPosition.Text = "Position : " & xpost
         LoadUserImage()
 
-
         LoadStatistics()
-
-
 
         If xpriv = "User" Then
             BorrowToolStripMenuItem.Enabled = True
@@ -128,9 +125,11 @@ Public Class frmmain
     End Sub
 
     Private Sub BorrowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BorrowToolStripMenuItem.Click
+
         Dim borrow As New Borrow()
-        Me.Hide()
         borrow.Show()
+
+        Me.Hide()
     End Sub
 
 
@@ -302,5 +301,21 @@ Public Class frmmain
     Private Sub ChangePasswordToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ChangePasswordToolStripMenuItem.Click
         Dim changePasswordForm As New ChangePassword()
         changePasswordForm.ShowDialog()
+    End Sub
+
+    Private Sub dashAdminPan_Paint(sender As Object, e As PaintEventArgs) Handles dashAdminPan.Paint
+
+    End Sub
+
+    Private Sub ReturnReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReturnReceiptToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub BorrowReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BorrowReceiptToolStripMenuItem.Click
+
+    End Sub
+
+    Private Sub PenaltyReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PenaltyReceiptToolStripMenuItem.Click
+
     End Sub
 End Class

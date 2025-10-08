@@ -31,9 +31,9 @@ Partial Class AdminReturn
         Me.ShowReturnRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchUserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ViewTransactionDetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.GoBackToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.dgv = New System.Windows.Forms.DataGridView()
-        Me.ViewTransactionDetailToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         CType(Me.dgv, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -90,6 +90,15 @@ Partial Class AdminReturn
         Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
         Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
+        'ViewTransactionDetailToolStripMenuItem
+        '
+        Me.ViewTransactionDetailToolStripMenuItem.Image = CType(resources.GetObject("ViewTransactionDetailToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.ViewTransactionDetailToolStripMenuItem.Name = "ViewTransactionDetailToolStripMenuItem"
+        Me.ViewTransactionDetailToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
+        Me.ViewTransactionDetailToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
+        Me.ViewTransactionDetailToolStripMenuItem.Text = "View Transaction Details"
+        '
         'GoBackToolStripMenuItem
         '
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
@@ -133,12 +142,6 @@ Partial Class AdminReturn
         Me.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.dgv.Size = New System.Drawing.Size(1370, 716)
         Me.dgv.TabIndex = 12
-        '
-        'ViewTransactionDetailToolStripMenuItem
-        '
-        Me.ViewTransactionDetailToolStripMenuItem.Name = "ViewTransactionDetailToolStripMenuItem"
-        Me.ViewTransactionDetailToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
-        Me.ViewTransactionDetailToolStripMenuItem.Text = "View Transaction Details"
         '
         'AdminReturn
         '

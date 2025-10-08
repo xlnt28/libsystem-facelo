@@ -24,6 +24,7 @@ Partial Class BorrowRequest
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(BorrowRequest))
         Me.borrowdgv = New System.Windows.Forms.DataGridView()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.MenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -89,6 +90,7 @@ Partial Class BorrowRequest
         '
         'CancelBorrowRequestToolStripMenuItem
         '
+        Me.CancelBorrowRequestToolStripMenuItem.Image = CType(resources.GetObject("CancelBorrowRequestToolStripMenuItem.Image"), System.Drawing.Image)
         Me.CancelBorrowRequestToolStripMenuItem.Name = "CancelBorrowRequestToolStripMenuItem"
         Me.CancelBorrowRequestToolStripMenuItem.Size = New System.Drawing.Size(212, 30)
         Me.CancelBorrowRequestToolStripMenuItem.Text = "Cancel Request"

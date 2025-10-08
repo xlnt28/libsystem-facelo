@@ -181,14 +181,16 @@ Partial Class ForgotPasswordRequest
         Me.GoBackToolStripMenuItem.Image = CType(resources.GetObject("GoBackToolStripMenuItem.Image"), System.Drawing.Image)
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
         Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(225, 30)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(320, 30)
         Me.GoBackToolStripMenuItem.Text = "Go Back"
         '
         'RequestCodeToolStripMenuItem
         '
         Me.RequestCodeToolStripMenuItem.Image = CType(resources.GetObject("RequestCodeToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RequestCodeToolStripMenuItem.Name = "RequestCodeToolStripMenuItem"
-        Me.RequestCodeToolStripMenuItem.Size = New System.Drawing.Size(225, 30)
+        Me.RequestCodeToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
+        Me.RequestCodeToolStripMenuItem.Size = New System.Drawing.Size(320, 30)
         Me.RequestCodeToolStripMenuItem.Text = "Request Code"
         '
         'llContactLibrarian

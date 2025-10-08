@@ -34,6 +34,10 @@ Public Class BorrowPendingRequest
 
     Private Sub LoadPendingRequests()
         Try
+
+            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
+                OpenDB()
+            End If
             If dg Is Nothing Then
                 MsgBox("DataGridView is not initialized.", MsgBoxStyle.Critical, "Error")
                 Return
@@ -258,6 +262,10 @@ Public Class BorrowPendingRequest
 
     Private Sub GenerateBorrowReceipt(borrowID As String)
         Try
+            If con Is Nothing OrElse con.State <> ConnectionState.Open Then
+                OpenDB()
+            End If
+
             Dim dt As New DataTable("BorrowReceipt")
             dt.Columns.Add("Borrow ID", GetType(String))
             dt.Columns.Add("Book ID", GetType(String))
@@ -342,5 +350,9 @@ Public Class BorrowPendingRequest
         Else
             MsgBox("Please select a transaction to view details.", MsgBoxStyle.Exclamation, "Select Transaction")
         End If
+    End Sub
+
+    Private Sub dg_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dg.CellContentClick
+
     End Sub
 End Class

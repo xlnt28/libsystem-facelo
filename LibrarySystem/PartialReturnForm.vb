@@ -6,12 +6,14 @@ Public Class PartialReturnForm
     Public Property CurrentReturned() As Integer()
     Public Property BorrowID As String
     Public Property ConditionTypes() As String()
+    Public Property BorrowerPrivilege As String = ""
     Private numericControls As New List(Of NumericUpDown)()
     Private bookTitles As New List(Of String)()
     Private bookPanels As New List(Of Panel)()
     Private penaltyLabels As New List(Of Label)()
     Private conditionComboBoxes As New List(Of ComboBox)()
     Private penaltyAmountControls As New List(Of NumericUpDown)()
+    Private isAdminPrivilege As Boolean = False
 
     Private BorrowDate As DateTime
     Public DueDate As DateTime
@@ -61,9 +63,20 @@ Public Class PartialReturnForm
             Else
                 DueDate = BorrowDate.AddDays(7)
             End If
+
+            If row.Cells("Borrower Privileges").Value IsNot Nothing AndAlso Not IsDBNull(row.Cells("Borrower Privileges").Value) Then
+                BorrowerPrivilege = row.Cells("Borrower Privileges").Value.ToString()
+                isAdminPrivilege = (BorrowerPrivilege.ToUpper() = "ADMIN")
+            Else
+                BorrowerPrivilege = ""
+                isAdminPrivilege = False
+            End If
+
         Catch ex As Exception
             BorrowDate = DateTime.Today
             DueDate = BorrowDate.AddDays(7)
+            BorrowerPrivilege = ""
+            isAdminPrivilege = False
         End Try
     End Sub
 
@@ -108,8 +121,6 @@ Public Class PartialReturnForm
     End Function
 
     Private Sub PartialReturnForm_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
-
-
         Me.BackColor = Color.White
         Me.Font = New Font("Segoe UI", 9)
         Me.Padding = New Padding(20)
@@ -145,10 +156,20 @@ Public Class PartialReturnForm
         totalPenaltyLabel = New Label With {.Text = "Total Penalty: ₱0.00", .Font = New Font("Segoe UI", 10, FontStyle.Bold), .ForeColor = Color.Red, .AutoSize = True, .Location = New Point(20, 25)}
         buttonPanel.Controls.Add(totalPenaltyLabel)
 
-        Dim headerLabel As New Label With {.Text = "Select Copies to Return - Due Date: " & DueDate.ToString("yyyy-MM-dd"), .Font = New Font("Segoe UI", 12, FontStyle.Bold), .ForeColor = Color.FromArgb(45, 45, 45), .AutoSize = True, .Location = New Point(0, 10)}
+        Dim headerText As String = "Select Copies to Return - Due Date: " & DueDate.ToString("yyyy-MM-dd")
+        If isAdminPrivilege Then
+            headerText &= " (Admin Privilege - No Late Penalties)"
+        End If
+
+        Dim headerLabel As New Label With {.Text = headerText, .Font = New Font("Segoe UI", 12, FontStyle.Bold), .ForeColor = Color.FromArgb(45, 45, 45), .AutoSize = True, .Location = New Point(0, 10)}
         mainPanel.Controls.Add(headerLabel)
 
-        Dim infoLabel As New Label With {.Text = "Borrow Date: " & BorrowDate.ToString("yyyy-MM-dd") & " | Return Date: " & ReturnDate.ToString("yyyy-MM-dd") & " | Days Late: " & daysLate.ToString(), .Font = New Font("Segoe UI", 9), .ForeColor = If(daysLate > 0, Color.Red, Color.FromArgb(100, 100, 100)), .AutoSize = True, .Location = New Point(0, headerLabel.Bottom + 5)}
+        Dim infoText As String = "Borrow Date: " & BorrowDate.ToString("yyyy-MM-dd") & " | Return Date: " & ReturnDate.ToString("yyyy-MM-dd") & " | Days Late: " & daysLate.ToString()
+        If isAdminPrivilege AndAlso daysLate > 0 Then
+            infoText &= " | Admin: No Late Fees"
+        End If
+
+        Dim infoLabel As New Label With {.Text = infoText, .Font = New Font("Segoe UI", 9), .ForeColor = If(daysLate > 0, Color.Red, Color.FromArgb(100, 100, 100)), .AutoSize = True, .Location = New Point(0, headerLabel.Bottom + 5)}
         mainPanel.Controls.Add(infoLabel)
 
         Dim booksContainer As New Panel With {.Location = New Point(0, infoLabel.Bottom + 20), .Size = New Size(750, 0), .BackColor = Color.White, .AutoSize = True}
@@ -162,7 +183,6 @@ Public Class PartialReturnForm
         penaltyLabels.Clear()
         conditionComboBoxes.Clear()
         penaltyAmountControls.Clear()
-
 
         For i As Integer = 0 To BookIDs.Length - 1
             Dim bookPanel As New Panel With {.BackColor = If(i Mod 2 = 0, Color.FromArgb(250, 250, 250), Color.FromArgb(240, 245, 250)), .Size = New Size(730, 70), .Location = New Point(0, yPos)}
@@ -249,7 +269,11 @@ Public Class PartialReturnForm
             Dim condition As String = conditionComboBoxes(i).SelectedItem.ToString()
             Dim penalty As Decimal = 0
 
-            Dim overduePenalty As Decimal = daysLate * 10 * qty
+            Dim overduePenalty As Decimal = 0
+            If Not isAdminPrivilege Then
+                overduePenalty = daysLate * 10 * qty
+            End If
+
             Dim conditionPenalty As Decimal = 0
 
             If condition = "Damaged" OrElse condition = "Lost" Then
@@ -258,13 +282,16 @@ Public Class PartialReturnForm
 
             penalty = overduePenalty + conditionPenalty
 
-            penaltyLabels(i).Text = "Penalty: ₱" & penalty.ToString("N2")
+            Dim penaltyText As String = "Penalty: ₱" & penalty.ToString("N2")
+
+            penaltyLabels(i).Text = penaltyText
             totalPenalty += penalty
             totalQuantity += qty
         Next
 
         If totalPenaltyLabel IsNot Nothing Then
             totalPenaltyLabel.Text = "Total Penalty: ₱" & totalPenalty.ToString("N2")
+
         End If
     End Sub
 

@@ -263,7 +263,7 @@ Public Class Borrow
 
     Private Sub UpdateBorrowModeUI()
         If isOnBorrowMode Then
-            menuBorrow.Text = "Save Borrowing"
+            menuBorrow.Text = "Borrow Now"
             menuAddBooks.Enabled = True
             menuRemoveBook.Enabled = True
             rtxtSelectedBooks.Visible = True
@@ -359,7 +359,7 @@ Public Class Borrow
 
                 Dim borrowDate As Object = If(userPrivileges = "Admin", dtpBorrowDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
                 Dim dueDate As Object = If(userPrivileges = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
-                Dim requestDate As Object = If(userPrivileges = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
+                Dim requestDate As Object = If(xpriv = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
 
                 cmd = New OleDbCommand("INSERT INTO borrowings([ID], [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
@@ -428,7 +428,7 @@ Public Class Borrow
 
             cmd.ExecuteNonQuery()
 
-            If userPrivileges = "Admin" AndAlso hasStopped = False Then
+            If xpriv = "Admin" AndAlso hasStopped = False Then
                 GenerateBorrowReceipt(selectedBooks, userID, txtName.Text, userPosition, userPrivileges)
                 hasStopped = True
             End If
@@ -856,7 +856,7 @@ Public Class Borrow
 
     Private Sub menuMainForm_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuMainForm.Click
         frmmain.Show()
-        Me.Hide()
+        Me.Close()
     End Sub
 
     Private Sub cmbStatus_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cmbStatus.SelectedIndexChanged
@@ -993,6 +993,8 @@ Public Class Borrow
         If con.State <> ConnectionState.Open Then
             con.Open()
         End If
+
+
     End Sub
 
     Private Sub a_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles MyBase.FormClosing

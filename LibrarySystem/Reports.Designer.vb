@@ -25,11 +25,7 @@ Partial Class Reports
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Reports))
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.menuLogout = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CrystalReportViewer1 = New CrystalDecisions.Windows.Forms.CrystalReportViewer()
-        Me.GetBorrowReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GetReturnReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.GetPenaltyReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -37,7 +33,7 @@ Partial Class Reports
         '
         Me.MenuStrip1.BackColor = System.Drawing.Color.Snow
         Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuLogout, Me.GeToolStripMenuItem})
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuLogout})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.Size = New System.Drawing.Size(767, 33)
@@ -52,13 +48,6 @@ Partial Class Reports
         Me.menuLogout.Size = New System.Drawing.Size(108, 29)
         Me.menuLogout.Text = "Go back"
         '
-        'GeToolStripMenuItem
-        '
-        Me.GeToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GetBorrowReceiptToolStripMenuItem, Me.GetReturnReceiptToolStripMenuItem, Me.GetPenaltyReceiptToolStripMenuItem})
-        Me.GeToolStripMenuItem.Name = "GeToolStripMenuItem"
-        Me.GeToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
-        Me.GeToolStripMenuItem.Text = "Menu"
-        '
         'CrystalReportViewer1
         '
         Me.CrystalReportViewer1.ActiveViewIndex = -1
@@ -69,24 +58,6 @@ Partial Class Reports
         Me.CrystalReportViewer1.Name = "CrystalReportViewer1"
         Me.CrystalReportViewer1.Size = New System.Drawing.Size(767, 434)
         Me.CrystalReportViewer1.TabIndex = 3
-        '
-        'GetBorrowReceiptToolStripMenuItem
-        '
-        Me.GetBorrowReceiptToolStripMenuItem.Name = "GetBorrowReceiptToolStripMenuItem"
-        Me.GetBorrowReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
-        Me.GetBorrowReceiptToolStripMenuItem.Text = "Get Borrow Receipt"
-        '
-        'GetReturnReceiptToolStripMenuItem
-        '
-        Me.GetReturnReceiptToolStripMenuItem.Name = "GetReturnReceiptToolStripMenuItem"
-        Me.GetReturnReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
-        Me.GetReturnReceiptToolStripMenuItem.Text = "Get Return Receipt"
-        '
-        'GetPenaltyReceiptToolStripMenuItem
-        '
-        Me.GetPenaltyReceiptToolStripMenuItem.Name = "GetPenaltyReceiptToolStripMenuItem"
-        Me.GetPenaltyReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
-        Me.GetPenaltyReceiptToolStripMenuItem.Text = "Get Penalty Receipt"
         '
         'Reports
         '
@@ -106,9 +77,5 @@ Partial Class Reports
 
     Friend WithEvents MenuStrip1 As MenuStrip
     Friend WithEvents menuLogout As ToolStripMenuItem
-    Friend WithEvents GeToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CrystalReportViewer1 As CrystalDecisions.Windows.Forms.CrystalReportViewer
-    Friend WithEvents GetBorrowReceiptToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents GetReturnReceiptToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents GetPenaltyReceiptToolStripMenuItem As ToolStripMenuItem
 End Class

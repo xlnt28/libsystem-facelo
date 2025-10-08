@@ -24,13 +24,14 @@ Partial Class UserUnpaidList
     Private Sub InitializeComponent()
         Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(UserUnpaidList))
         Me.dgvUserUnpaidList = New System.Windows.Forms.DataGridView()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.MenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CancelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PickUserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.PickUserToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CancelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         CType(Me.dgvUserUnpaidList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -93,6 +94,22 @@ Partial Class UserUnpaidList
         Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
         Me.MenuToolStripMenuItem.Text = "Menu"
         '
+        'CancelToolStripMenuItem
+        '
+        Me.CancelToolStripMenuItem.Image = CType(resources.GetObject("CancelToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.CancelToolStripMenuItem.Name = "CancelToolStripMenuItem"
+        Me.CancelToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
+        Me.CancelToolStripMenuItem.Size = New System.Drawing.Size(231, 30)
+        Me.CancelToolStripMenuItem.Text = "Cancel"
+        '
+        'PickUserToolStripMenuItem
+        '
+        Me.PickUserToolStripMenuItem.Image = CType(resources.GetObject("PickUserToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.PickUserToolStripMenuItem.Name = "PickUserToolStripMenuItem"
+        Me.PickUserToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
+        Me.PickUserToolStripMenuItem.Size = New System.Drawing.Size(231, 30)
+        Me.PickUserToolStripMenuItem.Text = "Pick User"
+        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -114,20 +131,6 @@ Partial Class UserUnpaidList
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(475, 62)
         Me.Panel1.TabIndex = 16
-        '
-        'PickUserToolStripMenuItem
-        '
-        Me.PickUserToolStripMenuItem.Name = "PickUserToolStripMenuItem"
-        Me.PickUserToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.PickUserToolStripMenuItem.Size = New System.Drawing.Size(227, 30)
-        Me.PickUserToolStripMenuItem.Text = "Pick User"
-        '
-        'CancelToolStripMenuItem
-        '
-        Me.CancelToolStripMenuItem.Name = "CancelToolStripMenuItem"
-        Me.CancelToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.CancelToolStripMenuItem.Size = New System.Drawing.Size(227, 30)
-        Me.CancelToolStripMenuItem.Text = "Cancel"
         '
         'UserUnpaidList
         '

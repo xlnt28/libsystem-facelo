@@ -360,6 +360,7 @@ Partial Class Borrow
         '
         'menuRemoveBook
         '
+        Me.menuRemoveBook.Image = CType(resources.GetObject("menuRemoveBook.Image"), System.Drawing.Image)
         Me.menuRemoveBook.Name = "menuRemoveBook"
         Me.menuRemoveBook.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
         Me.menuRemoveBook.Size = New System.Drawing.Size(349, 30)
@@ -375,6 +376,7 @@ Partial Class Borrow
         '
         'ChangeBorrowerToolStripMenuItem
         '
+        Me.ChangeBorrowerToolStripMenuItem.Image = CType(resources.GetObject("ChangeBorrowerToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ChangeBorrowerToolStripMenuItem.Name = "ChangeBorrowerToolStripMenuItem"
         Me.ChangeBorrowerToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)

@@ -1713,6 +1713,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_245BBBAAA44F4CC6909A400BE9998564"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_24A0D84FEF544D93AC5D84D56D5489B7"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -2091,12 +2097,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_2D945648085F4A5BB8C715B7E98A22EA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_2DB38B21C1924B8EA41E27B22E3C0905"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -2416,12 +2416,6 @@
         "Entry"
         {
         "MsmKey" = "8:_3359C11FDB2341D896E1F2704D65EC4A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_336815B990D444838F186BA28E933F3B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -3459,13 +3453,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_4855CCF17E8342EBA0D43042A62C74B7"
+        "MsmKey" = "8:_4877BD25EB354E3DBE987738F5595EEA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_4877BD25EB354E3DBE987738F5595EEA"
+        "MsmKey" = "8:_48AC9E946A164DFBBAA617A157757355"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -4317,6 +4311,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_5C3C71CB972B4CF48E42D046153A1132"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_5C6514F2355B45359B534296FAA18ADD"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -4827,6 +4827,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_67727D4D036244C2B07732A66AC0A92C"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_679C0D2F7AE24213A8BD76F2A9731574"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -5223,6 +5229,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_70A2E4C474214720A753339B82F73E5E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_70C5010693084990B7765C87064A4EE4"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -5530,12 +5542,6 @@
         "Entry"
         {
         "MsmKey" = "8:_76608ECCA6CD42BD834DB14E06ADD718"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_766C916467E441098AD535483ED7D0D0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -6363,6 +6369,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_876A79938B4C4105A07E2CFE7B3819D3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_87885287FCDD45A18319EA93358794E2"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -7161,12 +7173,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_976828926E6E4EC5B449F4DA4C35284F"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_97885EAA99F543AFA9FFC25B3312C808"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -7192,12 +7198,6 @@
         "Entry"
         {
         "MsmKey" = "8:_980EDBC25E834E988F922DEAE7B2EE24"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_982C4A8B909B4DE388DE0AB6E42942A0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -8278,12 +8278,6 @@
         "Entry"
         {
         "MsmKey" = "8:_B11CEF1AC0F64FF7A72B5D3DE9A6111C"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_B152FCF714CF43879F2E98FEBF10DAD8"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -9417,6 +9411,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_C9C278BE07C5479DB99E28CFD15F97C6"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_C9D7AA1E36D94D818003229BA6AC5035"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -9927,6 +9927,12 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_D2ACB080C8E6489F93D6AF2C4F2362C3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_D316A6A6AD5D49B2AC2A940F841A2526"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -9940,6 +9946,12 @@
         "Entry"
         {
         "MsmKey" = "8:_D33561DD38DD48B9AB60067B59CF13E7"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D33D796A06BC43FB8844A956D1B7FE8E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -11463,12 +11475,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F384A26969104F1E82873A511B9FC9A2"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F390C8A77EE7402DAD4B7C3E4F9D9A3C"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -11656,6 +11662,12 @@
         "Entry"
         {
         "MsmKey" = "8:_F8217A81CCD041E282EEF45E3588A887"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_F8539E1D2D904E5985C3415346B3FDC9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -17810,6 +17822,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_245BBBAAA44F4CC6909A400BE9998564"
+            {
+            "SourcePath" = "8:..\\LibrarySystem\\Reports\\CRReturnBook.rpt"
+            "TargetName" = "8:CRReturnBook.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_24A0D84FEF544D93AC5D84D56D5489B7"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-00181.jpg"
@@ -19070,26 +19102,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2D945648085F4A5BB8C715B7E98A22EA"
-            {
-            "SourcePath" = "8:..\\LibrarySystem\\Reports\\CrystalReport1.rpt"
-            "TargetName" = "8:CrystalReport1.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2DB38B21C1924B8EA41E27B22E3C0905"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-00474.jpg"
@@ -20136,26 +20148,6 @@
             "TargetName" = "8:BK-01832.jpg"
             "Tag" = "8:"
             "Folder" = "8:_E8AF460A5D3A4A1CBF323C1235BAD980"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_336815B990D444838F186BA28E933F3B"
-            {
-            "SourcePath" = "8:..\\LibrarySystem\\Reports\\CrystalReport1.vb"
-            "TargetName" = "8:CrystalReport1.vb"
-            "Tag" = "8:"
-            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -23610,12 +23602,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4855CCF17E8342EBA0D43042A62C74B7"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4877BD25EB354E3DBE987738F5595EEA"
             {
-            "SourcePath" = "8:..\\LibrarySystem\\Reports\\CrystalReport2.rpt"
-            "TargetName" = "8:CrystalReport2.rpt"
+            "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-01323.jpg"
+            "TargetName" = "8:BK-01323.jpg"
             "Tag" = "8:"
-            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
+            "Folder" = "8:_E8AF460A5D3A4A1CBF323C1235BAD980"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -23630,12 +23622,12 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4877BD25EB354E3DBE987738F5595EEA"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_48AC9E946A164DFBBAA617A157757355"
             {
-            "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-01323.jpg"
-            "TargetName" = "8:BK-01323.jpg"
+            "SourcePath" = "8:..\\LibrarySystem\\Reports\\BookInventoryReport.rpt"
+            "TargetName" = "8:BookInventoryReport.rpt"
             "Tag" = "8:"
-            "Folder" = "8:_E8AF460A5D3A4A1CBF323C1235BAD980"
+            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -26470,6 +26462,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5C3C71CB972B4CF48E42D046153A1132"
+            {
+            "SourcePath" = "8:..\\LibrarySystem\\Reports\\BookInventoryReport.vb"
+            "TargetName" = "8:BookInventoryReport.vb"
+            "Tag" = "8:"
+            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5C6514F2355B45359B534296FAA18ADD"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-01991.jpg"
@@ -28170,6 +28182,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_67727D4D036244C2B07732A66AC0A92C"
+            {
+            "SourcePath" = "8:..\\LibrarySystem\\Reports\\UserForm.vb"
+            "TargetName" = "8:UserForm.vb"
+            "Tag" = "8:"
+            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_679C0D2F7AE24213A8BD76F2A9731574"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-01981.jpg"
@@ -29490,6 +29522,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_70A2E4C474214720A753339B82F73E5E"
+            {
+            "SourcePath" = "8:..\\LibrarySystem\\Reports\\CrystalReport1.rpt"
+            "TargetName" = "8:CrystalReport1.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_70C5010693084990B7765C87064A4EE4"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-01918.jpg"
@@ -30516,26 +30568,6 @@
             "TargetName" = "8:BK-00522.jpg"
             "Tag" = "8:"
             "Folder" = "8:_E8AF460A5D3A4A1CBF323C1235BAD980"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_766C916467E441098AD535483ED7D0D0"
-            {
-            "SourcePath" = "8:..\\LibrarySystem\\Reports\\UserForm.vb"
-            "TargetName" = "8:UserForm.vb"
-            "Tag" = "8:"
-            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -33290,6 +33322,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_876A79938B4C4105A07E2CFE7B3819D3"
+            {
+            "SourcePath" = "8:..\\LibrarySystem\\Reports\\CrystalReport2.rpt"
+            "TargetName" = "8:CrystalReport2.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_87885287FCDD45A18319EA93358794E2"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-01648.jpg"
@@ -35952,26 +36004,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_976828926E6E4EC5B449F4DA4C35284F"
-            {
-            "SourcePath" = "8:..\\LibrarySystem\\Reports\\BookInventoryReport.rpt"
-            "TargetName" = "8:BookInventoryReport.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_97885EAA99F543AFA9FFC25B3312C808"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-01767.jpg"
@@ -36058,26 +36090,6 @@
             "TargetName" = "8:BK-00027.jpg"
             "Tag" = "8:"
             "Folder" = "8:_E8AF460A5D3A4A1CBF323C1235BAD980"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_982C4A8B909B4DE388DE0AB6E42942A0"
-            {
-            "SourcePath" = "8:..\\LibrarySystem\\Reports\\BookInventoryReport.vb"
-            "TargetName" = "8:BookInventoryReport.vb"
-            "Tag" = "8:"
-            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -39689,26 +39701,6 @@
             "TargetName" = "8:BK-00416.jpg"
             "Tag" = "8:"
             "Folder" = "8:_E8AF460A5D3A4A1CBF323C1235BAD980"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B152FCF714CF43879F2E98FEBF10DAD8"
-            {
-            "SourcePath" = "8:..\\LibrarySystem\\Reports\\UserForm.rpt"
-            "TargetName" = "8:UserForm.rpt"
-            "Tag" = "8:"
-            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -43474,6 +43466,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C9C278BE07C5479DB99E28CFD15F97C6"
+            {
+            "SourcePath" = "8:..\\LibrarySystem\\Reports\\CrystalReport2.vb"
+            "TargetName" = "8:CrystalReport2.vb"
+            "Tag" = "8:"
+            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C9D7AA1E36D94D818003229BA6AC5035"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-00442.jpg"
@@ -45185,6 +45197,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D2ACB080C8E6489F93D6AF2C4F2362C3"
+            {
+            "SourcePath" = "8:..\\LibrarySystem\\Reports\\CRReturnBook.vb"
+            "TargetName" = "8:CRReturnBook.vb"
+            "Tag" = "8:"
+            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D316A6A6AD5D49B2AC2A940F841A2526"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-00684.jpg"
@@ -45231,6 +45263,26 @@
             "TargetName" = "8:BK-01184.jpg"
             "Tag" = "8:"
             "Folder" = "8:_E8AF460A5D3A4A1CBF323C1235BAD980"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D33D796A06BC43FB8844A956D1B7FE8E"
+            {
+            "SourcePath" = "8:..\\LibrarySystem\\Reports\\CrystalReport1.vb"
+            "TargetName" = "8:CrystalReport1.vb"
+            "Tag" = "8:"
+            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -50305,26 +50357,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F384A26969104F1E82873A511B9FC9A2"
-            {
-            "SourcePath" = "8:..\\LibrarySystem\\Reports\\CrystalReport2.vb"
-            "TargetName" = "8:CrystalReport2.vb"
-            "Tag" = "8:"
-            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F390C8A77EE7402DAD4B7C3E4F9D9A3C"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-00311.jpg"
@@ -50951,6 +50983,26 @@
             "TargetName" = "8:BK-00703.jpg"
             "Tag" = "8:"
             "Folder" = "8:_E8AF460A5D3A4A1CBF323C1235BAD980"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F8539E1D2D904E5985C3415346B3FDC9"
+            {
+            "SourcePath" = "8:..\\LibrarySystem\\Reports\\UserForm.rpt"
+            "TargetName" = "8:UserForm.rpt"
+            "Tag" = "8:"
+            "Folder" = "8:_F1CCAF24C0CD4B60B888268DA3D49224"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"

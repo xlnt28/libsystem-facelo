@@ -44,6 +44,7 @@ Partial Class frmmain
         Me.txtPrivilege = New System.Windows.Forms.Label()
         Me.txtPosition = New System.Windows.Forms.Label()
         Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.lblCurrentBorrowings = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -62,9 +63,11 @@ Partial Class frmmain
         Me.dashUserpanel = New System.Windows.Forms.Panel()
         Me.dashAdminPan = New System.Windows.Forms.Panel()
         Me.Panel15 = New System.Windows.Forms.Panel()
-        Me.lblTotalBorrowedRequest = New System.Windows.Forms.Label()
+        Me.lblTotalBookCopies = New System.Windows.Forms.Label()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.Panel14 = New System.Windows.Forms.Panel()
         Me.btnCurrentRequestedReturn = New System.Windows.Forms.Button()
+        Me.lblTotalBorrowedRequest = New System.Windows.Forms.Label()
         Me.Label16 = New System.Windows.Forms.Label()
         Me.Panel13 = New System.Windows.Forms.Panel()
         Me.btnviewTotalUnpaidPenalties = New System.Windows.Forms.Button()
@@ -80,14 +83,12 @@ Partial Class frmmain
         Me.Button4 = New System.Windows.Forms.Button()
         Me.lblForgotPasswordRequest = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.Label8 = New System.Windows.Forms.Label()
-        Me.lblTotalBookCopies = New System.Windows.Forms.Label()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.pbProfile, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel5.SuspendLayout()
         Me.Panel4.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel6.SuspendLayout()
         Me.Panel7.SuspendLayout()
         Me.Panel8.SuspendLayout()
@@ -100,7 +101,6 @@ Partial Class frmmain
         Me.Panel12.SuspendLayout()
         Me.Panel11.SuspendLayout()
         Me.Panel10.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuStrip1
@@ -307,6 +307,16 @@ Partial Class frmmain
         Me.Panel4.Size = New System.Drawing.Size(1384, 188)
         Me.Panel4.TabIndex = 7
         '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
+        Me.PictureBox1.Location = New System.Drawing.Point(1227, 48)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(119, 118)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox1.TabIndex = 7
+        Me.PictureBox1.TabStop = False
+        '
         'Panel6
         '
         Me.Panel6.BackColor = System.Drawing.Color.SeaShell
@@ -502,15 +512,27 @@ Partial Class frmmain
         Me.Panel15.Size = New System.Drawing.Size(277, 185)
         Me.Panel15.TabIndex = 18
         '
-        'lblTotalBorrowedRequest
+        'lblTotalBookCopies
         '
-        Me.lblTotalBorrowedRequest.Font = New System.Drawing.Font("Segoe UI", 48.0!, System.Drawing.FontStyle.Bold)
-        Me.lblTotalBorrowedRequest.Location = New System.Drawing.Point(0, 34)
-        Me.lblTotalBorrowedRequest.Name = "lblTotalBorrowedRequest"
-        Me.lblTotalBorrowedRequest.Size = New System.Drawing.Size(276, 90)
-        Me.lblTotalBorrowedRequest.TabIndex = 15
-        Me.lblTotalBorrowedRequest.Text = "0"
-        Me.lblTotalBorrowedRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.lblTotalBookCopies.Font = New System.Drawing.Font("Segoe UI", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalBookCopies.Location = New System.Drawing.Point(-1, 38)
+        Me.lblTotalBookCopies.Name = "lblTotalBookCopies"
+        Me.lblTotalBookCopies.Size = New System.Drawing.Size(276, 146)
+        Me.lblTotalBookCopies.TabIndex = 19
+        Me.lblTotalBookCopies.Text = "0"
+        Me.lblTotalBookCopies.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        '
+        'Label8
+        '
+        Me.Label8.BackColor = System.Drawing.Color.Transparent
+        Me.Label8.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
+        Me.Label8.Location = New System.Drawing.Point(-1, 0)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(276, 31)
+        Me.Label8.TabIndex = 18
+        Me.Label8.Text = "Total Book Copies"
+        Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Panel14
         '
@@ -536,6 +558,16 @@ Partial Class frmmain
         Me.btnCurrentRequestedReturn.TabIndex = 16
         Me.btnCurrentRequestedReturn.Text = "View"
         Me.btnCurrentRequestedReturn.UseVisualStyleBackColor = False
+        '
+        'lblTotalBorrowedRequest
+        '
+        Me.lblTotalBorrowedRequest.Font = New System.Drawing.Font("Segoe UI", 48.0!, System.Drawing.FontStyle.Bold)
+        Me.lblTotalBorrowedRequest.Location = New System.Drawing.Point(0, 34)
+        Me.lblTotalBorrowedRequest.Name = "lblTotalBorrowedRequest"
+        Me.lblTotalBorrowedRequest.Size = New System.Drawing.Size(276, 90)
+        Me.lblTotalBorrowedRequest.TabIndex = 15
+        Me.lblTotalBorrowedRequest.Text = "0"
+        Me.lblTotalBorrowedRequest.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'Label16
         '
@@ -707,38 +739,6 @@ Partial Class frmmain
         Me.Label7.TabIndex = 14
         Me.Label7.Text = "Forgot password request"
         '
-        'PictureBox1
-        '
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(1227, 48)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(119, 118)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox1.TabIndex = 7
-        Me.PictureBox1.TabStop = False
-        '
-        'Label8
-        '
-        Me.Label8.BackColor = System.Drawing.Color.Transparent
-        Me.Label8.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.ForeColor = System.Drawing.Color.FromArgb(CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(64, Byte), Integer))
-        Me.Label8.Location = New System.Drawing.Point(-1, 0)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(276, 31)
-        Me.Label8.TabIndex = 18
-        Me.Label8.Text = "Total Book Copies"
-        Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
-        'lblTotalBookCopies
-        '
-        Me.lblTotalBookCopies.Font = New System.Drawing.Font("Segoe UI", 36.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalBookCopies.Location = New System.Drawing.Point(-1, 38)
-        Me.lblTotalBookCopies.Name = "lblTotalBookCopies"
-        Me.lblTotalBookCopies.Size = New System.Drawing.Size(276, 146)
-        Me.lblTotalBookCopies.TabIndex = 19
-        Me.lblTotalBookCopies.Text = "0"
-        Me.lblTotalBookCopies.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
-        '
         'frmmain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -752,8 +752,8 @@ Partial Class frmmain
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Panel4)
-        Me.Controls.Add(Me.dashUserpanel)
         Me.Controls.Add(Me.dashAdminPan)
+        Me.Controls.Add(Me.dashUserpanel)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmmain"
@@ -765,6 +765,7 @@ Partial Class frmmain
         Me.Panel5.ResumeLayout(False)
         Me.Panel4.ResumeLayout(False)
         Me.Panel4.PerformLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel6.ResumeLayout(False)
         Me.Panel7.ResumeLayout(False)
         Me.Panel8.ResumeLayout(False)
@@ -779,7 +780,6 @@ Partial Class frmmain
         Me.Panel11.ResumeLayout(False)
         Me.Panel10.ResumeLayout(False)
         Me.Panel10.PerformLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

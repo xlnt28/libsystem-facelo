@@ -225,3 +225,4 @@ C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySys
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.TransactionViewer.resources
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.vbprojResolveAssemblyReference.cache
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.TransactionViewer.resources
+C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.vbprojResolveAssemblyReference.cache

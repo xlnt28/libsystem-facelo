@@ -326,4 +326,8 @@ Public Class frmmain
     Private Sub Label9_Click(sender As Object, e As EventArgs) Handles lblTotalBookCopies.Click
 
     End Sub
+
+    Private Sub Label1_Click(sender As Object, e As EventArgs) Handles Label1.Click
+
+    End Sub
 End Class

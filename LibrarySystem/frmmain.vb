@@ -15,9 +15,15 @@ Public Class frmmain
         txtPosition.Text = "Position : " & xpost
         LoadUserImage()
 
+
         LoadStatistics()
 
+
+
         If xpriv = "User" Then
+            BorrowToolStripMenuItem.Enabled = True
+            ReturnToolStripMenuItem.Enabled = True
+            PenaltyToolStripMenuItem.Enabled = True
             BookInventory.Enabled = False
             menuTransactions.Enabled = True
             menuUserForm.Enabled = False
@@ -25,7 +31,12 @@ Public Class frmmain
             BorrowPendingRequestToolStripMenuItem.Enabled = False
             dashAdminPan.Visible = False
             dashUserpanel.Visible = True
-        ElseIf xpriv = "Admin" Then
+
+        End If
+        If xpriv = "Admin" Then
+            BorrowToolStripMenuItem.Enabled = True
+            ReturnToolStripMenuItem.Enabled = True
+            PenaltyToolStripMenuItem.Enabled = True
             BookInventory.Enabled = True
             menuTransactions.Enabled = True
             menuUserForm.Enabled = True
@@ -34,10 +45,13 @@ Public Class frmmain
             dashAdminPan.Visible = True
             dashUserpanel.Visible = False
         End If
+
         If xpost = "Administrator" And xpriv = "Admin" Then
             BorrowToolStripMenuItem.Enabled = False
             ReturnToolStripMenuItem.Enabled = False
             PenaltyToolStripMenuItem.Enabled = False
+            BookInventory.Enabled = True
+            menuTransactions.Enabled = True
             menuUserForm.Enabled = True
             menuBookInventory.Enabled = True
             BorrowPendingRequestToolStripMenuItem.Enabled = True
@@ -188,7 +202,7 @@ Public Class frmmain
                 Dim totalOverdueCount As Integer = CInt(cmd.ExecuteScalar())
                 lblTotalBorrowedRequest.Text = totalOverdueCount.ToString()
 
-                Dim totalBooksQuery As String = "SELECT COUNT(*) FROM Books"
+                Dim totalBooksQuery As String = "SELECT COUNT(*) FROM books"
                 cmd = New OleDbCommand(totalBooksQuery, con)
                 Dim totalBooksCount As Integer = CInt(cmd.ExecuteScalar())
                 lblTotalBooks.Text = totalBooksCount.ToString()
@@ -203,6 +217,7 @@ Public Class frmmain
                 Dim forgotPasswordCount As Integer = CInt(cmd.ExecuteScalar())
                 lblForgotPasswordRequest.Text = forgotPasswordCount.ToString()
 
+                '
                 Dim totalBookCopiesQuery As String = "SELECT SUM([Quantity]) FROM books"
                 cmd = New OleDbCommand(totalBookCopiesQuery, con)
                 Dim result = cmd.ExecuteScalar()

@@ -2619,18 +2619,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_38070513F85C59819FB90736283EEE76"
-        "OwnerKey" = "8:_946400B5923297EF3CD046BC7EB3354A"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_38070513F85C59819FB90736283EEE76"
-        "OwnerKey" = "8:_BB64B780AAE94A9F9EC85AC94CAEF5BC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_3809E0353F3C438EBE2A2FC239A97C22"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -3616,6 +3604,12 @@
         "Entry"
         {
         "MsmKey" = "8:_4CF32AC01034403691A9098E4C7B80BA"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_4CF9F0DE6BFD4F758AFE9A4F8CEB58EB"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -5685,12 +5679,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_792EA05DC98348D7BA5D618C025DD7BE"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_796113AC6A044D558EFB00B4146577E9"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -7011,12 +6999,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_946400B5923297EF3CD046BC7EB3354A"
-        "OwnerKey" = "8:_BB64B780AAE94A9F9EC85AC94CAEF5BC"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_946AA9E2245E453993FD88238C6C0CD1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -7113,6 +7095,18 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_965AB736FD458A69EFD4F19A6E85E674"
+        "OwnerKey" = "8:_96E1D4DE55786D3408674B2568342C93"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_965AB736FD458A69EFD4F19A6E85E674"
+        "OwnerKey" = "8:_BB64B780AAE94A9F9EC85AC94CAEF5BC"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_965DFC5E850B4BDAA96E40CE7940EBBD"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -7145,6 +7139,12 @@
         {
         "MsmKey" = "8:_96DEADB2B0E1428180B2CB9F914AE67B"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_96E1D4DE55786D3408674B2568342C93"
+        "OwnerKey" = "8:_BB64B780AAE94A9F9EC85AC94CAEF5BC"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -12028,13 +12028,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_946400B5923297EF3CD046BC7EB3354A"
+        "OwnerKey" = "8:_96E1D4DE55786D3408674B2568342C93"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_38070513F85C59819FB90736283EEE76"
+        "OwnerKey" = "8:_965AB736FD458A69EFD4F19A6E85E674"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -20810,37 +20810,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_38070513F85C59819FB90736283EEE76"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_38070513F85C59819FB90736283EEE76"
-                    {
-                    "Name" = "8:DocumentFormat.OpenXml.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:DocumentFormat.OpenXml.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_27D6CF8174304071942089BE74FEAEAF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_3809E0353F3C438EBE2A2FC239A97C22"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-01922.jpg"
@@ -24127,6 +24096,26 @@
             "TargetName" = "8:BK-00815.jpg"
             "Tag" = "8:"
             "Folder" = "8:_E8AF460A5D3A4A1CBF323C1235BAD980"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4CF9F0DE6BFD4F758AFE9A4F8CEB58EB"
+            {
+            "SourcePath" = "8:..\\ssssasdasdasdasd.ico"
+            "TargetName" = "8:ssssasdasdasdasd.ico"
+            "Tag" = "8:"
+            "Folder" = "8:_27D6CF8174304071942089BE74FEAEAF"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -31021,26 +31010,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_792EA05DC98348D7BA5D618C025DD7BE"
-            {
-            "SourcePath" = "8:..\\..\\ssssasdasdasdasd.ico"
-            "TargetName" = "8:ssssasdasdasdasd.ico"
-            "Tag" = "8:"
-            "Folder" = "8:_27D6CF8174304071942089BE74FEAEAF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_796113AC6A044D558EFB00B4146577E9"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-01906.jpg"
@@ -35441,37 +35410,6 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_946400B5923297EF3CD046BC7EB3354A"
-            {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:ClosedXML, Version=0.87.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_946400B5923297EF3CD046BC7EB3354A"
-                    {
-                    "Name" = "8:ClosedXML.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:ClosedXML.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_27D6CF8174304071942089BE74FEAEAF"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_946AA9E2245E453993FD88238C6C0CD1"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-00513.jpg"
@@ -35792,6 +35730,37 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_965AB736FD458A69EFD4F19A6E85E674"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:DocumentFormat.OpenXml, Version=2.5.5631.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_965AB736FD458A69EFD4F19A6E85E674"
+                    {
+                    "Name" = "8:DocumentFormat.OpenXml.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:DocumentFormat.OpenXml.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_27D6CF8174304071942089BE74FEAEAF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_965DFC5E850B4BDAA96E40CE7940EBBD"
             {
             "SourcePath" = "8:..\\LibrarySystem\\bin\\Debug\\BookImages\\books\\BK-00768.jpg"
@@ -35910,6 +35879,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_96E1D4DE55786D3408674B2568342C93"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:ClosedXML, Version=0.87.0.0, Culture=neutral, PublicKeyToken=fd1eb21b62ae805b, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_96E1D4DE55786D3408674B2568342C93"
+                    {
+                    "Name" = "8:ClosedXML.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:ClosedXML.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_27D6CF8174304071942089BE74FEAEAF"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9703C9F9E5614203A30267768E01B69B"
@@ -52198,7 +52198,7 @@
                     }
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_F9EF88AD6BCF4F42A61D543F5AF4940B"
                     {
-                    "Name" = "8:BookImages"
+                    "Name" = "8:Acx System"
                     "AlwaysCreate" = "11:FALSE"
                     "Condition" = "8:"
                     "Transitive" = "11:FALSE"
@@ -52368,9 +52368,9 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_D4CD73EEE30B4411997FC2BAC1C959C2"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_8FE130470E1946A4803774C4B1041AA4"
             {
-            "Name" = "8:Acx Library System"
+            "Name" = "8:ACX System"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
@@ -52379,7 +52379,7 @@
             "Target" = "8:_BB64B780AAE94A9F9EC85AC94CAEF5BC"
             "Folder" = "8:_6D6E3BCECF834593AA1F1739C910B88F"
             "WorkingFolder" = "8:_27D6CF8174304071942089BE74FEAEAF"
-            "Icon" = "8:_792EA05DC98348D7BA5D618C025DD7BE"
+            "Icon" = "8:_4CF9F0DE6BFD4F758AFE9A4F8CEB58EB"
             "Feature" = "8:"
             }
         }

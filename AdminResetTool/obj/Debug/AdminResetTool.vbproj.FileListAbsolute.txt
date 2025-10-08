@@ -11,3 +11,15 @@ C:\Users\Admin\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetToo
 C:\Users\Admin\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetTool.pdb
 C:\Users\Admin\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetTool.frmChangePassword.resources
 C:\Users\Admin\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetTool.Main.resources
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\bin\Debug\AdminResetTool.exe.config
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\bin\Debug\AdminResetTool.exe
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\bin\Debug\AdminResetTool.pdb
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\bin\Debug\AdminResetTool.xml
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetTool.AdminResetTool.resources
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetTool.frmChangePassword.resources
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetTool.Main.resources
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetTool.Resources.resources
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetTool.vbproj.GenerateResource.Cache
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetTool.exe
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetTool.xml
+C:\Users\dexte\Downloads\libsystem-facelo\AdminResetTool\obj\Debug\AdminResetTool.pdb

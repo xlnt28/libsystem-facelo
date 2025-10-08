@@ -143,7 +143,6 @@ C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\CrystalDecisio
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\CrystalDecisions.ReportAppServer.ObjectFactory.dll
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\CrystalDecisions.ReportAppServer.CommonControls.dll
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\stdole.dll
-C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.vbprojResolveAssemblyReference.cache
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.AdminReturn.resources
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.BookInventory.resources
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.BorrowPendingRequest.resources
@@ -225,3 +224,4 @@ C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySys
 C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.UserUnpaidList.resources
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.TransactionViewer.resources
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.vbprojResolveAssemblyReference.cache
+C:\Users\dexte\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.TransactionViewer.resources

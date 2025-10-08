@@ -136,12 +136,6 @@
     <Compile Include="PartialReturnForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Reports.Designer.vb">
-      <DependentUpon>Reports.vb</DependentUpon>
-    </Compile>
-    <Compile Include="Reports.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Reports\BookInventoryReport.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -352,9 +346,6 @@
       <LastGenOutput>CRReturnBook.vb</LastGenOutput>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EmbeddedResource Include="Reports.resx">
-      <DependentUpon>Reports.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="RequestedChangePassword.resx">
       <DependentUpon>RequestedChangePassword.vb</DependentUpon>
     </EmbeddedResource>

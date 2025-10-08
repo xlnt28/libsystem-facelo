@@ -233,7 +233,7 @@ Public Class AdminReturn
                 End If
             Next
 
-            ' Only insert penalty record if there's actually a penalty
+
             If totalPenalty > 0 Then
                 InsertPenaltyRecord(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate)
             End If

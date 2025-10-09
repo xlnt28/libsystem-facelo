@@ -94,7 +94,7 @@ Public Class History
             If wasOnBorrowOrReturn Then
                 sql &= " AND [Status] IN ('Requested', 'Borrowed') "
             Else
-                sql &= " AND [Status] IN ('Requested','Borrowed','Completed','Cancelled') "
+                sql &= " AND [Status] IN ('Requested','Borrowed','Completed','Cancelled','Declined') "
             End If
 
             sql &= " ORDER BY [Borrow ID] DESC"

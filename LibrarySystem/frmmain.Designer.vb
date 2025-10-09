@@ -35,6 +35,9 @@ Partial Class frmmain
         Me.TransactionHistoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BorrowPendingRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BorrowReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ReturnReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PenaltyReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuLogout = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -85,9 +88,6 @@ Partial Class frmmain
         Me.Button4 = New System.Windows.Forms.Button()
         Me.lblForgotPasswordRequest = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.BorrowReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ReturnReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PenaltyReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.pbProfile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -116,7 +116,7 @@ Partial Class frmmain
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolStripMenuItem, Me.menuTransactions, Me.ReportsToolStripMenuItem, Me.menuLogout})
         Me.MenuStrip1.Location = New System.Drawing.Point(8, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(499, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(407, 33)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -207,6 +207,27 @@ Partial Class frmmain
         Me.ReportsToolStripMenuItem.Name = "ReportsToolStripMenuItem"
         Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(87, 29)
         Me.ReportsToolStripMenuItem.Text = "Reports"
+        '
+        'BorrowReceiptToolStripMenuItem
+        '
+        Me.BorrowReceiptToolStripMenuItem.Image = CType(resources.GetObject("BorrowReceiptToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.BorrowReceiptToolStripMenuItem.Name = "BorrowReceiptToolStripMenuItem"
+        Me.BorrowReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
+        Me.BorrowReceiptToolStripMenuItem.Text = "Get Borrow Receipt"
+        '
+        'ReturnReceiptToolStripMenuItem
+        '
+        Me.ReturnReceiptToolStripMenuItem.Image = CType(resources.GetObject("ReturnReceiptToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.ReturnReceiptToolStripMenuItem.Name = "ReturnReceiptToolStripMenuItem"
+        Me.ReturnReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
+        Me.ReturnReceiptToolStripMenuItem.Text = "Get Return Receipt"
+        '
+        'PenaltyReceiptToolStripMenuItem
+        '
+        Me.PenaltyReceiptToolStripMenuItem.Image = CType(resources.GetObject("PenaltyReceiptToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.PenaltyReceiptToolStripMenuItem.Name = "PenaltyReceiptToolStripMenuItem"
+        Me.PenaltyReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
+        Me.PenaltyReceiptToolStripMenuItem.Text = "Get Penalty Receipt"
         '
         'menuLogout
         '
@@ -759,24 +780,6 @@ Partial Class frmmain
         Me.Label7.Size = New System.Drawing.Size(235, 25)
         Me.Label7.TabIndex = 14
         Me.Label7.Text = "Forgot password request"
-        '
-        'BorrowReceiptToolStripMenuItem
-        '
-        Me.BorrowReceiptToolStripMenuItem.Name = "BorrowReceiptToolStripMenuItem"
-        Me.BorrowReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
-        Me.BorrowReceiptToolStripMenuItem.Text = "Get Borrow Receipt"
-        '
-        'ReturnReceiptToolStripMenuItem
-        '
-        Me.ReturnReceiptToolStripMenuItem.Name = "ReturnReceiptToolStripMenuItem"
-        Me.ReturnReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
-        Me.ReturnReceiptToolStripMenuItem.Text = "Get Return Receipt"
-        '
-        'PenaltyReceiptToolStripMenuItem
-        '
-        Me.PenaltyReceiptToolStripMenuItem.Name = "PenaltyReceiptToolStripMenuItem"
-        Me.PenaltyReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
-        Me.PenaltyReceiptToolStripMenuItem.Text = "Get Penalty Receipt"
         '
         'frmmain
         '

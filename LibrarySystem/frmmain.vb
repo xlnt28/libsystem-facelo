@@ -498,10 +498,6 @@ Public Class frmmain
                 Dim totalPenaltyObj As Object = cmd.ExecuteScalar()
                 totalPenalty = If(IsDBNull(totalPenaltyObj), 0, Convert.ToDecimal(totalPenaltyObj))
 
-                If totalPenalty > 0 Then
-                    dt.Rows.Add("", "", "", "TOTAL PENALTY PAID", 0, "", "$" & totalPenalty.ToString("F2"))
-                End If
-
                 Dim reportForm As New ReportForm()
                 Dim report As New ReportDocument()
                 Dim reportPath As String = System.IO.Path.Combine(Application.StartupPath, "Reports\CRReturnBook.rpt")

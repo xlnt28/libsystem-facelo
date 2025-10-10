@@ -303,10 +303,6 @@ Public Class AdminReturn
                     End If
                 Next
 
-                If totalPenalty > 0 Then
-                    dt.Rows.Add("", "", "", "TOTAL PENALTY", 0, "", totalPenalty, "", "")
-                End If
-
                 Dim reportForm As New ReportForm()
                 Dim report As New ReportDocument()
                 Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CRReturnBook.rpt")
@@ -618,5 +614,9 @@ Public Class AdminReturn
         Else
             MsgBox("Please select a transaction to view details.", MsgBoxStyle.Exclamation, "Select Transaction")
         End If
+    End Sub
+
+    Private Sub dgv_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv.CellContentClick
+
     End Sub
 End Class

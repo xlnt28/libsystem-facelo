@@ -496,18 +496,6 @@ Public Class PenaltyForm
             con.Close()
         End If
     End Sub
-
-    Private Sub dgvPenalty_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles dgvPenalty.SelectionChanged
-        If isMarkAsPaidMode Then Return
-
-        If Not isAdmin Then
-            MarkAsPaidToolStripMenuItem.Enabled = False
-            Return
-        End If
-
-        MarkAsPaidToolStripMenuItem.Enabled = True
-    End Sub
-
     Private Sub PenaltyForm_Activated(sender As Object, e As EventArgs) Handles Me.Activated
         If con.State <> ConnectionState.Open Then
             con.Open()
@@ -534,6 +522,12 @@ Public Class PenaltyForm
         End If
 
         Dim selectedRow As DataGridViewRow = dgvPenalty.SelectedRows(0)
+
+        If selectedRow.Cells("Penalty Status").Value IsNot Nothing AndAlso
+       selectedRow.Cells("Penalty Status").Value.ToString() = "Paid" Then
+            MsgBox("Cannot change penalty amount for paid penalties.", MsgBoxStyle.Exclamation, "Paid Penalty")
+            Return
+        End If
 
         Dim penaltyID As String = selectedRow.Cells("PenaltyID").Value.ToString()
         Dim currentAmount As Decimal = 0
@@ -596,7 +590,50 @@ Public Class PenaltyForm
         End If
     End Sub
 
-    Private Sub dgvPenalty_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvPenalty.CellContentClick
+    Private Sub dgvPenalty_SelectionChanged(ByVal sender As Object, ByVal e As EventArgs) Handles dgvPenalty.SelectionChanged
+        If isMarkAsPaidMode Then Return
 
+        If dgvPenalty.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = dgvPenalty.SelectedRows(0)
+
+            If Not selectedRow.IsNewRow AndAlso selectedRow.Cells("Penalty Status").Value IsNot Nothing Then
+                Dim penaltyStatus As String = selectedRow.Cells("Penalty Status").Value.ToString()
+
+                If isAdmin AndAlso penaltyStatus = "Unpaid" Then
+                    ChangePenaltyAmountToolStripMenuItem.Enabled = True
+                Else
+                    ChangePenaltyAmountToolStripMenuItem.Enabled = False
+                End If
+            Else
+                ChangePenaltyAmountToolStripMenuItem.Enabled = False
+            End If
+        Else
+            ChangePenaltyAmountToolStripMenuItem.Enabled = False
+        End If
+
+        If Not isAdmin Then
+            MarkAsPaidToolStripMenuItem.Enabled = False
+            Return
+        End If
+
+        MarkAsPaidToolStripMenuItem.Enabled = True
+    End Sub
+
+    Private Sub dgvPenalty_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvPenalty.CellClick
+        If e.RowIndex < 0 Then Return
+
+        If dgvPenalty.Rows(e.RowIndex).IsNewRow Then Return
+
+        If dgvPenalty.Rows(e.RowIndex).Cells("Penalty Status").Value IsNot Nothing Then
+            Dim penaltyStatus As String = dgvPenalty.Rows(e.RowIndex).Cells("Penalty Status").Value.ToString()
+
+            If isAdmin AndAlso penaltyStatus = "Unpaid" Then
+                ChangePenaltyAmountToolStripMenuItem.Enabled = True
+            Else
+                ChangePenaltyAmountToolStripMenuItem.Enabled = False
+            End If
+        Else
+            ChangePenaltyAmountToolStripMenuItem.Enabled = False
+        End If
     End Sub
 End Class

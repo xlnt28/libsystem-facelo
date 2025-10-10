@@ -563,8 +563,6 @@ Public Class Borrow
             reportForm.CrystalReportViewer1.ReportSource = report
             reportForm.ShowDialog()
 
-            MsgBox("Borrow slips generated successfully!", MsgBoxStyle.Information, "Generate Receipts")
-
             report.Close()
             report.Dispose()
             reportForm.Dispose()

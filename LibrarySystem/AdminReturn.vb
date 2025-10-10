@@ -199,10 +199,9 @@ Public Class AdminReturn
                     Dim newIndividualReturned As Integer = individualCurrentReturned + copiesToReturn(i)
                     Dim individualAllReturned As Boolean = (newIndividualReturned >= GetIndividualTotalCopies(borrowID, bookID))
 
-                    cmd = New OleDbCommand("UPDATE borrowings SET [Current Returned] = ?, [Status] = ?, [Has Requested Return] = ? WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
+                    cmd = New OleDbCommand("UPDATE borrowings SET [Current Returned] = ?, [Status] = ? WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
                     cmd.Parameters.AddWithValue("?", newIndividualReturned.ToString())
                     cmd.Parameters.AddWithValue("?", If(individualAllReturned, "Completed", "Borrowed"))
-                    cmd.Parameters.AddWithValue("?", "No")
                     cmd.Parameters.AddWithValue("?", borrowID)
                     cmd.Parameters.AddWithValue("?", bookID)
                     cmd.ExecuteNonQuery()
@@ -214,11 +213,12 @@ Public Class AdminReturn
                         cmd.Parameters.AddWithValue("?", copiesToReturn(i))
                         cmd.Parameters.AddWithValue("?", bookID)
                         cmd.ExecuteNonQuery()
-                    ElseIf conditionTypes(i) = "Lost" Then
-                        cmd = New OleDbCommand("UPDATE books SET [Quantity] = [Quantity] - ? WHERE [Book ID] = ?", con)
+                    ElseIf conditionTypes(i) = "Damaged" Then
+                        cmd = New OleDbCommand("UPDATE books SET [Quantity] = [Quantity] + ? WHERE [Book ID] = ?", con)
                         cmd.Parameters.AddWithValue("?", copiesToReturn(i))
                         cmd.Parameters.AddWithValue("?", bookID)
                         cmd.ExecuteNonQuery()
+                    ElseIf conditionTypes(i) = "Lost" Then
                     End If
 
                     cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
@@ -232,7 +232,6 @@ Public Class AdminReturn
                     cmd.ExecuteNonQuery()
                 End If
             Next
-
 
             If totalPenalty > 0 Then
                 InsertPenaltyRecord(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate)
@@ -249,104 +248,92 @@ Public Class AdminReturn
     End Sub
 
     Private Sub GenerateReturnReceipt(ByVal borrowID As String, ByVal bookIDs() As String,
-                                ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
-                                ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal,
-                                ByVal returnDate As DateTime)
+                            ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
+                            ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal,
+                            ByVal returnDate As DateTime)
         Try
-            Dim borrowerPrivilege As String = ""
-            Dim cmdPrivilege As New OleDbCommand("SELECT [Borrower Privileges] FROM transactions WHERE [Borrow ID] = ?", con)
-            cmdPrivilege.Parameters.AddWithValue("?", borrowID)
-            Dim privilegeResult As Object = cmdPrivilege.ExecuteScalar()
-            If privilegeResult IsNot Nothing AndAlso Not IsDBNull(privilegeResult) Then
-                borrowerPrivilege = privilegeResult.ToString()
-            End If
-
-            Dim isAdminPrivilege As Boolean = (borrowerPrivilege.ToUpper() = "ADMIN")
-
             Dim dt As New DataTable("ReturnReceipt")
-            dt.Columns.Add("Return Date", GetType(String))
-            dt.Columns.Add("Borrow ID", GetType(String))
-            dt.Columns.Add("Book ID", GetType(String))
-            dt.Columns.Add("Book Title", GetType(String))
-            dt.Columns.Add("Quantity Returned", GetType(Integer))
-            dt.Columns.Add("Condition", GetType(String))
-            dt.Columns.Add("Penalty Amount", GetType(Decimal))
-            dt.Columns.Add("Borrower Name", GetType(String))
-            dt.Columns.Add("Processed By", GetType(String))
-            dt.Columns.Add("Privilege Info", GetType(String))
 
-            Dim borrowerName As String = ""
-            cmd = New OleDbCommand("SELECT [Borrower Name] FROM transactions WHERE [Borrow ID] = ?", con)
-            cmd.Parameters.AddWithValue("?", borrowID)
-            Dim nameResult As Object = cmd.ExecuteScalar()
-            If nameResult IsNot Nothing AndAlso Not IsDBNull(nameResult) Then
-                borrowerName = nameResult.ToString()
-            End If
+            Dim transactionQuery As String = "SELECT [Borrower Name] FROM transactions WHERE [Borrow ID] = ?"
+            Using cmdTransaction As New OleDbCommand(transactionQuery, con)
+                cmdTransaction.Parameters.AddWithValue("?", borrowID)
+                Using da As New OleDbDataAdapter(cmdTransaction)
+                    da.Fill(dt)
+                End Using
+            End Using
 
-            For i As Integer = 0 To bookIDs.Length - 1
-                If copiesToReturn(i) > 0 Then
-                    Dim bookID As String = bookIDs(i)
-                    Dim bookTitle As String = ""
+            If dt.Rows.Count > 0 Then
+                Dim borrowerName As String = If(IsDBNull(dt.Rows(0)("Borrower Name")), "", dt.Rows(0)("Borrower Name").ToString())
 
-                    cmd = New OleDbCommand("SELECT [Title] FROM books WHERE [Book ID] = ?", con)
-                    cmd.Parameters.AddWithValue("?", bookID)
-                    Dim titleResult As Object = cmd.ExecuteScalar()
-                    If titleResult IsNot Nothing AndAlso Not IsDBNull(titleResult) Then
-                        bookTitle = titleResult.ToString()
+                dt = New DataTable("ReturnReceipt")
+                dt.Columns.Add("Return Date", GetType(String))
+                dt.Columns.Add("Borrow ID", GetType(String))
+                dt.Columns.Add("Book ID", GetType(String))
+                dt.Columns.Add("Book Title", GetType(String))
+                dt.Columns.Add("Returned Quantity", GetType(Integer))
+                dt.Columns.Add("Condition", GetType(String))
+                dt.Columns.Add("Penalty Amount", GetType(Decimal))
+                dt.Columns.Add("Borrower Name", GetType(String))
+                dt.Columns.Add("Processed By", GetType(String))
+
+                For i As Integer = 0 To bookIDs.Length - 1
+                    If copiesToReturn(i) > 0 Then
+                        Dim bookID As String = bookIDs(i)
+                        Dim bookTitle As String = ""
+
+                        Using cmdBook As New OleDbCommand("SELECT [Title] FROM books WHERE [Book ID] = ?", con)
+                            cmdBook.Parameters.AddWithValue("?", bookID)
+                            Dim titleResult As Object = cmdBook.ExecuteScalar()
+                            If titleResult IsNot Nothing AndAlso Not IsDBNull(titleResult) Then
+                                bookTitle = titleResult.ToString()
+                            End If
+                        End Using
+
+                        dt.Rows.Add(
+                        returnDate.ToString("MM/dd/yyyy"),
+                        borrowID,
+                        bookID,
+                        bookTitle,
+                        copiesToReturn(i),
+                        conditionTypes(i),
+                        penaltyAmounts(i),
+                        borrowerName,
+                        XName
+                    )
                     End If
+                Next
 
-                    Dim privilegeInfo As String = ""
-                    If isAdminPrivilege And conditionTypes(i) = "Normal" Then
-                        privilegeInfo = "Admin - Late Fees Exempt"
-                    End If
-
-                    dt.Rows.Add(
-                    returnDate.ToString("MM/dd/yyyy"),
-                    borrowID,
-                    bookID,
-                    bookTitle,
-                    copiesToReturn(i),
-                    conditionTypes(i),
-                    penaltyAmounts(i),
-                    borrowerName,
-                    XName,
-                    privilegeInfo
-                )
-                End If
-            Next
-
-            If totalPenalty > 0 Then
-                Dim totalPenaltyInfo As String = ""
-                If isAdminPrivilege Then
-                    totalPenaltyInfo = "Admin - Late Fees Exempt (Charges for damaged/lost only)"
+                If totalPenalty > 0 Then
+                    dt.Rows.Add("", "", "", "TOTAL PENALTY", 0, "", totalPenalty, "", "")
                 End If
 
-                dt.Rows.Add(
-                "", "", "", "TOTAL PENALTY", 0, "", totalPenalty, "", "", totalPenaltyInfo
-            )
+                Dim reportForm As New ReportForm()
+                Dim report As New ReportDocument()
+                Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CRReturnBook.rpt")
+
+                If Not File.Exists(reportPath) Then
+                    MsgBox("Return receipt report not found: " & reportPath, MsgBoxStyle.Critical, "Error")
+                    Return
+                End If
+
+                report.Load(reportPath)
+                report.SetDataSource(dt)
+                reportForm.CrystalReportViewer1.ReportSource = report
+                reportForm.ShowDialog()
+
+                report.Close()
+                report.Dispose()
+                reportForm.Dispose()
+
+            Else
+                MsgBox("No transaction data found for Borrow ID: " & borrowID, MsgBoxStyle.Exclamation, "Data Error")
             End If
-
-            Dim reportForm As New ReportForm()
-            Dim report As New ReportDocument()
-            Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CRReturnBook.rpt")
-
-            If Not File.Exists(reportPath) Then
-                MsgBox("Return receipt report not found: " & reportPath, MsgBoxStyle.Critical, "Error")
-                Return
-            End If
-
-            report.Load(reportPath)
-            report.SetDataSource(dt)
-            reportForm.CrystalReportViewer1.ReportSource = report
-            reportForm.ShowDialog()
-
-            report.Close()
-            report.Dispose()
 
         Catch ex As Exception
             MsgBox("Error generating return receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
+
 
     Private Function GetIndividualCurrentReturned(ByVal borrowID As String, ByVal bookID As String) As Integer
         Try
@@ -461,7 +448,7 @@ Public Class AdminReturn
 
                     If conditionTypes(i) = "Normal" Then
                         If isAdminPrivilege Then
-                            penaltyAmount = 0 ' No penalty for days late for Admin
+                            penaltyAmount = 0
                         Else
                             penaltyAmount = daysLate * 10 * copiesToReturn(i)
                         End If
@@ -469,14 +456,13 @@ Public Class AdminReturn
                         penaltyAmount = penaltyAmounts(i) * copiesToReturn(i)
                     End If
 
-                    ' Only insert penalty record if there's actually a penalty amount
                     If penaltyAmount > 0 Then
                         Dim penaltyID As String = GenerateNextPenaltyID()
 
                         Using insertCmd As New OleDbCommand("
                         INSERT INTO Penalties 
-                        ([PenaltyID], [Borrow ID], [Book ID], [Quantity], [Book Condition], [Condition Penalty], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date], [User Name]) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+                        ([PenaltyID], [Borrow ID], [Book ID], [Quantity], [Book Condition], [Condition Penalty], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date], [User Name], [Processed By]) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
                             insertCmd.Parameters.AddWithValue("?", penaltyID)
                             insertCmd.Parameters.AddWithValue("?", borrowID)
@@ -490,7 +476,7 @@ Public Class AdminReturn
                             insertCmd.Parameters.Add(New OleDbParameter("?", OleDbType.Date) With {.Value = dueDate})
                             insertCmd.Parameters.Add(New OleDbParameter("?", OleDbType.Date) With {.Value = returnDate})
                             insertCmd.Parameters.AddWithValue("?", borrowerName)
-
+                            insertCmd.Parameters.AddWithValue("?", XName)
                             insertCmd.ExecuteNonQuery()
                         End Using
                     End If

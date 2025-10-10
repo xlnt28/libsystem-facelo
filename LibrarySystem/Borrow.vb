@@ -263,7 +263,7 @@ Public Class Borrow
 
     Private Sub UpdateBorrowModeUI()
         If isOnBorrowMode Then
-            menuBorrow.Text = "Borrow Now"
+            menuBorrow.Text = If(xpriv = "Admin", "Borrow Now", "Request Now")
             menuAddBooks.Enabled = True
             menuRemoveBook.Enabled = True
             rtxtSelectedBooks.Visible = True
@@ -271,7 +271,7 @@ Public Class Borrow
 
             UpdateSelectedBooksLabel()
         Else
-            menuBorrow.Text = "Start Borrowing"
+            menuBorrow.Text = If(xpriv = "Admin", "Start Borrowing", "Start Borrow Request")
             menuAddBooks.Enabled = False
             menuRemoveBook.Enabled = False
             rtxtSelectedBooks.Visible = False
@@ -344,7 +344,7 @@ Public Class Borrow
 
         Dim hasStopped As Boolean = False
         Dim borrowID As String = GenerateBorrowID()
-
+        Dim processedBy As String = If(xpriv = "Admin", XName, "N/A")
         Try
             Dim bookIDList As New List(Of String)
             Dim copyList As New List(Of String)
@@ -361,7 +361,8 @@ Public Class Borrow
                 Dim dueDate As Object = If(userPrivileges = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
                 Dim requestDate As Object = If(xpriv = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
 
-                cmd = New OleDbCommand("INSERT INTO borrowings([ID], [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+
+                cmd = New OleDbCommand("INSERT INTO borrowings([ID], [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Request Date], [Processed By]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
                 cmd.Parameters.AddWithValue("?", uniqueID)
                 cmd.Parameters.AddWithValue("?", borrowID)
@@ -375,9 +376,8 @@ Public Class Borrow
                 cmd.Parameters.AddWithValue("?", borrowDate)
                 cmd.Parameters.AddWithValue("?", dueDate)
                 cmd.Parameters.AddWithValue("?", status)
-                cmd.Parameters.AddWithValue("?", "No")
                 cmd.Parameters.AddWithValue("?", requestDate)
-
+                cmd.Parameters.AddWithValue("?", processedBy)
                 cmd.ExecuteNonQuery()
 
                 bookIDList.Add(bookID)
@@ -409,7 +409,8 @@ Public Class Borrow
             Dim dueDateForTransaction As Object = If(userPrivileges = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
             Dim requestDateForTransaction As Object = If(userPrivileges = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
 
-            cmd = New OleDbCommand("INSERT INTO transactions([Transaction ID], [Borrow ID], [Book ID List], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copy List], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+
+            cmd = New OleDbCommand("INSERT INTO transactions([Transaction ID], [Borrow ID], [Book ID List], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copy List], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date], [Processed By]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)", con)
 
             cmd.Parameters.AddWithValue("?", transactionID)
             cmd.Parameters.AddWithValue("?", borrowID)
@@ -425,7 +426,7 @@ Public Class Borrow
             cmd.Parameters.AddWithValue("?", statusForTransaction)
             cmd.Parameters.AddWithValue("?", "No")
             cmd.Parameters.AddWithValue("?", requestDateForTransaction)
-
+            cmd.Parameters.AddWithValue("?", processedBy)
             cmd.ExecuteNonQuery()
 
             If xpriv = "Admin" AndAlso hasStopped = False Then
@@ -520,63 +521,43 @@ Public Class Borrow
     Private Sub GenerateBorrowReceipt(ByVal selectedBooks As Dictionary(Of String, Integer), ByVal userID As String, ByVal userName As String, ByVal userPosition As String, ByVal userPrivileges As String)
         Try
             Dim result As DialogResult = MsgBox("Generating receipt, please wait..",
-                           MsgBoxStyle.OkOnly + MsgBoxStyle.Information,
-                           "Generate Receipts")
+                       MsgBoxStyle.OkOnly + MsgBoxStyle.Information,
+                       "Generate Receipts")
 
+            Dim borrowID As String = ""
+            cmd = New OleDbCommand("SELECT MAX([Borrow ID]) FROM borrowings WHERE [User ID] = ? AND [Borrower Name] = ?", con)
+            cmd.Parameters.AddWithValue("?", userID)
+            cmd.Parameters.AddWithValue("?", userName)
+            Dim latestBorrowID As Object = cmd.ExecuteScalar()
+
+            If latestBorrowID IsNot Nothing AndAlso Not IsDBNull(latestBorrowID) Then
+                borrowID = latestBorrowID.ToString()
+            Else
+                MsgBox("Error: Could not find borrow transaction.", MsgBoxStyle.Exclamation)
+                Return
+            End If
+
+            cmd = New OleDbCommand("SELECT * FROM borrowings WHERE [Borrow ID] = ?", con)
+            cmd.Parameters.AddWithValue("?", borrowID)
+
+            Dim da As New OleDbDataAdapter(cmd)
             Dim dt As New DataTable("BorrowReceipt")
-            dt.Columns.Add("Borrow ID", GetType(String))
-            dt.Columns.Add("Book ID", GetType(String))
-            dt.Columns.Add("User ID", GetType(String))
-            dt.Columns.Add("Borrower Name", GetType(String))
-            dt.Columns.Add("Borrower Position", GetType(String))
-            dt.Columns.Add("Borrower Privileges", GetType(String))
-            dt.Columns.Add("Copies", GetType(Integer))
-            dt.Columns.Add("Borrow Date", GetType(String))
-            dt.Columns.Add("Due Date", GetType(String))
-            dt.Columns.Add("Status", GetType(String))
-            dt.Columns.Add("Current Returned", GetType(Integer))
-            dt.Columns.Add("Has Requested Return", GetType(String))
-            dt.Columns.Add("Request Date", GetType(String))
+            da.Fill(dt)
 
-            Dim status As String = If(userPrivileges = "Admin", "Borrowed", "Requested")
-
-            For Each bookID As String In selectedBooks.Keys
-                Dim quantityToBorrow As Integer = selectedBooks(bookID)
-                Dim borrowID As String = GenerateBorrowID()
-                Dim borrowDate As String = ""
-                Dim dueDate As String = ""
-                Dim requestDate As String = ""
-
-                If userPrivileges = "Admin" Then
-                    borrowDate = dtpBorrowDate.Value.ToString("MM/dd/yyyy")
-                    dueDate = dtpDueDate.Value.ToString("MM/dd/yyyy")
-                    requestDate = DBNull.Value.ToString()
-                Else
-                    borrowDate = DBNull.Value.ToString()
-                    dueDate = DBNull.Value.ToString()
-                    requestDate = DateTime.Now.ToString("MM/dd/yyyy")
-                End If
-
-                dt.Rows.Add(
-            borrowID,
-            bookID,
-            userID,
-            userName,
-            userPosition,
-            userPrivileges,
-            quantityToBorrow,
-            borrowDate,
-            dueDate,
-            status,
-            0,
-            "No",
-            requestDate
-        )
-            Next
+            If dt.Rows.Count = 0 Then
+                MsgBox("No borrow records found for receipt generation.", MsgBoxStyle.Exclamation)
+                Return
+            End If
 
             Dim reportForm As New ReportForm()
             Dim report As New ReportDocument()
             Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CrystalReport2.rpt")
+
+            If Not File.Exists(reportPath) Then
+                MsgBox("Report template not found: " & reportPath, MsgBoxStyle.Exclamation)
+                Return
+            End If
+
             report.Load(reportPath)
             report.SetDataSource(dt)
             reportForm.CrystalReportViewer1.ReportSource = report
@@ -586,6 +567,7 @@ Public Class Borrow
 
             report.Close()
             report.Dispose()
+            reportForm.Dispose()
 
         Catch ex As Exception
             MsgBox("Error generating borrow receipts: " & ex.Message, MsgBoxStyle.Critical, "Error")

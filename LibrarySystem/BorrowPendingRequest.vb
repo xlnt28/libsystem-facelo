@@ -166,9 +166,10 @@ Public Class BorrowPendingRequest
             Dim formattedCurrentDate As String = currentDate.ToString("MM/dd/yyyy")
             Dim formattedDueDate As String = dueDate.ToString("MM/dd/yyyy")
 
-            cmd = New OleDbCommand("UPDATE transactions SET [Status] = 'Borrowed', [Borrow Date] = ?, [Due Date] = ? WHERE [Borrow ID] = ?", con)
+            cmd = New OleDbCommand("UPDATE transactions SET [Status] = 'Borrowed', [Borrow Date] = ?, [Due Date] = ?, [Processed By] = ? WHERE [Borrow ID] = ?", con)
             cmd.Parameters.AddWithValue("?", formattedCurrentDate)
             cmd.Parameters.AddWithValue("?", formattedDueDate)
+            cmd.Parameters.AddWithValue("?", XName)
             cmd.Parameters.AddWithValue("?", borrowID)
             cmd.ExecuteNonQuery()
 
@@ -176,9 +177,10 @@ Public Class BorrowPendingRequest
                 Dim bookID As String = reader("Book ID").ToString()
                 Dim quantityToBorrow As Integer = Integer.Parse(reader("Copies").ToString())
 
-                cmd = New OleDbCommand("UPDATE borrowings SET [Status] = 'Borrowed', [Borrow Date] = ?, [Due Date] = ? WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
+                cmd = New OleDbCommand("UPDATE borrowings SET [Status] = 'Borrowed', [Borrow Date] = ?, [Due Date] = ?, [Processed By] = ? WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
                 cmd.Parameters.AddWithValue("?", formattedCurrentDate)
                 cmd.Parameters.AddWithValue("?", formattedDueDate)
+                cmd.Parameters.AddWithValue("?", XName)
                 cmd.Parameters.AddWithValue("?", borrowID)
                 cmd.Parameters.AddWithValue("?", bookID)
                 cmd.ExecuteNonQuery()
@@ -212,6 +214,7 @@ Public Class BorrowPendingRequest
         End Try
     End Sub
 
+
     Private Sub RejectToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RejectToolStripMenuItem.Click
         If dg.SelectedRows.Count = 0 Then
             MsgBox("Please select a request to reject.", MsgBoxStyle.Exclamation, "Select Request")
@@ -227,11 +230,13 @@ Public Class BorrowPendingRequest
                     OpenDB()
                 End If
 
-                cmd = New OleDbCommand("UPDATE transactions SET [Status] = 'Declined' WHERE [Borrow ID] = ?", con)
+                cmd = New OleDbCommand("UPDATE transactions SET [Status] = 'Declined', [Processed By] = ? WHERE [Borrow ID] = ?", con)
+                cmd.Parameters.AddWithValue("?", XName)
                 cmd.Parameters.AddWithValue("?", borrowID)
                 cmd.ExecuteNonQuery()
 
-                cmd = New OleDbCommand("UPDATE borrowings SET [Status] = 'Declined' WHERE [Borrow ID] = ?", con)
+                cmd = New OleDbCommand("UPDATE borrowings SET [Status] = 'Declined', [Processed By] = ? WHERE [Borrow ID] = ?", con)
+                cmd.Parameters.AddWithValue("?", XName)
                 cmd.Parameters.AddWithValue("?", borrowID)
                 cmd.ExecuteNonQuery()
 
@@ -239,7 +244,7 @@ Public Class BorrowPendingRequest
                 LoadPendingRequests()
 
             Catch ex As Exception
-                MsgBox("Error rejecting request: " + ex.Message, MsgBoxStyle.Critical, "Decline Error")
+                MsgBox("Error rejecting request: " & ex.Message, MsgBoxStyle.Critical, "Decline Error")
             End Try
         End If
     End Sub
@@ -278,35 +283,40 @@ Public Class BorrowPendingRequest
             dt.Columns.Add("Due Date", GetType(String))
             dt.Columns.Add("Status", GetType(String))
             dt.Columns.Add("Current Returned", GetType(Integer))
-            dt.Columns.Add("Has Requested Return", GetType(String))
+            dt.Columns.Add("Processed By", GetType(String))
             dt.Columns.Add("Request Date", GetType(String))
 
-            Dim query As String = "SELECT [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Status], [Current Returned], [Has Requested Return], [Request Date] FROM borrowings WHERE [Borrow ID] = ?"
+            Dim query As String = "
+            SELECT [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], 
+                   [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Status], 
+                   [Current Returned], [Processed By], [Request Date]
+            FROM borrowings 
+            WHERE [Borrow ID] = ?"
+
             Using cmd As New OleDbCommand(query, con)
                 cmd.Parameters.AddWithValue("?", borrowID)
+
                 Using reader As OleDbDataReader = cmd.ExecuteReader()
                     While reader.Read()
                         dt.Rows.Add(
-                    reader("Borrow ID").ToString(),
-                    reader("Book ID").ToString(),
-                    reader("User ID").ToString(),
-                    reader("Borrower Name").ToString(),
-                    reader("Borrower Position").ToString(),
-                    reader("Borrower Privileges").ToString(),
-                    If(IsDBNull(reader("Copies")), 0, Convert.ToInt32(reader("Copies"))),
-                    If(IsDBNull(reader("Borrow Date")), "", Convert.ToDateTime(reader("Borrow Date")).ToString("MM/dd/yyyy")),
-                    If(IsDBNull(reader("Due Date")), "", Convert.ToDateTime(reader("Due Date")).ToString("MM/dd/yyyy")),
-                    reader("Status").ToString(),
-                    If(IsDBNull(reader("Current Returned")), 0, Convert.ToInt32(reader("Current Returned"))),
-                    reader("Has Requested Return").ToString(),
-                    If(IsDBNull(reader("Request Date")), "", Convert.ToDateTime(reader("Request Date")).ToString("MM/dd/yyyy"))
-                )
+                        reader("Borrow ID").ToString(),
+                        reader("Book ID").ToString(),
+                        reader("User ID").ToString(),
+                        reader("Borrower Name").ToString(),
+                        reader("Borrower Position").ToString(),
+                        reader("Borrower Privileges").ToString(),
+                        If(IsDBNull(reader("Copies")), 0, Convert.ToInt32(reader("Copies"))),
+                        If(IsDBNull(reader("Borrow Date")), "", Convert.ToDateTime(reader("Borrow Date")).ToString("MM/dd/yyyy")),
+                        If(IsDBNull(reader("Due Date")), "", Convert.ToDateTime(reader("Due Date")).ToString("MM/dd/yyyy")),
+                        reader("Status").ToString(),
+                        If(IsDBNull(reader("Current Returned")), 0, Convert.ToInt32(reader("Current Returned"))),
+                        reader("Processed By").ToString(),
+                        If(IsDBNull(reader("Request Date")), "", Convert.ToDateTime(reader("Request Date")).ToString("MM/dd/yyyy"))
+                    )
                     End While
                 End Using
             End Using
 
-            Dim reportForm As New ReportForm()
-            Dim report As New ReportDocument()
             Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CrystalReport2.rpt")
 
             If Not File.Exists(reportPath) Then
@@ -314,8 +324,11 @@ Public Class BorrowPendingRequest
                 Return
             End If
 
+            Dim report As New ReportDocument()
             report.Load(reportPath)
             report.SetDataSource(dt)
+
+            Dim reportForm As New ReportForm()
             reportForm.CrystalReportViewer1.ReportSource = report
             reportForm.ShowDialog()
 
@@ -326,8 +339,6 @@ Public Class BorrowPendingRequest
             MsgBox("Error generating borrow receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
-
-
 
     Private Sub ViewTransactionDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewTransactionDetailsToolStripMenuItem.Click
         If dg.SelectedRows.Count > 0 Then

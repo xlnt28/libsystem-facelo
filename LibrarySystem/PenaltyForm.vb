@@ -1,4 +1,5 @@
 ﻿Imports System.Data.OleDb
+Imports System.IO
 Imports CrystalDecisions.CrystalReports.Engine
 
 Public Class PenaltyForm
@@ -322,50 +323,47 @@ Public Class PenaltyForm
             dt.Columns.Add("Borrow ID", GetType(String))
             dt.Columns.Add("Book ID", GetType(String))
             dt.Columns.Add("Quantity", GetType(Integer))
-            dt.Columns.Add("Payment Date", GetType(String))
             dt.Columns.Add("Book Condition", GetType(String))
             dt.Columns.Add("Days Late", GetType(Integer))
             dt.Columns.Add("Penalty Amount", GetType(Decimal))
+            dt.Columns.Add("Payment Date", GetType(String))
+            dt.Columns.Add("Processed By", GetType(String))
 
             For Each penaltyID As String In penaltyIDs
-                cmd = New OleDbCommand("SELECT * FROM Penalties WHERE [PenaltyID] = ?", con)
-                cmd.Parameters.AddWithValue("?", penaltyID)
-                Dim reader As OleDbDataReader = cmd.ExecuteReader()
+                Using cmd As New OleDbCommand("SELECT * FROM Penalties WHERE [PenaltyID] = ?", con)
+                    cmd.Parameters.AddWithValue("?", penaltyID)
 
-                If reader.Read() Then
-                    Dim amount As Decimal = 0
-                    If Not IsDBNull(reader("Penalty Amount")) Then
-                        amount = reader("Penalty Amount")
-                    End If
+                    Using reader As OleDbDataReader = cmd.ExecuteReader()
+                        If reader.Read() Then
+                            Dim userName As String = If(IsDBNull(reader("User Name")), "", reader("User Name").ToString())
+                            Dim borrowID As String = If(IsDBNull(reader("Borrow ID")), "", reader("Borrow ID").ToString())
+                            Dim bookID As String = If(IsDBNull(reader("Book ID")), "", reader("Book ID").ToString())
+                            Dim quantity As Integer = If(IsDBNull(reader("Quantity")), 0, CInt(reader("Quantity")))
+                            Dim condition As String = If(IsDBNull(reader("Book Condition")), "", reader("Book Condition").ToString())
+                            Dim daysLate As Integer = If(IsDBNull(reader("Days Late")), 0, CInt(reader("Days Late")))
+                            Dim penaltyAmount As Decimal = If(IsDBNull(reader("Penalty Amount")), 0D, CDec(reader("Penalty Amount")))
+                            Dim processedBy As String = If(IsDBNull(reader("Processed By")), XName, reader("Processed By").ToString())
 
-                    Dim quantity As Integer = 0
-                    If Not IsDBNull(reader("Quantity")) Then
-                        quantity = reader("Quantity")
-                    End If
+                            Dim paymentDate As String = DateTime.Now.ToString("MM/dd/yyyy")
 
-                    Dim daysLate As Integer = 0
-                    If Not IsDBNull(reader("Days Late")) Then
-                        daysLate = reader("Days Late")
-                    End If
-
-                    dt.Rows.Add(
-                    reader("User Name").ToString(),
-                    reader("Borrow ID").ToString(),
-                    reader("Book ID").ToString(),
-                    quantity,
-                    DateTime.Now.ToString("MM/dd/yyyy"),
-                    reader("Book Condition").ToString(),
-                    daysLate,
-                    amount
-                )
-                End If
-                reader.Close()
+                            dt.Rows.Add(userName, borrowID, bookID, quantity, condition, daysLate, penaltyAmount, paymentDate, processedBy)
+                        End If
+                    End Using
+                End Using
             Next
 
             Dim reportForm As New ReportForm()
             Dim report As New ReportDocument()
-            report.Load(Application.StartupPath & "\Reports\CrystalReport1.rpt")
+
+            Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CrystalReport1.rpt")
+            If Not File.Exists(reportPath) Then
+                MsgBox("Report not found: " & reportPath, MsgBoxStyle.Critical, "Missing Report")
+                Exit Sub
+            End If
+
+            report.Load(reportPath)
             report.SetDataSource(dt)
+
             reportForm.CrystalReportViewer1.ReportSource = report
             reportForm.ShowDialog()
 
@@ -376,6 +374,7 @@ Public Class PenaltyForm
             MsgBox("Error generating receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
+
 
     Private Sub ViewPaidToolStripMenuItem_Click(ByVal sender As Object, ByVal e As EventArgs) Handles ViewPaidToolStripMenuItem.Click
         If isMarkAsPaidMode Then

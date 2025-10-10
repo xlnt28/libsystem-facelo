@@ -1,4 +1,5 @@
 ﻿Imports System.Data.OleDb
+Imports System.IO
 Imports CrystalDecisions.CrystalReports.Engine
 
 Public Class frmmain
@@ -336,7 +337,6 @@ Public Class frmmain
 
             borrowID = borrowID.Trim()
 
-            ' Verify the borrow ID exists
             OpenDB()
             cmd = New OleDbCommand("SELECT COUNT(*) FROM transactions WHERE [Borrow ID] = ?", con)
             cmd.Parameters.AddWithValue("?", borrowID)
@@ -348,14 +348,12 @@ Public Class frmmain
                 Return
             End If
 
-            ' Get borrow transaction data
             cmd = New OleDbCommand("SELECT * FROM transactions WHERE [Borrow ID] = ?", con)
             cmd.Parameters.AddWithValue("?", borrowID)
             Dim reader As OleDbDataReader = cmd.ExecuteReader()
 
             If reader.Read() Then
                 Dim dt As New DataTable("BorrowReceipt")
-                ' Match the columns exactly with your Crystal Report
                 dt.Columns.Add("Borrow ID", GetType(String))
                 dt.Columns.Add("Book ID", GetType(String))
                 dt.Columns.Add("Book Title", GetType(String))
@@ -367,6 +365,8 @@ Public Class frmmain
                 dt.Columns.Add("Borrow Date", GetType(String))
                 dt.Columns.Add("Due Date", GetType(String))
                 dt.Columns.Add("Status", GetType(String))
+                dt.Columns.Add("Processed By", GetType(String))
+
 
                 Dim bookIDs As String = reader("Book ID List").ToString()
                 Dim copyList As String = reader("Copy List").ToString()
@@ -390,13 +390,13 @@ Public Class frmmain
                         copies,
                         If(IsDBNull(reader("Borrow Date")), "N/A", Convert.ToDateTime(reader("Borrow Date")).ToString("MM/dd/yyyy")),
                         If(IsDBNull(reader("Due Date")), "N/A", Convert.ToDateTime(reader("Due Date")).ToString("MM/dd/yyyy")),
-                        reader("Status").ToString()
+                        reader("Status").ToString(),
+                        reader("Processed By").ToString()
                     )
                 Next
 
                 reader.Close()
 
-                ' Generate report
                 Dim reportForm As New ReportForm()
                 Dim report As New ReportDocument()
                 Dim reportPath As String = System.IO.Path.Combine(Application.StartupPath, "Reports\CrystalReport2.rpt")
@@ -439,7 +439,6 @@ Public Class frmmain
 
             borrowID = borrowID.Trim()
 
-            ' Verify the borrow ID exists in return log
             OpenDB()
             cmd = New OleDbCommand("SELECT COUNT(*) FROM returnLog WHERE [Borrow ID] = ?", con)
             cmd.Parameters.AddWithValue("?", borrowID)
@@ -451,7 +450,6 @@ Public Class frmmain
                 Return
             End If
 
-            ' First, get the borrower name from transactions table
             Dim borrowerName As String = ""
             cmd = New OleDbCommand("SELECT [Borrower Name] FROM transactions WHERE [Borrow ID] = ?", con)
             cmd.Parameters.AddWithValue("?", borrowID)
@@ -470,7 +468,7 @@ Public Class frmmain
             dt.Columns.Add("Borrow ID", GetType(String))
             dt.Columns.Add("Book ID", GetType(String))
             dt.Columns.Add("Book Title", GetType(String))
-            dt.Columns.Add("Quantity Returned", GetType(Integer))
+            dt.Columns.Add("Returned Quantity", GetType(Integer))
             dt.Columns.Add("Processed By", GetType(String))
             dt.Columns.Add("Borrower Name", GetType(String))
 
@@ -548,62 +546,60 @@ Public Class frmmain
             borrowID = borrowID.Trim()
 
             OpenDB()
-            cmd = New OleDbCommand("SELECT COUNT(*) FROM Penalties WHERE [Borrow ID] = ?", con)
-            cmd.Parameters.AddWithValue("?", borrowID)
-            Dim count As Integer = CInt(cmd.ExecuteScalar())
 
-            If count = 0 Then
-                MsgBox("No penalty records found for Borrow ID '" & borrowID & "'.", MsgBoxStyle.Exclamation, "Not Found")
-                CloseDB()
-                Return
-            End If
+            Using cmdCheck As New OleDbCommand("SELECT COUNT(*) FROM Penalties WHERE [Borrow ID] = ?", con)
+                cmdCheck.Parameters.AddWithValue("?", borrowID)
+                Dim count As Integer = CInt(cmdCheck.ExecuteScalar())
 
-            ' Get ALL penalty records for this borrow ID
-            cmd = New OleDbCommand("SELECT * FROM Penalties WHERE [Borrow ID] = ? ORDER BY [PenaltyID]", con)
-            cmd.Parameters.AddWithValue("?", borrowID)
-            Dim reader As OleDbDataReader = cmd.ExecuteReader()
+                If count = 0 Then
+                    MsgBox("No penalty records found for Borrow ID '" & borrowID & "'.", MsgBoxStyle.Exclamation, "Not Found")
+                    CloseDB()
+                    Return
+                End If
+            End Using
 
             Dim dt As New DataTable("PenaltyReceipt")
-            ' Match EXACTLY with your Crystal Report fields
+            dt.Columns.Add("User Name", GetType(String))
             dt.Columns.Add("Borrow ID", GetType(String))
             dt.Columns.Add("Book ID", GetType(String))
             dt.Columns.Add("Quantity", GetType(Integer))
-            dt.Columns.Add("Condition", GetType(String))
+            dt.Columns.Add("Book Condition", GetType(String))
             dt.Columns.Add("Days Late", GetType(Integer))
             dt.Columns.Add("Penalty Amount", GetType(Decimal))
+            dt.Columns.Add("Payment Date", GetType(String))
+            dt.Columns.Add("Processed By", GetType(String))
 
-            While reader.Read()
-                Dim bookID As String = ""
-                If Not IsDBNull(reader("Book ID")) Then bookID = reader("Book ID").ToString()
+            Dim borrowerName As String = ""
+            Dim processedBy As String = ""
+            Dim paymentDate As String = DateTime.Now.ToString("MM/dd/yyyy")
 
-                Dim amount As Decimal = 0
-                If Not IsDBNull(reader("Penalty Amount")) Then
-                    Decimal.TryParse(reader("Penalty Amount").ToString(), amount)
-                End If
+            Using cmd As New OleDbCommand("SELECT * FROM Penalties WHERE [Borrow ID] = ? ORDER BY [PenaltyID]", con)
+                cmd.Parameters.AddWithValue("?", borrowID)
+                Using reader As OleDbDataReader = cmd.ExecuteReader()
+                    While reader.Read()
+                        borrowerName = If(IsDBNull(reader("User Name")), "", reader("User Name").ToString())
+                        processedBy = If(IsDBNull(reader("Processed By")), XName, reader("Processed By").ToString())
 
-                dt.Rows.Add(
-                borrowID,
-                bookID,
-                If(IsDBNull(reader("Quantity")), 0, reader("Quantity")),
-                If(IsDBNull(reader("Book Condition")), "Normal", reader("Book Condition").ToString()),
-                If(IsDBNull(reader("Days Late")), 0, reader("Days Late")),
-                amount
-            )
-            End While
+                        Dim bookID As String = If(IsDBNull(reader("Book ID")), "", reader("Book ID").ToString())
+                        Dim quantity As Integer = If(IsDBNull(reader("Quantity")), 0, CInt(reader("Quantity")))
+                        Dim condition As String = If(IsDBNull(reader("Book Condition")), "Normal", reader("Book Condition").ToString())
+                        Dim daysLate As Integer = If(IsDBNull(reader("Days Late")), 0, CInt(reader("Days Late")))
+                        Dim penaltyAmount As Decimal = If(IsDBNull(reader("Penalty Amount")), 0D, CDec(reader("Penalty Amount")))
 
-            reader.Close()
+                        dt.Rows.Add(borrowerName, borrowID, bookID, quantity, condition, daysLate, penaltyAmount, paymentDate, processedBy)
+                    End While
+                End Using
+            End Using
 
-            ' Generate report - NO TOTAL ROW ADDED since Crystal Report handles it
-            Dim reportForm As New ReportForm()
-            Dim report As New ReportDocument()
-            Dim reportPath As String = System.IO.Path.Combine(Application.StartupPath, "Reports\CrystalReport1.rpt")
-
-            If Not System.IO.File.Exists(reportPath) Then
-                MsgBox("Penalty receipt report template not found: " & reportPath, MsgBoxStyle.Critical, "Error")
+            Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CrystalReport1.rpt")
+            If Not File.Exists(reportPath) Then
+                MsgBox("Penalty receipt report not found: " & reportPath, MsgBoxStyle.Critical, "Error")
                 CloseDB()
                 Return
             End If
 
+            Dim reportForm As New ReportForm()
+            Dim report As New ReportDocument()
             report.Load(reportPath)
             report.SetDataSource(dt)
             reportForm.CrystalReportViewer1.ReportSource = report
@@ -611,7 +607,6 @@ Public Class frmmain
 
             report.Close()
             report.Dispose()
-
             CloseDB()
 
         Catch ex As Exception

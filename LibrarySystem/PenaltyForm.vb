@@ -63,7 +63,7 @@ Public Class PenaltyForm
         lblSelectedCount.ForeColor = Color.DarkBlue
 
         Dim btnSaveReceipt As New Button()
-        btnSaveReceipt.Text = "Save Receipt and Print"
+        btnSaveReceipt.Text = "Confirm Payment & Print"
         btnSaveReceipt.Size = New Size(150, 30)
         btnSaveReceipt.Location = New Point(350, 10)
         btnSaveReceipt.BackColor = Color.Green

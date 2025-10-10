@@ -458,7 +458,6 @@ Public Class frmmain
                 borrowerName = nameResult.ToString()
             End If
 
-            ' Get return data - get ALL return records for this borrow ID
             cmd = New OleDbCommand("SELECT * FROM returnLog WHERE [Borrow ID] = ? ORDER BY [Return Date]", con)
             cmd.Parameters.AddWithValue("?", borrowID)
             Dim reader As OleDbDataReader = cmd.ExecuteReader()
@@ -487,13 +486,12 @@ Public Class frmmain
                 bookTitle,
                 reader("Returned Quantity"),
                 reader("Processed By").ToString(),
-                borrowerName ' Use the borrower name we retrieved earlier
+                borrowerName
             )
             End While
 
             reader.Close()
 
-            ' Get total penalties for this borrow ID if any
             If hasRecords Then
                 cmd = New OleDbCommand("SELECT SUM([Penalty Amount]) as TotalPenalty FROM Penalties WHERE [Borrow ID] = ? AND [Penalty Status] = 'Paid'", con)
                 cmd.Parameters.AddWithValue("?", borrowID)
@@ -501,11 +499,9 @@ Public Class frmmain
                 totalPenalty = If(IsDBNull(totalPenaltyObj), 0, Convert.ToDecimal(totalPenaltyObj))
 
                 If totalPenalty > 0 Then
-                    ' Add penalty summary row
                     dt.Rows.Add("", "", "", "TOTAL PENALTY PAID", 0, "", "$" & totalPenalty.ToString("F2"))
                 End If
 
-                ' Generate report
                 Dim reportForm As New ReportForm()
                 Dim report As New ReportDocument()
                 Dim reportPath As String = System.IO.Path.Combine(Application.StartupPath, "Reports\CRReturnBook.rpt")

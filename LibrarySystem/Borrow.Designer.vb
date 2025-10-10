@@ -121,13 +121,13 @@ Partial Class Borrow
         Me.bookdgv.DefaultCellStyle = DataGridViewCellStyle2
         Me.bookdgv.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.bookdgv.GridColor = System.Drawing.Color.Gainsboro
-        Me.bookdgv.Location = New System.Drawing.Point(0, 439)
+        Me.bookdgv.Location = New System.Drawing.Point(0, 434)
         Me.bookdgv.MultiSelect = False
         Me.bookdgv.Name = "bookdgv"
         Me.bookdgv.ReadOnly = True
         Me.bookdgv.RowTemplate.Height = 30
         Me.bookdgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.bookdgv.Size = New System.Drawing.Size(1380, 320)
+        Me.bookdgv.Size = New System.Drawing.Size(1380, 325)
         Me.bookdgv.TabIndex = 10
         '
         'pbBookImage

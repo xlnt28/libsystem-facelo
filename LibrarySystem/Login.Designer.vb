@@ -32,7 +32,6 @@ Partial Class Login
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.Label3 = New System.Windows.Forms.Label()
         Me.chkShowPassword = New System.Windows.Forms.CheckBox()
         Me.txtusername = New System.Windows.Forms.TextBox()
@@ -43,6 +42,7 @@ Partial Class Login
         Me.Label6 = New System.Windows.Forms.Label()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.ForgotPasswordToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -54,20 +54,20 @@ Partial Class Login
         'MenuStrip1
         '
         Me.MenuStrip1.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
         Me.MenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
-        Me.MenuStrip1.Size = New System.Drawing.Size(1370, 29)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1370, 40)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'MenuToolStripMenuItem
         '
-        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuLogin, Me.menuClose})
+        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuLogin, Me.menuClose, Me.ForgotPasswordToolStripMenuItem})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
-        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(62, 25)
+        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(90, 36)
         Me.MenuToolStripMenuItem.Text = "Menu"
         '
         'menuLogin
@@ -75,7 +75,7 @@ Partial Class Login
         Me.menuLogin.Image = CType(resources.GetObject("menuLogin.Image"), System.Drawing.Image)
         Me.menuLogin.Name = "menuLogin"
         Me.menuLogin.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
-        Me.menuLogin.Size = New System.Drawing.Size(176, 26)
+        Me.menuLogin.Size = New System.Drawing.Size(353, 36)
         Me.menuLogin.Text = "Login"
         '
         'menuClose
@@ -83,7 +83,7 @@ Partial Class Login
         Me.menuClose.Image = CType(resources.GetObject("menuClose.Image"), System.Drawing.Image)
         Me.menuClose.Name = "menuClose"
         Me.menuClose.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.menuClose.Size = New System.Drawing.Size(176, 26)
+        Me.menuClose.Size = New System.Drawing.Size(237, 36)
         Me.menuClose.Text = "Close"
         '
         'txtun
@@ -126,7 +126,6 @@ Partial Class Login
         '
         Me.Panel1.BackColor = System.Drawing.Color.WhiteSmoke
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.Panel1.Controls.Add(Me.LinkLabel1)
         Me.Panel1.Controls.Add(Me.Label3)
         Me.Panel1.Controls.Add(Me.chkShowPassword)
         Me.Panel1.Controls.Add(Me.Label2)
@@ -137,16 +136,6 @@ Partial Class Login
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(338, 386)
         Me.Panel1.TabIndex = 5
-        '
-        'LinkLabel1
-        '
-        Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(197, 314)
-        Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(91, 13)
-        Me.LinkLabel1.TabIndex = 7
-        Me.LinkLabel1.TabStop = True
-        Me.LinkLabel1.Text = "Forgot password?"
         '
         'Label3
         '
@@ -197,9 +186,9 @@ Partial Class Login
         Me.Panel2.Controls.Add(Me.PictureBox2)
         Me.Panel2.Controls.Add(Me.Label7)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Right
-        Me.Panel2.Location = New System.Drawing.Point(711, 29)
+        Me.Panel2.Location = New System.Drawing.Point(711, 40)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(659, 720)
+        Me.Panel2.Size = New System.Drawing.Size(659, 709)
         Me.Panel2.TabIndex = 7
         '
         'PictureBox3
@@ -255,6 +244,14 @@ Partial Class Login
     "enalties."
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'ForgotPasswordToolStripMenuItem
+        '
+        Me.ForgotPasswordToolStripMenuItem.Image = CType(resources.GetObject("ForgotPasswordToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.ForgotPasswordToolStripMenuItem.Name = "ForgotPasswordToolStripMenuItem"
+        Me.ForgotPasswordToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
+        Me.ForgotPasswordToolStripMenuItem.Size = New System.Drawing.Size(353, 36)
+        Me.ForgotPasswordToolStripMenuItem.Text = "Forgot Password"
+        '
         'Login
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -297,7 +294,6 @@ Partial Class Login
     Friend WithEvents MenuToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuLogin As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents menuClose As System.Windows.Forms.ToolStripMenuItem
-    Friend WithEvents LinkLabel1 As LinkLabel
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents Panel2 As Panel
     Friend WithEvents Label5 As Label
@@ -305,4 +301,5 @@ Partial Class Login
     Friend WithEvents Label7 As Label
     Friend WithEvents PictureBox2 As PictureBox
     Friend WithEvents PictureBox3 As PictureBox
+    Friend WithEvents ForgotPasswordToolStripMenuItem As ToolStripMenuItem
 End Class

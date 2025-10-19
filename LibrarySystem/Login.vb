@@ -84,10 +84,6 @@ Public Class Login
         End If
     End Sub
 
-    Private Sub PictureBox2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
     Private Sub a_FormClosing(ByVal sender As Object, ByVal e As FormClosingEventArgs) Handles MyBase.FormClosing
         CloseDB()
     End Sub
@@ -96,20 +92,15 @@ Public Class Login
         OpenDB()
     End Sub
 
-    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        Dim p As New ForgotPasswordRequest
-        p.Show()
-
-    End Sub
-
-    Private Sub txtpw_TextChanged(sender As Object, e As EventArgs) Handles txtpw.TextChanged
-
-    End Sub
-
     Private Sub txtpw_KeyDown(sender As Object, e As KeyEventArgs) Handles txtpw.KeyDown
         If e.KeyCode = Keys.Enter Then
             e.SuppressKeyPress = True
             menuLogin.PerformClick()
         End If
+    End Sub
+
+    Private Sub ForgotPasswordToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ForgotPasswordToolStripMenuItem.Click
+        Dim p As New ForgotPasswordRequest
+        p.Show()
     End Sub
 End Class

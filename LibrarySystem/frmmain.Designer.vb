@@ -112,11 +112,11 @@ Partial Class frmmain
         '
         Me.MenuStrip1.BackColor = System.Drawing.Color.Transparent
         Me.MenuStrip1.Dock = System.Windows.Forms.DockStyle.None
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolStripMenuItem, Me.menuTransactions, Me.ReportsToolStripMenuItem, Me.menuLogout})
         Me.MenuStrip1.Location = New System.Drawing.Point(8, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(407, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(506, 40)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -124,7 +124,7 @@ Partial Class frmmain
         '
         Me.ManageToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuUserForm, Me.menuBookInventory, Me.ChangePasswordToolStripMenuItem})
         Me.ManageToolStripMenuItem.Name = "ManageToolStripMenuItem"
-        Me.ManageToolStripMenuItem.Size = New System.Drawing.Size(93, 29)
+        Me.ManageToolStripMenuItem.Size = New System.Drawing.Size(116, 36)
         Me.ManageToolStripMenuItem.Text = "Manage"
         '
         'menuUserForm
@@ -132,7 +132,7 @@ Partial Class frmmain
         Me.menuUserForm.Image = CType(resources.GetObject("menuUserForm.Image"), System.Drawing.Image)
         Me.menuUserForm.Name = "menuUserForm"
         Me.menuUserForm.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.U), System.Windows.Forms.Keys)
-        Me.menuUserForm.Size = New System.Drawing.Size(350, 30)
+        Me.menuUserForm.Size = New System.Drawing.Size(433, 36)
         Me.menuUserForm.Text = "User Form"
         '
         'menuBookInventory
@@ -140,7 +140,7 @@ Partial Class frmmain
         Me.menuBookInventory.Image = CType(resources.GetObject("menuBookInventory.Image"), System.Drawing.Image)
         Me.menuBookInventory.Name = "menuBookInventory"
         Me.menuBookInventory.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.I), System.Windows.Forms.Keys)
-        Me.menuBookInventory.Size = New System.Drawing.Size(350, 30)
+        Me.menuBookInventory.Size = New System.Drawing.Size(433, 36)
         Me.menuBookInventory.Text = "Book Inventory"
         '
         'ChangePasswordToolStripMenuItem
@@ -149,7 +149,7 @@ Partial Class frmmain
         Me.ChangePasswordToolStripMenuItem.Name = "ChangePasswordToolStripMenuItem"
         Me.ChangePasswordToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.ChangePasswordToolStripMenuItem.Size = New System.Drawing.Size(350, 30)
+        Me.ChangePasswordToolStripMenuItem.Size = New System.Drawing.Size(433, 36)
         Me.ChangePasswordToolStripMenuItem.Text = "Change Password"
         '
         'menuTransactions
@@ -157,7 +157,7 @@ Partial Class frmmain
         Me.menuTransactions.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BorrowToolStripMenuItem, Me.ReturnToolStripMenuItem, Me.PenaltyToolStripMenuItem, Me.TransactionHistoryToolStripMenuItem, Me.BorrowPendingRequestToolStripMenuItem})
         Me.menuTransactions.Name = "menuTransactions"
         Me.menuTransactions.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.menuTransactions.Size = New System.Drawing.Size(120, 29)
+        Me.menuTransactions.Size = New System.Drawing.Size(151, 36)
         Me.menuTransactions.Text = "Transaction"
         '
         'BorrowToolStripMenuItem
@@ -165,7 +165,7 @@ Partial Class frmmain
         Me.BorrowToolStripMenuItem.Image = CType(resources.GetObject("BorrowToolStripMenuItem.Image"), System.Drawing.Image)
         Me.BorrowToolStripMenuItem.Name = "BorrowToolStripMenuItem"
         Me.BorrowToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
-        Me.BorrowToolStripMenuItem.Size = New System.Drawing.Size(407, 30)
+        Me.BorrowToolStripMenuItem.Size = New System.Drawing.Size(511, 36)
         Me.BorrowToolStripMenuItem.Text = "Borrow Book"
         '
         'ReturnToolStripMenuItem
@@ -173,7 +173,7 @@ Partial Class frmmain
         Me.ReturnToolStripMenuItem.Image = CType(resources.GetObject("ReturnToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ReturnToolStripMenuItem.Name = "ReturnToolStripMenuItem"
         Me.ReturnToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.ReturnToolStripMenuItem.Size = New System.Drawing.Size(407, 30)
+        Me.ReturnToolStripMenuItem.Size = New System.Drawing.Size(511, 36)
         Me.ReturnToolStripMenuItem.Text = "Return Book"
         '
         'PenaltyToolStripMenuItem
@@ -181,7 +181,7 @@ Partial Class frmmain
         Me.PenaltyToolStripMenuItem.Image = CType(resources.GetObject("PenaltyToolStripMenuItem.Image"), System.Drawing.Image)
         Me.PenaltyToolStripMenuItem.Name = "PenaltyToolStripMenuItem"
         Me.PenaltyToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.PenaltyToolStripMenuItem.Size = New System.Drawing.Size(407, 30)
+        Me.PenaltyToolStripMenuItem.Size = New System.Drawing.Size(511, 36)
         Me.PenaltyToolStripMenuItem.Text = "Penalty"
         '
         'TransactionHistoryToolStripMenuItem
@@ -189,7 +189,7 @@ Partial Class frmmain
         Me.TransactionHistoryToolStripMenuItem.Image = CType(resources.GetObject("TransactionHistoryToolStripMenuItem.Image"), System.Drawing.Image)
         Me.TransactionHistoryToolStripMenuItem.Name = "TransactionHistoryToolStripMenuItem"
         Me.TransactionHistoryToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.TransactionHistoryToolStripMenuItem.Size = New System.Drawing.Size(407, 30)
+        Me.TransactionHistoryToolStripMenuItem.Size = New System.Drawing.Size(511, 36)
         Me.TransactionHistoryToolStripMenuItem.Text = "Transaction History"
         '
         'BorrowPendingRequestToolStripMenuItem
@@ -198,35 +198,35 @@ Partial Class frmmain
         Me.BorrowPendingRequestToolStripMenuItem.Name = "BorrowPendingRequestToolStripMenuItem"
         Me.BorrowPendingRequestToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.BorrowPendingRequestToolStripMenuItem.Size = New System.Drawing.Size(407, 30)
+        Me.BorrowPendingRequestToolStripMenuItem.Size = New System.Drawing.Size(511, 36)
         Me.BorrowPendingRequestToolStripMenuItem.Text = "Borrow Pending Request"
         '
         'ReportsToolStripMenuItem
         '
         Me.ReportsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BorrowReceiptToolStripMenuItem, Me.ReturnReceiptToolStripMenuItem, Me.PenaltyReceiptToolStripMenuItem})
         Me.ReportsToolStripMenuItem.Name = "ReportsToolStripMenuItem"
-        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(87, 29)
+        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(111, 36)
         Me.ReportsToolStripMenuItem.Text = "Reports"
         '
         'BorrowReceiptToolStripMenuItem
         '
         Me.BorrowReceiptToolStripMenuItem.Image = CType(resources.GetObject("BorrowReceiptToolStripMenuItem.Image"), System.Drawing.Image)
         Me.BorrowReceiptToolStripMenuItem.Name = "BorrowReceiptToolStripMenuItem"
-        Me.BorrowReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
+        Me.BorrowReceiptToolStripMenuItem.Size = New System.Drawing.Size(303, 36)
         Me.BorrowReceiptToolStripMenuItem.Text = "Get Borrow Receipt"
         '
         'ReturnReceiptToolStripMenuItem
         '
         Me.ReturnReceiptToolStripMenuItem.Image = CType(resources.GetObject("ReturnReceiptToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ReturnReceiptToolStripMenuItem.Name = "ReturnReceiptToolStripMenuItem"
-        Me.ReturnReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
+        Me.ReturnReceiptToolStripMenuItem.Size = New System.Drawing.Size(303, 36)
         Me.ReturnReceiptToolStripMenuItem.Text = "Get Return Receipt"
         '
         'PenaltyReceiptToolStripMenuItem
         '
         Me.PenaltyReceiptToolStripMenuItem.Image = CType(resources.GetObject("PenaltyReceiptToolStripMenuItem.Image"), System.Drawing.Image)
         Me.PenaltyReceiptToolStripMenuItem.Name = "PenaltyReceiptToolStripMenuItem"
-        Me.PenaltyReceiptToolStripMenuItem.Size = New System.Drawing.Size(245, 30)
+        Me.PenaltyReceiptToolStripMenuItem.Size = New System.Drawing.Size(303, 36)
         Me.PenaltyReceiptToolStripMenuItem.Text = "Get Penalty Receipt"
         '
         'menuLogout
@@ -234,7 +234,7 @@ Partial Class frmmain
         Me.menuLogout.Image = CType(resources.GetObject("menuLogout.Image"), System.Drawing.Image)
         Me.menuLogout.Name = "menuLogout"
         Me.menuLogout.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
-        Me.menuLogout.Size = New System.Drawing.Size(99, 29)
+        Me.menuLogout.Size = New System.Drawing.Size(120, 36)
         Me.menuLogout.Text = "Logout"
         '
         'Panel1

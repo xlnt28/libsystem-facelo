@@ -39,11 +39,11 @@ Partial Class RequestedChangePassword
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem, Me.GoBackToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(926, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(926, 40)
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -51,7 +51,7 @@ Partial Class RequestedChangePassword
         '
         Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SearchToolStripMenuItem, Me.ApproveRequestToolStripMenuItem, Me.DeclineRequestToolStripMenuItem, Me.ViewPendingOnlyToolStripMenuItem})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
-        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
+        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(90, 36)
         Me.MenuToolStripMenuItem.Text = "Menu"
         '
         'SearchToolStripMenuItem
@@ -59,7 +59,7 @@ Partial Class RequestedChangePassword
         Me.SearchToolStripMenuItem.Image = CType(resources.GetObject("SearchToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
         Me.SearchToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(364, 30)
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(451, 36)
         Me.SearchToolStripMenuItem.Text = "Search"
         '
         'ApproveRequestToolStripMenuItem
@@ -68,7 +68,7 @@ Partial Class RequestedChangePassword
         Me.ApproveRequestToolStripMenuItem.Name = "ApproveRequestToolStripMenuItem"
         Me.ApproveRequestToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.ApproveRequestToolStripMenuItem.Size = New System.Drawing.Size(364, 30)
+        Me.ApproveRequestToolStripMenuItem.Size = New System.Drawing.Size(451, 36)
         Me.ApproveRequestToolStripMenuItem.Text = "Approve Request"
         '
         'DeclineRequestToolStripMenuItem
@@ -77,7 +77,7 @@ Partial Class RequestedChangePassword
         Me.DeclineRequestToolStripMenuItem.Name = "DeclineRequestToolStripMenuItem"
         Me.DeclineRequestToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.DeclineRequestToolStripMenuItem.Size = New System.Drawing.Size(364, 30)
+        Me.DeclineRequestToolStripMenuItem.Size = New System.Drawing.Size(451, 36)
         Me.DeclineRequestToolStripMenuItem.Text = "Decline Request"
         '
         'ViewPendingOnlyToolStripMenuItem
@@ -86,14 +86,14 @@ Partial Class RequestedChangePassword
         Me.ViewPendingOnlyToolStripMenuItem.Name = "ViewPendingOnlyToolStripMenuItem"
         Me.ViewPendingOnlyToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
-        Me.ViewPendingOnlyToolStripMenuItem.Size = New System.Drawing.Size(364, 30)
+        Me.ViewPendingOnlyToolStripMenuItem.Size = New System.Drawing.Size(451, 36)
         Me.ViewPendingOnlyToolStripMenuItem.Text = "View Pending only"
         '
         'GoBackToolStripMenuItem
         '
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
         Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(116, 36)
         Me.GoBackToolStripMenuItem.Text = "Go back"
         '
         'dgv
@@ -125,12 +125,12 @@ Partial Class RequestedChangePassword
         Me.dgv.DefaultCellStyle = DataGridViewCellStyle2
         Me.dgv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgv.GridColor = System.Drawing.Color.Gainsboro
-        Me.dgv.Location = New System.Drawing.Point(0, 33)
+        Me.dgv.Location = New System.Drawing.Point(0, 40)
         Me.dgv.MultiSelect = False
         Me.dgv.Name = "dgv"
         Me.dgv.ReadOnly = True
         Me.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv.Size = New System.Drawing.Size(926, 517)
+        Me.dgv.Size = New System.Drawing.Size(926, 510)
         Me.dgv.TabIndex = 12
         '
         'RequestedChangePassword

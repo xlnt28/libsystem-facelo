@@ -63,21 +63,21 @@ Partial Class BorrowRequest
         Me.borrowdgv.DefaultCellStyle = DataGridViewCellStyle2
         Me.borrowdgv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.borrowdgv.GridColor = System.Drawing.Color.Gainsboro
-        Me.borrowdgv.Location = New System.Drawing.Point(0, 33)
+        Me.borrowdgv.Location = New System.Drawing.Point(0, 40)
         Me.borrowdgv.MultiSelect = False
         Me.borrowdgv.Name = "borrowdgv"
         Me.borrowdgv.ReadOnly = True
         Me.borrowdgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.borrowdgv.Size = New System.Drawing.Size(937, 548)
+        Me.borrowdgv.Size = New System.Drawing.Size(937, 541)
         Me.borrowdgv.TabIndex = 12
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem, Me.GoBackToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(937, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(937, 40)
         Me.MenuStrip1.TabIndex = 14
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -85,21 +85,23 @@ Partial Class BorrowRequest
         '
         Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CancelBorrowRequestToolStripMenuItem})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
-        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
+        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(90, 36)
         Me.MenuToolStripMenuItem.Text = "Menu"
         '
         'CancelBorrowRequestToolStripMenuItem
         '
         Me.CancelBorrowRequestToolStripMenuItem.Image = CType(resources.GetObject("CancelBorrowRequestToolStripMenuItem.Image"), System.Drawing.Image)
         Me.CancelBorrowRequestToolStripMenuItem.Name = "CancelBorrowRequestToolStripMenuItem"
-        Me.CancelBorrowRequestToolStripMenuItem.Size = New System.Drawing.Size(212, 30)
+        Me.CancelBorrowRequestToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
+        Me.CancelBorrowRequestToolStripMenuItem.Size = New System.Drawing.Size(409, 36)
         Me.CancelBorrowRequestToolStripMenuItem.Text = "Cancel Request"
         '
         'GoBackToolStripMenuItem
         '
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
         Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(116, 36)
         Me.GoBackToolStripMenuItem.Text = "Go back"
         '
         'BorrowRequest

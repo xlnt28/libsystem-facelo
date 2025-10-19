@@ -41,11 +41,11 @@ Partial Class AdminReturn
         'MenuStrip1
         '
         Me.MenuStrip1.BackColor = System.Drawing.Color.Snow
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolStripMenuItem, Me.GoBackToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1370, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1370, 40)
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -53,7 +53,7 @@ Partial Class AdminReturn
         '
         Me.ManageToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApproveReturnToolStripMenuItem, Me.ShowReturnRequestToolStripMenuItem, Me.SearchUserToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.ViewTransactionDetailToolStripMenuItem})
         Me.ManageToolStripMenuItem.Name = "ManageToolStripMenuItem"
-        Me.ManageToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
+        Me.ManageToolStripMenuItem.Size = New System.Drawing.Size(90, 36)
         Me.ManageToolStripMenuItem.Text = "Menu"
         '
         'ApproveReturnToolStripMenuItem
@@ -62,7 +62,7 @@ Partial Class AdminReturn
         Me.ApproveReturnToolStripMenuItem.Name = "ApproveReturnToolStripMenuItem"
         Me.ApproveReturnToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.ApproveReturnToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
+        Me.ApproveReturnToolStripMenuItem.Size = New System.Drawing.Size(541, 36)
         Me.ApproveReturnToolStripMenuItem.Text = "Mark As Returned"
         '
         'ShowReturnRequestToolStripMenuItem
@@ -71,7 +71,7 @@ Partial Class AdminReturn
         Me.ShowReturnRequestToolStripMenuItem.Name = "ShowReturnRequestToolStripMenuItem"
         Me.ShowReturnRequestToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
-        Me.ShowReturnRequestToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
+        Me.ShowReturnRequestToolStripMenuItem.Size = New System.Drawing.Size(541, 36)
         Me.ShowReturnRequestToolStripMenuItem.Text = "Show Return Request Only"
         '
         'SearchUserToolStripMenuItem
@@ -79,7 +79,7 @@ Partial Class AdminReturn
         Me.SearchUserToolStripMenuItem.Image = CType(resources.GetObject("SearchUserToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SearchUserToolStripMenuItem.Name = "SearchUserToolStripMenuItem"
         Me.SearchUserToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SearchUserToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
+        Me.SearchUserToolStripMenuItem.Size = New System.Drawing.Size(541, 36)
         Me.SearchUserToolStripMenuItem.Text = "Search User"
         '
         'RefreshToolStripMenuItem
@@ -87,7 +87,7 @@ Partial Class AdminReturn
         Me.RefreshToolStripMenuItem.Image = CType(resources.GetObject("RefreshToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
         Me.RefreshToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(541, 36)
         Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
         'ViewTransactionDetailToolStripMenuItem
@@ -96,14 +96,14 @@ Partial Class AdminReturn
         Me.ViewTransactionDetailToolStripMenuItem.Name = "ViewTransactionDetailToolStripMenuItem"
         Me.ViewTransactionDetailToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.ViewTransactionDetailToolStripMenuItem.Size = New System.Drawing.Size(429, 30)
+        Me.ViewTransactionDetailToolStripMenuItem.Size = New System.Drawing.Size(541, 36)
         Me.ViewTransactionDetailToolStripMenuItem.Text = "View Transaction Details"
         '
         'GoBackToolStripMenuItem
         '
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
         Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(116, 36)
         Me.GoBackToolStripMenuItem.Text = "Go back"
         '
         'dgv
@@ -135,12 +135,12 @@ Partial Class AdminReturn
         Me.dgv.DefaultCellStyle = DataGridViewCellStyle2
         Me.dgv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgv.GridColor = System.Drawing.Color.Gainsboro
-        Me.dgv.Location = New System.Drawing.Point(0, 33)
+        Me.dgv.Location = New System.Drawing.Point(0, 40)
         Me.dgv.MultiSelect = False
         Me.dgv.Name = "dgv"
         Me.dgv.ReadOnly = True
         Me.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv.Size = New System.Drawing.Size(1370, 716)
+        Me.dgv.Size = New System.Drawing.Size(1370, 709)
         Me.dgv.TabIndex = 12
         '
         'AdminReturn

@@ -70,21 +70,21 @@ Partial Class PenaltyForm
         Me.dgvPenalty.DefaultCellStyle = DataGridViewCellStyle2
         Me.dgvPenalty.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgvPenalty.GridColor = System.Drawing.Color.Gainsboro
-        Me.dgvPenalty.Location = New System.Drawing.Point(0, 33)
+        Me.dgvPenalty.Location = New System.Drawing.Point(0, 40)
         Me.dgvPenalty.MultiSelect = False
         Me.dgvPenalty.Name = "dgvPenalty"
         Me.dgvPenalty.ReadOnly = True
         Me.dgvPenalty.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgvPenalty.Size = New System.Drawing.Size(1370, 716)
+        Me.dgvPenalty.Size = New System.Drawing.Size(1370, 709)
         Me.dgvPenalty.TabIndex = 12
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem, Me.SwitchViewToolStripMenuItem, Me.GoBackToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1370, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1370, 40)
         Me.MenuStrip1.TabIndex = 13
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -92,7 +92,7 @@ Partial Class PenaltyForm
         '
         Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MarkAsPaidToolStripMenuItem, Me.ChangePenaltyAmountToolStripMenuItem, Me.ViewPaidToolStripMenuItem, Me.ViewUnpaidToolStripMenuItem, Me.ViewAllToolStripMenuItem, Me.SearchToolStripMenuItem, Me.RefreshToolStripMenuItem})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
-        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
+        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(90, 36)
         Me.MenuToolStripMenuItem.Text = "Menu"
         '
         'MarkAsPaidToolStripMenuItem
@@ -101,7 +101,7 @@ Partial Class PenaltyForm
         Me.MarkAsPaidToolStripMenuItem.Name = "MarkAsPaidToolStripMenuItem"
         Me.MarkAsPaidToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.MarkAsPaidToolStripMenuItem.Size = New System.Drawing.Size(405, 30)
+        Me.MarkAsPaidToolStripMenuItem.Size = New System.Drawing.Size(508, 36)
         Me.MarkAsPaidToolStripMenuItem.Text = "Process Payment"
         '
         'ChangePenaltyAmountToolStripMenuItem
@@ -110,7 +110,7 @@ Partial Class PenaltyForm
         Me.ChangePenaltyAmountToolStripMenuItem.Name = "ChangePenaltyAmountToolStripMenuItem"
         Me.ChangePenaltyAmountToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.ChangePenaltyAmountToolStripMenuItem.Size = New System.Drawing.Size(405, 30)
+        Me.ChangePenaltyAmountToolStripMenuItem.Size = New System.Drawing.Size(508, 36)
         Me.ChangePenaltyAmountToolStripMenuItem.Text = "Change Penalty Amount"
         '
         'ViewPaidToolStripMenuItem
@@ -118,7 +118,7 @@ Partial Class PenaltyForm
         Me.ViewPaidToolStripMenuItem.Image = CType(resources.GetObject("ViewPaidToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ViewPaidToolStripMenuItem.Name = "ViewPaidToolStripMenuItem"
         Me.ViewPaidToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.ViewPaidToolStripMenuItem.Size = New System.Drawing.Size(405, 30)
+        Me.ViewPaidToolStripMenuItem.Size = New System.Drawing.Size(508, 36)
         Me.ViewPaidToolStripMenuItem.Text = "View Paid Only"
         '
         'ViewUnpaidToolStripMenuItem
@@ -126,7 +126,7 @@ Partial Class PenaltyForm
         Me.ViewUnpaidToolStripMenuItem.Image = CType(resources.GetObject("ViewUnpaidToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ViewUnpaidToolStripMenuItem.Name = "ViewUnpaidToolStripMenuItem"
         Me.ViewUnpaidToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.U), System.Windows.Forms.Keys)
-        Me.ViewUnpaidToolStripMenuItem.Size = New System.Drawing.Size(405, 30)
+        Me.ViewUnpaidToolStripMenuItem.Size = New System.Drawing.Size(508, 36)
         Me.ViewUnpaidToolStripMenuItem.Text = "View Unpaid Only"
         '
         'ViewAllToolStripMenuItem
@@ -135,7 +135,7 @@ Partial Class PenaltyForm
         Me.ViewAllToolStripMenuItem.Name = "ViewAllToolStripMenuItem"
         Me.ViewAllToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.ViewAllToolStripMenuItem.Size = New System.Drawing.Size(405, 30)
+        Me.ViewAllToolStripMenuItem.Size = New System.Drawing.Size(508, 36)
         Me.ViewAllToolStripMenuItem.Text = "View All Penalty"
         '
         'SearchToolStripMenuItem
@@ -143,7 +143,7 @@ Partial Class PenaltyForm
         Me.SearchToolStripMenuItem.Image = CType(resources.GetObject("SearchToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
         Me.SearchToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(405, 30)
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(508, 36)
         Me.SearchToolStripMenuItem.Text = "Search"
         '
         'RefreshToolStripMenuItem
@@ -151,7 +151,7 @@ Partial Class PenaltyForm
         Me.RefreshToolStripMenuItem.Image = CType(resources.GetObject("RefreshToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
         Me.RefreshToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(405, 30)
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(508, 36)
         Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
         'SwitchViewToolStripMenuItem
@@ -160,14 +160,14 @@ Partial Class PenaltyForm
         Me.SwitchViewToolStripMenuItem.Name = "SwitchViewToolStripMenuItem"
         Me.SwitchViewToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
-        Me.SwitchViewToolStripMenuItem.Size = New System.Drawing.Size(98, 29)
+        Me.SwitchViewToolStripMenuItem.Size = New System.Drawing.Size(117, 36)
         Me.SwitchViewToolStripMenuItem.Text = "Viewer"
         '
         'GoBackToolStripMenuItem
         '
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
         Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(116, 36)
         Me.GoBackToolStripMenuItem.Text = "Go back"
         '
         'PenaltyForm

@@ -83,15 +83,16 @@ Partial Class UserUnpaidList
         Me.MenuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Table
         Me.MenuStrip1.Location = New System.Drawing.Point(9, 9)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(79, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(96, 40)
         Me.MenuStrip1.TabIndex = 14
         Me.MenuStrip1.Text = "MenuStrip1"
         '
         'MenuToolStripMenuItem
         '
         Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CancelToolStripMenuItem, Me.PickUserToolStripMenuItem})
+        Me.MenuToolStripMenuItem.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
-        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
+        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(90, 36)
         Me.MenuToolStripMenuItem.Text = "Menu"
         '
         'CancelToolStripMenuItem
@@ -99,7 +100,7 @@ Partial Class UserUnpaidList
         Me.CancelToolStripMenuItem.Image = CType(resources.GetObject("CancelToolStripMenuItem.Image"), System.Drawing.Image)
         Me.CancelToolStripMenuItem.Name = "CancelToolStripMenuItem"
         Me.CancelToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.CancelToolStripMenuItem.Size = New System.Drawing.Size(231, 30)
+        Me.CancelToolStripMenuItem.Size = New System.Drawing.Size(279, 36)
         Me.CancelToolStripMenuItem.Text = "Cancel"
         '
         'PickUserToolStripMenuItem
@@ -107,7 +108,7 @@ Partial Class UserUnpaidList
         Me.PickUserToolStripMenuItem.Image = CType(resources.GetObject("PickUserToolStripMenuItem.Image"), System.Drawing.Image)
         Me.PickUserToolStripMenuItem.Name = "PickUserToolStripMenuItem"
         Me.PickUserToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.PickUserToolStripMenuItem.Size = New System.Drawing.Size(231, 30)
+        Me.PickUserToolStripMenuItem.Size = New System.Drawing.Size(279, 36)
         Me.PickUserToolStripMenuItem.Text = "Pick User"
         '
         'Label1

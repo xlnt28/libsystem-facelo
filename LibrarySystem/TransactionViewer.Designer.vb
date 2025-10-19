@@ -44,9 +44,9 @@ Partial Class TransactionViewer
         Me.Label7 = New System.Windows.Forms.Label()
         Me.txtDueDate = New System.Windows.Forms.TextBox()
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.Label8 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.txtBorrowID = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
         Me.Panel1.SuspendLayout()
         CType(Me.dgv, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MenuStrip1.SuspendLayout()
@@ -101,11 +101,11 @@ Partial Class TransactionViewer
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GoBackToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(595, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(420, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(420, 40)
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -115,7 +115,7 @@ Partial Class TransactionViewer
         Me.GoBackToolStripMenuItem.Image = CType(resources.GetObject("GoBackToolStripMenuItem.Image"), System.Drawing.Image)
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
         Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(86, 29)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(101, 36)
         Me.GoBackToolStripMenuItem.Text = "Close"
         '
         'txtUserID
@@ -277,16 +277,6 @@ Partial Class TransactionViewer
         Me.Panel2.Size = New System.Drawing.Size(378, 576)
         Me.Panel2.TabIndex = 21
         '
-        'Label8
-        '
-        Me.Label8.AutoSize = True
-        Me.Label8.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label8.Location = New System.Drawing.Point(6, 11)
-        Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(211, 30)
-        Me.Label8.TabIndex = 21
-        Me.Label8.Text = "Borrower Information"
-        '
         'Label9
         '
         Me.Label9.AutoSize = True
@@ -305,6 +295,16 @@ Partial Class TransactionViewer
         Me.txtBorrowID.ReadOnly = True
         Me.txtBorrowID.Size = New System.Drawing.Size(354, 35)
         Me.txtBorrowID.TabIndex = 22
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.Font = New System.Drawing.Font("Segoe UI", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label8.Location = New System.Drawing.Point(6, 11)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(211, 30)
+        Me.Label8.TabIndex = 21
+        Me.Label8.Text = "Borrower Information"
         '
         'TransactionViewer
         '

@@ -23,8 +23,8 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuNew = New System.Windows.Forms.ToolStripMenuItem()
@@ -85,12 +85,12 @@ Partial Class Form1
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.NavigationToolStripMenuItem, Me.MainToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1380, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1380, 40)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -98,7 +98,7 @@ Partial Class Form1
         '
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuNew, Me.menuSave, Me.menuCancel, Me.menuEdit, Me.menuDelete, Me.menuRefresh, Me.menuSearch, Me.menuPrint, Me.menuClose})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(53, 29)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(64, 36)
         Me.FileToolStripMenuItem.Text = "File"
         '
         'menuNew
@@ -106,7 +106,7 @@ Partial Class Form1
         Me.menuNew.Image = CType(resources.GetObject("menuNew.Image"), System.Drawing.Image)
         Me.menuNew.Name = "menuNew"
         Me.menuNew.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.menuNew.Size = New System.Drawing.Size(245, 30)
+        Me.menuNew.Size = New System.Drawing.Size(298, 36)
         Me.menuNew.Text = "New"
         '
         'menuSave
@@ -114,7 +114,7 @@ Partial Class Form1
         Me.menuSave.Image = CType(resources.GetObject("menuSave.Image"), System.Drawing.Image)
         Me.menuSave.Name = "menuSave"
         Me.menuSave.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.menuSave.Size = New System.Drawing.Size(245, 30)
+        Me.menuSave.Size = New System.Drawing.Size(298, 36)
         Me.menuSave.Text = "Save"
         '
         'menuCancel
@@ -122,7 +122,7 @@ Partial Class Form1
         Me.menuCancel.Image = CType(resources.GetObject("menuCancel.Image"), System.Drawing.Image)
         Me.menuCancel.Name = "menuCancel"
         Me.menuCancel.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.menuCancel.Size = New System.Drawing.Size(245, 30)
+        Me.menuCancel.Size = New System.Drawing.Size(298, 36)
         Me.menuCancel.Text = "Cancel"
         '
         'menuEdit
@@ -130,7 +130,7 @@ Partial Class Form1
         Me.menuEdit.Image = CType(resources.GetObject("menuEdit.Image"), System.Drawing.Image)
         Me.menuEdit.Name = "menuEdit"
         Me.menuEdit.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.I), System.Windows.Forms.Keys)
-        Me.menuEdit.Size = New System.Drawing.Size(245, 30)
+        Me.menuEdit.Size = New System.Drawing.Size(298, 36)
         Me.menuEdit.Text = "Edit"
         '
         'menuDelete
@@ -138,7 +138,7 @@ Partial Class Form1
         Me.menuDelete.Image = CType(resources.GetObject("menuDelete.Image"), System.Drawing.Image)
         Me.menuDelete.Name = "menuDelete"
         Me.menuDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.menuDelete.Size = New System.Drawing.Size(245, 30)
+        Me.menuDelete.Size = New System.Drawing.Size(298, 36)
         Me.menuDelete.Text = "Delete"
         '
         'menuRefresh
@@ -146,7 +146,7 @@ Partial Class Form1
         Me.menuRefresh.Image = CType(resources.GetObject("menuRefresh.Image"), System.Drawing.Image)
         Me.menuRefresh.Name = "menuRefresh"
         Me.menuRefresh.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.menuRefresh.Size = New System.Drawing.Size(245, 30)
+        Me.menuRefresh.Size = New System.Drawing.Size(298, 36)
         Me.menuRefresh.Text = "Refresh"
         '
         'menuSearch
@@ -154,7 +154,7 @@ Partial Class Form1
         Me.menuSearch.Image = CType(resources.GetObject("menuSearch.Image"), System.Drawing.Image)
         Me.menuSearch.Name = "menuSearch"
         Me.menuSearch.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
-        Me.menuSearch.Size = New System.Drawing.Size(245, 30)
+        Me.menuSearch.Size = New System.Drawing.Size(298, 36)
         Me.menuSearch.Text = "Search"
         '
         'menuPrint
@@ -164,19 +164,25 @@ Partial Class Form1
         Me.menuPrint.Name = "menuPrint"
         Me.menuPrint.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.menuPrint.Size = New System.Drawing.Size(245, 30)
+        Me.menuPrint.Size = New System.Drawing.Size(298, 36)
         Me.menuPrint.Text = "Print"
         '
         'CrystalReportToolStripMenuItem
         '
+        Me.CrystalReportToolStripMenuItem.Image = CType(resources.GetObject("CrystalReportToolStripMenuItem.Image"), System.Drawing.Image)
         Me.CrystalReportToolStripMenuItem.Name = "CrystalReportToolStripMenuItem"
-        Me.CrystalReportToolStripMenuItem.Size = New System.Drawing.Size(201, 30)
+        Me.CrystalReportToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
+        Me.CrystalReportToolStripMenuItem.Size = New System.Drawing.Size(403, 36)
         Me.CrystalReportToolStripMenuItem.Text = "Crystal Report"
         '
         'ExcelToolStripMenuItem
         '
+        Me.ExcelToolStripMenuItem.Image = CType(resources.GetObject("ExcelToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ExcelToolStripMenuItem.Name = "ExcelToolStripMenuItem"
-        Me.ExcelToolStripMenuItem.Size = New System.Drawing.Size(201, 30)
+        Me.ExcelToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
+        Me.ExcelToolStripMenuItem.Size = New System.Drawing.Size(403, 36)
         Me.ExcelToolStripMenuItem.Text = "Excel"
         '
         'menuClose
@@ -184,49 +190,49 @@ Partial Class Form1
         Me.menuClose.Image = CType(resources.GetObject("menuClose.Image"), System.Drawing.Image)
         Me.menuClose.Name = "menuClose"
         Me.menuClose.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.menuClose.Size = New System.Drawing.Size(245, 30)
+        Me.menuClose.Size = New System.Drawing.Size(298, 36)
         Me.menuClose.Text = "Close"
         '
         'NavigationToolStripMenuItem
         '
         Me.NavigationToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFirst, Me.menuPrevious, Me.menuNext, Me.menuLast})
         Me.NavigationToolStripMenuItem.Name = "NavigationToolStripMenuItem"
-        Me.NavigationToolStripMenuItem.Size = New System.Drawing.Size(116, 29)
+        Me.NavigationToolStripMenuItem.Size = New System.Drawing.Size(146, 36)
         Me.NavigationToolStripMenuItem.Text = "Navigation"
         '
         'menuFirst
         '
         Me.menuFirst.Image = CType(resources.GetObject("menuFirst.Image"), System.Drawing.Image)
         Me.menuFirst.Name = "menuFirst"
-        Me.menuFirst.Size = New System.Drawing.Size(160, 30)
+        Me.menuFirst.Size = New System.Drawing.Size(186, 36)
         Me.menuFirst.Text = "First"
         '
         'menuPrevious
         '
         Me.menuPrevious.Image = CType(resources.GetObject("menuPrevious.Image"), System.Drawing.Image)
         Me.menuPrevious.Name = "menuPrevious"
-        Me.menuPrevious.Size = New System.Drawing.Size(160, 30)
+        Me.menuPrevious.Size = New System.Drawing.Size(186, 36)
         Me.menuPrevious.Text = "Previous"
         '
         'menuNext
         '
         Me.menuNext.Image = CType(resources.GetObject("menuNext.Image"), System.Drawing.Image)
         Me.menuNext.Name = "menuNext"
-        Me.menuNext.Size = New System.Drawing.Size(160, 30)
+        Me.menuNext.Size = New System.Drawing.Size(186, 36)
         Me.menuNext.Text = "Next"
         '
         'menuLast
         '
         Me.menuLast.Image = CType(resources.GetObject("menuLast.Image"), System.Drawing.Image)
         Me.menuLast.Name = "menuLast"
-        Me.menuLast.Size = New System.Drawing.Size(160, 30)
+        Me.menuLast.Size = New System.Drawing.Size(186, 36)
         Me.menuLast.Text = "Last"
         '
         'MainToolStripMenuItem
         '
         Me.MainToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MainFormToolStripMenuItem})
         Me.MainToolStripMenuItem.Name = "MainToolStripMenuItem"
-        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(67, 29)
+        Me.MainToolStripMenuItem.Size = New System.Drawing.Size(83, 36)
         Me.MainToolStripMenuItem.Text = "Form"
         '
         'MainFormToolStripMenuItem
@@ -234,7 +240,7 @@ Partial Class Form1
         Me.MainFormToolStripMenuItem.Image = CType(resources.GetObject("MainFormToolStripMenuItem.Image"), System.Drawing.Image)
         Me.MainFormToolStripMenuItem.Name = "MainFormToolStripMenuItem"
         Me.MainFormToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.M), System.Windows.Forms.Keys)
-        Me.MainFormToolStripMenuItem.Size = New System.Drawing.Size(251, 30)
+        Me.MainFormToolStripMenuItem.Size = New System.Drawing.Size(305, 36)
         Me.MainFormToolStripMenuItem.Text = "Main Form"
         '
         'dg
@@ -246,33 +252,33 @@ Partial Class Form1
         Me.dg.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dg.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.dg.BackgroundColor = System.Drawing.Color.WhiteSmoke
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dg.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dg.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.dg.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dg.Cursor = System.Windows.Forms.Cursors.Cross
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.dg.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Window
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Segoe UI Semibold", 12.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.dg.DefaultCellStyle = DataGridViewCellStyle4
         Me.dg.Dock = System.Windows.Forms.DockStyle.Right
         Me.dg.GridColor = System.Drawing.Color.Gainsboro
-        Me.dg.Location = New System.Drawing.Point(795, 33)
+        Me.dg.Location = New System.Drawing.Point(795, 40)
         Me.dg.MultiSelect = False
         Me.dg.Name = "dg"
         Me.dg.ReadOnly = True
         Me.dg.RowHeadersVisible = False
         Me.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dg.Size = New System.Drawing.Size(585, 726)
+        Me.dg.Size = New System.Drawing.Size(585, 719)
         Me.dg.TabIndex = 8
         '
         'ofd
@@ -287,9 +293,9 @@ Partial Class Form1
         Me.Panel1.Controls.Add(Me.Panel4)
         Me.Panel1.Cursor = System.Windows.Forms.Cursors.Arrow
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel1.Location = New System.Drawing.Point(0, 33)
+        Me.Panel1.Location = New System.Drawing.Point(0, 40)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(795, 726)
+        Me.Panel1.Size = New System.Drawing.Size(795, 719)
         Me.Panel1.TabIndex = 18
         '
         'Panel2
@@ -570,7 +576,7 @@ Partial Class Form1
         Me.Panel4.BackColor = System.Drawing.Color.WhiteSmoke
         Me.Panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel4.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel4.Location = New System.Drawing.Point(0, 699)
+        Me.Panel4.Location = New System.Drawing.Point(0, 692)
         Me.Panel4.Name = "Panel4"
         Me.Panel4.Size = New System.Drawing.Size(795, 27)
         Me.Panel4.TabIndex = 20

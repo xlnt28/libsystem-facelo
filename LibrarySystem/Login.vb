@@ -101,4 +101,15 @@ Public Class Login
         p.Show()
 
     End Sub
+
+    Private Sub txtpw_TextChanged(sender As Object, e As EventArgs) Handles txtpw.TextChanged
+
+    End Sub
+
+    Private Sub txtpw_KeyDown(sender As Object, e As KeyEventArgs) Handles txtpw.KeyDown
+        If e.KeyCode = Keys.Enter Then
+            e.SuppressKeyPress = True
+            menuLogin.PerformClick()
+        End If
+    End Sub
 End Class

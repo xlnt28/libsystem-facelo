@@ -928,11 +928,24 @@ Public Class BookInventory
                 End Using
 
                 Using wb As New XLWorkbook()
-                    wb.Worksheets.Add(dt, "Books")
+                    Dim ws = wb.Worksheets.Add(dt, "Books")
+
+                    ws.Columns().AdjustToContents()
+
+                    With ws.PageSetup
+                        .PageOrientation = XLPageOrientation.Landscape
+                        .FitToPages(1, 0)
+                    End With
+
                     wb.SaveAs(sfd.FileName)
                 End Using
 
                 MsgBox("Excel file saved to: " & sfd.FileName, MsgBoxStyle.Information)
+
+                Dim result As DialogResult = MessageBox.Show("Do you want to print the Excel file?", "Print", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Process.Start(sfd.FileName)
+                End If
             End If
 
         Catch ex As Exception
@@ -972,4 +985,6 @@ Public Class BookInventory
             con.Open()
         End If
     End Sub
+
+
 End Class

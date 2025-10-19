@@ -23,8 +23,8 @@ Partial Class BookInventory
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(BookInventory))
-        Dim DataGridViewCellStyle5 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle6 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label3 = New System.Windows.Forms.Label()
@@ -50,6 +50,8 @@ Partial Class BookInventory
         Me.menuRefresh = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuSearch = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuPrint = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CrystalReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExcelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuClose = New System.Windows.Forms.ToolStripMenuItem()
         Me.NavigationToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuFirst = New System.Windows.Forms.ToolStripMenuItem()
@@ -76,8 +78,6 @@ Partial Class BookInventory
         Me.msgPanel = New System.Windows.Forms.Panel()
         Me.Panel6 = New System.Windows.Forms.Panel()
         Me.ofd = New System.Windows.Forms.OpenFileDialog()
-        Me.CrystalReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ExcelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuStrip1.SuspendLayout()
         CType(Me.bookdgv, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
@@ -265,7 +265,7 @@ Partial Class BookInventory
         '
         Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuNew, Me.menuSave, Me.menuCancel, Me.menuEdit, Me.menuDelete, Me.menuRefresh, Me.menuSearch, Me.menuPrint, Me.menuClose})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(46, 25)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(64, 36)
         Me.FileToolStripMenuItem.Text = "File"
         '
         'menuNew
@@ -273,7 +273,7 @@ Partial Class BookInventory
         Me.menuNew.Image = CType(resources.GetObject("menuNew.Image"), System.Drawing.Image)
         Me.menuNew.Name = "menuNew"
         Me.menuNew.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.menuNew.Size = New System.Drawing.Size(215, 26)
+        Me.menuNew.Size = New System.Drawing.Size(298, 36)
         Me.menuNew.Text = "New"
         '
         'menuSave
@@ -281,7 +281,7 @@ Partial Class BookInventory
         Me.menuSave.Image = CType(resources.GetObject("menuSave.Image"), System.Drawing.Image)
         Me.menuSave.Name = "menuSave"
         Me.menuSave.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.menuSave.Size = New System.Drawing.Size(215, 26)
+        Me.menuSave.Size = New System.Drawing.Size(298, 36)
         Me.menuSave.Text = "Save"
         '
         'menuCancel
@@ -289,7 +289,7 @@ Partial Class BookInventory
         Me.menuCancel.Image = CType(resources.GetObject("menuCancel.Image"), System.Drawing.Image)
         Me.menuCancel.Name = "menuCancel"
         Me.menuCancel.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.menuCancel.Size = New System.Drawing.Size(215, 26)
+        Me.menuCancel.Size = New System.Drawing.Size(298, 36)
         Me.menuCancel.Text = "Cancel"
         '
         'menuEdit
@@ -297,7 +297,7 @@ Partial Class BookInventory
         Me.menuEdit.Image = CType(resources.GetObject("menuEdit.Image"), System.Drawing.Image)
         Me.menuEdit.Name = "menuEdit"
         Me.menuEdit.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.I), System.Windows.Forms.Keys)
-        Me.menuEdit.Size = New System.Drawing.Size(215, 26)
+        Me.menuEdit.Size = New System.Drawing.Size(298, 36)
         Me.menuEdit.Text = "Edit"
         '
         'menuDelete
@@ -305,7 +305,7 @@ Partial Class BookInventory
         Me.menuDelete.Image = CType(resources.GetObject("menuDelete.Image"), System.Drawing.Image)
         Me.menuDelete.Name = "menuDelete"
         Me.menuDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.menuDelete.Size = New System.Drawing.Size(215, 26)
+        Me.menuDelete.Size = New System.Drawing.Size(298, 36)
         Me.menuDelete.Text = "Delete"
         '
         'menuRefresh
@@ -313,7 +313,7 @@ Partial Class BookInventory
         Me.menuRefresh.Image = CType(resources.GetObject("menuRefresh.Image"), System.Drawing.Image)
         Me.menuRefresh.Name = "menuRefresh"
         Me.menuRefresh.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.menuRefresh.Size = New System.Drawing.Size(215, 26)
+        Me.menuRefresh.Size = New System.Drawing.Size(298, 36)
         Me.menuRefresh.Text = "Refresh"
         '
         'menuSearch
@@ -321,7 +321,7 @@ Partial Class BookInventory
         Me.menuSearch.Image = CType(resources.GetObject("menuSearch.Image"), System.Drawing.Image)
         Me.menuSearch.Name = "menuSearch"
         Me.menuSearch.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
-        Me.menuSearch.Size = New System.Drawing.Size(215, 26)
+        Me.menuSearch.Size = New System.Drawing.Size(298, 36)
         Me.menuSearch.Text = "Search"
         '
         'menuPrint
@@ -331,61 +331,79 @@ Partial Class BookInventory
         Me.menuPrint.Name = "menuPrint"
         Me.menuPrint.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.menuPrint.Size = New System.Drawing.Size(215, 26)
+        Me.menuPrint.Size = New System.Drawing.Size(298, 36)
         Me.menuPrint.Text = "Print"
+        '
+        'CrystalReportToolStripMenuItem
+        '
+        Me.CrystalReportToolStripMenuItem.Image = CType(resources.GetObject("CrystalReportToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.CrystalReportToolStripMenuItem.Name = "CrystalReportToolStripMenuItem"
+        Me.CrystalReportToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
+        Me.CrystalReportToolStripMenuItem.Size = New System.Drawing.Size(403, 36)
+        Me.CrystalReportToolStripMenuItem.Text = "Crystal Report"
+        '
+        'ExcelToolStripMenuItem
+        '
+        Me.ExcelToolStripMenuItem.Image = CType(resources.GetObject("ExcelToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.ExcelToolStripMenuItem.Name = "ExcelToolStripMenuItem"
+        Me.ExcelToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
+        Me.ExcelToolStripMenuItem.Size = New System.Drawing.Size(403, 36)
+        Me.ExcelToolStripMenuItem.Text = "Excel"
         '
         'menuClose
         '
         Me.menuClose.Image = CType(resources.GetObject("menuClose.Image"), System.Drawing.Image)
         Me.menuClose.Name = "menuClose"
         Me.menuClose.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.menuClose.Size = New System.Drawing.Size(215, 26)
+        Me.menuClose.Size = New System.Drawing.Size(298, 36)
         Me.menuClose.Text = "Close"
         '
         'NavigationToolStripMenuItem
         '
         Me.NavigationToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFirst, Me.menuPrevious, Me.menuNext, Me.menuLast})
         Me.NavigationToolStripMenuItem.Name = "NavigationToolStripMenuItem"
-        Me.NavigationToolStripMenuItem.Size = New System.Drawing.Size(98, 25)
+        Me.NavigationToolStripMenuItem.Size = New System.Drawing.Size(146, 36)
         Me.NavigationToolStripMenuItem.Text = "Navigation"
         '
         'menuFirst
         '
         Me.menuFirst.Image = CType(resources.GetObject("menuFirst.Image"), System.Drawing.Image)
         Me.menuFirst.Name = "menuFirst"
-        Me.menuFirst.Size = New System.Drawing.Size(144, 26)
+        Me.menuFirst.Size = New System.Drawing.Size(186, 36)
         Me.menuFirst.Text = "First"
         '
         'menuPrevious
         '
         Me.menuPrevious.Image = CType(resources.GetObject("menuPrevious.Image"), System.Drawing.Image)
         Me.menuPrevious.Name = "menuPrevious"
-        Me.menuPrevious.Size = New System.Drawing.Size(144, 26)
+        Me.menuPrevious.Size = New System.Drawing.Size(186, 36)
         Me.menuPrevious.Text = "Previous"
         '
         'menuNext
         '
         Me.menuNext.Image = CType(resources.GetObject("menuNext.Image"), System.Drawing.Image)
         Me.menuNext.Name = "menuNext"
-        Me.menuNext.Size = New System.Drawing.Size(144, 26)
+        Me.menuNext.Size = New System.Drawing.Size(186, 36)
         Me.menuNext.Text = "Next"
         '
         'menuLast
         '
         Me.menuLast.Image = CType(resources.GetObject("menuLast.Image"), System.Drawing.Image)
         Me.menuLast.Name = "menuLast"
-        Me.menuLast.Size = New System.Drawing.Size(144, 26)
+        Me.menuLast.Size = New System.Drawing.Size(186, 36)
         Me.menuLast.Text = "Last"
         '
         'menuStrip1
         '
         Me.menuStrip1.BackColor = System.Drawing.Color.AntiqueWhite
-        Me.menuStrip1.Font = New System.Drawing.Font("Segoe UI", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.menuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.menuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.menuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.NavigationToolStripMenuItem, Me.FormToolStripMenuItem})
         Me.menuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.menuStrip1.Name = "menuStrip1"
-        Me.menuStrip1.Size = New System.Drawing.Size(1384, 29)
+        Me.menuStrip1.Size = New System.Drawing.Size(1384, 40)
         Me.menuStrip1.TabIndex = 11
         Me.menuStrip1.Text = "MenuStrip1"
         '
@@ -393,14 +411,14 @@ Partial Class BookInventory
         '
         Me.FormToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MainFormToolStripMenuItem})
         Me.FormToolStripMenuItem.Name = "FormToolStripMenuItem"
-        Me.FormToolStripMenuItem.Size = New System.Drawing.Size(59, 25)
+        Me.FormToolStripMenuItem.Size = New System.Drawing.Size(83, 36)
         Me.FormToolStripMenuItem.Text = "Form"
         '
         'MainFormToolStripMenuItem
         '
         Me.MainFormToolStripMenuItem.Image = CType(resources.GetObject("MainFormToolStripMenuItem.Image"), System.Drawing.Image)
         Me.MainFormToolStripMenuItem.Name = "MainFormToolStripMenuItem"
-        Me.MainFormToolStripMenuItem.Size = New System.Drawing.Size(160, 26)
+        Me.MainFormToolStripMenuItem.Size = New System.Drawing.Size(212, 36)
         Me.MainFormToolStripMenuItem.Text = "Main Form"
         '
         'cmbCategory
@@ -432,24 +450,24 @@ Partial Class BookInventory
         Me.bookdgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.bookdgv.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.bookdgv.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle5.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.bookdgv.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle5
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.bookdgv.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.bookdgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.bookdgv.Cursor = System.Windows.Forms.Cursors.Hand
-        DataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle6.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle6.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle6.ForeColor = System.Drawing.Color.FromArgb(CType(CType(74, Byte), Integer), CType(CType(44, Byte), Integer), CType(CType(20, Byte), Integer))
-        DataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.RoyalBlue
-        DataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.WhiteSmoke
-        DataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.bookdgv.DefaultCellStyle = DataGridViewCellStyle6
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(74, Byte), Integer), CType(CType(44, Byte), Integer), CType(CType(20, Byte), Integer))
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.WhiteSmoke
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.bookdgv.DefaultCellStyle = DataGridViewCellStyle2
         Me.bookdgv.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.bookdgv.GridColor = System.Drawing.Color.Gainsboro
         Me.bookdgv.Location = New System.Drawing.Point(0, 486)
@@ -612,26 +630,14 @@ Partial Class BookInventory
         Me.Panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel6.Dock = System.Windows.Forms.DockStyle.Right
         Me.Panel6.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.Panel6.Location = New System.Drawing.Point(1325, 29)
+        Me.Panel6.Location = New System.Drawing.Point(1325, 40)
         Me.Panel6.Name = "Panel6"
-        Me.Panel6.Size = New System.Drawing.Size(59, 435)
+        Me.Panel6.Size = New System.Drawing.Size(59, 424)
         Me.Panel6.TabIndex = 53
         '
         'ofd
         '
         Me.ofd.FileName = "OpenFileDialog1"
-        '
-        'CrystalReportToolStripMenuItem
-        '
-        Me.CrystalReportToolStripMenuItem.Name = "CrystalReportToolStripMenuItem"
-        Me.CrystalReportToolStripMenuItem.Size = New System.Drawing.Size(179, 26)
-        Me.CrystalReportToolStripMenuItem.Text = "Crystal Report"
-        '
-        'ExcelToolStripMenuItem
-        '
-        Me.ExcelToolStripMenuItem.Name = "ExcelToolStripMenuItem"
-        Me.ExcelToolStripMenuItem.Size = New System.Drawing.Size(179, 26)
-        Me.ExcelToolStripMenuItem.Text = "Excel"
         '
         'BookInventory
         '

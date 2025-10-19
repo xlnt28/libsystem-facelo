@@ -32,11 +32,11 @@ Partial Class ReportForm
         'MenuStrip1
         '
         Me.MenuStrip1.BackColor = System.Drawing.Color.Snow
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuLogout})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1297, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1297, 40)
         Me.MenuStrip1.TabIndex = 1
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -45,7 +45,7 @@ Partial Class ReportForm
         Me.menuLogout.Image = CType(resources.GetObject("menuLogout.Image"), System.Drawing.Image)
         Me.menuLogout.Name = "menuLogout"
         Me.menuLogout.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.L), System.Windows.Forms.Keys)
-        Me.menuLogout.Size = New System.Drawing.Size(108, 29)
+        Me.menuLogout.Size = New System.Drawing.Size(132, 36)
         Me.menuLogout.Text = "Go back"
         '
         'CrystalReportViewer1
@@ -54,9 +54,9 @@ Partial Class ReportForm
         Me.CrystalReportViewer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.CrystalReportViewer1.Cursor = System.Windows.Forms.Cursors.Default
         Me.CrystalReportViewer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.CrystalReportViewer1.Location = New System.Drawing.Point(0, 33)
+        Me.CrystalReportViewer1.Location = New System.Drawing.Point(0, 40)
         Me.CrystalReportViewer1.Name = "CrystalReportViewer1"
-        Me.CrystalReportViewer1.Size = New System.Drawing.Size(1297, 651)
+        Me.CrystalReportViewer1.Size = New System.Drawing.Size(1297, 644)
         Me.CrystalReportViewer1.TabIndex = 0
         '
         'ReportForm

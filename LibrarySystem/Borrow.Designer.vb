@@ -327,11 +327,11 @@ Partial Class Borrow
         'MenuStrip1
         '
         Me.MenuStrip1.BackColor = System.Drawing.Color.WhiteSmoke
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem, Me.GoBackToolStripMenuItem, Me.FormToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1380, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1380, 40)
         Me.MenuStrip1.TabIndex = 51
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -339,7 +339,7 @@ Partial Class Borrow
         '
         Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuBorrow, Me.menuAddBooks, Me.menuRemoveBook, Me.menuCancelBorrowing, Me.ChangeBorrowerToolStripMenuItem, Me.menuSearch, Me.menuFilter, Me.menuRefresh, Me.menuHistory})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
-        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
+        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(90, 36)
         Me.MenuToolStripMenuItem.Text = "Menu"
         '
         'menuBorrow
@@ -347,7 +347,7 @@ Partial Class Borrow
         Me.menuBorrow.Image = CType(resources.GetObject("menuBorrow.Image"), System.Drawing.Image)
         Me.menuBorrow.Name = "menuBorrow"
         Me.menuBorrow.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
-        Me.menuBorrow.Size = New System.Drawing.Size(349, 30)
+        Me.menuBorrow.Size = New System.Drawing.Size(434, 36)
         Me.menuBorrow.Text = "Borrow"
         '
         'menuAddBooks
@@ -355,7 +355,7 @@ Partial Class Borrow
         Me.menuAddBooks.Image = CType(resources.GetObject("menuAddBooks.Image"), System.Drawing.Image)
         Me.menuAddBooks.Name = "menuAddBooks"
         Me.menuAddBooks.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.menuAddBooks.Size = New System.Drawing.Size(349, 30)
+        Me.menuAddBooks.Size = New System.Drawing.Size(434, 36)
         Me.menuAddBooks.Text = "Add Books"
         '
         'menuRemoveBook
@@ -363,7 +363,7 @@ Partial Class Borrow
         Me.menuRemoveBook.Image = CType(resources.GetObject("menuRemoveBook.Image"), System.Drawing.Image)
         Me.menuRemoveBook.Name = "menuRemoveBook"
         Me.menuRemoveBook.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.menuRemoveBook.Size = New System.Drawing.Size(349, 30)
+        Me.menuRemoveBook.Size = New System.Drawing.Size(434, 36)
         Me.menuRemoveBook.Text = "Remove Book"
         '
         'menuCancelBorrowing
@@ -371,7 +371,7 @@ Partial Class Borrow
         Me.menuCancelBorrowing.Image = CType(resources.GetObject("menuCancelBorrowing.Image"), System.Drawing.Image)
         Me.menuCancelBorrowing.Name = "menuCancelBorrowing"
         Me.menuCancelBorrowing.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.menuCancelBorrowing.Size = New System.Drawing.Size(349, 30)
+        Me.menuCancelBorrowing.Size = New System.Drawing.Size(434, 36)
         Me.menuCancelBorrowing.Text = "Cancel Borrowing"
         '
         'ChangeBorrowerToolStripMenuItem
@@ -380,7 +380,7 @@ Partial Class Borrow
         Me.ChangeBorrowerToolStripMenuItem.Name = "ChangeBorrowerToolStripMenuItem"
         Me.ChangeBorrowerToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
-        Me.ChangeBorrowerToolStripMenuItem.Size = New System.Drawing.Size(349, 30)
+        Me.ChangeBorrowerToolStripMenuItem.Size = New System.Drawing.Size(434, 36)
         Me.ChangeBorrowerToolStripMenuItem.Text = "Change Borrower"
         '
         'menuSearch
@@ -388,7 +388,7 @@ Partial Class Borrow
         Me.menuSearch.Image = CType(resources.GetObject("menuSearch.Image"), System.Drawing.Image)
         Me.menuSearch.Name = "menuSearch"
         Me.menuSearch.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.I), System.Windows.Forms.Keys)
-        Me.menuSearch.Size = New System.Drawing.Size(349, 30)
+        Me.menuSearch.Size = New System.Drawing.Size(434, 36)
         Me.menuSearch.Text = "Search"
         '
         'menuFilter
@@ -396,7 +396,7 @@ Partial Class Borrow
         Me.menuFilter.Image = CType(resources.GetObject("menuFilter.Image"), System.Drawing.Image)
         Me.menuFilter.Name = "menuFilter"
         Me.menuFilter.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
-        Me.menuFilter.Size = New System.Drawing.Size(349, 30)
+        Me.menuFilter.Size = New System.Drawing.Size(434, 36)
         Me.menuFilter.Text = "Filter"
         '
         'menuRefresh
@@ -404,7 +404,7 @@ Partial Class Borrow
         Me.menuRefresh.Image = CType(resources.GetObject("menuRefresh.Image"), System.Drawing.Image)
         Me.menuRefresh.Name = "menuRefresh"
         Me.menuRefresh.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.menuRefresh.Size = New System.Drawing.Size(349, 30)
+        Me.menuRefresh.Size = New System.Drawing.Size(434, 36)
         Me.menuRefresh.Text = "Refresh"
         '
         'menuHistory
@@ -412,56 +412,56 @@ Partial Class Borrow
         Me.menuHistory.Image = CType(resources.GetObject("menuHistory.Image"), System.Drawing.Image)
         Me.menuHistory.Name = "menuHistory"
         Me.menuHistory.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.H), System.Windows.Forms.Keys)
-        Me.menuHistory.Size = New System.Drawing.Size(349, 30)
+        Me.menuHistory.Size = New System.Drawing.Size(434, 36)
         Me.menuHistory.Text = "Borrow History"
         '
         'GoBackToolStripMenuItem
         '
         Me.GoBackToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuFirst, Me.menuPrevious, Me.menuNext, Me.menuLast})
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(116, 29)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(146, 36)
         Me.GoBackToolStripMenuItem.Text = "Navigation"
         '
         'menuFirst
         '
         Me.menuFirst.Image = CType(resources.GetObject("menuFirst.Image"), System.Drawing.Image)
         Me.menuFirst.Name = "menuFirst"
-        Me.menuFirst.Size = New System.Drawing.Size(156, 30)
+        Me.menuFirst.Size = New System.Drawing.Size(182, 36)
         Me.menuFirst.Text = "First"
         '
         'menuPrevious
         '
         Me.menuPrevious.Image = CType(resources.GetObject("menuPrevious.Image"), System.Drawing.Image)
         Me.menuPrevious.Name = "menuPrevious"
-        Me.menuPrevious.Size = New System.Drawing.Size(156, 30)
+        Me.menuPrevious.Size = New System.Drawing.Size(182, 36)
         Me.menuPrevious.Text = "Previous"
         '
         'menuNext
         '
         Me.menuNext.Image = CType(resources.GetObject("menuNext.Image"), System.Drawing.Image)
         Me.menuNext.Name = "menuNext"
-        Me.menuNext.Size = New System.Drawing.Size(156, 30)
+        Me.menuNext.Size = New System.Drawing.Size(182, 36)
         Me.menuNext.Text = "Next"
         '
         'menuLast
         '
         Me.menuLast.Image = CType(resources.GetObject("menuLast.Image"), System.Drawing.Image)
         Me.menuLast.Name = "menuLast"
-        Me.menuLast.Size = New System.Drawing.Size(156, 30)
+        Me.menuLast.Size = New System.Drawing.Size(182, 36)
         Me.menuLast.Text = "Last"
         '
         'FormToolStripMenuItem
         '
         Me.FormToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.menuMainForm})
         Me.FormToolStripMenuItem.Name = "FormToolStripMenuItem"
-        Me.FormToolStripMenuItem.Size = New System.Drawing.Size(67, 29)
+        Me.FormToolStripMenuItem.Size = New System.Drawing.Size(83, 36)
         Me.FormToolStripMenuItem.Text = "Form"
         '
         'menuMainForm
         '
         Me.menuMainForm.Name = "menuMainForm"
         Me.menuMainForm.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.M), System.Windows.Forms.Keys)
-        Me.menuMainForm.Size = New System.Drawing.Size(247, 30)
+        Me.menuMainForm.Size = New System.Drawing.Size(301, 36)
         Me.menuMainForm.Text = "Main Form"
         '
         'Panel4

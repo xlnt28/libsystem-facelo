@@ -51,21 +51,21 @@ Partial Class ReturnedBooks
         Me.dgv.DefaultCellStyle = DataGridViewCellStyle1
         Me.dgv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgv.GridColor = System.Drawing.Color.Gainsboro
-        Me.dgv.Location = New System.Drawing.Point(0, 33)
+        Me.dgv.Location = New System.Drawing.Point(0, 40)
         Me.dgv.MultiSelect = False
         Me.dgv.Name = "dgv"
         Me.dgv.ReadOnly = True
         Me.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv.Size = New System.Drawing.Size(805, 558)
+        Me.dgv.Size = New System.Drawing.Size(805, 551)
         Me.dgv.TabIndex = 15
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GoBackToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(805, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(805, 40)
         Me.MenuStrip1.TabIndex = 16
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -73,7 +73,7 @@ Partial Class ReturnedBooks
         '
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
         Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(116, 36)
         Me.GoBackToolStripMenuItem.Text = "Go back"
         '
         'ReturnedBooks

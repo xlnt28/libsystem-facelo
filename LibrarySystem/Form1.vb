@@ -408,7 +408,6 @@ Public Class Form1
             End If
         End If
 
-        ' Image validation for new users
         If isAdding Then
             Dim imgPath As String = Application.StartupPath & "\images\" & txtid.Text.Trim & ".jpg"
             If Not IO.File.Exists(imgPath) Then
@@ -417,7 +416,6 @@ Public Class Form1
             End If
         End If
 
-        ' Username uniqueness check
         If isAdding Or (isEditing AndAlso Not txtun.Text.Equals(dbds.Tables("tbluser").Rows(recpointer)("User Name").ToString())) Then
             For Each row As DataRow In dbds.Tables("tbluser").Rows
                 If row("User Name").ToString().Trim.ToLower() = txtun.Text.Trim.ToLower() Then
@@ -428,7 +426,6 @@ Public Class Form1
         End If
 
         Try
-            ' Save to database
             If isAdding Then
                 cmd = New OleDbCommand("INSERT INTO tbluser([User ID],[User Name],[Password],[Position],[Privileges]) VALUES (?,?,?,?,?)", con)
                 cmd.Parameters.AddWithValue("@id", txtid.Text.Trim)
@@ -457,12 +454,10 @@ Public Class Form1
                 MsgBox("User updated successfully!", MsgBoxStyle.Information)
             End If
 
-            ' Refresh data
             SQLQueryFortbluser()
             dg.DataSource = dbds.Tables("tbluser")
             trec = dbds.Tables("tbluser").Rows.Count - 1
 
-            ' Find and select the saved record
             Dim savedID As String = txtid.Text.Trim
             Dim foundIndex As Integer = -1
 
@@ -907,7 +902,6 @@ Public Class Form1
     End Sub
 
 
-
     Private Sub ExcelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExcelToolStripMenuItem.Click
         Try
             Dim sfd As New SaveFileDialog()
@@ -925,11 +919,24 @@ Public Class Form1
                 End Using
 
                 Using wb As New XLWorkbook()
-                    wb.Worksheets.Add(dt, "Users")
+                    Dim ws = wb.Worksheets.Add(dt, "Users")
+
+                    ws.Columns().AdjustToContents()
+
+                    With ws.PageSetup
+                        .PageOrientation = XLPageOrientation.Landscape
+                        .FitToPages(1, 0)
+                    End With
+
                     wb.SaveAs(sfd.FileName)
                 End Using
 
                 MsgBox("Excel file saved to: " & sfd.FileName, MsgBoxStyle.Information)
+
+                Dim result As DialogResult = MessageBox.Show("Do you want to print the Excel file?", "Print", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Process.Start(sfd.FileName)
+                End If
             End If
 
         Catch ex As Exception

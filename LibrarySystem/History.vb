@@ -82,7 +82,7 @@ Public Class History
                   "[Book ID List], [Copy List], [Current Returned], [Borrow Date], [Due Date], [Status] FROM transactions WHERE 1=1"
             Else
                 sql = "SELECT [Transaction ID], [Borrow ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], " &
-                  "[Book ID List], [Copy List], [Current Returned], [Request Date], [Borrow Date], [Due Date], [Status] FROM transactions WHERE 1=1"
+                  "[Book ID List], [Copy List], [Current Returned], [Borrow Date], [Due Date], [Status] FROM transactions WHERE 1=1"
             End If
 
             If IsAdmin AndAlso ShowAllUsers AndAlso Not String.IsNullOrEmpty(searchName) Then

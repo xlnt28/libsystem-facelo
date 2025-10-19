@@ -22,8 +22,8 @@ Partial Class ChangeBorrower
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(ChangeBorrower))
         Me.borrowdgv = New System.Windows.Forms.DataGridView()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
@@ -46,41 +46,41 @@ Partial Class ChangeBorrower
         Me.borrowdgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.borrowdgv.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.borrowdgv.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.borrowdgv.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.borrowdgv.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.borrowdgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.borrowdgv.Cursor = System.Windows.Forms.Cursors.Hand
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.RoyalBlue
-        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.WhiteSmoke
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.borrowdgv.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.WhiteSmoke
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.borrowdgv.DefaultCellStyle = DataGridViewCellStyle2
         Me.borrowdgv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.borrowdgv.GridColor = System.Drawing.Color.Gainsboro
-        Me.borrowdgv.Location = New System.Drawing.Point(0, 33)
+        Me.borrowdgv.Location = New System.Drawing.Point(0, 40)
         Me.borrowdgv.MultiSelect = False
         Me.borrowdgv.Name = "borrowdgv"
         Me.borrowdgv.ReadOnly = True
         Me.borrowdgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.borrowdgv.Size = New System.Drawing.Size(1366, 689)
+        Me.borrowdgv.Size = New System.Drawing.Size(1366, 682)
         Me.borrowdgv.TabIndex = 12
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem, Me.GoBackToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1366, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1366, 40)
         Me.MenuStrip1.TabIndex = 13
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -88,7 +88,7 @@ Partial Class ChangeBorrower
         '
         Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SearchUserToolStripMenuItem, Me.RefreshToolStripMenuItem, Me.PickBorrowerToolStripMenuItem, Me.FilterByPrivilegeToolStripMenuItem})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
-        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(73, 29)
+        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(90, 36)
         Me.MenuToolStripMenuItem.Text = "Menu"
         '
         'SearchUserToolStripMenuItem
@@ -96,7 +96,7 @@ Partial Class ChangeBorrower
         Me.SearchUserToolStripMenuItem.Image = CType(resources.GetObject("SearchUserToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SearchUserToolStripMenuItem.Name = "SearchUserToolStripMenuItem"
         Me.SearchUserToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SearchUserToolStripMenuItem.Size = New System.Drawing.Size(293, 30)
+        Me.SearchUserToolStripMenuItem.Size = New System.Drawing.Size(362, 36)
         Me.SearchUserToolStripMenuItem.Text = "Search User"
         '
         'RefreshToolStripMenuItem
@@ -104,7 +104,7 @@ Partial Class ChangeBorrower
         Me.RefreshToolStripMenuItem.Image = CType(resources.GetObject("RefreshToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
         Me.RefreshToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(249, 30)
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(362, 36)
         Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
         'PickBorrowerToolStripMenuItem
@@ -112,7 +112,7 @@ Partial Class ChangeBorrower
         Me.PickBorrowerToolStripMenuItem.Image = CType(resources.GetObject("PickBorrowerToolStripMenuItem.Image"), System.Drawing.Image)
         Me.PickBorrowerToolStripMenuItem.Name = "PickBorrowerToolStripMenuItem"
         Me.PickBorrowerToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.PickBorrowerToolStripMenuItem.Size = New System.Drawing.Size(293, 30)
+        Me.PickBorrowerToolStripMenuItem.Size = New System.Drawing.Size(362, 36)
         Me.PickBorrowerToolStripMenuItem.Text = "Pick Borrower"
         '
         'FilterByPrivilegeToolStripMenuItem
@@ -120,14 +120,14 @@ Partial Class ChangeBorrower
         Me.FilterByPrivilegeToolStripMenuItem.Image = CType(resources.GetObject("FilterByPrivilegeToolStripMenuItem.Image"), System.Drawing.Image)
         Me.FilterByPrivilegeToolStripMenuItem.Name = "FilterByPrivilegeToolStripMenuItem"
         Me.FilterByPrivilegeToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F), System.Windows.Forms.Keys)
-        Me.FilterByPrivilegeToolStripMenuItem.Size = New System.Drawing.Size(293, 30)
+        Me.FilterByPrivilegeToolStripMenuItem.Size = New System.Drawing.Size(362, 36)
         Me.FilterByPrivilegeToolStripMenuItem.Text = "Filter By Privilege"
         '
         'GoBackToolStripMenuItem
         '
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
         Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(116, 36)
         Me.GoBackToolStripMenuItem.Text = "Go back"
         '
         'ChangeBorrower

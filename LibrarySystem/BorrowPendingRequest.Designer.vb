@@ -39,11 +39,11 @@ Partial Class BorrowPendingRequest
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip1.Font = New System.Drawing.Font("Segoe UI Semibold", 18.0!, System.Drawing.FontStyle.Bold)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GoBackToolStripMenuItem, Me.FunctionToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1366, 33)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1366, 40)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -51,14 +51,14 @@ Partial Class BorrowPendingRequest
         '
         Me.GoBackToolStripMenuItem.Name = "GoBackToolStripMenuItem"
         Me.GoBackToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Q), System.Windows.Forms.Keys)
-        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(92, 29)
+        Me.GoBackToolStripMenuItem.Size = New System.Drawing.Size(117, 36)
         Me.GoBackToolStripMenuItem.Text = "Go Back"
         '
         'FunctionToolStripMenuItem
         '
         Me.FunctionToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ApproveToolStripMenuItem, Me.RejectToolStripMenuItem, Me.SearchToolStripMenuItem, Me.ViewTransactionDetailsToolStripMenuItem})
         Me.FunctionToolStripMenuItem.Name = "FunctionToolStripMenuItem"
-        Me.FunctionToolStripMenuItem.Size = New System.Drawing.Size(97, 29)
+        Me.FunctionToolStripMenuItem.Size = New System.Drawing.Size(121, 36)
         Me.FunctionToolStripMenuItem.Text = "Function"
         '
         'ApproveToolStripMenuItem
@@ -67,7 +67,7 @@ Partial Class BorrowPendingRequest
         Me.ApproveToolStripMenuItem.Name = "ApproveToolStripMenuItem"
         Me.ApproveToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.ApproveToolStripMenuItem.Size = New System.Drawing.Size(391, 30)
+        Me.ApproveToolStripMenuItem.Size = New System.Drawing.Size(488, 36)
         Me.ApproveToolStripMenuItem.Text = "Approve"
         '
         'RejectToolStripMenuItem
@@ -75,7 +75,7 @@ Partial Class BorrowPendingRequest
         Me.RejectToolStripMenuItem.Image = CType(resources.GetObject("RejectToolStripMenuItem.Image"), System.Drawing.Image)
         Me.RejectToolStripMenuItem.Name = "RejectToolStripMenuItem"
         Me.RejectToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.RejectToolStripMenuItem.Size = New System.Drawing.Size(391, 30)
+        Me.RejectToolStripMenuItem.Size = New System.Drawing.Size(488, 36)
         Me.RejectToolStripMenuItem.Text = "Decline"
         '
         'SearchToolStripMenuItem
@@ -83,7 +83,7 @@ Partial Class BorrowPendingRequest
         Me.SearchToolStripMenuItem.Image = CType(resources.GetObject("SearchToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
         Me.SearchToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(391, 30)
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(488, 36)
         Me.SearchToolStripMenuItem.Text = "Search"
         '
         'ViewTransactionDetailsToolStripMenuItem
@@ -92,7 +92,7 @@ Partial Class BorrowPendingRequest
         Me.ViewTransactionDetailsToolStripMenuItem.Name = "ViewTransactionDetailsToolStripMenuItem"
         Me.ViewTransactionDetailsToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.ViewTransactionDetailsToolStripMenuItem.Size = New System.Drawing.Size(391, 30)
+        Me.ViewTransactionDetailsToolStripMenuItem.Size = New System.Drawing.Size(488, 36)
         Me.ViewTransactionDetailsToolStripMenuItem.Text = "View Transaction Details"
         '
         'dg
@@ -124,13 +124,13 @@ Partial Class BorrowPendingRequest
         Me.dg.DefaultCellStyle = DataGridViewCellStyle2
         Me.dg.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dg.GridColor = System.Drawing.Color.Gainsboro
-        Me.dg.Location = New System.Drawing.Point(0, 33)
+        Me.dg.Location = New System.Drawing.Point(0, 40)
         Me.dg.MultiSelect = False
         Me.dg.Name = "dg"
         Me.dg.ReadOnly = True
         Me.dg.RowHeadersVisible = False
         Me.dg.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dg.Size = New System.Drawing.Size(1366, 689)
+        Me.dg.Size = New System.Drawing.Size(1366, 682)
         Me.dg.TabIndex = 9
         '
         'BorrowPendingRequest

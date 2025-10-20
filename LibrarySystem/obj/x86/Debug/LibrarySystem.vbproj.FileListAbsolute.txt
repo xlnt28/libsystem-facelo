@@ -200,7 +200,6 @@ C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\CrystalDecisio
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\stdole.dll
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\ClosedXML.pdb
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\bin\Debug\ClosedXML.xml
-C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.vbprojResolveAssemblyReference.cache
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.vbproj.ResolveComReference.cache
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.AdminReturn.resources
 C:\Users\Admin\Downloads\libsystem-facelo\LibrarySystem\obj\x86\Debug\LibrarySystem.BookInventory.resources

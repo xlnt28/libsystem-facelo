@@ -300,7 +300,32 @@ Public Class Borrow
         End If
     End Sub
 
+
+    Private Function UserHasUnpaidPenalties() As Boolean
+        Try
+            If con.State <> ConnectionState.Open Then
+                OpenDB()
+            End If
+
+            cmd = New OleDbCommand("SELECT COUNT(*) FROM Penalties WHERE [User Name] = ? AND [Penalty Status] = 'Unpaid'", con)
+            cmd.Parameters.AddWithValue("?", txtName.Text)
+
+            Dim unpaidCount As Integer = CInt(cmd.ExecuteScalar())
+
+            Return unpaidCount > 0
+
+        Catch ex As Exception
+            MsgBox("Error checking penalty status: " & ex.Message, MsgBoxStyle.Exclamation, "Warning")
+            Return False
+        End Try
+    End Function
+
     Private Sub menuBorrow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuBorrow.Click
+        If UserHasUnpaidPenalties() Then
+            MsgBox("You cannot borrow books because " & txtName.Text & " have unpaid penalties. Please settle your penalties first.", MsgBoxStyle.Exclamation, "Unpaid Penalties")
+            Exit Sub
+        End If
+
         If Not isOnBorrowMode Then
             isOnBorrowMode = True
             UpdateBorrowModeUI()

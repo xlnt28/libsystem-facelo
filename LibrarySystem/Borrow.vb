@@ -355,12 +355,11 @@ Public Class Borrow
 
                 Dim uniqueID As String = GenerateUniqueID()
 
-                Dim status As String = If(userPrivileges = "Admin", "Borrowed", "Requested")
+                Dim status As String = If(xpriv = "Admin", "Borrowed", "Requested")
 
-                Dim borrowDate As Object = If(userPrivileges = "Admin", dtpBorrowDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
-                Dim dueDate As Object = If(userPrivileges = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
+                Dim borrowDate As Object = If(xpriv = "Admin", dtpBorrowDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
+                Dim dueDate As Object = If(xpriv = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
                 Dim requestDate As Object = If(xpriv = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
-
 
                 cmd = New OleDbCommand("INSERT INTO borrowings([ID], [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Request Date], [Processed By]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
@@ -386,7 +385,7 @@ Public Class Borrow
                     currentReturnedList.Add("0")
                 Next
 
-                If userPrivileges = "Admin" Then
+                If xpriv = "Admin" Then
                     cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
                     cmd.Parameters.AddWithValue("?", bookID)
                     Dim currentQuantity As Integer = CInt(cmd.ExecuteScalar())
@@ -404,10 +403,10 @@ Public Class Borrow
             Dim combinedCopies As String = String.Join(",", copyList)
             Dim combinedCurrentReturned As String = String.Join(",", currentReturnedList)
 
-            Dim statusForTransaction As String = If(userPrivileges = "Admin", "Borrowed", "Requested")
-            Dim borrowDateForTransaction As Object = If(userPrivileges = "Admin", dtpBorrowDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
-            Dim dueDateForTransaction As Object = If(userPrivileges = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
-            Dim requestDateForTransaction As Object = If(userPrivileges = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
+            Dim statusForTransaction As String = If(xpriv = "Admin", "Borrowed", "Requested")
+            Dim borrowDateForTransaction As Object = If(xpriv = "Admin", dtpBorrowDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
+            Dim dueDateForTransaction As Object = If(xpriv = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
+            Dim requestDateForTransaction As Object = If(xpriv = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
 
 
             cmd = New OleDbCommand("INSERT INTO transactions([Transaction ID], [Borrow ID], [Book ID List], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copy List], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date], [Processed By]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)", con)

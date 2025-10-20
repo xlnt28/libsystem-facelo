@@ -60,9 +60,22 @@ Public Class UserUnpaidList
         Me.Close()
     End Sub
 
-    Private Sub MenuStrip1_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles MenuStrip1.ItemClicked
-    End Sub
+    Private Sub SearchUserToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SearchUserToolStripMenuItem.Click
+        Dim searchTerm As String = InputBox("Enter user name to search:", "Search User")
 
-    Private Sub dgvUserUnpaidList_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvUserUnpaidList.CellContentClick
+        If String.IsNullOrEmpty(searchTerm) Then
+            Exit Sub
+        End If
+
+        For Each row As DataGridViewRow In dgvUserUnpaidList.Rows
+            If row.Cells("Borrower Name").Value.ToString().ToLower().Contains(searchTerm.ToLower()) Then
+                dgvUserUnpaidList.ClearSelection()
+                row.Selected = True
+                dgvUserUnpaidList.FirstDisplayedScrollingRowIndex = row.Index
+                Exit Sub
+            End If
+        Next
+
+        MsgBox("User '" & searchTerm & "' not found.", MsgBoxStyle.Information, "Search Result")
     End Sub
 End Class

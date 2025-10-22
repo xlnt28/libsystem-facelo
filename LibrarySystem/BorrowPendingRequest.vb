@@ -273,6 +273,8 @@ Public Class BorrowPendingRequest
             Dim dt As New DataTable("BorrowReceipt")
             dt.Columns.Add("Borrow ID", GetType(String))
             dt.Columns.Add("Book ID", GetType(String))
+            dt.Columns.Add("Title", GetType(String)) ' Added Title column
+            dt.Columns.Add("ISBN", GetType(String))  ' Added ISBN column
             dt.Columns.Add("User ID", GetType(String))
             dt.Columns.Add("Borrower Name", GetType(String))
             dt.Columns.Add("Borrower Position", GetType(String))
@@ -285,21 +287,35 @@ Public Class BorrowPendingRequest
             dt.Columns.Add("Processed By", GetType(String))
             dt.Columns.Add("Request Date", GetType(String))
 
-            Dim query As String = "
-            SELECT [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], 
-                   [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Status], 
-                   [Current Returned], [Processed By], [Request Date]
-            FROM borrowings 
-            WHERE [Borrow ID] = ?"
+            ' Query to get borrow information
+            Dim borrowQuery As String = "
+        SELECT [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], 
+               [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Status], 
+               [Current Returned], [Processed By], [Request Date]
+        FROM borrowings 
+        WHERE [Borrow ID] = ?"
 
-            Using cmd As New OleDbCommand(query, con)
+            Using cmd As New OleDbCommand(borrowQuery, con)
                 cmd.Parameters.AddWithValue("?", borrowID)
 
                 Using reader As OleDbDataReader = cmd.ExecuteReader()
                     While reader.Read()
+                        Dim bookID As String = reader("Book ID").ToString()
+                        Dim title As String = ""
+                        Dim isbn As String = ""
+
+                        ' Get book details separately
+                        If Not String.IsNullOrEmpty(bookID) Then
+                            Dim bookDetails = GetBookDetails(bookID)
+                            title = bookDetails.Title
+                            isbn = bookDetails.ISBN
+                        End If
+
                         dt.Rows.Add(
                         reader("Borrow ID").ToString(),
-                        reader("Book ID").ToString(),
+                        bookID,
+                        title,
+                        isbn,
                         reader("User ID").ToString(),
                         reader("Borrower Name").ToString(),
                         reader("Borrower Position").ToString(),
@@ -338,6 +354,36 @@ Public Class BorrowPendingRequest
             MsgBox("Error generating borrow receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
+
+    Private Class BookDetails
+        Public Property Title As String
+        Public Property ISBN As String
+    End Class
+
+    Private Function GetBookDetails(bookID As String) As BookDetails
+        Dim details As New BookDetails()
+
+        Try
+            Dim bookQuery As String = "SELECT Title, ISBN FROM books WHERE [Book ID] = ?"
+            Using cmd As New OleDbCommand(bookQuery, con)
+                cmd.Parameters.AddWithValue("?", bookID)
+                Using reader As OleDbDataReader = cmd.ExecuteReader()
+                    If reader.Read() Then
+                        details.Title = If(IsDBNull(reader("Title")), "", reader("Title").ToString())
+                        details.ISBN = If(IsDBNull(reader("ISBN")), "", reader("ISBN").ToString())
+                    Else
+                        details.Title = "Book not found"
+                        details.ISBN = "N/A"
+                    End If
+                End Using
+            End Using
+        Catch ex As Exception
+            details.Title = "Error retrieving title"
+            details.ISBN = "Error retrieving ISBN"
+        End Try
+
+        Return details
+    End Function
 
     Private Sub ViewTransactionDetailToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewTransactionDetailsToolStripMenuItem.Click
         If dg.SelectedRows.Count > 0 Then

@@ -248,82 +248,73 @@ Public Class AdminReturn
     End Sub
 
     Private Sub GenerateReturnReceipt(ByVal borrowID As String, ByVal bookIDs() As String,
-                            ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
-                            ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal,
-                            ByVal returnDate As DateTime)
+                        ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
+                        ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal,
+                        ByVal returnDate As DateTime)
         Try
             Dim dt As New DataTable("ReturnReceipt")
+            dt.Columns.Add("Return Date", GetType(String))
+            dt.Columns.Add("Borrow ID", GetType(String))
+            dt.Columns.Add("Book ID", GetType(String))
+            dt.Columns.Add("ISBN", GetType(String))
+            dt.Columns.Add("Title", GetType(String))
+            dt.Columns.Add("Returned Quantity", GetType(Integer))
+            dt.Columns.Add("Condition", GetType(String))
+            dt.Columns.Add("Penalty Amount", GetType(Decimal))
+            dt.Columns.Add("Borrower Name", GetType(String))
+            dt.Columns.Add("Processed By", GetType(String))
 
-            Dim transactionQuery As String = "SELECT [Borrower Name] FROM transactions WHERE [Borrow ID] = ?"
-            Using cmdTransaction As New OleDbCommand(transactionQuery, con)
-                cmdTransaction.Parameters.AddWithValue("?", borrowID)
-                Using da As New OleDbDataAdapter(cmdTransaction)
-                    da.Fill(dt)
-                End Using
-            End Using
+            For i As Integer = 0 To bookIDs.Length - 1
+                If copiesToReturn(i) > 0 Then
+                    Dim bookID As String = bookIDs(i)
+                    Dim bookISBN As String = ""
+                    Dim bookTitle As String = ""
+                    Dim borrowerName As String = ""
 
-            If dt.Rows.Count > 0 Then
-                Dim borrowerName As String = If(IsDBNull(dt.Rows(0)("Borrower Name")), "", dt.Rows(0)("Borrower Name").ToString())
-
-                dt = New DataTable("ReturnReceipt")
-                dt.Columns.Add("Return Date", GetType(String))
-                dt.Columns.Add("Borrow ID", GetType(String))
-                dt.Columns.Add("Book ID", GetType(String))
-                dt.Columns.Add("Book Title", GetType(String))
-                dt.Columns.Add("Returned Quantity", GetType(Integer))
-                dt.Columns.Add("Condition", GetType(String))
-                dt.Columns.Add("Penalty Amount", GetType(Decimal))
-                dt.Columns.Add("Borrower Name", GetType(String))
-                dt.Columns.Add("Processed By", GetType(String))
-
-                For i As Integer = 0 To bookIDs.Length - 1
-                    If copiesToReturn(i) > 0 Then
-                        Dim bookID As String = bookIDs(i)
-                        Dim bookTitle As String = ""
-
-                        Using cmdBook As New OleDbCommand("SELECT [Title] FROM books WHERE [Book ID] = ?", con)
-                            cmdBook.Parameters.AddWithValue("?", bookID)
-                            Dim titleResult As Object = cmdBook.ExecuteScalar()
-                            If titleResult IsNot Nothing AndAlso Not IsDBNull(titleResult) Then
-                                bookTitle = titleResult.ToString()
+                    Using cmdBook As New OleDbCommand("SELECT b.[ISBN], b.[Title], b.[Borrower Name] FROM borrowings b WHERE b.[Borrow ID] = ? AND b.[Book ID] = ?", con)
+                        cmdBook.Parameters.AddWithValue("?", borrowID)
+                        cmdBook.Parameters.AddWithValue("?", bookID)
+                        Using reader As OleDbDataReader = cmdBook.ExecuteReader()
+                            If reader.Read() Then
+                                bookISBN = If(IsDBNull(reader("ISBN")), "", reader("ISBN").ToString())
+                                bookTitle = If(IsDBNull(reader("Title")), "", reader("Title").ToString())
+                                borrowerName = If(IsDBNull(reader("Borrower Name")), "", reader("Borrower Name").ToString())
                             End If
                         End Using
+                    End Using
 
-                        dt.Rows.Add(
-                        returnDate.ToString("MM/dd/yyyy"),
-                        borrowID,
-                        bookID,
-                        bookTitle,
-                        copiesToReturn(i),
-                        conditionTypes(i),
-                        penaltyAmounts(i),
-                        borrowerName,
-                        XName
-                    )
-                    End If
-                Next
-
-                Dim reportForm As New ReportForm()
-                Dim report As New ReportDocument()
-                Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CRReturnBook.rpt")
-
-                If Not File.Exists(reportPath) Then
-                    MsgBox("Return receipt report not found: " & reportPath, MsgBoxStyle.Critical, "Error")
-                    Return
+                    dt.Rows.Add(
+                    returnDate.ToString("MM/dd/yyyy"),
+                    borrowID,
+                    bookID,
+                    bookISBN,
+                    bookTitle,
+                    copiesToReturn(i),
+                    conditionTypes(i),
+                    penaltyAmounts(i),
+                    borrowerName,
+                    XName
+                )
                 End If
+            Next
 
-                report.Load(reportPath)
-                report.SetDataSource(dt)
-                reportForm.CrystalReportViewer1.ReportSource = report
-                reportForm.ShowDialog()
+            Dim reportForm As New ReportForm()
+            Dim report As New ReportDocument()
+            Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CRReturnBook.rpt")
 
-                report.Close()
-                report.Dispose()
-                reportForm.Dispose()
-
-            Else
-                MsgBox("No transaction data found for Borrow ID: " & borrowID, MsgBoxStyle.Exclamation, "Data Error")
+            If Not File.Exists(reportPath) Then
+                MsgBox("Return receipt report not found: " & reportPath, MsgBoxStyle.Critical, "Error")
+                Return
             End If
+
+            report.Load(reportPath)
+            report.SetDataSource(dt)
+            reportForm.CrystalReportViewer1.ReportSource = report
+            reportForm.ShowDialog()
+
+            report.Close()
+            report.Dispose()
+            reportForm.Dispose()
 
         Catch ex As Exception
             MsgBox("Error generating return receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
@@ -370,26 +361,32 @@ Public Class AdminReturn
             Dim returnID As String = GenerateNextReturnID()
             Dim returnDate As DateTime = DateTime.Now
 
+            Dim bookISBN As String = ""
+            Dim bookTitle As String = ""
             Dim borrowerName As String = ""
-            Dim getNameCmd As New OleDbCommand("SELECT [Borrower Name] FROM transactions WHERE [Borrow ID] = ?", con)
-            getNameCmd.Parameters.AddWithValue("?", borrowID)
 
-            Dim result As Object = getNameCmd.ExecuteScalar()
-            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
-                borrowerName = result.ToString()
-            Else
-                borrowerName = "Unknown"
-            End If
-            getNameCmd.Dispose()
+            Using cmdDetails As New OleDbCommand("SELECT [ISBN], [Title], [Borrower Name] FROM borrowings WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
+                cmdDetails.Parameters.AddWithValue("?", borrowID)
+                cmdDetails.Parameters.AddWithValue("?", bookID)
+                Using reader As OleDbDataReader = cmdDetails.ExecuteReader()
+                    If reader.Read() Then
+                        bookISBN = If(IsDBNull(reader("ISBN")), "", reader("ISBN").ToString())
+                        bookTitle = If(IsDBNull(reader("Title")), "", reader("Title").ToString())
+                        borrowerName = If(IsDBNull(reader("Borrower Name")), "", reader("Borrower Name").ToString())
+                    End If
+                End Using
+            End Using
 
             cmd = New OleDbCommand("
-            INSERT INTO returnLog 
-            ([ReturnID], [Borrow ID], [Book ID], [Returned Quantity], [Return Date], [Processed By], [Borrower Name]) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)", con)
+        INSERT INTO returnLog 
+        ([ReturnID], [Borrow ID], [Book ID], [ISBN], [Title], [Returned Quantity], [Return Date], [Processed By], [Borrower Name]) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
             cmd.Parameters.AddWithValue("?", returnID)
             cmd.Parameters.AddWithValue("?", borrowID)
             cmd.Parameters.AddWithValue("?", bookID)
+            cmd.Parameters.AddWithValue("?", bookISBN)
+            cmd.Parameters.AddWithValue("?", bookTitle)
 
             Dim param As New OleDbParameter("?", OleDbType.Integer)
             param.Value = returnedQuantity

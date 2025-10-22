@@ -208,7 +208,6 @@ Public Class BorrowPendingRequest
             MsgBox("Borrow request approved successfully!", MsgBoxStyle.Information, "Approval Complete")
 
             LoadPendingRequests()
-
         Catch ex As Exception
             MsgBox("Error approving request: " + ex.Message, MsgBoxStyle.Critical, "Approval Error")
         End Try

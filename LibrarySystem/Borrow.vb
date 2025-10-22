@@ -378,6 +378,18 @@ Public Class Borrow
             For Each bookID As String In selectedBooks.Keys
                 Dim quantityToBorrow As Integer = selectedBooks(bookID)
 
+                Dim bookISBN As String = ""
+                Dim bookTitle As String = ""
+
+                cmd = New OleDbCommand("SELECT [ISBN], [Title] FROM books WHERE [Book ID] = ?", con)
+                cmd.Parameters.AddWithValue("?", bookID)
+                Dim bookReader As OleDbDataReader = cmd.ExecuteReader()
+                If bookReader.Read() Then
+                    bookISBN = bookReader("ISBN").ToString()
+                    bookTitle = bookReader("Title").ToString()
+                End If
+                bookReader.Close()
+
                 Dim uniqueID As String = GenerateUniqueID()
 
                 Dim status As String = If(xpriv = "Admin", "Borrowed", "Requested")
@@ -386,11 +398,13 @@ Public Class Borrow
                 Dim dueDate As Object = If(xpriv = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
                 Dim requestDate As Object = If(xpriv = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
 
-                cmd = New OleDbCommand("INSERT INTO borrowings([ID], [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Request Date], [Processed By]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+                cmd = New OleDbCommand("INSERT INTO borrowings([ID], [Borrow ID], [Book ID], [ISBN], [Title], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copies], [Current Returned], [Borrow Date], [Due Date], [Status], [Request Date], [Processed By]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
 
                 cmd.Parameters.AddWithValue("?", uniqueID)
                 cmd.Parameters.AddWithValue("?", borrowID)
                 cmd.Parameters.AddWithValue("?", bookID)
+                cmd.Parameters.AddWithValue("?", bookISBN)
+                cmd.Parameters.AddWithValue("?", bookTitle)
                 cmd.Parameters.AddWithValue("?", userID)
                 cmd.Parameters.AddWithValue("?", txtName.Text)
                 cmd.Parameters.AddWithValue("?", userPosition)
@@ -433,7 +447,6 @@ Public Class Borrow
             Dim dueDateForTransaction As Object = If(xpriv = "Admin", dtpDueDate.Value.ToString("MM/dd/yyyy"), DBNull.Value)
             Dim requestDateForTransaction As Object = If(xpriv = "User", DateTime.Now.ToString("MM/dd/yyyy"), DBNull.Value)
 
-
             cmd = New OleDbCommand("INSERT INTO transactions([Transaction ID], [Borrow ID], [Book ID List], [User ID], [Borrower Name], [Borrower Position], [Borrower Privileges], [Copy List], [Current Returned], [Borrow Date], [Due Date], [Status], [Has Requested Return], [Request Date], [Processed By]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)", con)
 
             cmd.Parameters.AddWithValue("?", transactionID)
@@ -472,7 +485,6 @@ Public Class Borrow
             MsgBox("Failed to save borrow request. " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
-
     Private Function GenerateUniqueID() As String
         Dim maxNumber As Integer = 0
         Dim prefix As String = "BOR-"

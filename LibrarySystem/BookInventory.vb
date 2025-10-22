@@ -902,15 +902,6 @@ Public Class BookInventory
         End If
     End Sub
 
-    Private Sub Panel2_Paint(ByVal sender As System.Object, ByVal e As System.Windows.Forms.PaintEventArgs) Handles Panel2.Paint
-
-    End Sub
-
-    Private Sub bookdgv_CellContentClick(ByVal sender As System.Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles bookdgv.CellContentClick
-
-    End Sub
-
-
     Private Sub ExcelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExcelToolStripMenuItem.Click
         Try
             Dim sfd As New SaveFileDialog()
@@ -919,22 +910,117 @@ Public Class BookInventory
             sfd.FileName = "BooksExport.xlsx"
 
             If sfd.ShowDialog() = DialogResult.OK Then
+                ' ===== FETCH DATA =====
                 Dim dt As New DataTable()
-
-                Using cmd As New OleDbCommand("SELECT * FROM books ORDER BY [Book ID]", con)
+                Using cmd As New OleDbCommand("SELECT [Book ID], [ISBN], [Title], [Author], [Publisher], [Publication Year], [Category], [Quantity], [Status] FROM books ORDER BY [Book ID]", con)
                     Using da As New OleDbDataAdapter(cmd)
                         da.Fill(dt)
                     End Using
                 End Using
 
+                If dt.Rows.Count = 0 Then
+                    MsgBox("No data to export.", MsgBoxStyle.Exclamation)
+                    Exit Sub
+                End If
+
+                ' ===== CREATE EXCEL =====
                 Using wb As New XLWorkbook()
-                    Dim ws = wb.Worksheets.Add(dt, "Books")
+                    Dim ws = wb.Worksheets.Add("Books")
 
+                    ' ===== COLUMN HEADERS =====
+                    Dim headerRow As Integer = 1
+                    Dim headerNames As New Dictionary(Of String, String) From {
+                    {"Book ID", "BOOK ID"},
+                    {"ISBN", "ISBN"},
+                    {"Title", "TITLE"},
+                    {"Author", "AUTHOR"},
+                    {"Publisher", "PUBLISHER"},
+                    {"Publication Year", "PUBLICATION YEAR"},
+                    {"Category", "CATEGORY"},
+                    {"Quantity", "QUANTITY"},
+                    {"Status", "STATUS"}
+                }
+
+                    For col As Integer = 0 To dt.Columns.Count - 1
+                        Dim orig = dt.Columns(col).ColumnName
+                        Dim display = If(headerNames.ContainsKey(orig), headerNames(orig), orig.ToUpper())
+                        ws.Cell(headerRow, col + 1).Value = display
+                        With ws.Cell(headerRow, col + 1).Style
+                            .Font.Bold = True
+                            .Font.FontSize = 11
+                            .Font.FontColor = XLColor.White
+                            .Fill.BackgroundColor = XLColor.FromArgb(79, 129, 189)
+                            .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                            .Alignment.Vertical = XLAlignmentVerticalValues.Center
+                            .Border.OutsideBorder = XLBorderStyleValues.Thin
+                            .Alignment.WrapText = True
+                        End With
+                    Next
+                    ws.Row(headerRow).Height = 35
+
+                    ' ===== DATA ROWS =====
+                    Dim dataRow As Integer = headerRow + 1
+                    For Each row As DataRow In dt.Rows
+                        For col As Integer = 0 To dt.Columns.Count - 1
+                            Dim colName = dt.Columns(col).ColumnName
+                            Dim val As Object = If(row(col) IsNot DBNull.Value, row(col), "")
+
+                            ' Format ISBN specifically
+                            If colName = "ISBN" AndAlso val IsNot Nothing AndAlso val.ToString().Trim() <> "" Then
+                                Dim isbn As String = val.ToString().Trim()
+                                ' Remove any existing hyphens or spaces
+                                isbn = isbn.Replace("-", "").Replace(" ", "")
+
+                                ' Format based on length
+                                If isbn.Length = 10 Then
+                                    ' Format as XXX-X-XXXXX-X or XXX-XXXXXX-X
+                                    val = isbn.Substring(0, 3) & "-" & isbn.Substring(3, 1) & "-" & isbn.Substring(4, 5) & "-" & isbn.Substring(9, 1)
+                                ElseIf isbn.Length = 13 Then
+                                    ' Format as XXX-X-XX-XXXXXX-X
+                                    val = isbn.Substring(0, 3) & "-" & isbn.Substring(3, 1) & "-" & isbn.Substring(4, 2) & "-" & isbn.Substring(6, 6) & "-" & isbn.Substring(12, 1)
+                                Else
+                                    ' Keep original if not standard length
+                                    val = isbn
+                                End If
+                            End If
+
+                            ws.Cell(dataRow, col + 1).Value = val
+                            With ws.Cell(dataRow, col + 1).Style
+                                .Font.FontSize = 10
+                                .Border.OutsideBorder = XLBorderStyleValues.Thin
+                                .Alignment.Vertical = XLAlignmentVerticalValues.Center
+                                .Alignment.WrapText = True
+                            End With
+
+                            Select Case colName
+                                Case "Title", "Author", "Publisher", "Category"
+                                    ws.Cell(dataRow, col + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left
+                                Case "ISBN", "Book ID", "Publication Year", "Quantity", "Status"
+                                    ws.Cell(dataRow, col + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                                Case Else
+                                    ws.Cell(dataRow, col + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left
+                            End Select
+                        Next
+                        dataRow += 1
+                    Next
+
+                    ' ===== COLUMN WIDTHS =====
                     ws.Columns().AdjustToContents()
+                    For i = 1 To dt.Columns.Count
+                        If ws.Column(i).Width > 50 Then ws.Column(i).Width = 50 ' limit to avoid super wide cols
+                    Next
 
+                    ' ===== PAGE SETUP =====
                     With ws.PageSetup
                         .PageOrientation = XLPageOrientation.Landscape
+                        .PaperSize = XLPaperSize.A4Paper
+                        .Margins.Top = 0.5
+                        .Margins.Bottom = 0.5
+                        .Margins.Left = 0.3
+                        .Margins.Right = 0.3
+                        .CenterHorizontally = True
                         .FitToPages(1, 0)
+                        .SetRowsToRepeatAtTop(1, 1) ' Repeat header row on each page
                     End With
 
                     wb.SaveAs(sfd.FileName)
@@ -952,7 +1038,6 @@ Public Class BookInventory
             MsgBox("Error exporting: " & ex.Message, MsgBoxStyle.Critical)
         End Try
     End Sub
-
 
     Private Sub CrystalReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CrystalReportToolStripMenuItem.Click
         Try

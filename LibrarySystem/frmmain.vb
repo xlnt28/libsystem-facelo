@@ -325,7 +325,6 @@ Public Class frmmain
 
 
 
-
     Private Sub GenerateBorrowReceipt()
         Try
             Dim borrowID As String = InputBox("Enter Borrow ID to generate receipt:", "Borrow Receipt")
@@ -356,7 +355,8 @@ Public Class frmmain
                 Dim dt As New DataTable("BorrowReceipt")
                 dt.Columns.Add("Borrow ID", GetType(String))
                 dt.Columns.Add("Book ID", GetType(String))
-                dt.Columns.Add("Book Title", GetType(String))
+                dt.Columns.Add("ISBN", GetType(String))
+                dt.Columns.Add("Title", GetType(String))
                 dt.Columns.Add("User ID", GetType(String))
                 dt.Columns.Add("Borrower Name", GetType(String))
                 dt.Columns.Add("Borrower Position", GetType(String))
@@ -367,7 +367,6 @@ Public Class frmmain
                 dt.Columns.Add("Status", GetType(String))
                 dt.Columns.Add("Processed By", GetType(String))
 
-
                 Dim bookIDs As String = reader("Book ID List").ToString()
                 Dim copyList As String = reader("Copy List").ToString()
 
@@ -377,22 +376,37 @@ Public Class frmmain
                 For i As Integer = 0 To bookIDArray.Length - 1
                     Dim bookID As String = bookIDArray(i).Trim()
                     Dim copies As Integer = Integer.Parse(copyArray(i).Trim())
-                    Dim bookTitle As String = GetBookTitleByID(bookID)
+                    Dim bookISBN As String = ""
+                    Dim bookTitle As String = ""
+
+                    Using cmdBook As New OleDbCommand("SELECT [ISBN], [Title] FROM borrowings WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
+                        cmdBook.Parameters.AddWithValue("?", borrowID)
+                        cmdBook.Parameters.AddWithValue("?", bookID)
+                        Dim bookReader As OleDbDataReader = cmdBook.ExecuteReader()
+                        If bookReader.Read() Then
+                            bookISBN = If(IsDBNull(bookReader("ISBN")), "", bookReader("ISBN").ToString())
+                            bookTitle = If(IsDBNull(bookReader("Title")), GetBookTitleByID(bookID), bookReader("Title").ToString())
+                        Else
+                            bookTitle = GetBookTitleByID(bookID)
+                        End If
+                        bookReader.Close()
+                    End Using
 
                     dt.Rows.Add(
-                        reader("Borrow ID").ToString(),
-                        bookID,
-                        bookTitle,
-                        reader("User ID").ToString(),
-                        reader("Borrower Name").ToString(),
-                        reader("Borrower Position").ToString(),
-                        reader("Borrower Privileges").ToString(),
-                        copies,
-                        If(IsDBNull(reader("Borrow Date")), "N/A", Convert.ToDateTime(reader("Borrow Date")).ToString("MM/dd/yyyy")),
-                        If(IsDBNull(reader("Due Date")), "N/A", Convert.ToDateTime(reader("Due Date")).ToString("MM/dd/yyyy")),
-                        reader("Status").ToString(),
-                        reader("Processed By").ToString()
-                    )
+                    reader("Borrow ID").ToString(),
+                    bookID,
+                    bookISBN,
+                    bookTitle,
+                    reader("User ID").ToString(),
+                    reader("Borrower Name").ToString(),
+                    reader("Borrower Position").ToString(),
+                    reader("Borrower Privileges").ToString(),
+                    copies,
+                    If(IsDBNull(reader("Borrow Date")), "N/A", Convert.ToDateTime(reader("Borrow Date")).ToString("MM/dd/yyyy")),
+                    If(IsDBNull(reader("Due Date")), "N/A", Convert.ToDateTime(reader("Due Date")).ToString("MM/dd/yyyy")),
+                    reader("Status").ToString(),
+                    reader("Processed By").ToString()
+                )
                 Next
 
                 reader.Close()
@@ -466,7 +480,8 @@ Public Class frmmain
             dt.Columns.Add("Return Date", GetType(String))
             dt.Columns.Add("Borrow ID", GetType(String))
             dt.Columns.Add("Book ID", GetType(String))
-            dt.Columns.Add("Book Title", GetType(String))
+            dt.Columns.Add("ISBN", GetType(String))
+            dt.Columns.Add("Title", GetType(String))
             dt.Columns.Add("Returned Quantity", GetType(Integer))
             dt.Columns.Add("Processed By", GetType(String))
             dt.Columns.Add("Borrower Name", GetType(String))
@@ -477,12 +492,27 @@ Public Class frmmain
             While reader.Read()
                 hasRecords = True
                 Dim bookID As String = reader("Book ID").ToString()
-                Dim bookTitle As String = GetBookTitleByID(bookID)
+                Dim bookISBN As String = ""
+                Dim bookTitle As String = ""
+
+                Using cmdBook As New OleDbCommand("SELECT [ISBN], [Title] FROM borrowings WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
+                    cmdBook.Parameters.AddWithValue("?", borrowID)
+                    cmdBook.Parameters.AddWithValue("?", bookID)
+                    Dim bookReader As OleDbDataReader = cmdBook.ExecuteReader()
+                    If bookReader.Read() Then
+                        bookISBN = If(IsDBNull(bookReader("ISBN")), "", bookReader("ISBN").ToString())
+                        bookTitle = If(IsDBNull(bookReader("Title")), GetBookTitleByID(bookID), bookReader("Title").ToString())
+                    Else
+                        bookTitle = GetBookTitleByID(bookID)
+                    End If
+                    bookReader.Close()
+                End Using
 
                 dt.Rows.Add(
                 Convert.ToDateTime(reader("Return Date")).ToString("MM/dd/yyyy"),
                 reader("Borrow ID").ToString(),
                 bookID,
+                bookISBN,
                 bookTitle,
                 reader("Returned Quantity"),
                 reader("Processed By").ToString(),

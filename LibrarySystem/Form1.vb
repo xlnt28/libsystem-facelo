@@ -912,7 +912,7 @@ Public Class Form1
             If sfd.ShowDialog() = DialogResult.OK Then
                 Dim dt As New DataTable()
 
-                Using cmd As New OleDbCommand("SELECT * FROM tbluser ORDER BY [User ID]", con)
+                Using cmd As New OleDbCommand("SELECT [User ID],[User Name],[Position],[Privileges] FROM tbluser ORDER BY [User ID]", con)
                     Using da As New OleDbDataAdapter(cmd)
                         da.Fill(dt)
                     End Using

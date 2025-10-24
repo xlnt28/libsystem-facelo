@@ -290,6 +290,8 @@ Public Class PenaltyForm
         If result <> DialogResult.Yes Then Return
 
         Try
+            Dim receiptID As String = GeneratePenaltyReceiptID()
+
             For Each penaltyID In selectedPenalties
                 cmd = New OleDbCommand("UPDATE Penalties SET [Penalty Status] = 'Paid', [Payment Date] = ? WHERE [PenaltyID] = ?", con)
                 cmd.Parameters.AddWithValue("?", DateTime.Now.Date)
@@ -297,12 +299,14 @@ Public Class PenaltyForm
                 cmd.ExecuteNonQuery()
             Next
 
-            GenerateReceipt(selectedPenalties)
+            AddToTransactionReceiptForPenalty(selectedPenalties, currentSelectedUser, receiptID)
+
+            GenerateReceipt(selectedPenalties, receiptID)
 
             ExitMarkAsPaidMode()
             LoadPenaltyData()
 
-            MsgBox("Penalties marked as paid successfully.", MsgBoxStyle.Information, "Success")
+            MsgBox("Penalties marked as paid successfully." & vbCrLf & "Receipt ID: " & receiptID, MsgBoxStyle.Information, "Success")
 
         Catch ex As Exception
             MsgBox("Error updating penalties: " & ex.Message, MsgBoxStyle.Critical, "Error")
@@ -314,61 +318,43 @@ Public Class PenaltyForm
         MsgBox("Mark as Paid mode cancelled.", MsgBoxStyle.Information, "Cancelled")
     End Sub
 
-    Private Sub GenerateReceipt(ByVal penaltyIDs As List(Of String))
+
+    Private Sub GenerateReceipt(ByVal penaltyIDs As List(Of String), ByVal receiptID As String)
         Try
             If con.State <> ConnectionState.Open Then con.Open()
 
-            Dim dt As New DataTable()
-            dt.Columns.Add("User Name", GetType(String))
-            dt.Columns.Add("Borrow ID", GetType(String))
-            dt.Columns.Add("Book ID", GetType(String))
-            dt.Columns.Add("Quantity", GetType(Integer))
-            dt.Columns.Add("Book Condition", GetType(String))
-            dt.Columns.Add("Days Late", GetType(Integer))
-            dt.Columns.Add("Penalty Amount", GetType(Decimal))
-            dt.Columns.Add("Payment Date", GetType(String))
-            dt.Columns.Add("Processed By", GetType(String))
+            Dim query As String = "SELECT * FROM paymentReceipts WHERE [Receipt ID] = ?"
+            Using da As New OleDbDataAdapter(query, con)
+                da.SelectCommand.Parameters.AddWithValue("?", receiptID)
+                Dim dt As New DataTable()
+                da.Fill(dt)
 
-            For Each penaltyID As String In penaltyIDs
-                Using cmd As New OleDbCommand("SELECT * FROM Penalties WHERE [PenaltyID] = ?", con)
-                    cmd.Parameters.AddWithValue("?", penaltyID)
+                If dt.Rows.Count > 0 Then
+                    Dim reportForm As New ReportForm()
+                    Dim report As New ReportDocument()
+                    Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CrystalReport1.rpt")
 
-                    Using reader As OleDbDataReader = cmd.ExecuteReader()
-                        If reader.Read() Then
-                            Dim userName As String = If(IsDBNull(reader("User Name")), "", reader("User Name").ToString())
-                            Dim borrowID As String = If(IsDBNull(reader("Borrow ID")), "", reader("Borrow ID").ToString())
-                            Dim bookID As String = If(IsDBNull(reader("Book ID")), "", reader("Book ID").ToString())
-                            Dim quantity As Integer = If(IsDBNull(reader("Quantity")), 0, CInt(reader("Quantity")))
-                            Dim condition As String = If(IsDBNull(reader("Book Condition")), "", reader("Book Condition").ToString())
-                            Dim daysLate As Integer = If(IsDBNull(reader("Days Late")), 0, CInt(reader("Days Late")))
-                            Dim penaltyAmount As Decimal = If(IsDBNull(reader("Penalty Amount")), 0D, CDec(reader("Penalty Amount")))
-                            Dim processedBy As String = If(IsDBNull(reader("Processed By")), XName, reader("Processed By").ToString())
-
-                            Dim paymentDate As String = DateTime.Now.ToString("MM/dd/yyyy")
-
-                            dt.Rows.Add(userName, borrowID, bookID, quantity, condition, daysLate, penaltyAmount, paymentDate, processedBy)
+                    If Not File.Exists(reportPath) Then
+                        reportPath = Path.Combine(Application.StartupPath, "Reports\CrystalReport1.rpt")
+                        If Not File.Exists(reportPath) Then
+                            MsgBox("Penalty receipt report not found. Please check the report file.", MsgBoxStyle.Critical, "Missing Report")
+                            Exit Sub
                         End If
-                    End Using
-                End Using
-            Next
+                    End If
 
-            Dim reportForm As New ReportForm()
-            Dim report As New ReportDocument()
+                    report.Load(reportPath)
+                    report.SetDataSource(dt)
 
-            Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CrystalReport1.rpt")
-            If Not File.Exists(reportPath) Then
-                MsgBox("Report not found: " & reportPath, MsgBoxStyle.Critical, "Missing Report")
-                Exit Sub
-            End If
+                    reportForm.CrystalReportViewer1.ReportSource = report
+                    reportForm.ShowDialog()
 
-            report.Load(reportPath)
-            report.SetDataSource(dt)
-
-            reportForm.CrystalReportViewer1.ReportSource = report
-            reportForm.ShowDialog()
-
-            report.Close()
-            report.Dispose()
+                    report.Close()
+                    report.Dispose()
+                    reportForm.Dispose()
+                Else
+                    MsgBox("Receipt data not found.", MsgBoxStyle.Exclamation)
+                End If
+            End Using
 
         Catch ex As Exception
             MsgBox("Error generating receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
@@ -635,6 +621,117 @@ Public Class PenaltyForm
         Else
             ChangePenaltyAmountToolStripMenuItem.Enabled = False
         End If
+    End Sub
+
+    Private Function GeneratePenaltyReceiptID() As String
+        Dim maxNumber As Integer = 0
+        Dim prefix As String = "PEN"
+        Dim datePart As String = DateTime.Now.ToString("yyyyMMdd")
+        Dim table As String = "paymentReceipts"
+        Dim attempts As Integer = 0
+        Dim maxAttempts As Integer = 3
+
+        Dim fullPrefix As String = prefix & "-" & datePart & "-"
+
+        While attempts < maxAttempts
+            Try
+                If con.State <> ConnectionState.Open Then
+                    OpenDB()
+                End If
+
+                Dim transaction As OleDbTransaction = con.BeginTransaction()
+
+                Try
+                    cmd = New OleDbCommand("SELECT MAX([Receipt ID]) FROM " & table & " WHERE [Receipt ID] LIKE '" & fullPrefix & "%'", con, transaction)
+                    Dim result As Object = cmd.ExecuteScalar()
+
+                    If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                        Dim lastID As String = result.ToString()
+                        If lastID.StartsWith(fullPrefix) Then
+                            Dim numberPart As String = lastID.Substring(fullPrefix.Length)
+                            If Integer.TryParse(numberPart, maxNumber) Then
+                                maxNumber += 1
+                            Else
+                                maxNumber = 1
+                            End If
+                        Else
+                            maxNumber = 1
+                        End If
+                    Else
+                        maxNumber = 1
+                    End If
+
+                    Dim newReceiptID As String = fullPrefix & maxNumber.ToString("D3")
+                    cmd = New OleDbCommand("SELECT COUNT(*) FROM " & table & " WHERE [Receipt ID] = @newID", con, transaction)
+                    cmd.Parameters.AddWithValue("@newID", newReceiptID)
+                    Dim count As Integer = CInt(cmd.ExecuteScalar())
+
+                    If count = 0 Then
+                        transaction.Commit()
+                        Return newReceiptID
+                    Else
+                        maxNumber += 1
+                    End If
+
+                Catch ex As Exception
+                    transaction.Rollback()
+                    Throw
+                End Try
+
+            Catch ex As Exception
+                attempts += 1
+                If attempts >= maxAttempts Then
+                    Return fullPrefix & DateTime.Now.ToString("HHmmss") & "-" & Guid.NewGuid().ToString("N").Substring(0, 4)
+                End If
+                System.Threading.Thread.Sleep(100)
+            End Try
+        End While
+
+        Return fullPrefix & "001"
+    End Function
+
+    Private Sub AddToTransactionReceiptForPenalty(ByVal penaltyIDs As List(Of String), ByVal userName As String, ByVal receiptID As String)
+        Try
+            For Each penaltyID As String In penaltyIDs
+                Using selectCmd As New OleDbCommand("SELECT p.[Borrow ID], p.[Book ID], p.[Quantity], p.[Penalty Amount], p.[Days Late], p.[Book Condition], t.[User ID] FROM Penalties p INNER JOIN transactions t ON p.[Borrow ID] = t.[Borrow ID] WHERE p.[PenaltyID] = ?", con)
+                    selectCmd.Parameters.AddWithValue("?", penaltyID)
+                    Using reader As OleDbDataReader = selectCmd.ExecuteReader()
+                        If reader.Read() Then
+                            Dim borrowID As String = reader("Borrow ID").ToString()
+                            Dim userID As String = If(IsDBNull(reader("User ID")), "", reader("User ID").ToString())
+                            Dim bookID As String = reader("Book ID").ToString()
+                            Dim quantity As Integer = If(IsDBNull(reader("Quantity")), 0, CInt(reader("Quantity")))
+                            Dim amount As Decimal = CDec(reader("Penalty Amount"))
+                            Dim daysLate As Integer = If(IsDBNull(reader("Days Late")), 0, CInt(reader("Days Late")))
+                            Dim condition As String = If(IsDBNull(reader("Book Condition")), "", reader("Book Condition").ToString())
+                            Dim receiptDate As String = DateTime.Now.ToString("MM/dd/yyyy")
+
+                            Using insertCmd As New OleDbCommand("INSERT INTO paymentReceipts ([Receipt ID], [Borrow ID], [Book ID], [Quantity], [User ID], [User Name], [Processed By], [Payment Date], [Condition], [Days late], [Penalty Amount]) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+                                insertCmd.Parameters.AddWithValue("?", receiptID)
+                                insertCmd.Parameters.AddWithValue("?", borrowID)
+                                insertCmd.Parameters.AddWithValue("?", bookID)
+                                insertCmd.Parameters.AddWithValue("?", quantity)
+                                insertCmd.Parameters.AddWithValue("?", userID)
+                                insertCmd.Parameters.AddWithValue("?", userName)
+                                insertCmd.Parameters.AddWithValue("?", XName)
+                                insertCmd.Parameters.AddWithValue("?", receiptDate)
+                                insertCmd.Parameters.AddWithValue("?", condition)
+                                insertCmd.Parameters.AddWithValue("?", daysLate)
+
+                                Dim penaltyParam As New OleDbParameter("?", OleDbType.Decimal)
+                                penaltyParam.Value = amount
+                                insertCmd.Parameters.Add(penaltyParam)
+
+                                insertCmd.ExecuteNonQuery()
+                            End Using
+                        End If
+                    End Using
+                End Using
+            Next
+
+        Catch ex As Exception
+            MsgBox("Error creating penalty receipt: " & ex.Message, MsgBoxStyle.Exclamation, "Warning")
+        End Try
     End Sub
 
     Private Sub dgvPenalty_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgvPenalty.CellContentClick

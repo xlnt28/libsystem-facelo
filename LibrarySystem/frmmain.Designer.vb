@@ -35,9 +35,6 @@ Partial Class frmmain
         Me.TransactionHistoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BorrowPendingRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BorrowReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ReturnReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PenaltyReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuLogout = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -88,6 +85,15 @@ Partial Class frmmain
         Me.Button4 = New System.Windows.Forms.Button()
         Me.lblForgotPasswordRequest = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
+        Me.BorrowToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ReturnToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PenaltyToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UserFormToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BookInventoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CrystalReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExcelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CrystalReportToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExcelToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.pbProfile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -203,31 +209,10 @@ Partial Class frmmain
         '
         'ReportsToolStripMenuItem
         '
-        Me.ReportsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BorrowReceiptToolStripMenuItem, Me.ReturnReceiptToolStripMenuItem, Me.PenaltyReceiptToolStripMenuItem})
+        Me.ReportsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BorrowToolStripMenuItem1, Me.ReturnToolStripMenuItem1, Me.PenaltyToolStripMenuItem1, Me.UserFormToolStripMenuItem, Me.BookInventoryToolStripMenuItem})
         Me.ReportsToolStripMenuItem.Name = "ReportsToolStripMenuItem"
         Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(111, 36)
         Me.ReportsToolStripMenuItem.Text = "Reports"
-        '
-        'BorrowReceiptToolStripMenuItem
-        '
-        Me.BorrowReceiptToolStripMenuItem.Image = CType(resources.GetObject("BorrowReceiptToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.BorrowReceiptToolStripMenuItem.Name = "BorrowReceiptToolStripMenuItem"
-        Me.BorrowReceiptToolStripMenuItem.Size = New System.Drawing.Size(303, 36)
-        Me.BorrowReceiptToolStripMenuItem.Text = "Get Borrow Receipt"
-        '
-        'ReturnReceiptToolStripMenuItem
-        '
-        Me.ReturnReceiptToolStripMenuItem.Image = CType(resources.GetObject("ReturnReceiptToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.ReturnReceiptToolStripMenuItem.Name = "ReturnReceiptToolStripMenuItem"
-        Me.ReturnReceiptToolStripMenuItem.Size = New System.Drawing.Size(303, 36)
-        Me.ReturnReceiptToolStripMenuItem.Text = "Get Return Receipt"
-        '
-        'PenaltyReceiptToolStripMenuItem
-        '
-        Me.PenaltyReceiptToolStripMenuItem.Image = CType(resources.GetObject("PenaltyReceiptToolStripMenuItem.Image"), System.Drawing.Image)
-        Me.PenaltyReceiptToolStripMenuItem.Name = "PenaltyReceiptToolStripMenuItem"
-        Me.PenaltyReceiptToolStripMenuItem.Size = New System.Drawing.Size(303, 36)
-        Me.PenaltyReceiptToolStripMenuItem.Text = "Get Penalty Receipt"
         '
         'menuLogout
         '
@@ -781,6 +766,62 @@ Partial Class frmmain
         Me.Label7.TabIndex = 14
         Me.Label7.Text = "Forgot password request"
         '
+        'BorrowToolStripMenuItem1
+        '
+        Me.BorrowToolStripMenuItem1.Name = "BorrowToolStripMenuItem1"
+        Me.BorrowToolStripMenuItem1.Size = New System.Drawing.Size(258, 36)
+        Me.BorrowToolStripMenuItem1.Text = "Borrow"
+        '
+        'ReturnToolStripMenuItem1
+        '
+        Me.ReturnToolStripMenuItem1.Name = "ReturnToolStripMenuItem1"
+        Me.ReturnToolStripMenuItem1.Size = New System.Drawing.Size(258, 36)
+        Me.ReturnToolStripMenuItem1.Text = "Return"
+        '
+        'PenaltyToolStripMenuItem1
+        '
+        Me.PenaltyToolStripMenuItem1.Name = "PenaltyToolStripMenuItem1"
+        Me.PenaltyToolStripMenuItem1.Size = New System.Drawing.Size(258, 36)
+        Me.PenaltyToolStripMenuItem1.Text = "Penalty"
+        '
+        'UserFormToolStripMenuItem
+        '
+        Me.UserFormToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CrystalReportToolStripMenuItem, Me.ExcelToolStripMenuItem})
+        Me.UserFormToolStripMenuItem.Name = "UserFormToolStripMenuItem"
+        Me.UserFormToolStripMenuItem.Size = New System.Drawing.Size(258, 36)
+        Me.UserFormToolStripMenuItem.Text = "User Form"
+        '
+        'BookInventoryToolStripMenuItem
+        '
+        Me.BookInventoryToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CrystalReportToolStripMenuItem1, Me.ExcelToolStripMenuItem1})
+        Me.BookInventoryToolStripMenuItem.Name = "BookInventoryToolStripMenuItem"
+        Me.BookInventoryToolStripMenuItem.Size = New System.Drawing.Size(258, 36)
+        Me.BookInventoryToolStripMenuItem.Text = "Book Inventory"
+        '
+        'CrystalReportToolStripMenuItem
+        '
+        Me.CrystalReportToolStripMenuItem.Name = "CrystalReportToolStripMenuItem"
+        Me.CrystalReportToolStripMenuItem.Size = New System.Drawing.Size(246, 36)
+        Me.CrystalReportToolStripMenuItem.Text = "Crystal Report"
+        '
+        'ExcelToolStripMenuItem
+        '
+        Me.ExcelToolStripMenuItem.Name = "ExcelToolStripMenuItem"
+        Me.ExcelToolStripMenuItem.Size = New System.Drawing.Size(246, 36)
+        Me.ExcelToolStripMenuItem.Text = "Excel"
+        '
+        'CrystalReportToolStripMenuItem1
+        '
+        Me.CrystalReportToolStripMenuItem1.Name = "CrystalReportToolStripMenuItem1"
+        Me.CrystalReportToolStripMenuItem1.Size = New System.Drawing.Size(246, 36)
+        Me.CrystalReportToolStripMenuItem1.Text = "Crystal Report"
+        '
+        'ExcelToolStripMenuItem1
+        '
+        Me.ExcelToolStripMenuItem1.Name = "ExcelToolStripMenuItem1"
+        Me.ExcelToolStripMenuItem1.Size = New System.Drawing.Size(246, 36)
+        Me.ExcelToolStripMenuItem1.Text = "Excel"
+        '
         'frmmain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -888,7 +929,13 @@ Partial Class frmmain
     Friend WithEvents Label8 As Label
     Friend WithEvents ReportsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ChangePasswordToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BorrowReceiptToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ReturnReceiptToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents PenaltyReceiptToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BorrowToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents ReturnToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents PenaltyToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents UserFormToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CrystalReportToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ExcelToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BookInventoryToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CrystalReportToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents ExcelToolStripMenuItem1 As ToolStripMenuItem
 End Class

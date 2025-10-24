@@ -319,7 +319,6 @@ Public Class Borrow
             Return False
         End Try
     End Function
-
     Private Sub menuBorrow_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuBorrow.Click
         If UserHasUnpaidPenalties() Then
             MsgBox("You cannot borrow books because " & txtName.Text & " have unpaid penalties. Please settle your penalties first.", MsgBoxStyle.Exclamation, "Unpaid Penalties")
@@ -418,23 +417,22 @@ Public Class Borrow
                 cmd.Parameters.AddWithValue("?", processedBy)
                 cmd.ExecuteNonQuery()
 
-                bookIDList.Add(bookID)
-                copyList.Add(quantityToBorrow.ToString())
-                For i As Integer = 1 To quantityToBorrow
-                    currentReturnedList.Add("0")
-                Next
-
                 If xpriv = "Admin" Then
                     cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
                     cmd.Parameters.AddWithValue("?", bookID)
                     Dim currentQuantity As Integer = CInt(cmd.ExecuteScalar())
                     Dim newQuantity As Integer = currentQuantity - quantityToBorrow
+
                     cmd = New OleDbCommand("UPDATE books SET [Quantity] = ?, [Status] = IIF(? > 0, 'Available', 'Unavailable') WHERE [Book ID] = ?", con)
                     cmd.Parameters.AddWithValue("?", newQuantity)
                     cmd.Parameters.AddWithValue("?", newQuantity)
                     cmd.Parameters.AddWithValue("?", bookID)
                     cmd.ExecuteNonQuery()
                 End If
+
+                bookIDList.Add(bookID)
+                copyList.Add(quantityToBorrow.ToString())
+                currentReturnedList.Add("0")
             Next
 
             Dim transactionID As String = GenerateTransactionID()
@@ -467,7 +465,10 @@ Public Class Borrow
             cmd.ExecuteNonQuery()
 
             If xpriv = "Admin" AndAlso hasStopped = False Then
-                GenerateBorrowReceipt(selectedBooks, userID, txtName.Text, userPosition, userPrivileges)
+                Dim id As String = GenerateBorrowReceiptID()
+                AddToTransactionReceipt(borrowID, combinedBookIDs, combinedCopies, userID, txtName.Text, id)
+
+                GenerateBorrowReceipt(selectedBooks, userID, txtName.Text, userPosition, userPrivileges, id)
                 hasStopped = True
             End If
 
@@ -485,80 +486,92 @@ Public Class Borrow
             MsgBox("Failed to save borrow request. " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
+
     Private Function GenerateUniqueID() As String
         Dim maxNumber As Integer = 0
         Dim prefix As String = "BOR-"
 
-        Try
-            If con.State <> ConnectionState.Open Then
-                OpenDB()
-            End If
+        Dim connStr As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" &
+                                 Application.StartupPath & "\Database\library.mdb"
 
-            cmd = New OleDbCommand("SELECT MAX([ID]) FROM borrowings WHERE [ID] LIKE '" & prefix & "%'", con)
-            Dim result As Object = cmd.ExecuteScalar()
+        Using separateCon As New OleDbConnection(connStr)
+            Try
+                separateCon.Open()
 
-            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
-                Dim lastID As String = result.ToString()
-                If lastID.StartsWith(prefix) Then
-                    Dim numberPart As String = lastID.Substring(prefix.Length)
-                    If Integer.TryParse(numberPart, maxNumber) Then
-                        maxNumber += 1
+                Using cmd As New OleDbCommand("SELECT MAX([ID]) FROM borrowings WHERE [ID] LIKE '" & prefix & "%'", separateCon)
+                    Dim result As Object = cmd.ExecuteScalar()
+
+                    If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                        Dim lastID As String = result.ToString()
+                        If lastID.StartsWith(prefix) Then
+                            Dim numberPart As String = lastID.Substring(prefix.Length)
+                            If Integer.TryParse(numberPart, maxNumber) Then
+                                maxNumber += 1
+                            Else
+                                maxNumber = 1
+                            End If
+                        Else
+                            maxNumber = 1
+                        End If
                     Else
                         maxNumber = 1
                     End If
-                Else
-                    maxNumber = 1
-                End If
-            Else
-                maxNumber = 1
-            End If
 
-            Return prefix & maxNumber.ToString("D5")
-        Catch ex As Exception
-            Return prefix & "00001"
-        End Try
+                    Return prefix & maxNumber.ToString("D5")
+                End Using
+
+            Catch ex As Exception
+                Return prefix & "00001"
+            End Try
+        End Using
     End Function
+
 
     Private Function GenerateTransactionID() As String
         Dim maxNumber As Integer = 0
         Dim prefix As String = "TRN-"
 
-        Try
-            If con.State <> ConnectionState.Open Then
-                OpenDB()
-            End If
+        Dim connStr As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" &
+                                 Application.StartupPath & "\Database\library.mdb"
 
-            cmd = New OleDbCommand("SELECT MAX([Transaction ID]) FROM transactions WHERE [Transaction ID] LIKE '" & prefix & "%'", con)
-            Dim result As Object = cmd.ExecuteScalar()
+        Using separateCon As New OleDbConnection(connStr)
+            Try
+                separateCon.Open()
 
-            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
-                Dim lastID As String = result.ToString()
-                If lastID.StartsWith(prefix) Then
-                    Dim numberPart As String = lastID.Substring(prefix.Length)
-                    If Integer.TryParse(numberPart, maxNumber) Then
-                        maxNumber += 1
+                Using cmd As New OleDbCommand("SELECT MAX([Transaction ID]) FROM transactions WHERE [Transaction ID] LIKE '" & prefix & "%'", separateCon)
+                    Dim result As Object = cmd.ExecuteScalar()
+
+                    If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                        Dim lastID As String = result.ToString()
+                        If lastID.StartsWith(prefix) Then
+                            Dim numberPart As String = lastID.Substring(prefix.Length)
+                            If Integer.TryParse(numberPart, maxNumber) Then
+                                maxNumber += 1
+                            Else
+                                maxNumber = 1
+                            End If
+                        Else
+                            maxNumber = 1
+                        End If
                     Else
                         maxNumber = 1
                     End If
-                Else
-                    maxNumber = 1
-                End If
-            Else
-                maxNumber = 1
-            End If
 
-            Return prefix & maxNumber.ToString("D5")
-        Catch ex As Exception
-            Return prefix & "00001"
-        End Try
+                    Return prefix & maxNumber.ToString("D5")
+                End Using
+
+            Catch ex As Exception
+                Return prefix & "00001"
+            End Try
+        End Using
     End Function
 
 
-    Private Sub GenerateBorrowReceipt(ByVal selectedBooks As Dictionary(Of String, Integer), ByVal userID As String, ByVal userName As String, ByVal userPosition As String, ByVal userPrivileges As String)
+    Private Sub GenerateBorrowReceipt(ByVal selectedBooks As Dictionary(Of String, Integer), ByVal userID As String, ByVal userName As String, ByVal userPosition As String, ByVal userPrivileges As String, ByVal borrowReceiptID As String)
         Try
             Dim result As DialogResult = MsgBox("Generating receipt, please wait..",
-                       MsgBoxStyle.OkOnly + MsgBoxStyle.Information,
-                       "Generate Receipts")
+                   MsgBoxStyle.OkOnly + MsgBoxStyle.Information,
+                   "Generate Receipts")
 
             Dim borrowID As String = ""
             cmd = New OleDbCommand("SELECT MAX([Borrow ID]) FROM borrowings WHERE [User ID] = ? AND [Borrower Name] = ?", con)
@@ -577,13 +590,30 @@ Public Class Borrow
             cmd.Parameters.AddWithValue("?", borrowID)
 
             Dim da As New OleDbDataAdapter(cmd)
-            Dim dt As New DataTable("BorrowReceipt")
-            da.Fill(dt)
+            Dim sourceDt As New DataTable()
+            da.Fill(sourceDt)
 
-            If dt.Rows.Count = 0 Then
+            If sourceDt.Rows.Count = 0 Then
                 MsgBox("No borrow records found for receipt generation.", MsgBoxStyle.Exclamation)
                 Return
             End If
+
+            Dim dt As New DataTable("BorrowReceipt")
+
+            dt.Columns.Add("Receipt ID", GetType(String))
+
+            For Each column As DataColumn In sourceDt.Columns
+                dt.Columns.Add(column.ColumnName, column.DataType)
+            Next
+
+            For Each row As DataRow In sourceDt.Rows
+                Dim newRow As DataRow = dt.NewRow()
+                newRow("Receipt ID") = borrowReceiptID
+                For Each column As DataColumn In sourceDt.Columns
+                    newRow(column.ColumnName) = row(column.ColumnName)
+                Next
+                dt.Rows.Add(newRow)
+            Next
 
             Dim reportForm As New ReportForm()
             Dim report As New ReportDocument()
@@ -655,34 +685,39 @@ Public Class Borrow
         Dim maxNumber As Integer = 0
         Dim prefix As String = "BR-"
 
-        Try
-            If con.State <> ConnectionState.Open Then
-                OpenDB()
-            End If
+        Dim connStr As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" &
+                                 Application.StartupPath & "\Database\library.mdb"
 
-            cmd = New OleDbCommand("SELECT MAX([Borrow ID]) FROM borrowings WHERE [Borrow ID] LIKE '" & prefix & "%'", con)
-            Dim result As Object = cmd.ExecuteScalar()
+        Using separateCon As New OleDbConnection(connStr)
+            Try
+                separateCon.Open()
 
-            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
-                Dim lastID As String = result.ToString()
-                If lastID.StartsWith(prefix) Then
-                    Dim numberPart As String = lastID.Substring(prefix.Length)
-                    If Integer.TryParse(numberPart, maxNumber) Then
-                        maxNumber += 1
+                Using cmd As New OleDbCommand("SELECT MAX([Borrow ID]) FROM borrowings WHERE [Borrow ID] LIKE '" & prefix & "%'", separateCon)
+                    Dim result As Object = cmd.ExecuteScalar()
+
+                    If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                        Dim lastID As String = result.ToString()
+                        If lastID.StartsWith(prefix) Then
+                            Dim numberPart As String = lastID.Substring(prefix.Length)
+                            If Integer.TryParse(numberPart, maxNumber) Then
+                                maxNumber += 1
+                            Else
+                                maxNumber = 1
+                            End If
+                        Else
+                            maxNumber = 1
+                        End If
                     Else
                         maxNumber = 1
                     End If
-                Else
-                    maxNumber = 1
-                End If
-            Else
-                maxNumber = 1
-            End If
 
-            Return prefix & maxNumber.ToString("D5")
-        Catch ex As Exception
-            Return prefix & "00001"
-        End Try
+                    Return prefix & maxNumber.ToString("D5")
+                End Using
+
+            Catch ex As Exception
+                Return prefix & "00001"
+            End Try
+        End Using
     End Function
 
     Private Sub menuSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuSearch.Click
@@ -1017,7 +1052,71 @@ Public Class Borrow
         CloseDB()
     End Sub
 
-    Private Sub Panel1_Paint(sender As Object, e As PaintEventArgs) Handles Panel1.Paint
+    Private Sub AddToTransactionReceipt(ByVal borrowID As String, ByVal bookIDList As String, ByVal copyList As String, ByVal userID As String, ByVal userName As String, ByVal receiptIds As String)
+        Try
+            Dim receiptID As String = receiptIds
+            Dim receiptDate As String = DateTime.Now.ToString("MM/dd/yyyy")
 
+            cmd = New OleDbCommand("INSERT INTO borrowReceipts ([Receipt ID], [Borrow ID], [Book ID List], [Copy List], [Receipt Date], [User ID], [User Name], [Processed By]) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", con)
+            cmd.Parameters.AddWithValue("?", receiptID)
+            cmd.Parameters.AddWithValue("?", borrowID)
+            cmd.Parameters.AddWithValue("?", bookIDList)
+            cmd.Parameters.AddWithValue("?", copyList)
+            cmd.Parameters.AddWithValue("?", receiptDate)
+            cmd.Parameters.AddWithValue("?", userID)
+            cmd.Parameters.AddWithValue("?", userName)
+            cmd.Parameters.AddWithValue("?", XName)
+
+            cmd.ExecuteNonQuery()
+
+            If xpriv = "Admin" Then
+                MsgBox("Borrow receipt created! Receipt ID: " & receiptID, MsgBoxStyle.Information, "Receipt Generated")
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error creating transaction receipt: " & ex.Message, MsgBoxStyle.Exclamation, "Warning")
+        End Try
     End Sub
+
+
+    Public Function GenerateBorrowReceiptID() As String
+        Dim maxNumber As Integer = 0
+        Dim prefix As String = "BOR"
+        Dim datePart As String = DateTime.Now.ToString("yyyyMMdd")
+        Dim fullPrefix As String = prefix & "-" & datePart & "-"
+
+        Dim connStr As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" &
+                                 Application.StartupPath & "\Database\library.mdb"
+
+        Using separateCon As New OleDbConnection(connStr)
+            Try
+                separateCon.Open()
+
+                Using cmd As New OleDbCommand("SELECT MAX([Receipt ID]) FROM borrowReceipts WHERE [Receipt ID] LIKE '" & fullPrefix & "%'", separateCon)
+                    Dim result As Object = cmd.ExecuteScalar()
+
+                    If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                        Dim lastID As String = result.ToString()
+                        If lastID.StartsWith(fullPrefix) Then
+                            Dim numberPart As String = lastID.Substring(fullPrefix.Length)
+                            If Integer.TryParse(numberPart, maxNumber) Then
+                                maxNumber += 1
+                            Else
+                                maxNumber = 1
+                            End If
+                        Else
+                            maxNumber = 1
+                        End If
+                    Else
+                        maxNumber = 1
+                    End If
+
+                    Return fullPrefix & maxNumber.ToString("D3")
+                End Using
+
+            Catch ex As Exception
+                Return fullPrefix & DateTime.Now.ToString("HHmmss") & "-" & Guid.NewGuid().ToString("N").Substring(0, 4)
+            End Try
+        End Using
+    End Function
 End Class

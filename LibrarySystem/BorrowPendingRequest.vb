@@ -203,6 +203,11 @@ Public Class BorrowPendingRequest
 
             reader.Close()
 
+            Dim userID As String = GetUserIDFromBorrowID(borrowID)
+            Dim userName As String = GeBorrowerNameFromBorrowID(borrowID)
+
+            AddToTransactionReceipt(borrowID, userID, userName)
+
             GenerateBorrowReceipt(borrowID)
 
             MsgBox("Borrow request approved successfully!", MsgBoxStyle.Information, "Approval Complete")
@@ -273,8 +278,8 @@ Public Class BorrowPendingRequest
             Dim dt As New DataTable("BorrowReceipt")
             dt.Columns.Add("Borrow ID", GetType(String))
             dt.Columns.Add("Book ID", GetType(String))
-            dt.Columns.Add("Title", GetType(String)) ' Added Title column
-            dt.Columns.Add("ISBN", GetType(String))  ' Added ISBN column
+            dt.Columns.Add("Title", GetType(String))
+            dt.Columns.Add("ISBN", GetType(String))
             dt.Columns.Add("User ID", GetType(String))
             dt.Columns.Add("Borrower Name", GetType(String))
             dt.Columns.Add("Borrower Position", GetType(String))
@@ -287,7 +292,6 @@ Public Class BorrowPendingRequest
             dt.Columns.Add("Processed By", GetType(String))
             dt.Columns.Add("Request Date", GetType(String))
 
-            ' Query to get borrow information
             Dim borrowQuery As String = "
         SELECT [Borrow ID], [Book ID], [User ID], [Borrower Name], [Borrower Position], 
                [Borrower Privileges], [Copies], [Borrow Date], [Due Date], [Status], 
@@ -304,7 +308,6 @@ Public Class BorrowPendingRequest
                         Dim title As String = ""
                         Dim isbn As String = ""
 
-                        ' Get book details separately
                         If Not String.IsNullOrEmpty(bookID) Then
                             Dim bookDetails = GetBookDetails(bookID)
                             title = bookDetails.Title
@@ -408,7 +411,140 @@ Public Class BorrowPendingRequest
         End If
     End Sub
 
-    Private Sub dg_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dg.CellContentClick
+    Private Sub AddToTransactionReceipt(ByVal borrowID As String, ByVal userID As String, ByVal userName As String)
+        Try
+            cmd = New OleDbCommand("SELECT [Book ID List], [Copy List] FROM transactions WHERE [Borrow ID] = ?", con)
+            cmd.Parameters.AddWithValue("?", borrowID)
+            Dim reader As OleDbDataReader = cmd.ExecuteReader()
 
+            If reader.Read() Then
+                Dim bookIDList As String = reader("Book ID List").ToString()
+                Dim copyList As String = reader("Copy List").ToString()
+                reader.Close()
+
+                Dim receiptID As String = GenerateBorrowReceiptID()
+                Dim receiptDate As String = DateTime.Now.ToString("MM/dd/yyyy")
+
+                cmd = New OleDbCommand("INSERT INTO borrowReceipts ([Receipt ID], [Borrow ID], [Book ID List], [Copy List], [Receipt Date], [User ID], [User Name], [Processed By]) VALUES (?, ?, ?, ?, ?, ?, ? ,?)", con)
+                cmd.Parameters.AddWithValue("?", receiptID)
+                cmd.Parameters.AddWithValue("?", borrowID)
+                cmd.Parameters.AddWithValue("?", bookIDList)
+                cmd.Parameters.AddWithValue("?", copyList)
+                cmd.Parameters.AddWithValue("?", receiptDate)
+                cmd.Parameters.AddWithValue("?", userID)
+                cmd.Parameters.AddWithValue("?", userName)
+                cmd.Parameters.AddWithValue("?", XName)
+
+                cmd.ExecuteNonQuery()
+
+                MsgBox("Borrow receipt created! Receipt ID: " & receiptID, MsgBoxStyle.Information, "Receipt Generated")
+            Else
+                reader.Close()
+                MsgBox("Could not find transaction details for Borrow ID: " & borrowID, MsgBoxStyle.Exclamation, "Error")
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error creating transaction receipt: " & ex.Message, MsgBoxStyle.Exclamation, "Warning")
+        End Try
     End Sub
+
+
+    Private Function GetUserIDFromBorrowID(ByVal borrowID As String) As String
+        Try
+            Dim userID As String = ""
+            cmd = New OleDbCommand("SELECT [User ID] FROM transactions WHERE [Borrow ID] = ?", con)
+            cmd.Parameters.AddWithValue("?", borrowID)
+            Dim result = cmd.ExecuteScalar()
+            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                userID = result.ToString()
+            End If
+            Return userID
+        Catch ex As Exception
+            Return ""
+        End Try
+    End Function
+
+
+
+    Private Function GeBorrowerNameFromBorrowID(ByVal borrowID As String) As String
+        Try
+            Dim userID As String = ""
+            cmd = New OleDbCommand("SELECT [Borrower Name] FROM transactions WHERE [Borrow ID] = ?", con)
+            cmd.Parameters.AddWithValue("?", borrowID)
+            Dim result = cmd.ExecuteScalar()
+            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                userID = result.ToString()
+            End If
+            Return userID
+        Catch ex As Exception
+            Return ""
+        End Try
+    End Function
+
+    Public Function GenerateBorrowReceiptID() As String
+        Dim maxNumber As Integer = 0
+        Dim prefix As String = "BOR"
+        Dim datePart As String = DateTime.Now.ToString("yyyyMMdd")
+        Dim table As String = "borrowReceipts"
+        Dim attempts As Integer = 0
+        Dim maxAttempts As Integer = 3
+
+        Dim fullPrefix As String = prefix & "-" & datePart & "-"
+
+        While attempts < maxAttempts
+            Try
+                If con.State <> ConnectionState.Open Then
+                    OpenDB()
+                End If
+
+                Dim transaction As OleDbTransaction = con.BeginTransaction()
+
+                Try
+                    cmd = New OleDbCommand("SELECT MAX([Receipt ID]) FROM " & table & " WHERE [Receipt ID] LIKE '" & fullPrefix & "%'", con, transaction)
+                    Dim result As Object = cmd.ExecuteScalar()
+
+                    If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                        Dim lastID As String = result.ToString()
+                        If lastID.StartsWith(fullPrefix) Then
+                            Dim numberPart As String = lastID.Substring(fullPrefix.Length)
+                            If Integer.TryParse(numberPart, maxNumber) Then
+                                maxNumber += 1
+                            Else
+                                maxNumber = 1
+                            End If
+                        Else
+                            maxNumber = 1
+                        End If
+                    Else
+                        maxNumber = 1
+                    End If
+
+                    Dim newReceiptID As String = fullPrefix & maxNumber.ToString("D3")
+                    cmd = New OleDbCommand("SELECT COUNT(*) FROM " & table & " WHERE [Receipt ID] = @newID", con, transaction)
+                    cmd.Parameters.AddWithValue("@newID", newReceiptID)
+                    Dim count As Integer = CInt(cmd.ExecuteScalar())
+
+                    If count = 0 Then
+                        transaction.Commit()
+                        Return newReceiptID
+                    Else
+                        maxNumber += 1
+                    End If
+
+                Catch ex As Exception
+                    transaction.Rollback()
+                    Throw
+                End Try
+
+            Catch ex As Exception
+                attempts += 1
+                If attempts >= maxAttempts Then
+                    Return fullPrefix & DateTime.Now.ToString("HHmmss") & "-" & Guid.NewGuid().ToString("N").Substring(0, 4)
+                End If
+                System.Threading.Thread.Sleep(100)
+            End Try
+        End While
+
+        Return fullPrefix & "001"
+    End Function
 End Class

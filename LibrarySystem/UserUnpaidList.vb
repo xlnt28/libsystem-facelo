@@ -6,29 +6,36 @@ Public Class UserUnpaidList
         CustomizeDataGridView(dgvUserUnpaidList)
         LoadUserUnpaidList()
     End Sub
-
     Private Sub LoadUserUnpaidList()
         Try
             OpenDB()
 
-            Dim sql As String = "SELECT DISTINCT t.[Borrower Name], t.[Borrower Position], t.[Borrower Privileges] " &
-                               "FROM transactions t " &
-                               "INNER JOIN Penalties p ON t.[Borrower Name] = p.[User Name] " &
-                               "WHERE t.[Status] = 'Completed' AND p.[Penalty Status] = 'Unpaid' " &
-                               "ORDER BY t.[Borrower Name]"
+            Dim sql As String = "SELECT DISTINCT [User Name] " &
+                           "FROM Penalties " &
+                           "WHERE [Penalty Status] = 'Unpaid' " &
+                           "ORDER BY [User Name]"
+
 
             daUserUnpaidList = New OleDbDataAdapter(sql, con)
             dsUserUnpaidList = New DataSet()
             daUserUnpaidList.Fill(dsUserUnpaidList, "UserUnpaidList")
 
             dgvUserUnpaidList.DataSource = dsUserUnpaidList.Tables("UserUnpaidList")
+
+            If dgvUserUnpaidList.Columns.Count > 0 Then
+                dgvUserUnpaidList.Columns(0).HeaderText = "User Name"
+            End If
+
             dgvUserUnpaidList.ClearSelection()
+
+            If dsUserUnpaidList.Tables("UserUnpaidList").Rows.Count = 0 Then
+                MsgBox("No users with unpaid penalties found.", MsgBoxStyle.Information, "No Data")
+            End If
 
         Catch ex As Exception
             MsgBox("Error loading user list: " & ex.Message, MsgBoxStyle.Critical, "Error")
         End Try
     End Sub
-
     Private Sub PickUserToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PickUserToolStripMenuItem.Click
         SelectUser()
     End Sub
@@ -40,7 +47,7 @@ Public Class UserUnpaidList
         End If
 
         Dim selectedRow As DataGridViewRow = dgvUserUnpaidList.SelectedRows(0)
-        Dim userName As String = selectedRow.Cells("Borrower Name").Value.ToString()
+        Dim userName As String = selectedRow.Cells("User Name").Value.ToString()
 
         Dim penaltyForm As PenaltyForm = CType(Application.OpenForms("PenaltyForm"), PenaltyForm)
         If penaltyForm IsNot Nothing Then

@@ -4,7 +4,7 @@ Imports CrystalDecisions.CrystalReports.Engine
 
 Public Class AdminReturn
     Private showOnlyReturnRequests As Boolean = False
-
+    Private receiptIdForDisplay As String = ""
     Private Sub AdminReturn_Load(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Load
         CenterToScreen()
         Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
@@ -28,7 +28,6 @@ Public Class AdminReturn
             Else
                 dgv.DataSource = admindbds.Tables("transactions")
                 dgv.ClearSelection()
-                MsgBox("No borrowed items found.", MsgBoxStyle.Information, "Information")
             End If
         Catch ex As Exception
             MsgBox("Error loading items: " & ex.Message, MsgBoxStyle.Critical, "Error")
@@ -41,16 +40,16 @@ Public Class AdminReturn
 
             If onlyReturnRequests Then
                 sql = "SELECT [Transaction ID], [Borrow ID], [Book ID List], [User ID], [Borrower Name], [Borrower Position], " &
-                      "[Borrower Privileges], [Copy List], [Current Returned], [Request Date], [Borrow Date], " &
-                      "[Due Date], [Status], [Has Requested Return] " &
-                      "FROM transactions " &
-                      "WHERE ([Status] = 'Borrowed' AND [Has Requested Return] = 'Yes')"
+          "[Borrower Privileges], [Copy List], [Current Returned], [Borrow Date], " &
+          "[Due Date], [Status], [Has Requested Return] " &
+          "FROM transactions " &
+          "WHERE ([Status] = 'Borrowed' AND [Has Requested Return] = 'Yes')"
             Else
                 sql = "SELECT [Transaction ID], [Borrow ID], [Book ID List], [User ID], [Borrower Name], [Borrower Position], " &
-                      "[Borrower Privileges], [Copy List], [Current Returned], [Request Date], [Borrow Date], " &
-                      "[Due Date], [Status], [Has Requested Return] " &
-                      "FROM transactions " &
-                      "WHERE ([Status] = 'Borrowed')"
+          "[Borrower Privileges], [Copy List], [Current Returned], [Borrow Date], " &
+          "[Due Date], [Status], [Has Requested Return] " &
+          "FROM transactions " &
+          "WHERE ([Status] = 'Borrowed')"
             End If
 
             If Not String.IsNullOrEmpty(searchName) Then
@@ -101,6 +100,11 @@ Public Class AdminReturn
         Dim totalCopies() As String = copyList.Split(","c)
         Dim currentReturnedArray() As String = currentReturned.Split(","c)
 
+        If bookIDs.Length <> totalCopies.Length Then
+            MsgBox("Data inconsistency: Book IDs and Copies count mismatch", MsgBoxStyle.Critical, "Data Error")
+            Return
+        End If
+
         Dim totalCopiesInt(bookIDs.Length - 1) As Integer
         Dim currentReturnedInt(bookIDs.Length - 1) As Integer
 
@@ -127,8 +131,8 @@ Public Class AdminReturn
 
             If prf.ShowDialog() = DialogResult.OK Then
                 ProcessReturnQuantities(borrowID, bookIDs, totalCopiesInt, currentReturnedInt,
-                                      prf.GetReturnQuantities(), prf.GetConditionTypes(),
-                                      prf.GetPenaltyAmounts(), prf.GetTotalPenalty())
+                          prf.GetReturnQuantities(), prf.GetConditionTypes(),
+                          prf.GetPenaltyAmounts(), prf.GetTotalPenalty())
             End If
         End Using
     End Sub
@@ -145,9 +149,9 @@ Public Class AdminReturn
     End Function
 
     Private Sub ProcessReturnQuantities(ByVal borrowID As String, ByVal bookIDs() As String,
-                                  ByVal totalCopies() As Integer, ByVal currentReturned() As Integer,
-                                  ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
-                                  ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal)
+                  ByVal totalCopies() As Integer, ByVal currentReturned() As Integer,
+                  ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
+                  ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal)
 
         Dim totalReturnCount As Integer = 0
         For i As Integer = 0 To copiesToReturn.Length - 1
@@ -166,206 +170,115 @@ Public Class AdminReturn
             End If
         Next
 
-        Dim returnDate As DateTime = DateTime.Now
+        Using transaction As OleDbTransaction = con.BeginTransaction()
+            Try
+                Dim returnDate As DateTime = DateTime.Now
 
-        Try
-            Dim newCurrentReturnedArray(bookIDs.Length - 1) As String
-            Dim allBooksReturned As Boolean = True
+                Dim newCurrentReturnedArray(bookIDs.Length - 1) As String
+                Dim allBooksReturned As Boolean = True
 
-            For i As Integer = 0 To bookIDs.Length - 1
-                Dim newCurrentReturned As Integer = currentReturned(i) + copiesToReturn(i)
-                newCurrentReturnedArray(i) = newCurrentReturned.ToString()
+                For i As Integer = 0 To bookIDs.Length - 1
+                    Dim newCurrentReturned As Integer = currentReturned(i) + copiesToReturn(i)
+                    newCurrentReturnedArray(i) = newCurrentReturned.ToString()
 
-                If newCurrentReturned < totalCopies(i) Then
-                    allBooksReturned = False
-                End If
-            Next
-
-            Dim newCurrentReturnedString As String = String.Join(",", newCurrentReturnedArray)
-            Dim newStatus As String = If(allBooksReturned, "Completed", "Borrowed")
-
-            cmd = New OleDbCommand("UPDATE transactions SET [Current Returned] = ?, [Status] = ?, [Has Requested Return] = ? WHERE [Borrow ID] = ?", con)
-            cmd.Parameters.AddWithValue("?", newCurrentReturnedString)
-            cmd.Parameters.AddWithValue("?", newStatus)
-            cmd.Parameters.AddWithValue("?", "No")
-            cmd.Parameters.AddWithValue("?", borrowID)
-            cmd.ExecuteNonQuery()
-
-            For i As Integer = 0 To bookIDs.Length - 1
-                If copiesToReturn(i) > 0 Then
-                    Dim bookID As String = bookIDs(i).Trim()
-
-                    Dim individualCurrentReturned As Integer = GetIndividualCurrentReturned(borrowID, bookID)
-                    Dim newIndividualReturned As Integer = individualCurrentReturned + copiesToReturn(i)
-                    Dim individualAllReturned As Boolean = (newIndividualReturned >= GetIndividualTotalCopies(borrowID, bookID))
-
-                    cmd = New OleDbCommand("UPDATE borrowings SET [Current Returned] = ?, [Status] = ? WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
-                    cmd.Parameters.AddWithValue("?", newIndividualReturned.ToString())
-                    cmd.Parameters.AddWithValue("?", If(individualAllReturned, "Completed", "Borrowed"))
-                    cmd.Parameters.AddWithValue("?", borrowID)
-                    cmd.Parameters.AddWithValue("?", bookID)
-                    cmd.ExecuteNonQuery()
-
-                    CreateReturnLog(borrowID, bookID, copiesToReturn(i))
-
-                    If conditionTypes(i) = "Normal" Then
-                        cmd = New OleDbCommand("UPDATE books SET [Quantity] = [Quantity] + ? WHERE [Book ID] = ?", con)
-                        cmd.Parameters.AddWithValue("?", copiesToReturn(i))
-                        cmd.Parameters.AddWithValue("?", bookID)
-                        cmd.ExecuteNonQuery()
-                    ElseIf conditionTypes(i) = "Damaged" Then
-                        cmd = New OleDbCommand("UPDATE books SET [Quantity] = [Quantity] + ? WHERE [Book ID] = ?", con)
-                        cmd.Parameters.AddWithValue("?", copiesToReturn(i))
-                        cmd.Parameters.AddWithValue("?", bookID)
-                        cmd.ExecuteNonQuery()
-                    ElseIf conditionTypes(i) = "Lost" Then
+                    If newCurrentReturned < totalCopies(i) Then
+                        allBooksReturned = False
                     End If
+                Next
 
-                    cmd = New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con)
-                    cmd.Parameters.AddWithValue("?", bookID)
-                    Dim currentQtyObj = cmd.ExecuteScalar()
-                    Dim currentQty As Integer = If(currentQtyObj IsNot Nothing AndAlso Not IsDBNull(currentQtyObj), Convert.ToInt32(currentQtyObj), 0)
+                Dim newCurrentReturnedString As String = String.Join(",", newCurrentReturnedArray)
+                Dim newStatus As String = If(allBooksReturned, "Completed", "Borrowed")
 
-                    cmd = New OleDbCommand("UPDATE books SET [Status] = ? WHERE [Book ID] = ?", con)
-                    cmd.Parameters.AddWithValue("?", If(currentQty > 0, "Available", "Unavailable"))
-                    cmd.Parameters.AddWithValue("?", bookID)
+                Using cmd As New OleDbCommand("UPDATE transactions SET [Current Returned] = ?, [Status] = ?, [Has Requested Return] = ? WHERE [Borrow ID] = ?", con, transaction)
+                    cmd.Parameters.AddWithValue("?", newCurrentReturnedString)
+                    cmd.Parameters.AddWithValue("?", newStatus)
+                    cmd.Parameters.AddWithValue("?", "No")
+                    cmd.Parameters.AddWithValue("?", borrowID)
                     cmd.ExecuteNonQuery()
-                End If
-            Next
+                End Using
 
-            If totalPenalty > 0 Then
-                InsertPenaltyRecord(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate)
-            End If
+                For i As Integer = 0 To bookIDs.Length - 1
+                    If copiesToReturn(i) > 0 Then
+                        Try
+                            Dim bookID As String = bookIDs(i).Trim()
 
-            GenerateReturnReceipt(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate)
+                            CreateReturnLog(borrowID, bookID, copiesToReturn(i), transaction)
 
-            MsgBox("Return approved successfully.", MsgBoxStyle.Information, "Success")
-            LoadAllBorrowedItems()
+                            Dim individualCurrentReturned As Integer = GetIndividualCurrentReturned(borrowID, bookID)
+                            Dim newIndividualReturned As Integer = individualCurrentReturned + copiesToReturn(i)
+                            Dim individualAllReturned As Boolean = (newIndividualReturned >= GetIndividualTotalCopies(borrowID, bookID))
 
-        Catch ex As Exception
-            MsgBox("Error approving return: " & ex.Message, MsgBoxStyle.Critical, "Error")
-        End Try
-    End Sub
+                            Using cmd As New OleDbCommand("UPDATE borrowings SET [Current Returned] = ?, [Status] = ? WHERE [Borrow ID] = ? AND [Book ID] = ?", con, transaction)
+                                cmd.Parameters.AddWithValue("?", newIndividualReturned.ToString())
+                                cmd.Parameters.AddWithValue("?", If(individualAllReturned, "Completed", "Borrowed"))
+                                cmd.Parameters.AddWithValue("?", borrowID)
+                                cmd.Parameters.AddWithValue("?", bookID)
+                                cmd.ExecuteNonQuery()
+                            End Using
 
-    Private Sub GenerateReturnReceipt(ByVal borrowID As String, ByVal bookIDs() As String,
-                        ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
-                        ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal,
-                        ByVal returnDate As DateTime)
-        Try
-            Dim dt As New DataTable("ReturnReceipt")
-            dt.Columns.Add("Return Date", GetType(String))
-            dt.Columns.Add("Borrow ID", GetType(String))
-            dt.Columns.Add("Book ID", GetType(String))
-            dt.Columns.Add("ISBN", GetType(String))
-            dt.Columns.Add("Title", GetType(String))
-            dt.Columns.Add("Returned Quantity", GetType(Integer))
-            dt.Columns.Add("Condition", GetType(String))
-            dt.Columns.Add("Penalty Amount", GetType(Decimal))
-            dt.Columns.Add("Borrower Name", GetType(String))
-            dt.Columns.Add("Processed By", GetType(String))
-
-            For i As Integer = 0 To bookIDs.Length - 1
-                If copiesToReturn(i) > 0 Then
-                    Dim bookID As String = bookIDs(i)
-                    Dim bookISBN As String = ""
-                    Dim bookTitle As String = ""
-                    Dim borrowerName As String = ""
-
-                    Using cmdBook As New OleDbCommand("SELECT b.[ISBN], b.[Title], b.[Borrower Name] FROM borrowings b WHERE b.[Borrow ID] = ? AND b.[Book ID] = ?", con)
-                        cmdBook.Parameters.AddWithValue("?", borrowID)
-                        cmdBook.Parameters.AddWithValue("?", bookID)
-                        Using reader As OleDbDataReader = cmdBook.ExecuteReader()
-                            If reader.Read() Then
-                                bookISBN = If(IsDBNull(reader("ISBN")), "", reader("ISBN").ToString())
-                                bookTitle = If(IsDBNull(reader("Title")), "", reader("Title").ToString())
-                                borrowerName = If(IsDBNull(reader("Borrower Name")), "", reader("Borrower Name").ToString())
+                            If conditionTypes(i) = "Normal" Then
+                                Using cmd As New OleDbCommand("UPDATE books SET [Quantity] = [Quantity] + ? WHERE [Book ID] = ?", con, transaction)
+                                    cmd.Parameters.AddWithValue("?", copiesToReturn(i))
+                                    cmd.Parameters.AddWithValue("?", bookID)
+                                    cmd.ExecuteNonQuery()
+                                End Using
+                            ElseIf conditionTypes(i) = "Damaged" Then
+                                Using cmd As New OleDbCommand("UPDATE books SET [Quantity] = [Quantity] + ? WHERE [Book ID] = ?", con, transaction)
+                                    cmd.Parameters.AddWithValue("?", copiesToReturn(i))
+                                    cmd.Parameters.AddWithValue("?", bookID)
+                                    cmd.ExecuteNonQuery()
+                                End Using
                             End If
-                        End Using
-                    End Using
 
-                    dt.Rows.Add(
-                    returnDate.ToString("MM/dd/yyyy"),
-                    borrowID,
-                    bookID,
-                    bookISBN,
-                    bookTitle,
-                    copiesToReturn(i),
-                    conditionTypes(i),
-                    penaltyAmounts(i),
-                    borrowerName,
-                    XName
-                )
+                            Using cmd As New OleDbCommand("SELECT [Quantity] FROM books WHERE [Book ID] = ?", con, transaction)
+                                cmd.Parameters.AddWithValue("?", bookID)
+                                Dim currentQtyObj = cmd.ExecuteScalar()
+                                Dim currentQty As Integer = If(currentQtyObj IsNot Nothing AndAlso Not IsDBNull(currentQtyObj), Convert.ToInt32(currentQtyObj), 0)
+
+                                Using updateCmd As New OleDbCommand("UPDATE books SET [Status] = ? WHERE [Book ID] = ?", con, transaction)
+                                    updateCmd.Parameters.AddWithValue("?", If(currentQty > 0, "Available", "Unavailable"))
+                                    updateCmd.Parameters.AddWithValue("?", bookID)
+                                    updateCmd.ExecuteNonQuery()
+                                End Using
+                            End Using
+                        Catch ex As Exception
+                            Throw New Exception("Error processing book " & bookIDs(i) & ": " & ex.Message)
+                        End Try
+                    End If
+                Next
+
+                If totalPenalty > 0 Then
+                    InsertPenaltyRecord(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate, transaction)
                 End If
-            Next
 
-            Dim reportForm As New ReportForm()
-            Dim report As New ReportDocument()
-            Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CRReturnBook.rpt")
+                GenerateReturnReceipt(borrowID, bookIDs, copiesToReturn, conditionTypes, penaltyAmounts, totalPenalty, returnDate, transaction)
 
-            If Not File.Exists(reportPath) Then
-                MsgBox("Return receipt report not found: " & reportPath, MsgBoxStyle.Critical, "Error")
-                Return
-            End If
+                transaction.Commit()
 
-            report.Load(reportPath)
-            report.SetDataSource(dt)
-            reportForm.CrystalReportViewer1.ReportSource = report
-            reportForm.ShowDialog()
+                If Not String.IsNullOrEmpty(receiptIdForDisplay) Then
+                    DisplayReturnReceipt(receiptIdForDisplay)
+                End If
 
-            report.Close()
-            report.Dispose()
-            reportForm.Dispose()
+                MsgBox("Return approved successfully.", MsgBoxStyle.Information, "Success")
+                LoadAllBorrowedItems()
 
-        Catch ex As Exception
-            MsgBox("Error generating return receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
-        End Try
+            Catch ex As Exception
+                transaction.Rollback()
+                MsgBox("Error approving return: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            End Try
+        End Using
     End Sub
 
-
-    Private Function GetIndividualCurrentReturned(ByVal borrowID As String, ByVal bookID As String) As Integer
+    Private Sub CreateReturnLog(ByVal borrowID As String, ByVal bookID As String, ByVal returnedQuantity As Integer, ByVal transaction As OleDbTransaction)
         Try
-            cmd = New OleDbCommand("SELECT [Current Returned] FROM borrowings WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
-            cmd.Parameters.AddWithValue("?", borrowID)
-            cmd.Parameters.AddWithValue("?", bookID)
-            Dim result As Object = cmd.ExecuteScalar()
-            If result IsNot Nothing AndAlso Not IsDBNull(result) AndAlso Integer.TryParse(result.ToString(), Nothing) Then
-                Return Convert.ToInt32(result)
-            End If
-            Return 0
-        Catch ex As Exception
-            Return 0
-        End Try
-    End Function
-
-    Private Function GetIndividualTotalCopies(ByVal borrowID As String, ByVal bookID As String) As Integer
-        Try
-            cmd = New OleDbCommand("SELECT [Copies] FROM borrowings WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
-            cmd.Parameters.AddWithValue("?", borrowID)
-            cmd.Parameters.AddWithValue("?", bookID)
-            Dim result As Object = cmd.ExecuteScalar()
-            If result IsNot Nothing AndAlso Not IsDBNull(result) AndAlso Integer.TryParse(result.ToString(), Nothing) Then
-                Return Convert.ToInt32(result)
-            End If
-            Return 0
-        Catch ex As Exception
-            Return 0
-        End Try
-    End Function
-
-    Private Sub CreateReturnLog(ByVal borrowID As String, ByVal bookID As String, ByVal returnedQuantity As Integer)
-        Try
-            If con.State <> ConnectionState.Open Then
-                OpenDB()
-            End If
-
-            Dim returnID As String = GenerateNextReturnID()
+            Dim returnID As String = GenerateNextReturnID(transaction)
             Dim returnDate As DateTime = DateTime.Now
 
             Dim bookISBN As String = ""
             Dim bookTitle As String = ""
             Dim borrowerName As String = ""
 
-            Using cmdDetails As New OleDbCommand("SELECT [ISBN], [Title], [Borrower Name] FROM borrowings WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
+            Using cmdDetails As New OleDbCommand("SELECT [ISBN], [Title], [Borrower Name] FROM borrowings WHERE [Borrow ID] = ? AND [Book ID] = ?", con, transaction)
                 cmdDetails.Parameters.AddWithValue("?", borrowID)
                 cmdDetails.Parameters.AddWithValue("?", bookID)
                 Using reader As OleDbDataReader = cmdDetails.ExecuteReader()
@@ -377,51 +290,246 @@ Public Class AdminReturn
                 End Using
             End Using
 
-            cmd = New OleDbCommand("
-        INSERT INTO returnLog 
-        ([ReturnID], [Borrow ID], [Book ID], [ISBN], [Title], [Returned Quantity], [Return Date], [Processed By], [Borrower Name]) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+            Using cmd As New OleDbCommand("
+    INSERT INTO returnLog 
+    ([ReturnID], [Borrow ID], [Book ID], [ISBN], [Title], [Returned Quantity], [Return Date], [Processed By], [Borrower Name]) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", con, transaction)
 
-            cmd.Parameters.AddWithValue("?", returnID)
-            cmd.Parameters.AddWithValue("?", borrowID)
-            cmd.Parameters.AddWithValue("?", bookID)
-            cmd.Parameters.AddWithValue("?", bookISBN)
-            cmd.Parameters.AddWithValue("?", bookTitle)
+                cmd.Parameters.AddWithValue("?", returnID)
+                cmd.Parameters.AddWithValue("?", borrowID)
+                cmd.Parameters.AddWithValue("?", bookID)
+                cmd.Parameters.AddWithValue("?", bookISBN)
+                cmd.Parameters.AddWithValue("?", bookTitle)
 
-            Dim param As New OleDbParameter("?", OleDbType.Integer)
-            param.Value = returnedQuantity
-            cmd.Parameters.Add(param)
+                Dim param As New OleDbParameter("?", OleDbType.Integer)
+                param.Value = returnedQuantity
+                cmd.Parameters.Add(param)
 
-            Dim dateParam As New OleDbParameter("?", OleDbType.Date)
-            dateParam.Value = returnDate
-            cmd.Parameters.Add(dateParam)
+                Dim dateParam As New OleDbParameter("?", OleDbType.Date)
+                dateParam.Value = returnDate
+                cmd.Parameters.Add(dateParam)
 
-            cmd.Parameters.AddWithValue("?", XName)
-            cmd.Parameters.AddWithValue("?", borrowerName)
+                cmd.Parameters.AddWithValue("?", XName)
+                cmd.Parameters.AddWithValue("?", borrowerName)
 
-            Dim rowsAffected As Integer = cmd.ExecuteNonQuery()
-
-            If rowsAffected > 0 Then
-                Console.WriteLine("Successfully inserted into returnLog.")
-            Else
-                MsgBox("Failed to insert into returnLog", MsgBoxStyle.Exclamation, "Insert Failed")
-            End If
+                cmd.ExecuteNonQuery()
+            End Using
 
         Catch ex As Exception
-            MsgBox($"Error creating return log: {ex.Message}", MsgBoxStyle.Critical, "Database Error")
+            Throw New Exception("Error creating return log: " & ex.Message)
         End Try
     End Sub
 
+    Private Function GenerateNextReturnID(ByVal transaction As OleDbTransaction) As String
+        Dim maxNumber As Integer = 0
+        Dim prefix As String = "RTN-"
+
+        Try
+            Using cmd As New OleDbCommand("SELECT MAX([ReturnID]) FROM returnLog WHERE [ReturnID] LIKE '" & prefix & "%'", con, transaction)
+                Dim result As Object = cmd.ExecuteScalar()
+
+                If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                    Dim lastID As String = result.ToString()
+                    If lastID.StartsWith(prefix) Then
+                        Dim numberPart As String = lastID.Substring(prefix.Length)
+                        If Integer.TryParse(numberPart, maxNumber) Then
+                            maxNumber += 1
+                        Else
+                            maxNumber = 1
+                        End If
+                    Else
+                        maxNumber = 1
+                    End If
+                Else
+                    maxNumber = 1
+                End If
+
+                Return prefix & maxNumber.ToString("D5")
+            End Using
+        Catch ex As Exception
+            Return prefix & DateTime.Now.ToString("yyyyMMddHHmmss") & Guid.NewGuid().ToString("N").Substring(0, 4)
+        End Try
+    End Function
+
+    Private Function GenerateNextReturnID() As String
+        Dim maxNumber As Integer = 0
+        Dim prefix As String = "RTN-"
+
+        Try
+            Using cmd As New OleDbCommand("SELECT MAX([ReturnID]) FROM returnLog WHERE [ReturnID] LIKE '" & prefix & "%'", con)
+                Dim result As Object = cmd.ExecuteScalar()
+
+                If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                    Dim lastID As String = result.ToString()
+                    If lastID.StartsWith(prefix) Then
+                        Dim numberPart As String = lastID.Substring(prefix.Length)
+                        If Integer.TryParse(numberPart, maxNumber) Then
+                            maxNumber += 1
+                        Else
+                            maxNumber = 1
+                        End If
+                    Else
+                        maxNumber = 1
+                    End If
+                Else
+                    maxNumber = 1
+                End If
+
+                Return prefix & maxNumber.ToString("D5")
+            End Using
+        Catch ex As Exception
+            Return prefix & "00001"
+        End Try
+    End Function
+
+    Private Sub GenerateReturnReceipt(ByVal borrowID As String, ByVal bookIDs() As String,
+              ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
+              ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal,
+              ByVal returnDate As DateTime, ByVal transaction As OleDbTransaction)
+        Try
+            Dim receiptId As String = GenerateReturnReceiptID()
+
+            Dim borrowerName As String = ""
+            Dim userID As String = ""
+            Using cmdBorrower As New OleDbCommand("SELECT [Borrower Name], [User ID] FROM transactions WHERE [Borrow ID] = ?", con, transaction)
+                cmdBorrower.Parameters.AddWithValue("?", borrowID)
+                Using reader As OleDbDataReader = cmdBorrower.ExecuteReader()
+                    If reader.Read() Then
+                        borrowerName = If(IsDBNull(reader("Borrower Name")), "", reader("Borrower Name").ToString())
+                        userID = If(IsDBNull(reader("User ID")), "", reader("User ID").ToString())
+                    End If
+                End Using
+            End Using
+
+            For i As Integer = 0 To bookIDs.Length - 1
+                If copiesToReturn(i) > 0 Then
+                    Dim bookID As String = bookIDs(i).Trim()
+
+                    Dim bookISBN As String = ""
+                    Dim bookTitle As String = ""
+                    Using cmdBook As New OleDbCommand("SELECT [ISBN], [Title] FROM books WHERE [Book ID] = ?", con, transaction)
+                        cmdBook.Parameters.AddWithValue("?", bookID)
+                        Using bookReader As OleDbDataReader = cmdBook.ExecuteReader()
+                            If bookReader.Read() Then
+                                bookISBN = If(IsDBNull(bookReader("ISBN")), "", bookReader("ISBN").ToString())
+                                bookTitle = If(IsDBNull(bookReader("Title")), "", bookReader("Title").ToString())
+                            End If
+                        End Using
+                    End Using
+
+                    Using cmd As New OleDbCommand("
+    INSERT INTO returnReceipts 
+    ([Receipt ID], [Borrow ID], [Book ID], [Copy], [User ID], [Borrower Name], [Processed By], [Return Date], [Title], [ISBN], [Condition]) 
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con, transaction)
+
+                        cmd.Parameters.AddWithValue("?", receiptId)
+                        cmd.Parameters.AddWithValue("?", borrowID)
+                        cmd.Parameters.AddWithValue("?", bookID)
+                        cmd.Parameters.AddWithValue("?", copiesToReturn(i).ToString())
+                        cmd.Parameters.AddWithValue("?", userID)
+                        cmd.Parameters.AddWithValue("?", borrowerName)
+                        cmd.Parameters.AddWithValue("?", XName)
+                        cmd.Parameters.AddWithValue("?", returnDate.ToString("MM/dd/yyyy"))
+                        cmd.Parameters.AddWithValue("?", bookTitle)
+                        cmd.Parameters.AddWithValue("?", bookISBN)
+                        cmd.Parameters.AddWithValue("?", conditionTypes(i))
+
+                        cmd.ExecuteNonQuery()
+                    End Using
+                End If
+            Next
+
+            receiptIdForDisplay = receiptId
+
+        Catch ex As Exception
+            Throw New Exception("Error generating return receipt: " & ex.Message)
+        End Try
+    End Sub
+
+    Private Sub DisplayReturnReceipt(ByVal receiptId As String)
+        Try
+            If con.State <> ConnectionState.Open Then
+                con.Open()
+            End If
+
+            Dim reportForm As New ReportForm()
+            Dim report As New ReportDocument()
+            Dim reportPath As String = Path.Combine(Application.StartupPath, "Reports\CRReturnBook.rpt")
+
+            If Not File.Exists(reportPath) Then
+                MsgBox("Return receipt report not found: " & reportPath, MsgBoxStyle.Critical, "Error")
+                Return
+            End If
+
+            Dim query As String = "SELECT * FROM returnReceipts WHERE [Receipt ID] = ?"
+            Using da As New OleDbDataAdapter(query, con)
+                da.SelectCommand.Parameters.AddWithValue("?", receiptId)
+                Dim dt As New DataTable()
+                da.Fill(dt)
+
+                If dt.Rows.Count > 0 Then
+                    report.Load(reportPath)
+                    report.SetDataSource(dt)
+                    reportForm.CrystalReportViewer1.ReportSource = report
+                    reportForm.ShowDialog()
+                Else
+                    MsgBox("Receipt data not found.", MsgBoxStyle.Exclamation)
+                End If
+            End Using
+
+            report.Close()
+            report.Dispose()
+            reportForm.Dispose()
+
+        Catch ex As Exception
+            MsgBox("Error displaying return receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
+
+    Private Function GetIndividualCurrentReturned(ByVal borrowID As String, ByVal bookID As String) As Integer
+        Try
+            Using cmd As New OleDbCommand("SELECT [Current Returned] FROM borrowings WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
+                cmd.Parameters.AddWithValue("?", borrowID)
+                cmd.Parameters.AddWithValue("?", bookID)
+                Dim result As Object = cmd.ExecuteScalar()
+                Dim parsedValue As Integer
+                If result IsNot Nothing AndAlso Not IsDBNull(result) AndAlso Integer.TryParse(result.ToString(), parsedValue) Then
+                    Return parsedValue
+                End If
+                Return 0
+            End Using
+        Catch ex As Exception
+            Return 0
+        End Try
+    End Function
+
+    Private Function GetIndividualTotalCopies(ByVal borrowID As String, ByVal bookID As String) As Integer
+        Try
+            Using cmd As New OleDbCommand("SELECT [Copies] FROM borrowings WHERE [Borrow ID] = ? AND [Book ID] = ?", con)
+                cmd.Parameters.AddWithValue("?", borrowID)
+                cmd.Parameters.AddWithValue("?", bookID)
+                Dim result As Object = cmd.ExecuteScalar()
+                Dim parsedValue As Integer
+                If result IsNot Nothing AndAlso Not IsDBNull(result) AndAlso Integer.TryParse(result.ToString(), parsedValue) Then
+                    Return parsedValue
+                End If
+                Return 0
+            End Using
+        Catch ex As Exception
+            Return 0
+        End Try
+    End Function
+
     Private Sub InsertPenaltyRecord(ByVal borrowID As String, ByVal bookIDs() As String,
-                                  ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
-                                  ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal,
-                                  ByVal returnDate As DateTime)
+                      ByVal copiesToReturn() As Integer, ByVal conditionTypes() As String,
+                      ByVal penaltyAmounts() As Decimal, ByVal totalPenalty As Decimal,
+                      ByVal returnDate As DateTime, ByVal transaction As OleDbTransaction)
         Try
             Dim borrowerName As String = ""
             Dim dueDate As DateTime = DateTime.Now
             Dim borrowerPrivilege As String = ""
 
-            Using cmdName As New OleDbCommand("SELECT [Borrower Name], [Due Date], [Borrower Privileges] FROM transactions WHERE [Borrow ID] = ?", con)
+            Using cmdName As New OleDbCommand("SELECT [Borrower Name], [Due Date], [Borrower Privileges] FROM transactions WHERE [Borrow ID] = ?", con, transaction)
                 cmdName.Parameters.AddWithValue("?", borrowID)
                 Using reader As OleDbDataReader = cmdName.ExecuteReader()
                     If reader.Read() Then
@@ -453,9 +561,9 @@ Public Class AdminReturn
                         Dim penaltyID As String = GenerateNextPenaltyID()
 
                         Using insertCmd As New OleDbCommand("
-                        INSERT INTO Penalties 
-                        ([PenaltyID], [Borrow ID], [Book ID], [Quantity], [Book Condition], [Condition Penalty], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date], [User Name], [Processed By]) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con)
+            INSERT INTO Penalties 
+            ([PenaltyID], [Borrow ID], [Book ID], [Quantity], [Book Condition], [Condition Penalty], [Days Late], [Penalty Amount], [Penalty Status], [Due Date], [Return Date], [User Name], [Processed By]) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", con, transaction)
 
                             insertCmd.Parameters.AddWithValue("?", penaltyID)
                             insertCmd.Parameters.AddWithValue("?", borrowID)
@@ -477,67 +585,39 @@ Public Class AdminReturn
             Next
 
         Catch ex As Exception
-            MsgBox("Error creating penalty record: " & ex.Message, MsgBoxStyle.Critical, "Error")
+            Throw New Exception("Error creating penalty record: " & ex.Message)
         End Try
     End Sub
-
-    Private Function GenerateNextReturnID() As String
-        Dim maxNumber As Integer = 0
-        Dim prefix As String = "RTN-"
-
-        Try
-            cmd = New OleDbCommand("SELECT MAX([ReturnID]) FROM returnLog WHERE [ReturnID] LIKE '" & prefix & "%'", con)
-            Dim result As Object = cmd.ExecuteScalar()
-
-            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
-                Dim lastID As String = result.ToString()
-                If lastID.StartsWith(prefix) Then
-                    Dim numberPart As String = lastID.Substring(prefix.Length)
-                    If Integer.TryParse(numberPart, maxNumber) Then
-                        maxNumber += 1
-                    Else
-                        maxNumber = 1
-                    End If
-                Else
-                    maxNumber = 1
-                End If
-            Else
-                maxNumber = 1
-            End If
-
-            Return prefix & maxNumber.ToString("D5")
-        Catch ex As Exception
-            Return prefix & "00001"
-        End Try
-    End Function
 
     Private Function GenerateNextPenaltyID() As String
         Dim maxNumber As Integer = 0
         Dim prefix As String = "PI-"
 
         Try
-            cmd = New OleDbCommand("SELECT MAX([PenaltyID]) FROM Penalties WHERE [PenaltyID] LIKE '" & prefix & "%'", con)
-            Dim result As Object = cmd.ExecuteScalar()
+            Using cmd As New OleDbCommand("SELECT MAX([PenaltyID]) FROM Penalties WHERE [PenaltyID] LIKE '" & prefix & "%'", con)
+                Dim result As Object = cmd.ExecuteScalar()
 
-            If result IsNot Nothing AndAlso Not IsDBNull(result) Then
-                Dim lastID As String = result.ToString()
-                If lastID.StartsWith(prefix) Then
-                    Dim numberPart As String = lastID.Substring(prefix.Length)
-                    If Integer.TryParse(numberPart, maxNumber) Then
-                        maxNumber += 1
+                If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                    Dim lastID As String = result.ToString()
+                    If lastID.StartsWith(prefix) Then
+                        Dim numberPart As String = lastID.Substring(prefix.Length)
+                        If Integer.TryParse(numberPart, maxNumber) Then
+                            maxNumber += 1
+                        Else
+                            maxNumber = 1
+                        End If
                     Else
                         maxNumber = 1
                     End If
                 Else
                     maxNumber = 1
                 End If
-            Else
-                maxNumber = 1
-            End If
 
-            Return prefix & maxNumber.ToString("D5")
+                Return prefix & maxNumber.ToString("D5")
+            End Using
         Catch ex As Exception
-            Return prefix & "00001"
+            Dim random As New Random()
+            Return prefix & DateTime.Now.ToString("HHmmss") & random.Next(10, 99).ToString()
         End Try
     End Function
 
@@ -613,7 +693,45 @@ Public Class AdminReturn
         End If
     End Sub
 
-    Private Sub dgv_CellContentClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv.CellContentClick
+    Public Function GenerateReturnReceiptID() As String
+        Dim maxNumber As Integer = 0
+        Dim prefix As String = "RET"
+        Dim datePart As String = DateTime.Now.ToString("yyyyMMdd")
+        Dim fullPrefix As String = prefix & "-" & datePart & "-"
 
-    End Sub
+        Dim connStr As String = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" &
+                                     Application.StartupPath & "\Database\library.mdb"
+
+        Using separateCon As New OleDbConnection(connStr)
+            Try
+                separateCon.Open()
+
+                Using cmd As New OleDbCommand("SELECT MAX([Receipt ID]) FROM returnReceipts WHERE [Receipt ID] LIKE '" & fullPrefix & "%'", separateCon)
+                    Dim result As Object = cmd.ExecuteScalar()
+
+                    If result IsNot Nothing AndAlso Not IsDBNull(result) Then
+                        Dim lastID As String = result.ToString()
+                        If lastID.StartsWith(fullPrefix) Then
+                            Dim numberPart As String = lastID.Substring(fullPrefix.Length)
+                            If Integer.TryParse(numberPart, maxNumber) Then
+                                maxNumber += 1
+                            Else
+                                maxNumber = 1
+                            End If
+                        Else
+                            maxNumber = 1
+                        End If
+                    Else
+                        maxNumber = 1
+                    End If
+                End Using
+
+                Return fullPrefix & maxNumber.ToString("D3")
+
+            Catch ex As Exception
+                Return fullPrefix & DateTime.Now.ToString("HHmmss") & "-" & Guid.NewGuid().ToString("N").Substring(0, 4)
+            End Try
+        End Using
+    End Function
+
 End Class

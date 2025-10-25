@@ -1,5 +1,6 @@
 ﻿Imports System.Data.OleDb
 Imports System.IO
+Imports ClosedXML.Excel
 Imports CrystalDecisions.CrystalReports.Engine
 
 Public Class frmmain
@@ -10,8 +11,16 @@ Public Class frmmain
         Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
         Me.WindowState = FormWindowState.Maximized
 
-        LoadReceiptData("Borrow")
+        If isPanReceiptOpen Then
+            ReceiptsToolStripMenuItem.Text = "Hide Receipts"
+        Else
+            ReceiptsToolStripMenuItem.Text = "Show Receipts"
+        End If
+
+        panReceipts.Visible = isPanReceiptOpen
+        LoadReceiptData(receiptCurrentType)
         UpdateReceiptMenuStatus()
+
     End Sub
 
     Private Sub MainForm_Activated(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Activated
@@ -20,8 +29,6 @@ Public Class frmmain
         txtPrivilege.Text = "Privilege : " & xpriv
         txtPosition.Text = "Position : " & xpost
         LoadUserImage()
-        panReceipts.Visible = isPanReceiptOpen
-        LoadReceiptData(receiptCurrentType)
 
         LoadStatistics()
 
@@ -132,10 +139,6 @@ Public Class frmmain
             Me.Close()
             Login.Visible = True
         End If
-    End Sub
-
-    Private Sub Form1_Activated(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Activated
-        OpenDB()
     End Sub
 
     Private Sub BorrowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BorrowToolStripMenuItem.Click
@@ -316,6 +319,19 @@ Public Class frmmain
         End If
     End Sub
 
+    Private Sub RefreshReceiptsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RefreshToolStripMenuItem.Click
+        RefreshReceipts()
+    End Sub
+
+    Private Sub RefreshReceipts()
+        Try
+            LoadReceiptData(receiptCurrentType)
+            MsgBox("Receipts refreshed successfully.", MsgBoxStyle.Information, "Refresh Complete")
+        Catch ex As Exception
+            MsgBox("Error refreshing receipts: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
+
     Private Sub LoadReceiptData(Optional receiptType As String = "Borrow")
         Try
             OpenDB()
@@ -348,7 +364,6 @@ Public Class frmmain
 
             CustomizeReceiptDataGridView(dgv)
 
-            Me.Text = "Library Management System - " & receiptType & " Receipts"
 
         Catch ex As Exception
             MsgBox("Error loading receipt data: " & ex.Message, MsgBoxStyle.Critical, "Error")
@@ -509,8 +524,12 @@ Public Class frmmain
         isPanReceiptOpen = Not isPanReceiptOpen
         panReceipts.Visible = isPanReceiptOpen
 
+        If isPanReceiptOpen Then
+            ReceiptsToolStripMenuItem.Text = "Hide Receipts"
+        Else
+            ReceiptsToolStripMenuItem.Text = "Show Receipts"
+        End If
         receiptCurrentType = "Borrow"
-        Me.Text = ""
     End Sub
 
     Private Sub SearchToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SearchToolStripMenuItem.Click
@@ -591,10 +610,8 @@ Public Class frmmain
                 If detectedType = "All" Then
                     Dim firstRowType As String = receiptDataSet.Tables("Receipts").Rows(0)("Type").ToString()
                     receiptCurrentType = firstRowType
-                    Me.Text = "Library Management System - Search Results (" & receiptDataSet.Tables("Receipts").Rows.Count & " found)"
                 Else
                     receiptCurrentType = detectedType
-                    Me.Text = "Library Management System - " & detectedType & " Receipts - Search Results (" & receiptDataSet.Tables("Receipts").Rows.Count & " found)"
                 End If
 
                 If Not panReceipts.Visible Then
@@ -602,7 +619,6 @@ Public Class frmmain
                     isPanReceiptOpen = True
                 End If
             Else
-                Me.Text = "Library Management System - No Results Found"
                 MsgBox("No receipts found for: " & searchTerm, MsgBoxStyle.Information, "Search Results")
             End If
 
@@ -614,4 +630,231 @@ Public Class frmmain
             CloseDB()
         End Try
     End Sub
+
+
+
+
+
+
+
+
+
+
+
+    ' book inv
+
+    Private Sub Excel_Click(sender As Object, e As EventArgs) Handles BIEToolStripMenuItem.Click
+        Try
+            Dim sfd As New SaveFileDialog()
+            sfd.Filter = "Excel Workbook (*.xlsx)|*.xlsx"
+            sfd.Title = "Save Excel File"
+            sfd.FileName = "BooksExport.xlsx"
+
+            If sfd.ShowDialog() = DialogResult.OK Then
+                Dim dt As New DataTable()
+                Using cmd As New OleDbCommand("SELECT [Book ID], [ISBN], [Title], [Author], [Publisher], [Publication Year], [Category], [Quantity], [Status] FROM books ORDER BY [Book ID]", con)
+                    Using da As New OleDbDataAdapter(cmd)
+                        da.Fill(dt)
+                    End Using
+                End Using
+
+                If dt.Rows.Count = 0 Then
+                    MsgBox("No data to export.", MsgBoxStyle.Exclamation)
+                    Exit Sub
+                End If
+
+                Using wb As New XLWorkbook()
+                    Dim ws = wb.Worksheets.Add("Books")
+
+                    Dim headerRow As Integer = 1
+                    Dim headerNames As New Dictionary(Of String, String) From {
+                    {"Book ID", "BOOK ID"},
+                    {"ISBN", "ISBN"},
+                    {"Title", "TITLE"},
+                    {"Author", "AUTHOR"},
+                    {"Publisher", "PUBLISHER"},
+                    {"Publication Year", "PUBLICATION YEAR"},
+                    {"Category", "CATEGORY"},
+                    {"Quantity", "QUANTITY"},
+                    {"Status", "STATUS"}
+                }
+
+                    For col As Integer = 0 To dt.Columns.Count - 1
+                        Dim orig = dt.Columns(col).ColumnName
+                        Dim display = If(headerNames.ContainsKey(orig), headerNames(orig), orig.ToUpper())
+                        ws.Cell(headerRow, col + 1).Value = display
+                        With ws.Cell(headerRow, col + 1).Style
+                            .Font.Bold = True
+                            .Font.FontSize = 11
+                            .Font.FontColor = XLColor.White
+                            .Fill.BackgroundColor = XLColor.FromArgb(79, 129, 189)
+                            .Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                            .Alignment.Vertical = XLAlignmentVerticalValues.Center
+                            .Border.OutsideBorder = XLBorderStyleValues.Thin
+                            .Alignment.WrapText = True
+                        End With
+                    Next
+                    ws.Row(headerRow).Height = 35
+
+                    Dim dataRow As Integer = headerRow + 1
+                    For Each row As DataRow In dt.Rows
+                        For col As Integer = 0 To dt.Columns.Count - 1
+                            Dim colName = dt.Columns(col).ColumnName
+                            Dim val As Object = If(row(col) IsNot DBNull.Value, row(col), "")
+                            If colName = "ISBN" AndAlso val IsNot Nothing AndAlso val.ToString().Trim() <> "" Then
+                                Dim isbn As String = val.ToString().Trim()
+                                isbn = isbn.Replace("-", "").Replace(" ", "")
+
+                                If isbn.Length = 10 Then
+                                    val = isbn.Substring(0, 3) & "-" & isbn.Substring(3, 1) & "-" & isbn.Substring(4, 5) & "-" & isbn.Substring(9, 1)
+                                ElseIf isbn.Length = 13 Then
+                                    val = isbn.Substring(0, 3) & "-" & isbn.Substring(3, 1) & "-" & isbn.Substring(4, 2) & "-" & isbn.Substring(6, 6) & "-" & isbn.Substring(12, 1)
+                                Else
+                                    val = isbn
+                                End If
+                            End If
+
+                            ws.Cell(dataRow, col + 1).Value = val
+                            With ws.Cell(dataRow, col + 1).Style
+                                .Font.FontSize = 10
+                                .Border.OutsideBorder = XLBorderStyleValues.Thin
+                                .Alignment.Vertical = XLAlignmentVerticalValues.Center
+                                .Alignment.WrapText = True
+                            End With
+
+                            Select Case colName
+                                Case "Title", "Author", "Publisher", "Category"
+                                    ws.Cell(dataRow, col + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left
+                                Case "ISBN", "Book ID", "Publication Year", "Quantity", "Status"
+                                    ws.Cell(dataRow, col + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center
+                                Case Else
+                                    ws.Cell(dataRow, col + 1).Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Left
+                            End Select
+                        Next
+                        dataRow += 1
+                    Next
+
+                    ws.Columns().AdjustToContents()
+                    For i = 1 To dt.Columns.Count
+                        If ws.Column(i).Width > 50 Then ws.Column(i).Width = 50
+                    Next
+
+                    With ws.PageSetup
+                        .PageOrientation = XLPageOrientation.Landscape
+                        .PaperSize = XLPaperSize.A4Paper
+                        .Margins.Top = 0.5
+                        .Margins.Bottom = 0.5
+                        .Margins.Left = 0.3
+                        .Margins.Right = 0.3
+                        .CenterHorizontally = True
+                        .FitToPages(1, 0)
+                        .SetRowsToRepeatAtTop(1, 1)
+                    End With
+
+                    wb.SaveAs(sfd.FileName)
+                End Using
+
+                MsgBox("Excel file saved to: " & sfd.FileName, MsgBoxStyle.Information)
+
+                Dim result As DialogResult = MessageBox.Show("Do you want to print the Excel file?", "Print", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Process.Start(sfd.FileName)
+                End If
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error exporting: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
+    Private Sub CrystalReport_Click(sender As Object, e As EventArgs) Handles BICRToolStripMenuItem.Click
+        Try
+            Dim dbPath As String = Application.StartupPath & "\Database\library.mdb"
+
+            Dim fullDataSet As New DataSet()
+
+            Using cmd As New OleDbCommand("SELECT * FROM books ORDER BY [Book ID]", con)
+                Using da As New OleDbDataAdapter(cmd)
+                    da.Fill(fullDataSet, "books")
+                End Using
+            End Using
+
+            Dim rpt As New ReportDocument()
+            rpt.Load(Application.StartupPath & "\Reports\BookInventoryReport.rpt")
+            rpt.SetDataSource(fullDataSet)
+
+            Dim frm As New ReportForm()
+            frm.CrystalReportViewer1.ReportSource = rpt
+            frm.CrystalReportViewer1.Refresh()
+            frm.ShowDialog()
+
+        Catch ex As Exception
+            MessageBox.Show("Error loading report: " & ex.Message, "Report Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        End Try
+    End Sub
+
+
+    ' user form
+
+    Private Sub CrystalReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UFCRToolStripMenuItem.Click
+        Try
+            Dim rpt As New ReportDocument()
+            rpt.Load(Application.StartupPath & "\Reports\UserForm.rpt")
+
+            rpt.SetDatabaseLogon("", "", Application.StartupPath, con.Database)
+            rpt.SetDataSource(dbds.Tables("tbluser"))
+
+            Dim frm As New ReportForm()
+            frm.CrystalReportViewer1.ReportSource = rpt
+            frm.CrystalReportViewer1.Refresh()
+            frm.ShowDialog()
+
+        Catch ex As Exception
+            MsgBox("Error loading Crystal Report: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
+
+    Private Sub ExcelToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles UFEToolStripMenuItem.Click
+        Try
+            Dim sfd As New SaveFileDialog()
+            sfd.Filter = "Excel Workbook (*.xlsx)|*.xlsx"
+            sfd.Title = "Save Excel File"
+            sfd.FileName = "UserExport.xlsx"
+
+            If sfd.ShowDialog() = DialogResult.OK Then
+                Dim dt As New DataTable()
+
+                Using cmd As New OleDbCommand("SELECT [User ID],[User Name],[Position],[Privileges] FROM tbluser ORDER BY [User ID]", con)
+                    Using da As New OleDbDataAdapter(cmd)
+                        da.Fill(dt)
+                    End Using
+                End Using
+
+                Using wb As New XLWorkbook()
+                    Dim ws = wb.Worksheets.Add(dt, "Users")
+
+                    ws.Columns().AdjustToContents()
+
+                    With ws.PageSetup
+                        .PageOrientation = XLPageOrientation.Landscape
+                        .FitToPages(1, 0)
+                    End With
+
+                    wb.SaveAs(sfd.FileName)
+                End Using
+
+                MsgBox("Excel file saved to: " & sfd.FileName, MsgBoxStyle.Information)
+
+                Dim result As DialogResult = MessageBox.Show("Do you want to print the Excel file?", "Print", MessageBoxButtons.YesNo, MessageBoxIcon.Question)
+                If result = DialogResult.Yes Then
+                    Process.Start(sfd.FileName)
+                End If
+            End If
+
+        Catch ex As Exception
+            MsgBox("Error exporting: " & ex.Message, MsgBoxStyle.Critical)
+        End Try
+    End Sub
+
 End Class

@@ -23,8 +23,8 @@ Partial Class frmmain
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmmain))
-        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuUserForm = New System.Windows.Forms.ToolStripMenuItem()
@@ -38,11 +38,11 @@ Partial Class frmmain
         Me.BorrowPendingRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.UserFormToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CrystalReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ExcelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UFCRToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UFEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BookInventoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CrystalReportToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ExcelToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BICRToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BIEToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReceiptsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuLogout = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -100,6 +100,7 @@ Partial Class frmmain
         Me.MenuToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PrintReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BorrowReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReturnReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -229,46 +230,64 @@ Partial Class frmmain
         '
         'UserFormToolStripMenuItem
         '
-        Me.UserFormToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CrystalReportToolStripMenuItem, Me.ExcelToolStripMenuItem})
+        Me.UserFormToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UFCRToolStripMenuItem, Me.UFEToolStripMenuItem})
+        Me.UserFormToolStripMenuItem.Image = CType(resources.GetObject("UserFormToolStripMenuItem.Image"), System.Drawing.Image)
         Me.UserFormToolStripMenuItem.Name = "UserFormToolStripMenuItem"
-        Me.UserFormToolStripMenuItem.Size = New System.Drawing.Size(258, 36)
+        Me.UserFormToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.U), System.Windows.Forms.Keys)
+        Me.UserFormToolStripMenuItem.Size = New System.Drawing.Size(336, 36)
         Me.UserFormToolStripMenuItem.Text = "User Form"
         '
-        'CrystalReportToolStripMenuItem
+        'UFCRToolStripMenuItem
         '
-        Me.CrystalReportToolStripMenuItem.Name = "CrystalReportToolStripMenuItem"
-        Me.CrystalReportToolStripMenuItem.Size = New System.Drawing.Size(246, 36)
-        Me.CrystalReportToolStripMenuItem.Text = "Crystal Report"
+        Me.UFCRToolStripMenuItem.Image = CType(resources.GetObject("UFCRToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.UFCRToolStripMenuItem.Name = "UFCRToolStripMenuItem"
+        Me.UFCRToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.U), System.Windows.Forms.Keys)
+        Me.UFCRToolStripMenuItem.Size = New System.Drawing.Size(401, 36)
+        Me.UFCRToolStripMenuItem.Text = "Crystal Report"
         '
-        'ExcelToolStripMenuItem
+        'UFEToolStripMenuItem
         '
-        Me.ExcelToolStripMenuItem.Name = "ExcelToolStripMenuItem"
-        Me.ExcelToolStripMenuItem.Size = New System.Drawing.Size(246, 36)
-        Me.ExcelToolStripMenuItem.Text = "Excel"
+        Me.UFEToolStripMenuItem.Image = CType(resources.GetObject("UFEToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.UFEToolStripMenuItem.Name = "UFEToolStripMenuItem"
+        Me.UFEToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
+            Or System.Windows.Forms.Keys.U), System.Windows.Forms.Keys)
+        Me.UFEToolStripMenuItem.Size = New System.Drawing.Size(401, 36)
+        Me.UFEToolStripMenuItem.Text = "Excel"
         '
         'BookInventoryToolStripMenuItem
         '
-        Me.BookInventoryToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CrystalReportToolStripMenuItem1, Me.ExcelToolStripMenuItem1})
+        Me.BookInventoryToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BICRToolStripMenuItem, Me.BIEToolStripMenuItem})
+        Me.BookInventoryToolStripMenuItem.Image = CType(resources.GetObject("BookInventoryToolStripMenuItem.Image"), System.Drawing.Image)
         Me.BookInventoryToolStripMenuItem.Name = "BookInventoryToolStripMenuItem"
-        Me.BookInventoryToolStripMenuItem.Size = New System.Drawing.Size(258, 36)
+        Me.BookInventoryToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
+        Me.BookInventoryToolStripMenuItem.Size = New System.Drawing.Size(336, 36)
         Me.BookInventoryToolStripMenuItem.Text = "Book Inventory"
         '
-        'CrystalReportToolStripMenuItem1
+        'BICRToolStripMenuItem
         '
-        Me.CrystalReportToolStripMenuItem1.Name = "CrystalReportToolStripMenuItem1"
-        Me.CrystalReportToolStripMenuItem1.Size = New System.Drawing.Size(246, 36)
-        Me.CrystalReportToolStripMenuItem1.Text = "Crystal Report"
+        Me.BICRToolStripMenuItem.Image = CType(resources.GetObject("BICRToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.BICRToolStripMenuItem.Name = "BICRToolStripMenuItem"
+        Me.BICRToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
+            Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
+        Me.BICRToolStripMenuItem.Size = New System.Drawing.Size(399, 36)
+        Me.BICRToolStripMenuItem.Text = "Crystal Report"
         '
-        'ExcelToolStripMenuItem1
+        'BIEToolStripMenuItem
         '
-        Me.ExcelToolStripMenuItem1.Name = "ExcelToolStripMenuItem1"
-        Me.ExcelToolStripMenuItem1.Size = New System.Drawing.Size(246, 36)
-        Me.ExcelToolStripMenuItem1.Text = "Excel"
+        Me.BIEToolStripMenuItem.Image = CType(resources.GetObject("BIEToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.BIEToolStripMenuItem.Name = "BIEToolStripMenuItem"
+        Me.BIEToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
+            Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
+        Me.BIEToolStripMenuItem.Size = New System.Drawing.Size(399, 36)
+        Me.BIEToolStripMenuItem.Text = "Excel"
         '
         'ReceiptsToolStripMenuItem
         '
+        Me.ReceiptsToolStripMenuItem.Image = CType(resources.GetObject("ReceiptsToolStripMenuItem.Image"), System.Drawing.Image)
         Me.ReceiptsToolStripMenuItem.Name = "ReceiptsToolStripMenuItem"
-        Me.ReceiptsToolStripMenuItem.Size = New System.Drawing.Size(258, 36)
+        Me.ReceiptsToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
+        Me.ReceiptsToolStripMenuItem.Size = New System.Drawing.Size(336, 36)
         Me.ReceiptsToolStripMenuItem.Text = "Receipts"
         '
         'menuLogout
@@ -388,7 +407,7 @@ Partial Class frmmain
         Me.Panel4.Controls.Add(Me.Label1)
         Me.Panel4.Location = New System.Drawing.Point(0, 0)
         Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(1384, 188)
+        Me.Panel4.Size = New System.Drawing.Size(1384, 174)
         Me.Panel4.TabIndex = 7
         '
         'PictureBox1
@@ -407,7 +426,7 @@ Partial Class frmmain
         Me.Panel6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel6.Controls.Add(Me.lblCurrentBorrowings)
         Me.Panel6.Controls.Add(Me.Label2)
-        Me.Panel6.Location = New System.Drawing.Point(31, 20)
+        Me.Panel6.Location = New System.Drawing.Point(21, 27)
         Me.Panel6.Name = "Panel6"
         Me.Panel6.Size = New System.Drawing.Size(302, 193)
         Me.Panel6.TabIndex = 8
@@ -438,7 +457,7 @@ Partial Class frmmain
         Me.Panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel7.Controls.Add(Me.lblCurrentRequestedBook)
         Me.Panel7.Controls.Add(Me.Label3)
-        Me.Panel7.Location = New System.Drawing.Point(368, 20)
+        Me.Panel7.Location = New System.Drawing.Point(352, 27)
         Me.Panel7.Name = "Panel7"
         Me.Panel7.Size = New System.Drawing.Size(302, 193)
         Me.Panel7.TabIndex = 9
@@ -469,7 +488,7 @@ Partial Class frmmain
         Me.Panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel8.Controls.Add(Me.lblUnpaidBorrowedBooks)
         Me.Panel8.Controls.Add(Me.Label6)
-        Me.Panel8.Location = New System.Drawing.Point(368, 219)
+        Me.Panel8.Location = New System.Drawing.Point(352, 226)
         Me.Panel8.Name = "Panel8"
         Me.Panel8.Size = New System.Drawing.Size(302, 193)
         Me.Panel8.TabIndex = 9
@@ -501,7 +520,7 @@ Partial Class frmmain
         Me.Panel9.Controls.Add(Me.lblBooksReturned)
         Me.Panel9.Controls.Add(Me.Label5)
         Me.Panel9.Controls.Add(Me.Label4)
-        Me.Panel9.Location = New System.Drawing.Point(31, 219)
+        Me.Panel9.Location = New System.Drawing.Point(21, 226)
         Me.Panel9.Name = "Panel9"
         Me.Panel9.Size = New System.Drawing.Size(302, 193)
         Me.Panel9.TabIndex = 9
@@ -540,7 +559,7 @@ Partial Class frmmain
         Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button1.Font = New System.Drawing.Font("Segoe UI", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button1.ForeColor = System.Drawing.Color.Black
-        Me.Button1.Location = New System.Drawing.Point(694, 20)
+        Me.Button1.Location = New System.Drawing.Point(684, 27)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(280, 193)
         Me.Button1.TabIndex = 10
@@ -553,7 +572,7 @@ Partial Class frmmain
         Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.Button2.Font = New System.Drawing.Font("Segoe UI", 18.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Button2.ForeColor = System.Drawing.Color.Black
-        Me.Button2.Location = New System.Drawing.Point(694, 221)
+        Me.Button2.Location = New System.Drawing.Point(684, 228)
         Me.Button2.Name = "Button2"
         Me.Button2.Size = New System.Drawing.Size(280, 193)
         Me.Button2.TabIndex = 11
@@ -568,9 +587,9 @@ Partial Class frmmain
         Me.dashUserpanel.Controls.Add(Me.Panel9)
         Me.dashUserpanel.Controls.Add(Me.Panel7)
         Me.dashUserpanel.Controls.Add(Me.Panel6)
-        Me.dashUserpanel.Location = New System.Drawing.Point(373, 194)
+        Me.dashUserpanel.Location = New System.Drawing.Point(387, 194)
         Me.dashUserpanel.Name = "dashUserpanel"
-        Me.dashUserpanel.Size = New System.Drawing.Size(974, 439)
+        Me.dashUserpanel.Size = New System.Drawing.Size(985, 439)
         Me.dashUserpanel.TabIndex = 12
         '
         'dashAdminPan
@@ -581,9 +600,9 @@ Partial Class frmmain
         Me.dashAdminPan.Controls.Add(Me.Panel12)
         Me.dashAdminPan.Controls.Add(Me.Panel11)
         Me.dashAdminPan.Controls.Add(Me.Panel10)
-        Me.dashAdminPan.Location = New System.Drawing.Point(373, 194)
+        Me.dashAdminPan.Location = New System.Drawing.Point(387, 194)
         Me.dashAdminPan.Name = "dashAdminPan"
-        Me.dashAdminPan.Size = New System.Drawing.Size(974, 439)
+        Me.dashAdminPan.Size = New System.Drawing.Size(985, 439)
         Me.dashAdminPan.TabIndex = 13
         '
         'Panel15
@@ -827,9 +846,9 @@ Partial Class frmmain
         '
         Me.panReceipts.Controls.Add(Me.dgv)
         Me.panReceipts.Controls.Add(Me.MenuStrip2)
-        Me.panReceipts.Location = New System.Drawing.Point(373, 194)
+        Me.panReceipts.Location = New System.Drawing.Point(387, 194)
         Me.panReceipts.Name = "panReceipts"
-        Me.panReceipts.Size = New System.Drawing.Size(974, 439)
+        Me.panReceipts.Size = New System.Drawing.Size(954, 439)
         Me.panReceipts.TabIndex = 14
         '
         'dgv
@@ -841,24 +860,24 @@ Partial Class frmmain
         Me.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dgv.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.dgv.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
         Me.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv.Cursor = System.Windows.Forms.Cursors.Hand
-        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle4.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle4.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.RoyalBlue
-        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.WhiteSmoke
-        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.dgv.DefaultCellStyle = DataGridViewCellStyle4
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.WhiteSmoke
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.dgv.DefaultCellStyle = DataGridViewCellStyle2
         Me.dgv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgv.GridColor = System.Drawing.Color.Gainsboro
         Me.dgv.Location = New System.Drawing.Point(0, 33)
@@ -866,7 +885,7 @@ Partial Class frmmain
         Me.dgv.Name = "dgv"
         Me.dgv.ReadOnly = True
         Me.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv.Size = New System.Drawing.Size(974, 406)
+        Me.dgv.Size = New System.Drawing.Size(954, 406)
         Me.dgv.TabIndex = 13
         '
         'MenuStrip2
@@ -878,28 +897,40 @@ Partial Class frmmain
         Me.MenuStrip2.Name = "MenuStrip2"
         Me.MenuStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         Me.MenuStrip2.ShowItemToolTips = True
-        Me.MenuStrip2.Size = New System.Drawing.Size(974, 33)
+        Me.MenuStrip2.Size = New System.Drawing.Size(954, 33)
         Me.MenuStrip2.TabIndex = 0
         Me.MenuStrip2.Text = "MenuStrip2"
         '
         'MenuToolStripMenuItem1
         '
-        Me.MenuToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SearchToolStripMenuItem, Me.PrintReceiptToolStripMenuItem})
+        Me.MenuToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SearchToolStripMenuItem, Me.PrintReceiptToolStripMenuItem, Me.RefreshToolStripMenuItem})
         Me.MenuToolStripMenuItem1.Name = "MenuToolStripMenuItem1"
         Me.MenuToolStripMenuItem1.Size = New System.Drawing.Size(73, 29)
         Me.MenuToolStripMenuItem1.Text = "Menu"
         '
         'SearchToolStripMenuItem
         '
+        Me.SearchToolStripMenuItem.Image = CType(resources.GetObject("SearchToolStripMenuItem.Image"), System.Drawing.Image)
         Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
-        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(190, 30)
+        Me.SearchToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(256, 30)
         Me.SearchToolStripMenuItem.Text = "Search"
         '
         'PrintReceiptToolStripMenuItem
         '
+        Me.PrintReceiptToolStripMenuItem.Image = CType(resources.GetObject("PrintReceiptToolStripMenuItem.Image"), System.Drawing.Image)
         Me.PrintReceiptToolStripMenuItem.Name = "PrintReceiptToolStripMenuItem"
-        Me.PrintReceiptToolStripMenuItem.Size = New System.Drawing.Size(190, 30)
+        Me.PrintReceiptToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
+        Me.PrintReceiptToolStripMenuItem.Size = New System.Drawing.Size(256, 30)
         Me.PrintReceiptToolStripMenuItem.Text = "Print Receipt"
+        '
+        'RefreshToolStripMenuItem
+        '
+        Me.RefreshToolStripMenuItem.Image = CType(resources.GetObject("RefreshToolStripMenuItem.Image"), System.Drawing.Image)
+        Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
+        Me.RefreshToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(256, 30)
+        Me.RefreshToolStripMenuItem.Text = "Refresh"
         '
         'MenuToolStripMenuItem
         '
@@ -911,19 +942,22 @@ Partial Class frmmain
         'BorrowReceiptToolStripMenuItem
         '
         Me.BorrowReceiptToolStripMenuItem.Name = "BorrowReceiptToolStripMenuItem"
-        Me.BorrowReceiptToolStripMenuItem.Size = New System.Drawing.Size(211, 30)
+        Me.BorrowReceiptToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
+        Me.BorrowReceiptToolStripMenuItem.Size = New System.Drawing.Size(270, 30)
         Me.BorrowReceiptToolStripMenuItem.Text = "Borrow Receipt"
         '
         'ReturnReceiptToolStripMenuItem
         '
         Me.ReturnReceiptToolStripMenuItem.Name = "ReturnReceiptToolStripMenuItem"
-        Me.ReturnReceiptToolStripMenuItem.Size = New System.Drawing.Size(211, 30)
+        Me.ReturnReceiptToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
+        Me.ReturnReceiptToolStripMenuItem.Size = New System.Drawing.Size(270, 30)
         Me.ReturnReceiptToolStripMenuItem.Text = "Return Receipt"
         '
         'PenaltyReceiptToolStripMenuItem
         '
         Me.PenaltyReceiptToolStripMenuItem.Name = "PenaltyReceiptToolStripMenuItem"
-        Me.PenaltyReceiptToolStripMenuItem.Size = New System.Drawing.Size(211, 30)
+        Me.PenaltyReceiptToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
+        Me.PenaltyReceiptToolStripMenuItem.Size = New System.Drawing.Size(270, 30)
         Me.PenaltyReceiptToolStripMenuItem.Text = "Penalty Receipt"
         '
         'frmmain
@@ -933,15 +967,15 @@ Partial Class frmmain
         Me.BackColor = System.Drawing.Color.SeaShell
         Me.ClientSize = New System.Drawing.Size(1384, 759)
         Me.ControlBox = False
-        Me.Controls.Add(Me.panReceipts)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.lblUsername)
         Me.Controls.Add(Me.Panel3)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Panel2)
+        Me.Controls.Add(Me.Panel4)
+        Me.Controls.Add(Me.panReceipts)
         Me.Controls.Add(Me.dashAdminPan)
         Me.Controls.Add(Me.dashUserpanel)
-        Me.Controls.Add(Me.Panel4)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
         Me.MainMenuStrip = Me.MenuStrip1
         Me.Name = "frmmain"
@@ -1040,11 +1074,11 @@ Partial Class frmmain
     Friend WithEvents ReportsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ChangePasswordToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents UserFormToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CrystalReportToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents ExcelToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents UFCRToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents UFEToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BookInventoryToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents CrystalReportToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents ExcelToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents BICRToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BIEToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ReceiptsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents panReceipts As Panel
     Friend WithEvents MenuStrip2 As MenuStrip
@@ -1056,4 +1090,5 @@ Partial Class frmmain
     Friend WithEvents MenuToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents SearchToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PrintReceiptToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents RefreshToolStripMenuItem As ToolStripMenuItem
 End Class

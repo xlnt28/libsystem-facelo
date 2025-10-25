@@ -146,7 +146,7 @@ Public Class BookInventory
         txtPublicationYear.BackColor = editableColor
         cmbCategory.BackColor = editableColor
         nudQuantity.BackColor = editableColor
-        cmbStatus.BackColor = Color.WhiteSmoke ' Status is read-only
+        cmbStatus.BackColor = Color.WhiteSmoke
     End Sub
 
     Private Sub ClearFields()
@@ -173,7 +173,7 @@ Public Class BookInventory
         txtPublicationYear.ReadOnly = True
         cmbCategory.Enabled = False
         nudQuantity.Enabled = False
-        cmbStatus.Enabled = False ' Status should always be read-only
+        cmbStatus.Enabled = False
     End Sub
 
     Private Sub UnlockFields()
@@ -185,7 +185,7 @@ Public Class BookInventory
         txtPublicationYear.ReadOnly = False
         cmbCategory.Enabled = True
         nudQuantity.Enabled = True
-        cmbStatus.Enabled = False ' Status should always be read-only
+        cmbStatus.Enabled = False
     End Sub
 
     Private Function GenerateBookID() As String
@@ -273,7 +273,6 @@ Public Class BookInventory
         txtPublicationYear.Text = If(IsDBNull(row("Publication Year")), "", row("Publication Year").ToString())
         cmbCategory.Text = If(IsDBNull(row("Category")), "", row("Category").ToString())
 
-        ' Handle Quantity field
         If Not IsDBNull(row("Quantity")) Then
             Dim quantityValue As Integer
             If Integer.TryParse(row("Quantity").ToString(), quantityValue) Then
@@ -285,7 +284,6 @@ Public Class BookInventory
             nudQuantity.Value = 1
         End If
 
-        ' Auto-set status based on quantity (like in Borrow class)
         If nudQuantity.Value > 0 Then
             cmbStatus.Text = "Available"
         Else
@@ -445,7 +443,6 @@ Public Class BookInventory
             Return False
         End If
 
-        ' Quantity validation
         If nudQuantity.Value < 0 Then
             MsgBox("Quantity cannot be negative.", MsgBoxStyle.Exclamation, "Invalid Quantity")
             nudQuantity.Focus()
@@ -497,7 +494,7 @@ Public Class BookInventory
         newRow("Publication Year") = txtPublicationYear.Text.Trim()
         newRow("Category") = cmbCategory.Text.Trim()
         newRow("Quantity") = CInt(nudQuantity.Value)
-        newRow("Status") = status ' Auto-set status
+        newRow("Status") = status
 
         dbdsbooks.Tables("books").Rows.Add(newRow)
 
@@ -536,7 +533,7 @@ Public Class BookInventory
             .AddWithValue("?", txtPublicationYear.Text.Trim())
             .AddWithValue("?", cmbCategory.Text.Trim())
             .AddWithValue("?", CInt(nudQuantity.Value))
-            .AddWithValue("?", status) ' Auto-set status
+            .AddWithValue("?", status)
             .AddWithValue("?", txtBookID.Text.Trim())
         End With
 
@@ -555,7 +552,7 @@ Public Class BookInventory
             rowToUpdate("Publication Year") = txtPublicationYear.Text.Trim()
             rowToUpdate("Category") = cmbCategory.Text.Trim()
             rowToUpdate("Quantity") = CInt(nudQuantity.Value)
-            rowToUpdate("Status") = status ' Auto-set status
+            rowToUpdate("Status") = status
 
             bookdgv.DataSource = dbdsbooks.Tables("books")
             bookdgv.ClearSelection()
@@ -910,7 +907,6 @@ Public Class BookInventory
             sfd.FileName = "BooksExport.xlsx"
 
             If sfd.ShowDialog() = DialogResult.OK Then
-                ' ===== FETCH DATA =====
                 Dim dt As New DataTable()
                 Using cmd As New OleDbCommand("SELECT [Book ID], [ISBN], [Title], [Author], [Publisher], [Publication Year], [Category], [Quantity], [Status] FROM books ORDER BY [Book ID]", con)
                     Using da As New OleDbDataAdapter(cmd)
@@ -923,11 +919,9 @@ Public Class BookInventory
                     Exit Sub
                 End If
 
-                ' ===== CREATE EXCEL =====
                 Using wb As New XLWorkbook()
                     Dim ws = wb.Worksheets.Add("Books")
 
-                    ' ===== COLUMN HEADERS =====
                     Dim headerRow As Integer = 1
                     Dim headerNames As New Dictionary(Of String, String) From {
                     {"Book ID", "BOOK ID"},
@@ -958,28 +952,20 @@ Public Class BookInventory
                     Next
                     ws.Row(headerRow).Height = 35
 
-                    ' ===== DATA ROWS =====
                     Dim dataRow As Integer = headerRow + 1
                     For Each row As DataRow In dt.Rows
                         For col As Integer = 0 To dt.Columns.Count - 1
                             Dim colName = dt.Columns(col).ColumnName
                             Dim val As Object = If(row(col) IsNot DBNull.Value, row(col), "")
-
-                            ' Format ISBN specifically
                             If colName = "ISBN" AndAlso val IsNot Nothing AndAlso val.ToString().Trim() <> "" Then
                                 Dim isbn As String = val.ToString().Trim()
-                                ' Remove any existing hyphens or spaces
                                 isbn = isbn.Replace("-", "").Replace(" ", "")
 
-                                ' Format based on length
                                 If isbn.Length = 10 Then
-                                    ' Format as XXX-X-XXXXX-X or XXX-XXXXXX-X
                                     val = isbn.Substring(0, 3) & "-" & isbn.Substring(3, 1) & "-" & isbn.Substring(4, 5) & "-" & isbn.Substring(9, 1)
                                 ElseIf isbn.Length = 13 Then
-                                    ' Format as XXX-X-XX-XXXXXX-X
                                     val = isbn.Substring(0, 3) & "-" & isbn.Substring(3, 1) & "-" & isbn.Substring(4, 2) & "-" & isbn.Substring(6, 6) & "-" & isbn.Substring(12, 1)
                                 Else
-                                    ' Keep original if not standard length
                                     val = isbn
                                 End If
                             End If
@@ -1004,13 +990,11 @@ Public Class BookInventory
                         dataRow += 1
                     Next
 
-                    ' ===== COLUMN WIDTHS =====
                     ws.Columns().AdjustToContents()
                     For i = 1 To dt.Columns.Count
-                        If ws.Column(i).Width > 50 Then ws.Column(i).Width = 50 ' limit to avoid super wide cols
+                        If ws.Column(i).Width > 50 Then ws.Column(i).Width = 50
                     Next
 
-                    ' ===== PAGE SETUP =====
                     With ws.PageSetup
                         .PageOrientation = XLPageOrientation.Landscape
                         .PaperSize = XLPaperSize.A4Paper
@@ -1020,7 +1004,7 @@ Public Class BookInventory
                         .Margins.Right = 0.3
                         .CenterHorizontally = True
                         .FitToPages(1, 0)
-                        .SetRowsToRepeatAtTop(1, 1) ' Repeat header row on each page
+                        .SetRowsToRepeatAtTop(1, 1)
                     End With
 
                     wb.SaveAs(sfd.FileName)

@@ -53,7 +53,8 @@ Public Class Login
                 txtpw.Clear()
                 loginAttempts = 0
 
-                frmmain.Show()
+                Dim frm As New frmmain
+                frm.Show()
 
                 Me.Visible = False
             Else

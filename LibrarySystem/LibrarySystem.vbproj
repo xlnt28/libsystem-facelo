@@ -136,12 +136,6 @@
     <Compile Include="PartialReturnForm.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ReceiptForm.Designer.vb">
-      <DependentUpon>ReceiptForm.vb</DependentUpon>
-    </Compile>
-    <Compile Include="ReceiptForm.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Reports\BookInventoryReport.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -333,9 +327,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="PenaltyForm.resx">
       <DependentUpon>PenaltyForm.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ReceiptForm.resx">
-      <DependentUpon>ReceiptForm.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ReportForm.resx">
       <DependentUpon>ReportForm.vb</DependentUpon>

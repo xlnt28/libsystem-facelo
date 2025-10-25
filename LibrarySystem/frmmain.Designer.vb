@@ -23,6 +23,8 @@ Partial Class frmmain
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmmain))
+        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuUserForm = New System.Windows.Forms.ToolStripMenuItem()
@@ -35,6 +37,13 @@ Partial Class frmmain
         Me.TransactionHistoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BorrowPendingRequestToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReportsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.UserFormToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CrystalReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExcelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BookInventoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CrystalReportToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ExcelToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ReceiptsToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuLogout = New System.Windows.Forms.ToolStripMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
@@ -85,15 +94,14 @@ Partial Class frmmain
         Me.Button4 = New System.Windows.Forms.Button()
         Me.lblForgotPasswordRequest = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.BorrowToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ReturnToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PenaltyToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.UserFormToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.BookInventoryToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CrystalReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ExcelToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.CrystalReportToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ExcelToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.panReceipts = New System.Windows.Forms.Panel()
+        Me.dgv = New System.Windows.Forms.DataGridView()
+        Me.MenuStrip2 = New System.Windows.Forms.MenuStrip()
+        Me.MenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.BorrowReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ReturnReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PenaltyReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PrintReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.pbProfile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -112,6 +120,9 @@ Partial Class frmmain
         Me.Panel12.SuspendLayout()
         Me.Panel11.SuspendLayout()
         Me.Panel10.SuspendLayout()
+        Me.panReceipts.SuspendLayout()
+        CType(Me.dgv, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MenuStrip2.SuspendLayout()
         Me.SuspendLayout()
         '
         'MenuStrip1
@@ -122,7 +133,7 @@ Partial Class frmmain
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolStripMenuItem, Me.menuTransactions, Me.ReportsToolStripMenuItem, Me.menuLogout})
         Me.MenuStrip1.Location = New System.Drawing.Point(8, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(506, 40)
+        Me.MenuStrip1.Size = New System.Drawing.Size(598, 40)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -209,10 +220,54 @@ Partial Class frmmain
         '
         'ReportsToolStripMenuItem
         '
-        Me.ReportsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BorrowToolStripMenuItem1, Me.ReturnToolStripMenuItem1, Me.PenaltyToolStripMenuItem1, Me.UserFormToolStripMenuItem, Me.BookInventoryToolStripMenuItem})
+        Me.ReportsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.UserFormToolStripMenuItem, Me.BookInventoryToolStripMenuItem, Me.ReceiptsToolStripMenuItem})
         Me.ReportsToolStripMenuItem.Name = "ReportsToolStripMenuItem"
         Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(111, 36)
         Me.ReportsToolStripMenuItem.Text = "Reports"
+        '
+        'UserFormToolStripMenuItem
+        '
+        Me.UserFormToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CrystalReportToolStripMenuItem, Me.ExcelToolStripMenuItem})
+        Me.UserFormToolStripMenuItem.Name = "UserFormToolStripMenuItem"
+        Me.UserFormToolStripMenuItem.Size = New System.Drawing.Size(258, 36)
+        Me.UserFormToolStripMenuItem.Text = "User Form"
+        '
+        'CrystalReportToolStripMenuItem
+        '
+        Me.CrystalReportToolStripMenuItem.Name = "CrystalReportToolStripMenuItem"
+        Me.CrystalReportToolStripMenuItem.Size = New System.Drawing.Size(246, 36)
+        Me.CrystalReportToolStripMenuItem.Text = "Crystal Report"
+        '
+        'ExcelToolStripMenuItem
+        '
+        Me.ExcelToolStripMenuItem.Name = "ExcelToolStripMenuItem"
+        Me.ExcelToolStripMenuItem.Size = New System.Drawing.Size(246, 36)
+        Me.ExcelToolStripMenuItem.Text = "Excel"
+        '
+        'BookInventoryToolStripMenuItem
+        '
+        Me.BookInventoryToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CrystalReportToolStripMenuItem1, Me.ExcelToolStripMenuItem1})
+        Me.BookInventoryToolStripMenuItem.Name = "BookInventoryToolStripMenuItem"
+        Me.BookInventoryToolStripMenuItem.Size = New System.Drawing.Size(258, 36)
+        Me.BookInventoryToolStripMenuItem.Text = "Book Inventory"
+        '
+        'CrystalReportToolStripMenuItem1
+        '
+        Me.CrystalReportToolStripMenuItem1.Name = "CrystalReportToolStripMenuItem1"
+        Me.CrystalReportToolStripMenuItem1.Size = New System.Drawing.Size(246, 36)
+        Me.CrystalReportToolStripMenuItem1.Text = "Crystal Report"
+        '
+        'ExcelToolStripMenuItem1
+        '
+        Me.ExcelToolStripMenuItem1.Name = "ExcelToolStripMenuItem1"
+        Me.ExcelToolStripMenuItem1.Size = New System.Drawing.Size(246, 36)
+        Me.ExcelToolStripMenuItem1.Text = "Excel"
+        '
+        'ReceiptsToolStripMenuItem
+        '
+        Me.ReceiptsToolStripMenuItem.Name = "ReceiptsToolStripMenuItem"
+        Me.ReceiptsToolStripMenuItem.Size = New System.Drawing.Size(258, 36)
+        Me.ReceiptsToolStripMenuItem.Text = "Receipts"
         '
         'menuLogout
         '
@@ -766,61 +821,92 @@ Partial Class frmmain
         Me.Label7.TabIndex = 14
         Me.Label7.Text = "Forgot password request"
         '
-        'BorrowToolStripMenuItem1
+        'panReceipts
         '
-        Me.BorrowToolStripMenuItem1.Name = "BorrowToolStripMenuItem1"
-        Me.BorrowToolStripMenuItem1.Size = New System.Drawing.Size(258, 36)
-        Me.BorrowToolStripMenuItem1.Text = "Borrow"
+        Me.panReceipts.Controls.Add(Me.dgv)
+        Me.panReceipts.Controls.Add(Me.MenuStrip2)
+        Me.panReceipts.Location = New System.Drawing.Point(373, 194)
+        Me.panReceipts.Name = "panReceipts"
+        Me.panReceipts.Size = New System.Drawing.Size(999, 439)
+        Me.panReceipts.TabIndex = 14
         '
-        'ReturnToolStripMenuItem1
+        'dgv
         '
-        Me.ReturnToolStripMenuItem1.Name = "ReturnToolStripMenuItem1"
-        Me.ReturnToolStripMenuItem1.Size = New System.Drawing.Size(258, 36)
-        Me.ReturnToolStripMenuItem1.Text = "Return"
+        Me.dgv.AllowUserToAddRows = False
+        Me.dgv.AllowUserToDeleteRows = False
+        Me.dgv.AllowUserToResizeColumns = False
+        Me.dgv.AllowUserToResizeRows = False
+        Me.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
+        Me.dgv.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
+        Me.dgv.BackgroundColor = System.Drawing.Color.White
+        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        Me.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.dgv.Cursor = System.Windows.Forms.Cursors.Hand
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.WhiteSmoke
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.dgv.DefaultCellStyle = DataGridViewCellStyle2
+        Me.dgv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.dgv.GridColor = System.Drawing.Color.Gainsboro
+        Me.dgv.Location = New System.Drawing.Point(0, 33)
+        Me.dgv.MultiSelect = False
+        Me.dgv.Name = "dgv"
+        Me.dgv.ReadOnly = True
+        Me.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+        Me.dgv.Size = New System.Drawing.Size(999, 406)
+        Me.dgv.TabIndex = 13
         '
-        'PenaltyToolStripMenuItem1
+        'MenuStrip2
         '
-        Me.PenaltyToolStripMenuItem1.Name = "PenaltyToolStripMenuItem1"
-        Me.PenaltyToolStripMenuItem1.Size = New System.Drawing.Size(258, 36)
-        Me.PenaltyToolStripMenuItem1.Text = "Penalty"
+        Me.MenuStrip2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem, Me.PrintReceiptToolStripMenuItem})
+        Me.MenuStrip2.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip2.Name = "MenuStrip2"
+        Me.MenuStrip2.Size = New System.Drawing.Size(999, 33)
+        Me.MenuStrip2.TabIndex = 0
+        Me.MenuStrip2.Text = "MenuStrip2"
         '
-        'UserFormToolStripMenuItem
+        'MenuToolStripMenuItem
         '
-        Me.UserFormToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CrystalReportToolStripMenuItem, Me.ExcelToolStripMenuItem})
-        Me.UserFormToolStripMenuItem.Name = "UserFormToolStripMenuItem"
-        Me.UserFormToolStripMenuItem.Size = New System.Drawing.Size(258, 36)
-        Me.UserFormToolStripMenuItem.Text = "User Form"
+        Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BorrowReceiptToolStripMenuItem, Me.ReturnReceiptToolStripMenuItem, Me.PenaltyReceiptToolStripMenuItem})
+        Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
+        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(139, 29)
+        Me.MenuToolStripMenuItem.Text = "View Receipts"
         '
-        'BookInventoryToolStripMenuItem
+        'BorrowReceiptToolStripMenuItem
         '
-        Me.BookInventoryToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CrystalReportToolStripMenuItem1, Me.ExcelToolStripMenuItem1})
-        Me.BookInventoryToolStripMenuItem.Name = "BookInventoryToolStripMenuItem"
-        Me.BookInventoryToolStripMenuItem.Size = New System.Drawing.Size(258, 36)
-        Me.BookInventoryToolStripMenuItem.Text = "Book Inventory"
+        Me.BorrowReceiptToolStripMenuItem.Name = "BorrowReceiptToolStripMenuItem"
+        Me.BorrowReceiptToolStripMenuItem.Size = New System.Drawing.Size(211, 30)
+        Me.BorrowReceiptToolStripMenuItem.Text = "Borrow Receipt"
         '
-        'CrystalReportToolStripMenuItem
+        'ReturnReceiptToolStripMenuItem
         '
-        Me.CrystalReportToolStripMenuItem.Name = "CrystalReportToolStripMenuItem"
-        Me.CrystalReportToolStripMenuItem.Size = New System.Drawing.Size(246, 36)
-        Me.CrystalReportToolStripMenuItem.Text = "Crystal Report"
+        Me.ReturnReceiptToolStripMenuItem.Name = "ReturnReceiptToolStripMenuItem"
+        Me.ReturnReceiptToolStripMenuItem.Size = New System.Drawing.Size(211, 30)
+        Me.ReturnReceiptToolStripMenuItem.Text = "Return Receipt"
         '
-        'ExcelToolStripMenuItem
+        'PenaltyReceiptToolStripMenuItem
         '
-        Me.ExcelToolStripMenuItem.Name = "ExcelToolStripMenuItem"
-        Me.ExcelToolStripMenuItem.Size = New System.Drawing.Size(246, 36)
-        Me.ExcelToolStripMenuItem.Text = "Excel"
+        Me.PenaltyReceiptToolStripMenuItem.Name = "PenaltyReceiptToolStripMenuItem"
+        Me.PenaltyReceiptToolStripMenuItem.Size = New System.Drawing.Size(211, 30)
+        Me.PenaltyReceiptToolStripMenuItem.Text = "Penalty Receipt"
         '
-        'CrystalReportToolStripMenuItem1
+        'PrintReceiptToolStripMenuItem
         '
-        Me.CrystalReportToolStripMenuItem1.Name = "CrystalReportToolStripMenuItem1"
-        Me.CrystalReportToolStripMenuItem1.Size = New System.Drawing.Size(246, 36)
-        Me.CrystalReportToolStripMenuItem1.Text = "Crystal Report"
-        '
-        'ExcelToolStripMenuItem1
-        '
-        Me.ExcelToolStripMenuItem1.Name = "ExcelToolStripMenuItem1"
-        Me.ExcelToolStripMenuItem1.Size = New System.Drawing.Size(246, 36)
-        Me.ExcelToolStripMenuItem1.Text = "Excel"
+        Me.PrintReceiptToolStripMenuItem.Name = "PrintReceiptToolStripMenuItem"
+        Me.PrintReceiptToolStripMenuItem.Size = New System.Drawing.Size(130, 29)
+        Me.PrintReceiptToolStripMenuItem.Text = "Print Receipt"
         '
         'frmmain
         '
@@ -829,6 +915,7 @@ Partial Class frmmain
         Me.BackColor = System.Drawing.Color.SeaShell
         Me.ClientSize = New System.Drawing.Size(1384, 759)
         Me.ControlBox = False
+        Me.Controls.Add(Me.panReceipts)
         Me.Controls.Add(Me.Panel5)
         Me.Controls.Add(Me.lblUsername)
         Me.Controls.Add(Me.Panel3)
@@ -863,6 +950,11 @@ Partial Class frmmain
         Me.Panel11.ResumeLayout(False)
         Me.Panel10.ResumeLayout(False)
         Me.Panel10.PerformLayout()
+        Me.panReceipts.ResumeLayout(False)
+        Me.panReceipts.PerformLayout()
+        CType(Me.dgv, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.MenuStrip2.ResumeLayout(False)
+        Me.MenuStrip2.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -929,13 +1021,19 @@ Partial Class frmmain
     Friend WithEvents Label8 As Label
     Friend WithEvents ReportsToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ChangePasswordToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents BorrowToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents ReturnToolStripMenuItem1 As ToolStripMenuItem
-    Friend WithEvents PenaltyToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents UserFormToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CrystalReportToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ExcelToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents BookInventoryToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents CrystalReportToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents ExcelToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents ReceiptsToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents panReceipts As Panel
+    Friend WithEvents MenuStrip2 As MenuStrip
+    Friend WithEvents MenuToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents BorrowReceiptToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ReturnReceiptToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents PenaltyReceiptToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents dgv As DataGridView
+    Friend WithEvents PrintReceiptToolStripMenuItem As ToolStripMenuItem
 End Class

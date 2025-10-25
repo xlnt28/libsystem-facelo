@@ -3,11 +3,15 @@ Imports System.IO
 Imports CrystalDecisions.CrystalReports.Engine
 
 Public Class frmmain
+    Private receiptCurrentType As String = "Borrow"
 
     Private Sub MainForm_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Call CenterToScreen()
         Me.FormBorderStyle = Windows.Forms.FormBorderStyle.None
         Me.WindowState = FormWindowState.Maximized
+
+        LoadReceiptData("Borrow")
+        UpdateReceiptMenuStatus()
     End Sub
 
     Private Sub MainForm_Activated(ByVal sender As Object, ByVal e As EventArgs) Handles MyBase.Activated
@@ -16,6 +20,8 @@ Public Class frmmain
         txtPrivilege.Text = "Privilege : " & xpriv
         txtPosition.Text = "Position : " & xpost
         LoadUserImage()
+        panReceipts.Visible = isPanReceiptOpen
+        LoadReceiptData(receiptCurrentType)
 
         LoadStatistics()
 
@@ -31,8 +37,9 @@ Public Class frmmain
             BorrowPendingRequestToolStripMenuItem.Enabled = False
             dashAdminPan.Visible = False
             dashUserpanel.Visible = True
-
+            ReportsToolStripMenuItem.Visible = False
         End If
+
         If xpriv = "Admin" Then
             ReportsToolStripMenuItem.Visible = True
             BorrowToolStripMenuItem.Enabled = True
@@ -45,6 +52,7 @@ Public Class frmmain
             BorrowPendingRequestToolStripMenuItem.Enabled = True
             dashAdminPan.Visible = True
             dashUserpanel.Visible = False
+            ReportsToolStripMenuItem.Visible = True
         End If
 
         If xpost = "Administrator" And xpriv = "Admin" Then
@@ -59,6 +67,7 @@ Public Class frmmain
             BorrowPendingRequestToolStripMenuItem.Enabled = True
             dashAdminPan.Visible = True
             dashUserpanel.Visible = False
+            ReportsToolStripMenuItem.Visible = True
         End If
     End Sub
 
@@ -120,7 +129,7 @@ Public Class frmmain
 
     Private Sub menuLogout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles menuLogout.Click
         If MsgBox("Are you sure you want to logout?", MsgBoxStyle.YesNo, "Logout") = MsgBoxResult.Yes Then
-            Me.Hide()
+            Me.Close()
             Login.Visible = True
         End If
     End Sub
@@ -130,13 +139,10 @@ Public Class frmmain
     End Sub
 
     Private Sub BorrowToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BorrowToolStripMenuItem.Click
-
         Dim borrow As New Borrow()
         borrow.Show()
-
         Me.Hide()
     End Sub
-
 
     Private Sub TransactionHistoryToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles TransactionHistoryToolStripMenuItem.Click
         Me.Hide()
@@ -146,7 +152,6 @@ Public Class frmmain
     Private Sub BorrowPendingRequestToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BorrowPendingRequestToolStripMenuItem.Click
         BorrowPendingRequest.Show()
         Me.Hide()
-
     End Sub
 
     Private Sub ReturnToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ReturnToolStripMenuItem.Click
@@ -159,7 +164,6 @@ Public Class frmmain
     End Sub
 
     Private Sub lblBooksReturned_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lblBooksReturned.Click
-
     End Sub
 
     Private Sub PenaltyToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles PenaltyToolStripMenuItem.Click
@@ -187,15 +191,11 @@ Public Class frmmain
         Me.Hide()
     End Sub
 
-
     Private Sub LoadStatistics()
         Try
             OpenDB()
 
-
             If xpriv = "Admin" Then
-
-
                 Dim totalBorrowedQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Status] = 'Borrowed'"
                 cmd = New OleDbCommand(totalBorrowedQuery, con)
                 Dim totalBorrowedCount As Integer = CInt(cmd.ExecuteScalar())
@@ -221,7 +221,6 @@ Public Class frmmain
                 Dim forgotPasswordCount As Integer = CInt(cmd.ExecuteScalar())
                 lblForgotPasswordRequest.Text = forgotPasswordCount.ToString()
 
-                '
                 Dim totalBookCopiesQuery As String = "SELECT SUM([Quantity]) FROM books"
                 cmd = New OleDbCommand(totalBookCopiesQuery, con)
                 Dim result = cmd.ExecuteScalar()
@@ -240,33 +239,20 @@ Public Class frmmain
                 Dim requestedBooksCount As Integer = CInt(cmd.ExecuteScalar())
                 lblCurrentRequestedBook.Text = requestedBooksCount.ToString()
 
-                Dim totalUnpaidCountQuery As String = "
-                  SELECT COUNT(*) 
-                    FROM Penalties 
-                     WHERE [Penalty Status] = 'Unpaid' 
-                     AND [User Name] = ?"
+                Dim totalUnpaidCountQuery As String = "SELECT COUNT(*) FROM Penalties WHERE [Penalty Status] = 'Unpaid' AND [User Name] = ?"
                 cmd = New OleDbCommand(totalUnpaidCountQuery, con)
                 cmd.Parameters.AddWithValue("?", XName)
                 Dim totalUnpaidCountObj As Object = cmd.ExecuteScalar()
                 Dim totalUnpaidCount As Integer = If(IsDBNull(totalUnpaidCountObj), 0, CInt(totalUnpaidCountObj))
                 lblUnpaidBorrowedBooks.Text = totalUnpaidCount.ToString()
 
-
-                Dim totalReturnedQuery As String = "
-                SELECT COUNT(*) 
-                FROM borrowings 
-                WHERE [Borrower Name] = ? 
-                AND [Status] = 'Completed'"
+                Dim totalReturnedQuery As String = "SELECT COUNT(*) FROM borrowings WHERE [Borrower Name] = ? AND [Status] = 'Completed'"
                 cmd = New OleDbCommand(totalReturnedQuery, con)
                 cmd.Parameters.AddWithValue("?", XName)
                 Dim totalReturnedCountObj As Object = cmd.ExecuteScalar()
                 Dim totalReturnedCount As Integer = If(IsDBNull(totalReturnedCountObj), 0, CInt(totalReturnedCountObj))
                 lblBooksReturned.Text = totalReturnedCount.ToString()
-
             End If
-
-
-
 
         Catch ex As Exception
             MessageBox.Show("Error loading statistics: " & ex.Message)
@@ -286,7 +272,6 @@ Public Class frmmain
         End Try
     End Sub
 
-
     Private Sub btnviewTotalUnpaidPenalties_Click(sender As Object, e As EventArgs) Handles btnviewTotalUnpaidPenalties.Click
         PenaltyForm.Show()
         Me.Hide()
@@ -303,19 +288,228 @@ Public Class frmmain
     End Sub
 
 
-
-
-    Private Sub pbProfile_Click(sender As Object, e As EventArgs) Handles pbProfile.Click
-
+    Private Sub BorrowReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles BorrowReceiptToolStripMenuItem.Click
+        LoadReceiptData("Borrow")
+        receiptCurrentType = "Borrow"
+        UpdateReceiptMenuStatus()
     End Sub
 
-    Private Sub Panel2_Paint(sender As Object, e As PaintEventArgs) Handles Panel2.Paint
-
+    Private Sub ReturnReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReturnReceiptToolStripMenuItem.Click
+        LoadReceiptData("Return")
+        receiptCurrentType = "Return"
+        UpdateReceiptMenuStatus()
     End Sub
 
-    Private Sub ReportsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReportsToolStripMenuItem.Click
-        Dim form As New ReceiptForm
-        form.Show()
-        Me.Hide()
+    Private Sub PenaltyReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PenaltyReceiptToolStripMenuItem.Click
+        LoadReceiptData("Penalty")
+        receiptCurrentType = "Penalty"
+        UpdateReceiptMenuStatus()
+    End Sub
+
+    Private Sub PrintReceiptToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PrintReceiptToolStripMenuItem.Click
+        If dgv.SelectedRows.Count > 0 Then
+            Dim selectedRow As DataGridViewRow = dgv.SelectedRows(0)
+            Dim receiptID As String = selectedRow.Cells("ReceiptID").Value.ToString()
+            GenerateAndDisplayReceipt(receiptID, receiptCurrentType)
+        Else
+            MsgBox("Please select a receipt to print.", MsgBoxStyle.Exclamation, "Select Receipt")
+        End If
+    End Sub
+
+    Private Sub LoadReceiptData(Optional receiptType As String = "Borrow")
+        Try
+            OpenDB()
+
+            Dim sql As String = ""
+            receiptCurrentType = receiptType
+
+            Select Case receiptType
+                Case "Borrow"
+                    sql = "SELECT DISTINCT [Receipt ID] as [ReceiptID], [Borrow ID] as [TransactionID], [User Name] as [UserName], " &
+                      "[Receipt Date] as [Date], [Processed By] as [ProcessedBy] " &
+                      "FROM borrowReceipts ORDER BY [Receipt Date] DESC"
+
+                Case "Return"
+                    sql = "SELECT DISTINCT [Receipt ID] as [ReceiptID], [Borrow ID] as [TransactionID], [Borrower Name] as [UserName], " &
+                      "[Return Date] as [Date], [Processed By] as [ProcessedBy] " &
+                      "FROM returnReceipts ORDER BY [Return Date] DESC"
+
+                Case "Penalty"
+                    sql = "SELECT DISTINCT [Receipt ID] as [ReceiptID], [Borrow ID] as [TransactionID], [User Name] as [UserName], " &
+                      "[Payment Date] as [Date], [Processed By] as [ProcessedBy] " &
+                      "FROM paymentReceipts ORDER BY [Payment Date] DESC"
+            End Select
+
+            Dim receiptDataSet As New DataSet()
+            Dim da As New OleDbDataAdapter(sql, con)
+            da.Fill(receiptDataSet, "Receipts")
+
+            dgv.DataSource = receiptDataSet.Tables("Receipts")
+
+            CustomizeReceiptDataGridView(dgv)
+
+            Me.Text = "Library Management System - " & receiptType & " Receipts"
+
+        Catch ex As Exception
+            MsgBox("Error loading receipt data: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        Finally
+            CloseDB()
+        End Try
+    End Sub
+
+
+
+    Private Sub CustomizeReceiptDataGridView(dgv As DataGridView)
+        Try
+            dgv.ReadOnly = True
+            dgv.SelectionMode = DataGridViewSelectionMode.FullRowSelect
+            dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            dgv.DefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9)
+            dgv.ColumnHeadersDefaultCellStyle.Font = New Font("Microsoft Sans Serif", 9, FontStyle.Bold)
+            dgv.AlternatingRowsDefaultCellStyle.BackColor = Color.LightGray
+
+            If dgv.Columns.Contains("ReceiptID") Then
+                dgv.Columns("ReceiptID").Width = 150
+                dgv.Columns("ReceiptID").HeaderText = "Receipt ID"
+            End If
+            If dgv.Columns.Contains("TransactionID") Then
+                dgv.Columns("TransactionID").Width = 120
+                dgv.Columns("TransactionID").HeaderText = "Borrow ID"
+            End If
+            If dgv.Columns.Contains("UserName") Then
+                dgv.Columns("UserName").Width = 150
+                dgv.Columns("UserName").HeaderText = "User Name"
+            End If
+            If dgv.Columns.Contains("Date") Then
+                dgv.Columns("Date").Width = 100
+                dgv.Columns("Date").HeaderText = "Date"
+            End If
+            If dgv.Columns.Contains("ProcessedBy") Then
+                dgv.Columns("ProcessedBy").Width = 120
+                dgv.Columns("ProcessedBy").HeaderText = "Processed By"
+            End If
+
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    Private Sub UpdateReceiptMenuStatus()
+        BorrowReceiptToolStripMenuItem.Checked = (receiptCurrentType = "Borrow")
+        ReturnReceiptToolStripMenuItem.Checked = (receiptCurrentType = "Return")
+        PenaltyReceiptToolStripMenuItem.Checked = (receiptCurrentType = "Penalty")
+    End Sub
+
+    Private Sub GenerateAndDisplayReceipt(receiptID As String, receiptType As String)
+        Try
+            OpenDB()
+
+            Dim reportForm As New ReportForm()
+            Dim report As New ReportDocument()
+            Dim reportPath As String = ""
+
+            Select Case receiptType
+                Case "Borrow"
+                    reportPath = Path.Combine(Application.StartupPath, "Reports\CrystalReport2.rpt")
+                    Dim query As String = "SELECT " &
+                    "b.[ID], b.[Borrow ID], b.[Book ID], b.[ISBN], b.[Title], " &
+                    "b.[User ID], b.[Borrower Name], b.[Borrower Position], b.[Borrower Privileges], " &
+                    "b.[Copies], b.[Current Returned], b.[Borrow Date], b.[Due Date], " &
+                    "b.[Status], b.[Request Date], b.[Processed By] as [BorrowProcessedBy], " &
+                    "br.[Receipt Date], br.[Processed By] " &
+                    "FROM borrowings b " &
+                    "INNER JOIN borrowReceipts br ON b.[Borrow ID] = br.[Borrow ID] " &
+                    "WHERE br.[Receipt ID] = ?"
+
+                    Using da As New OleDbDataAdapter(query, con)
+                        da.SelectCommand.Parameters.AddWithValue("?", receiptID)
+                        Dim dt As New DataTable()
+                        da.Fill(dt)
+
+                        If dt.Rows.Count > 0 Then
+                            report.Load(reportPath)
+                            report.SetDataSource(dt)
+                            reportForm.CrystalReportViewer1.ReportSource = report
+                            reportForm.ShowDialog()
+                        Else
+                            MsgBox("Receipt data not found.", MsgBoxStyle.Exclamation)
+                        End If
+                    End Using
+
+                Case "Return"
+                    reportPath = Path.Combine(Application.StartupPath, "Reports\CRReturnBook.rpt")
+                    Dim query As String = "SELECT * FROM returnReceipts WHERE [Receipt ID] = ?"
+
+                    Using da As New OleDbDataAdapter(query, con)
+                        da.SelectCommand.Parameters.AddWithValue("?", receiptID)
+                        Dim dt As New DataTable()
+                        da.Fill(dt)
+
+                        If dt.Rows.Count > 0 Then
+                            report.Load(reportPath)
+                            report.SetDataSource(dt)
+                            reportForm.CrystalReportViewer1.ReportSource = report
+                            reportForm.ShowDialog()
+                        Else
+                            MsgBox("Receipt data not found.", MsgBoxStyle.Exclamation)
+                        End If
+                    End Using
+
+                Case "Penalty"
+                    reportPath = Path.Combine(Application.StartupPath, "Reports\CrystalReport1.rpt")
+                    Dim query As String = "SELECT * FROM paymentReceipts WHERE [Receipt ID] = ?"
+
+                    Using da As New OleDbDataAdapter(query, con)
+                        da.SelectCommand.Parameters.AddWithValue("?", receiptID)
+                        Dim dt As New DataTable()
+                        da.Fill(dt)
+
+                        If dt.Rows.Count > 0 Then
+                            report.Load(reportPath)
+                            report.SetDataSource(dt)
+                            reportForm.CrystalReportViewer1.ReportSource = report
+                            reportForm.ShowDialog()
+                        Else
+                            MsgBox("Receipt data not found.", MsgBoxStyle.Exclamation)
+                        End If
+                    End Using
+            End Select
+
+            If Not File.Exists(reportPath) Then
+                MsgBox("Report template not found: " & reportPath, MsgBoxStyle.Exclamation)
+                Return
+            End If
+
+            report.Close()
+            report.Dispose()
+            reportForm.Dispose()
+
+        Catch ex As Exception
+            MsgBox("Error generating receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        Finally
+            CloseDB()
+        End Try
+    End Sub
+
+    Private Sub dgv_CellDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dgv.CellDoubleClick
+        If e.RowIndex < 0 Then Return
+
+        Try
+            Dim selectedRow As DataGridViewRow = dgv.Rows(e.RowIndex)
+            Dim receiptID As String = selectedRow.Cells("ReceiptID").Value.ToString()
+            GenerateAndDisplayReceipt(receiptID, receiptCurrentType)
+
+        Catch ex As Exception
+            MsgBox("Error viewing receipt: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        End Try
+    End Sub
+
+    Dim isPanReceiptOpen As Boolean = False
+
+    Private Sub ReceiptsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReceiptsToolStripMenuItem.Click
+        isPanReceiptOpen = Not isPanReceiptOpen
+        panReceipts.Visible = isPanReceiptOpen
+
+        receiptCurrentType = "Borrow"
+
     End Sub
 End Class

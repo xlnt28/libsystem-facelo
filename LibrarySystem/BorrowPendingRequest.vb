@@ -88,7 +88,6 @@ Public Class BorrowPendingRequest
         End Try
     End Sub
 
-
     Private Sub SearchToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SearchToolStripMenuItem.Click
         Dim searchTerm As String = InputBox("Enter Borrower Name to search:", "Search Borrower")
         If Not String.IsNullOrWhiteSpace(searchTerm) Then

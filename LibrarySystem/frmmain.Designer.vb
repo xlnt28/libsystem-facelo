@@ -23,8 +23,8 @@ Partial Class frmmain
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmmain))
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
-        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle3 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle4 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
         Me.ManageToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.menuUserForm = New System.Windows.Forms.ToolStripMenuItem()
@@ -97,11 +97,13 @@ Partial Class frmmain
         Me.panReceipts = New System.Windows.Forms.Panel()
         Me.dgv = New System.Windows.Forms.DataGridView()
         Me.MenuStrip2 = New System.Windows.Forms.MenuStrip()
+        Me.MenuToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.SearchToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PrintReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BorrowReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ReturnReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.PenaltyReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.PrintReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MenuStrip1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.pbProfile, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -133,7 +135,7 @@ Partial Class frmmain
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ManageToolStripMenuItem, Me.menuTransactions, Me.ReportsToolStripMenuItem, Me.menuLogout})
         Me.MenuStrip1.Location = New System.Drawing.Point(8, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(598, 40)
+        Me.MenuStrip1.Size = New System.Drawing.Size(506, 40)
         Me.MenuStrip1.TabIndex = 0
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -282,9 +284,9 @@ Partial Class frmmain
         Me.Panel1.BackColor = System.Drawing.Color.WhiteSmoke
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel1.Location = New System.Drawing.Point(0, 639)
+        Me.Panel1.Location = New System.Drawing.Point(0, 656)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1384, 120)
+        Me.Panel1.Size = New System.Drawing.Size(1384, 103)
         Me.Panel1.TabIndex = 3
         '
         'Panel2
@@ -568,7 +570,7 @@ Partial Class frmmain
         Me.dashUserpanel.Controls.Add(Me.Panel6)
         Me.dashUserpanel.Location = New System.Drawing.Point(373, 194)
         Me.dashUserpanel.Name = "dashUserpanel"
-        Me.dashUserpanel.Size = New System.Drawing.Size(999, 439)
+        Me.dashUserpanel.Size = New System.Drawing.Size(974, 439)
         Me.dashUserpanel.TabIndex = 12
         '
         'dashAdminPan
@@ -581,7 +583,7 @@ Partial Class frmmain
         Me.dashAdminPan.Controls.Add(Me.Panel10)
         Me.dashAdminPan.Location = New System.Drawing.Point(373, 194)
         Me.dashAdminPan.Name = "dashAdminPan"
-        Me.dashAdminPan.Size = New System.Drawing.Size(999, 439)
+        Me.dashAdminPan.Size = New System.Drawing.Size(974, 439)
         Me.dashAdminPan.TabIndex = 13
         '
         'Panel15
@@ -827,7 +829,7 @@ Partial Class frmmain
         Me.panReceipts.Controls.Add(Me.MenuStrip2)
         Me.panReceipts.Location = New System.Drawing.Point(373, 194)
         Me.panReceipts.Name = "panReceipts"
-        Me.panReceipts.Size = New System.Drawing.Size(999, 439)
+        Me.panReceipts.Size = New System.Drawing.Size(974, 439)
         Me.panReceipts.TabIndex = 14
         '
         'dgv
@@ -839,24 +841,24 @@ Partial Class frmmain
         Me.dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dgv.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells
         Me.dgv.BackgroundColor = System.Drawing.Color.White
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgv.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle3.BackColor = System.Drawing.SystemColors.Control
+        DataGridViewCellStyle3.Font = New System.Drawing.Font("Segoe UI", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgv.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle3
         Me.dgv.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgv.Cursor = System.Windows.Forms.Cursors.Hand
-        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle2.BackColor = System.Drawing.Color.White
-        DataGridViewCellStyle2.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText
-        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.RoyalBlue
-        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.WhiteSmoke
-        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
-        Me.dgv.DefaultCellStyle = DataGridViewCellStyle2
+        DataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle4.BackColor = System.Drawing.Color.White
+        DataGridViewCellStyle4.Font = New System.Drawing.Font("Segoe UI Semibold", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.ControlText
+        DataGridViewCellStyle4.SelectionBackColor = System.Drawing.Color.RoyalBlue
+        DataGridViewCellStyle4.SelectionForeColor = System.Drawing.Color.WhiteSmoke
+        DataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.[False]
+        Me.dgv.DefaultCellStyle = DataGridViewCellStyle4
         Me.dgv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.dgv.GridColor = System.Drawing.Color.Gainsboro
         Me.dgv.Location = New System.Drawing.Point(0, 33)
@@ -864,18 +866,40 @@ Partial Class frmmain
         Me.dgv.Name = "dgv"
         Me.dgv.ReadOnly = True
         Me.dgv.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.dgv.Size = New System.Drawing.Size(999, 406)
+        Me.dgv.Size = New System.Drawing.Size(974, 406)
         Me.dgv.TabIndex = 13
         '
         'MenuStrip2
         '
         Me.MenuStrip2.Font = New System.Drawing.Font("Segoe UI", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem, Me.PrintReceiptToolStripMenuItem})
+        Me.MenuStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible
+        Me.MenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem1, Me.MenuToolStripMenuItem})
         Me.MenuStrip2.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip2.Name = "MenuStrip2"
-        Me.MenuStrip2.Size = New System.Drawing.Size(999, 33)
+        Me.MenuStrip2.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
+        Me.MenuStrip2.ShowItemToolTips = True
+        Me.MenuStrip2.Size = New System.Drawing.Size(974, 33)
         Me.MenuStrip2.TabIndex = 0
         Me.MenuStrip2.Text = "MenuStrip2"
+        '
+        'MenuToolStripMenuItem1
+        '
+        Me.MenuToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SearchToolStripMenuItem, Me.PrintReceiptToolStripMenuItem})
+        Me.MenuToolStripMenuItem1.Name = "MenuToolStripMenuItem1"
+        Me.MenuToolStripMenuItem1.Size = New System.Drawing.Size(73, 29)
+        Me.MenuToolStripMenuItem1.Text = "Menu"
+        '
+        'SearchToolStripMenuItem
+        '
+        Me.SearchToolStripMenuItem.Name = "SearchToolStripMenuItem"
+        Me.SearchToolStripMenuItem.Size = New System.Drawing.Size(190, 30)
+        Me.SearchToolStripMenuItem.Text = "Search"
+        '
+        'PrintReceiptToolStripMenuItem
+        '
+        Me.PrintReceiptToolStripMenuItem.Name = "PrintReceiptToolStripMenuItem"
+        Me.PrintReceiptToolStripMenuItem.Size = New System.Drawing.Size(190, 30)
+        Me.PrintReceiptToolStripMenuItem.Text = "Print Receipt"
         '
         'MenuToolStripMenuItem
         '
@@ -901,12 +925,6 @@ Partial Class frmmain
         Me.PenaltyReceiptToolStripMenuItem.Name = "PenaltyReceiptToolStripMenuItem"
         Me.PenaltyReceiptToolStripMenuItem.Size = New System.Drawing.Size(211, 30)
         Me.PenaltyReceiptToolStripMenuItem.Text = "Penalty Receipt"
-        '
-        'PrintReceiptToolStripMenuItem
-        '
-        Me.PrintReceiptToolStripMenuItem.Name = "PrintReceiptToolStripMenuItem"
-        Me.PrintReceiptToolStripMenuItem.Size = New System.Drawing.Size(130, 29)
-        Me.PrintReceiptToolStripMenuItem.Text = "Print Receipt"
         '
         'frmmain
         '
@@ -1035,5 +1053,7 @@ Partial Class frmmain
     Friend WithEvents ReturnReceiptToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PenaltyReceiptToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents dgv As DataGridView
+    Friend WithEvents MenuToolStripMenuItem1 As ToolStripMenuItem
+    Friend WithEvents SearchToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PrintReceiptToolStripMenuItem As ToolStripMenuItem
 End Class

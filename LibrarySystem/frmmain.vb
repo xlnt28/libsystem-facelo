@@ -510,6 +510,108 @@ Public Class frmmain
         panReceipts.Visible = isPanReceiptOpen
 
         receiptCurrentType = "Borrow"
+        Me.Text = ""
+    End Sub
 
+    Private Sub SearchToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SearchToolStripMenuItem.Click
+        Dim searchTerm As String = InputBox("Enter Receipt ID, Borrow ID, or User Name to search:", "Search Receipts")
+
+        If String.IsNullOrWhiteSpace(searchTerm) Then
+            Return
+        End If
+
+        SearchReceipts(searchTerm.Trim())
+    End Sub
+
+    Private Sub SearchReceipts(searchTerm As String)
+        Try
+            OpenDB()
+
+            Dim sql As String = ""
+            Dim detectedType As String = ""
+
+            If searchTerm.StartsWith("BOR-") Then
+                detectedType = "Borrow"
+                sql = "SELECT DISTINCT [Receipt ID] as [ReceiptID], [Borrow ID] as [TransactionID], [User Name] as [UserName], " &
+                  "[Receipt Date] as [Date], [Processed By] as [ProcessedBy] " &
+                  "FROM borrowReceipts " &
+                  "WHERE [Receipt ID] LIKE ? OR [Borrow ID] LIKE ? OR [User Name] LIKE ? " &
+                  "ORDER BY [Receipt Date] DESC"
+            ElseIf searchTerm.StartsWith("RET-") Then
+                detectedType = "Return"
+                sql = "SELECT DISTINCT [Receipt ID] as [ReceiptID], [Borrow ID] as [TransactionID], [Borrower Name] as [UserName], " &
+                  "[Return Date] as [Date], [Processed By] as [ProcessedBy] " &
+                  "FROM returnReceipts " &
+                  "WHERE [Receipt ID] LIKE ? OR [Borrow ID] LIKE ? OR [Borrower Name] LIKE ? " &
+                  "ORDER BY [Return Date] DESC"
+            ElseIf searchTerm.StartsWith("PEN-") Then
+                detectedType = "Penalty"
+                sql = "SELECT DISTINCT [Receipt ID] as [ReceiptID], [Borrow ID] as [TransactionID], [User Name] as [UserName], " &
+                  "[Payment Date] as [Date], [Processed By] as [ProcessedBy] " &
+                  "FROM paymentReceipts " &
+                  "WHERE [Receipt ID] LIKE ? OR [Borrow ID] LIKE ? OR [User Name] LIKE ? " &
+                  "ORDER BY [Payment Date] DESC"
+            Else
+                detectedType = "All"
+                sql = "SELECT DISTINCT [Receipt ID] as [ReceiptID], [Borrow ID] as [TransactionID], [User Name] as [UserName], " &
+                  "[Receipt Date] as [Date], [Processed By] as [ProcessedBy], 'Borrow' as [Type] " &
+                  "FROM borrowReceipts " &
+                  "WHERE [Receipt ID] LIKE ? OR [Borrow ID] LIKE ? OR [User Name] LIKE ? " &
+                  "UNION ALL " &
+                  "SELECT DISTINCT [Receipt ID] as [ReceiptID], [Borrow ID] as [TransactionID], [Borrower Name] as [UserName], " &
+                  "[Return Date] as [Date], [Processed By] as [ProcessedBy], 'Return' as [Type] " &
+                  "FROM returnReceipts " &
+                  "WHERE [Receipt ID] LIKE ? OR [Borrow ID] LIKE ? OR [Borrower Name] LIKE ? " &
+                  "UNION ALL " &
+                  "SELECT DISTINCT [Receipt ID] as [ReceiptID], [Borrow ID] as [TransactionID], [User Name] as [UserName], " &
+                  "[Payment Date] as [Date], [Processed By] as [ProcessedBy], 'Penalty' as [Type] " &
+                  "FROM paymentReceipts " &
+                  "WHERE [Receipt ID] LIKE ? OR [Borrow ID] LIKE ? OR [User Name] LIKE ? " &
+                  "ORDER BY [Date] DESC"
+            End If
+
+            Dim receiptDataSet As New DataSet()
+            Dim da As New OleDbDataAdapter(sql, con)
+
+            If detectedType = "All" Then
+                For i As Integer = 1 To 9
+                    da.SelectCommand.Parameters.AddWithValue("?", "%" & searchTerm & "%")
+                Next
+            Else
+                For i As Integer = 1 To 3
+                    da.SelectCommand.Parameters.AddWithValue("?", "%" & searchTerm & "%")
+                Next
+            End If
+
+            da.Fill(receiptDataSet, "Receipts")
+
+            dgv.DataSource = receiptDataSet.Tables("Receipts")
+
+            If receiptDataSet.Tables("Receipts").Rows.Count > 0 Then
+                If detectedType = "All" Then
+                    Dim firstRowType As String = receiptDataSet.Tables("Receipts").Rows(0)("Type").ToString()
+                    receiptCurrentType = firstRowType
+                    Me.Text = "Library Management System - Search Results (" & receiptDataSet.Tables("Receipts").Rows.Count & " found)"
+                Else
+                    receiptCurrentType = detectedType
+                    Me.Text = "Library Management System - " & detectedType & " Receipts - Search Results (" & receiptDataSet.Tables("Receipts").Rows.Count & " found)"
+                End If
+
+                If Not panReceipts.Visible Then
+                    panReceipts.Visible = True
+                    isPanReceiptOpen = True
+                End If
+            Else
+                Me.Text = "Library Management System - No Results Found"
+                MsgBox("No receipts found for: " & searchTerm, MsgBoxStyle.Information, "Search Results")
+            End If
+
+            UpdateReceiptMenuStatus()
+
+        Catch ex As Exception
+            MsgBox("Error searching receipts: " & ex.Message, MsgBoxStyle.Critical, "Error")
+        Finally
+            CloseDB()
+        End Try
     End Sub
 End Class
